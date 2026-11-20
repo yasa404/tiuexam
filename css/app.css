@@ -855,3 +855,9 @@ html[data-mode="dark"] .drawer-back { background: rgba(0, 0, 0, .45); }
   html[data-mode="dark"] .zoombar, html[data-mode="dark"] .kpis-empty, html[data-mode="dark"] .appbar, html[data-mode="dark"] .tabbar,
   html[data-mode="dark"] .exam-top, html[data-mode="dark"] .focus-bar, html[data-mode="dark"] .result-tools, html[data-mode="dark"] .start-row { background: #161c2b; }
 }
+
+/* Touch screens: the code box at 16px so phones do not zoom in when it is tapped.
+   (Focus-mode boxes are already 16-17px; A4 pages are handled in index.html.) */
+@media (pointer: coarse) {
+  .code-form input { font-size: 16px; }
+}
