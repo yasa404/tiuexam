@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IT 355 Midterm Trainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Plan: a calm study tool in cool slate + one "checkout orange" accent (e-commerce nod).
+   Bold moment = the results receipt. Everything else stays quiet. Single 760px column. */
+:root{
+  --bg:#eef1f6; --surface:#ffffff; --sunk:#f5f7fb; --ink:#0f1729; --muted:#5a6478; --line:#d8deea;
+  --accent:#ff5a1f; --accent-ink:#ffffff; --accent-soft:#fff0e9; --navy:#14254a;
+  --good:#0d7f57; --good-bg:#e3f4ec; --bad:#c42f3c; --bad-bg:#fbe9eb; --part:#a86f00; --part-bg:#fdf3d8;
+  --l1:#2559d9; --l2:#7a3bd6; --l3:#0b857a; --l4:#cf2a72;
+  --display:'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --body:'Instrument Sans', 'Segoe UI', system-ui, sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --r:14px; --shadow:0 1px 2px rgba(15,23,41,.06), 0 8px 24px -12px rgba(15,23,41,.18);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0c111b; --surface:#151c29; --sunk:#111723; --ink:#e9eef7; --muted:#9aa6bd; --line:#273145;
+  --accent:#ff7038; --accent-ink:#1a0c05; --accent-soft:#2c1a12; --navy:#dfe7f7;
+  --good:#3ccf95; --good-bg:#0f2a21; --bad:#ff6b77; --bad-bg:#33161b; --part:#f2bd4b; --part-bg:#2e2410;
+  --l1:#7ea3ff; --l2:#b993ff; --l3:#4fd1c2; --l4:#ff7fb3; --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.7); color-scheme: dark; } }
+:root[data-theme="dark"]{
+  --bg:#0c111b; --surface:#151c29; --sunk:#111723; --ink:#e9eef7; --muted:#9aa6bd; --line:#273145;
+  --accent:#ff7038; --accent-ink:#1a0c05; --accent-soft:#2c1a12; --navy:#dfe7f7;
+  --good:#3ccf95; --good-bg:#0f2a21; --bad:#ff6b77; --bad-bg:#33161b; --part:#f2bd4b; --part-bg:#2e2410;
+  --l1:#7ea3ff; --l2:#b993ff; --l3:#4fd1c2; --l4:#ff7fb3; --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.7); color-scheme: dark; }
+
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+#app{max-width:780px;margin:0 auto;padding:0 18px 64px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:disabled{cursor:default}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.85rem;color:var(--muted)}
+.sub{color:var(--muted);font-size:.9rem;margin:6px 0 0}
+.foot{color:var(--muted);font-size:.85rem;margin-top:22px}
+.center{text-align:center}
+.link{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;text-underline-offset:3px;font-size:.9rem}
+.link:hover{color:var(--ink)}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0 14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .mark{font-family:var(--mono);font-weight:700;font-size:.8rem;background:var(--navy);color:var(--bg);padding:6px 7px;border-radius:8px;letter-spacing:.5px}
+.brand b{display:block;font-family:var(--display);font-size:1.05rem;line-height:1.1}
+.brand small{color:var(--muted);font-size:.78rem}
+.tabs{display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);padding:4px;border-radius:999px}
+.tab{border:0;background:none;padding:7px 14px;border-radius:999px;font-size:.88rem;font-weight:600;color:var(--muted)}
+.tab:hover{color:var(--ink)}
+.tab.on{background:var(--ink);color:var(--bg)}
+
+/* hero */
+.hero{padding:26px 0 8px}
+.eyebrow{font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.hero h1{font-size:clamp(2rem,6vw,3.1rem);font-weight:800;line-height:1.02;letter-spacing:-.02em}
+.hero h1 span{color:var(--accent)}
+.lede{color:var(--muted);max-width:60ch;margin:12px 0 0;font-size:1.02rem}
+.h1s{font-size:2rem;font-weight:800;letter-spacing:-.01em;margin-top:18px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px 0 0}
+.stats div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.stats dt{font-size:.74rem;color:var(--muted)}
+.stats dd{margin:2px 0 0;font-family:var(--mono);font-weight:700;font-size:1.25rem;font-variant-numeric:tabular-nums}
+.weak{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;padding:14px 16px;border-radius:var(--r);background:var(--part-bg);border:1px solid color-mix(in srgb,var(--part) 35%,transparent);flex-wrap:wrap}
+.weak b{display:block}.weak span{font-size:.88rem;color:var(--muted)}
+.sec{font-size:1.15rem;font-weight:700;margin:30px 0 12px}
+
+/* presets */
+.presets{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.preset{position:relative;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 16px 18px;display:flex;flex-direction:column;gap:4px;box-shadow:var(--shadow);transition:transform .15s ease,border-color .15s ease}
+.preset:hover{transform:translateY(-2px);border-color:var(--ink)}
+.preset .pn{font-family:var(--display);font-weight:800;font-size:2.4rem;line-height:1;letter-spacing:-.03em}
+.preset b{font-size:1.02rem;margin-top:6px}
+.preset span:last-child{font-size:.84rem;color:var(--muted)}
+.preset.accent{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.preset.accent span:last-child{color:inherit;opacity:.85}
+
+/* custom */
+.custom{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:0 16px}
+.custom summary{cursor:pointer;padding:14px 0;font-weight:700;list-style:none;display:flex;justify-content:space-between}
+.custom summary::after{content:'+';font-family:var(--mono);color:var(--muted)}
+.custom[open] summary::after{content:'–'}
+.custom[open]{padding-bottom:16px}
+.field{margin:6px 0 16px}
+.fl{display:block;font-size:.8rem;font-weight:600;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips.center{justify-content:center}
+.chip{border:1px solid var(--line);background:var(--sunk);padding:7px 12px;border-radius:999px;font-size:.88rem}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip b{font-family:var(--mono);font-size:.8rem;margin-right:2px}
+.seg{display:inline-flex;background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:3px;gap:3px}
+.seg button{border:0;background:none;padding:7px 16px;border-radius:7px;font-weight:600;font-family:var(--mono)}
+.seg button.on{background:var(--surface);box-shadow:var(--shadow);color:var(--ink)}
+.seg.wide{display:grid;grid-template-columns:1fr 1fr;width:100%}
+.seg.wide button{font-family:var(--body);text-align:left;padding:10px 12px}
+.seg.wide small{display:block;color:var(--muted);font-weight:400;font-size:.8rem}
+.seg.small button{padding:5px 12px;font-size:.8rem}
+
+/* buttons */
+.btn{border:1px solid transparent;border-radius:11px;padding:10px 16px;font-weight:600;font-size:.95rem;transition:filter .15s,transform .1s}
+.btn:active:not(:disabled){transform:translateY(1px)}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.05)}
+.btn.dark{background:var(--ink);color:var(--bg)}
+.btn.good{background:var(--good);color:#fff}
+.btn.ghost{background:var(--surface);border-color:var(--line)}
+.btn.ghost:hover:not(:disabled){border-color:var(--ink)}
+.btn:disabled{opacity:.4}
+.btn.big{width:100%;padding:14px;font-size:1.02rem;margin-top:4px}
+
+/* quiz */
+.qbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px 0 10px}
+.qcount{font-family:var(--mono);color:var(--muted)}
+.qcount b{color:var(--ink);font-size:1.2rem}
+.timer{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--muted);background:var(--surface);border:1px solid var(--line);padding:4px 10px;border-radius:8px;min-width:72px;text-align:center}
+.timer.exam{color:var(--ink);font-weight:700}
+.timer.low{color:var(--bad);border-color:var(--bad)}
+.segs{display:flex;gap:3px;margin-bottom:16px}
+.sg{flex:1;height:7px;border:0;padding:0;border-radius:3px;background:var(--line)}
+.sg.done{background:var(--navy);opacity:.55}
+.sg.good{background:var(--good)}.sg.bad{background:var(--bad)}.sg.part{background:var(--part)}
+.sg.cur{background:var(--accent);opacity:1}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 22px 20px;box-shadow:var(--shadow);border-top:5px solid var(--line)}
+.qcard.is-good{border-top-color:var(--good)}.qcard.is-bad{border-top-color:var(--bad)}.qcard.is-part{border-top-color:var(--part)}
+.qmeta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tag{font-family:var(--mono);font-size:.72rem;font-weight:600;padding:3px 8px;border-radius:6px;background:var(--sunk);color:var(--muted);border:1px solid var(--line);white-space:nowrap}
+.tag.l1{color:var(--l1);border-color:color-mix(in srgb,var(--l1) 35%,transparent)}
+.tag.l2{color:var(--l2);border-color:color-mix(in srgb,var(--l2) 35%,transparent)}
+.tag.l3{color:var(--l3);border-color:color-mix(in srgb,var(--l3) 35%,transparent)}
+.tag.l4{color:var(--l4);border-color:color-mix(in srgb,var(--l4) 35%,transparent)}
+.tag.type{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.qtext{font-size:clamp(1.18rem,3.4vw,1.42rem);font-weight:700;line-height:1.38;letter-spacing:-.005em;margin-bottom:18px}
+.opts{display:grid;gap:9px}
+.opts.tf{grid-template-columns:1fr 1fr}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;background:var(--sunk);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;font-size:1rem;transition:border-color .12s,background .12s}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt .k{flex:none;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:.85rem;background:var(--surface);border:1px solid var(--line)}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.sel .k{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.opt.good{border-color:var(--good);background:var(--good-bg)}
+.opt.good .k{background:var(--good);color:#fff;border-color:var(--good)}
+.opt.bad{border-color:var(--bad);background:var(--bad-bg)}
+.opt.bad .k{background:var(--bad);color:#fff;border-color:var(--bad)}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--sunk);border:1.5px solid var(--line);border-radius:10px;padding:9px 11px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);background:var(--surface)}
+input.good,select.good{border-color:var(--good);background:var(--good-bg)} input.bad{border-color:var(--bad);background:var(--bad-bg)}
+input.blank{background:color-mix(in srgb,var(--accent) 7%,transparent);font-family:var(--body);font-weight:600;font-size:1em;padding:2px 8px;margin:2px 2px;border-width:0 0 2.5px 0;border-radius:6px 6px 0 0;border-color:var(--ink);max-width:100%}
+input.blank:focus{border-color:var(--accent)}
+.fix{display:inline-block;font-size:.8em;font-weight:600;color:var(--good);background:var(--good-bg);padding:1px 7px;border-radius:6px;margin:0 4px}
+.listin{margin:0;padding:0;list-style:none;display:grid;gap:8px;counter-reset:li}
+.listin li{display:flex;align-items:center;gap:8px;flex-wrap:wrap;counter-increment:li}
+.listin li::before{content:counter(li);font-family:var(--mono);font-size:.8rem;color:var(--muted);width:20px;text-align:right}
+.listin input{flex:1;min-width:180px}
+.listin input.empty{opacity:.5}
+.ok{font-size:.8rem;color:var(--good);font-weight:600}
+.match{display:grid;gap:10px}
+.mrow{display:grid;grid-template-columns:minmax(110px,28%) 1fr;gap:10px;align-items:center;padding:8px;border-radius:12px;background:var(--sunk);border:1px solid var(--line)}
+.mrow.good{border-color:var(--good);background:var(--good-bg)} .mrow.bad{border-color:var(--bad);background:var(--bad-bg)}
+.ml{font-weight:700;font-size:.95rem}
+.mrow select{width:100%;min-width:0;background:var(--surface)}
+.mrow .fix{grid-column:2}
+textarea{width:100%;resize:vertical;line-height:1.5}
+.fb{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line)}
+.verdict{display:flex;align-items:center;gap:8px;font-family:var(--display);font-weight:800;font-size:1.25rem;margin-bottom:6px}
+.verdict .dot{width:12px;height:12px;border-radius:50%;background:var(--muted)}
+.is-good .verdict{color:var(--good)} .is-good .dot{background:var(--good)}
+.is-bad .verdict{color:var(--bad)} .is-bad .dot{background:var(--bad)}
+.is-part .verdict{color:var(--part)} .is-part .dot{background:var(--part)}
+.fb p{margin:6px 0}
+.tip{background:var(--sunk);border-left:3px solid var(--accent);padding:8px 12px;border-radius:0 8px 8px 0;font-size:.93rem}
+.full{margin:6px 0;padding-left:20px} .full li{color:var(--muted)} .full li.got{color:var(--good);font-weight:600}
+.pts{list-style:none;padding:0;margin:8px 0;display:grid;gap:6px}
+.pt{width:100%;text-align:left;background:var(--sunk);border:1px solid var(--line);border-radius:9px;padding:7px 10px;font-size:.92rem;color:var(--muted)}
+.pt.got{color:var(--good);border-color:color-mix(in srgb,var(--good) 40%,transparent);background:var(--good-bg);font-weight:600}
+.model{margin-top:10px;background:var(--sunk);border-radius:10px;padding:8px 12px}
+.model summary{cursor:pointer;font-weight:700;font-size:.9rem}
+.model p{font-size:.93rem}
+.qnav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+.qnav .right,.dlg .right,.ractions{display:flex;gap:8px;flex-wrap:wrap}
+.hint{font-size:.8rem;color:var(--muted);font-family:var(--mono)}
+
+/* results receipt: the one loud moment */
+.res{display:grid;grid-template-columns:minmax(0,370px) 1fr;gap:26px;align-items:start;margin-top:12px}
+.receipt{position:relative;background:#fffefb;color:#1b1b1b;font-family:var(--mono);font-size:.84rem;padding:22px 20px 26px;box-shadow:0 18px 40px -18px rgba(0,0,0,.45);
+  -webkit-mask:radial-gradient(circle 7px at 50% 0,transparent 98%,#000) 0 0/16px 51% repeat-x,radial-gradient(circle 7px at 50% 100%,transparent 98%,#000) 0 100%/16px 51% repeat-x;
+  mask:radial-gradient(circle 7px at 50% 0,transparent 98%,#000) 0 0/16px 51% repeat-x,radial-gradient(circle 7px at 50% 100%,transparent 98%,#000) 0 100%/16px 51% repeat-x;
+  animation:print .7s cubic-bezier(.2,.8,.2,1) both}
+@keyframes print{from{transform:translateY(-14px);clip-path:inset(0 0 100% 0)}to{transform:none;clip-path:inset(0 0 0 0)}}
+.rh{text-align:center;display:grid;gap:2px;padding-bottom:12px;border-bottom:1.5px dashed #b9b4a8}
+.rh b{font-size:.95rem;letter-spacing:.08em}
+.rh span{font-size:.74rem;color:#6b665c}
+.rsec{padding:10px 0;border-bottom:1.5px dashed #b9b4a8;display:grid;gap:4px}
+.rsec.small{font-size:.76rem;color:#55524a}
+.rl{display:flex;align-items:baseline;gap:6px}
+.rl i{flex:1;border-bottom:1.5px dotted #c9c3b6;transform:translateY(-3px)}
+.rtotal{display:flex;justify-content:space-between;align-items:center;padding:14px 0 4px;gap:12px}
+.rtotal span{display:block;letter-spacing:.12em;font-size:.78rem;color:#6b665c}
+.rtotal b{display:block;line-height:1;margin-top:4px;font-size:3rem;font-family:var(--display);font-weight:800;letter-spacing:-.03em}
+.stamp{flex:none;width:74px;height:74px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:2.4rem;border:4px solid currentColor;transform:rotate(-14deg);opacity:.85;animation:stamp .35s .6s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes stamp{from{transform:rotate(-14deg) scale(2.2);opacity:0}to{transform:rotate(-14deg) scale(1);opacity:.85}}
+.stamp.gA,.stamp.gB{color:#0d7f57}.stamp.gC{color:#b07400}.stamp.gD,.stamp.gF{color:#c42f3c}
+.rmsg{margin:10px 0 0;font-family:var(--body);font-size:.92rem}
+.ractions{flex-direction:column;align-items:stretch}
+.revhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:34px;flex-wrap:wrap}
+.revhead .sec{margin:0}
+.rev{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--line);border-radius:12px;margin-top:8px}
+.rev.good{border-left-color:var(--good)}.rev.bad{border-left-color:var(--bad)}.rev.part{border-left-color:var(--part)}
+.rev summary{display:flex;gap:12px;align-items:baseline;padding:12px 14px;cursor:pointer;list-style:none}
+.rev summary::-webkit-details-marker{display:none}
+.rn{font-family:var(--mono);color:var(--muted);font-size:.8rem;width:22px;flex:none}
+.rq{flex:1;font-weight:600}
+.rs{font-family:var(--mono);font-size:.82rem;font-weight:700}
+.rev.good .rs{color:var(--good)}.rev.bad .rs{color:var(--bad)}.rev.part .rs{color:var(--part)}
+.rb{padding:0 14px 12px 48px}
+.rb p{margin:6px 0}
+.lab{display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.empty{color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:16px;text-align:center}
+
+/* flashcards */
+.chead{text-align:center}.chead .lede{margin:8px auto 18px}
+.fcwrap{perspective:1400px;margin:20px auto 14px;max-width:560px}
+.fc{position:relative;width:100%;min-height:290px;border:0;padding:0;background:none;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.fc.flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:20px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:26px;text-align:center}
+.face.front b{font-family:var(--display);font-size:clamp(1.5rem,5vw,2.1rem);font-weight:800;line-height:1.1;letter-spacing:-.01em}
+.face small{color:var(--muted);font-size:.8rem}
+.face.back{transform:rotateY(180deg);background:var(--navy);color:var(--bg);border-color:var(--navy)}
+.face.back .tag{background:transparent;color:var(--bg);border-color:color-mix(in srgb,var(--bg) 40%,transparent)}
+.face .ans{font-size:1.04rem;line-height:1.55;max-width:46ch}
+.fcbar{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:10px}
+
+/* progress */
+.bars{display:flex;align-items:flex-end;gap:8px;height:170px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 16px 28px;background-image:linear-gradient(var(--line) 1px,transparent 1px);background-size:100% 25%;background-origin:content-box}
+.bar{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative;max-width:46px}
+.bar i{width:100%;border-radius:6px 6px 2px 2px;background:var(--muted)}
+.bar i.good{background:var(--good)}.bar i.part{background:var(--part)}.bar i.bad{background:var(--bad)}
+.bar span{position:absolute;bottom:-22px;font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.lacc{display:grid;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.la{display:grid;grid-template-columns:minmax(150px,1.2fr) 2fr 48px;gap:12px;align-items:center;font-size:.9rem}
+.la b{font-family:var(--mono)}
+.track{height:10px;background:var(--sunk);border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.track i{display:block;height:100%;background:var(--muted)}
+.track i.good{background:var(--good)}.track i.part{background:var(--part)}.track i.bad{background:var(--bad)}
+.mlist{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:6px}
+.mlist li{display:flex;gap:10px;align-items:baseline;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:.92rem}
+.mlist li .mono{margin-left:auto}
+
+/* dialog */
+.scrim{position:fixed;inset:0;background:rgba(8,12,20,.5);display:grid;place-items:center;padding:18px;z-index:10}
+.dlg{background:var(--surface);border-radius:16px;padding:20px;max-width:400px;width:100%;box-shadow:0 30px 60px -20px rgba(0,0,0,.5)}
+.dlg h3{font-size:1.2rem;margin-bottom:6px}.dlg p{color:var(--muted);margin:0 0 16px}.dlg .right{justify-content:flex-end}
+
+@media (max-width:640px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .presets{grid-template-columns:1fr}
+  .preset{flex-direction:row;flex-wrap:wrap;align-items:baseline;column-gap:12px}
+  .preset .pn{font-size:1.9rem}
+  .preset span:last-child{flex-basis:100%}
+  .res{grid-template-columns:1fr}
+  .qcard{padding:18px 16px}
+  .mrow{grid-template-columns:1fr}
+  .mrow .fix{grid-column:1}
+  .la{grid-template-columns:1fr 48px}.la .track{grid-column:1/-1;grid-row:2}
+  .rb{padding-left:14px}
+  .tabs{width:100%;justify-content:space-between}
+  .tab{flex:1;padding:7px 6px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* IT 355 E-Commerce question bank: Lectures 1-4 (Dr. Hala Najwan Sabeh's slides, Laudon & Traver).
+   Types: mcq (o[0] is correct), tf, fill ({{n}} blanks), list (n of items), match (pool of pairs), exp (key points). */
+const BANK = [
+/* ===================== LECTURE 1 ===================== */
+{id:'1m1',l:1,t:'mcq',q:'E-commerce is the use of the Internet, Web and mobile apps to digitally enable commercial transactions between and among…',o:['organizations and individuals','only large businesses','government agencies only','employees inside one firm'],e:'Definition: "…between and among organizations and individuals."'},
+{id:'1m2',l:1,t:'mcq',q:'Commercial transactions involve the exchange of ___ across an organizational boundary in exchange for goods and services.',o:['money','information only','employees','software code'],e:'Commercial transactions = the exchange of money across organizational boundaries for goods and services.'},
+{id:'1m3',l:1,t:'mcq',q:'Which of these is an example of e-business rather than e-commerce?',o:['Online inventory control','A customer buying shoes on a website','Selling a used phone on eBay','Paying for a Spotify subscription'],e:'E-business = digital technology applied to processes inside the firm. The slide example is online inventory control.'},
+{id:'1m4',l:1,t:'mcq',q:'E-commerce primarily involves transactions that…',o:['cross firm boundaries','stay inside the firm','never involve money','happen face-to-face'],e:'E-commerce crosses firm boundaries; e-business stays within the firm.'},
+{id:'1m5',l:1,t:'mcq',q:'Which is the best definition of the Internet?',o:['A worldwide network of computer networks built on common standards','A collection of web pages written in HTML','A social media platform for sharing content','A wireless cell-phone network'],e:'The Internet is a worldwide network of computer networks built on common standards. The Web is only one service on it.'},
+{id:'1m6',l:1,t:'mcq',q:'Web pages are created in a language called…',o:['HTML','SQL','Java','TCP/IP'],e:'HTML = HyperText Markup Language.'},
+{id:'1m7',l:1,t:'mcq',q:'According to the slides, the growth of the Internet can be measured by…',o:['the number of Internet hosts with domain names','the number of smartphones sold','the number of HTML pages','the number of e-mail users'],e:'Slide: "The Internet can measure growth by number of Internet hosts with domain names."'},
+{id:'1m8',l:1,t:'mcq',q:'Which is NOT a feature of Web 2.0?',o:['Mostly static HTML pages','User-generated content and communication','Highly interactive, social communities','Large audiences'],e:'Static HTML pages describe Web 1.0.'},
+{id:'1m9',l:1,t:'mcq',q:'Which of these is an example of Web 2.0?',o:['Wikipedia','A printed product catalogue','A static company brochure page','A radio advertisement'],e:'Web 2.0 examples from the slides: Twitter (X), YouTube, Instagram, Wikipedia.'},
+{id:'1m10',l:1,t:'mcq',q:'The most recent development in Internet infrastructure is…',o:['the mobile platform','the World Wide Web','e-mail','file transfer'],e:'The mobile platform is the most recent development. It gives Internet access via wireless networks or cell-phone service.'},
+{id:'1m11',l:1,t:'mcq',q:'In e-commerce, the interaction between the business and the consumer is…',o:['screen-to-face','face-to-face','door-to-door','phone-to-phone'],e:'Traditional = face-to-face. E-commerce = screen-to-face.'},
+{id:'1m12',l:1,t:'mcq',q:'Which factor favours TRADITIONAL commerce over e-commerce?',o:['Physical inspection','Time accessibility','Cost effective','Geographical accessibility'],e:'In e-commerce you can\'t touch the goods; you rely on electronic images. Fraud is the other factor where traditional commerce is better.'},
+{id:'1m13',l:1,t:'mcq',q:'Why is e-commerce more cost effective than traditional commerce?',o:['The cost of middlemen is eliminated by a direct link to the customer','Products are always free to deliver','There are no taxes online','Websites cost nothing to run'],e:'The cost of middlemen is removed because the business links directly with the customer.'},
+{id:'1m14',l:1,t:'mcq',q:'When introducing a new product, e-commerce allows a company to…',o:['get immediate customer feedback on the website','skip pricing decisions','avoid any competition','sell without a product'],e:'Traditional commerce needs costly pilot surveys; online you get immediate feedback and can modify the product.'},
+{id:'1m15',l:1,t:'mcq',q:'"Round the clock (24 × 7) service" describes which factor?',o:['Time accessibility','Time saving','Convenience','Profit'],e:'Time accessibility: traditional shops open for limited hours; e-commerce is 24×7.'},
+{id:'1m16',l:1,t:'mcq',q:'Why do more frauds take place in e-commerce transactions?',o:['Lack of physical presence and unclear legal issues','Because prices are lower online','Because of face-to-face interaction','Because shops close at night'],e:'People fear giving card details; lack of physical presence and unclear legal issues create loopholes.'},
+{id:'1m17',l:1,t:'mcq',q:'Why study e-commerce, according to Lecture 1?',o:['Its technology is more powerful than previous technologies and it brings fundamental changes to commerce','It replaced the Internet','It is only used by large companies','It removes the need for marketing'],e:'Two reasons: different and more powerful technology, and fundamental changes to commerce.'},
+{id:'1m18',l:1,t:'mcq',q:'Which statement about the Web is correct?',o:['It is one of the most popular services that runs on the Internet','It is the same thing as the Internet','It was replaced by Web 2.0 and no longer exists','It is a type of mobile device'],e:'The Web is a service on the Internet infrastructure that provides access to Web pages.'},
+{id:'1t1',l:1,t:'tf',q:'The Web and the Internet are the same thing.',a:false,e:'False. The Web is one service that runs on the Internet.'},
+{id:'1t2',l:1,t:'tf',q:'With Web 1.0, most websites consisted of static HTML pages.',a:true,e:'True. Web 2.0 brought user-generated, interactive content.'},
+{id:'1t3',l:1,t:'tf',q:'E-business primarily involves the application of digital technologies to business processes within the firm.',a:true,e:'True. Example: online inventory control.'},
+{id:'1t4',l:1,t:'tf',q:'In e-commerce, customers can physically inspect goods before buying them.',a:false,e:'False. They must rely on electronic images.'},
+{id:'1t5',l:1,t:'tf',q:'Fraud is comparatively less in traditional commerce because there is personal interaction between buyer and seller.',a:true,e:'True.'},
+{id:'1t6',l:1,t:'tf',q:'It is easier to expand from a regional to an international market in traditional commerce than in e-commerce.',a:false,e:'False. In e-commerce you host a website, advertise online, meet legal norms, and you can reach the global market.'},
+{id:'1t7',l:1,t:'tf',q:'Services of the Internet include the Web, e-mail and file transfers.',a:true,e:'True.'},
+{id:'1t8',l:1,t:'tf',q:'E-commerce increases profit by increasing sales, cutting cost and streamlining operating processes.',a:true,e:'True. In traditional commerce, middlemen, overhead and inventory costs pull profit down.'},
+{id:'1f1',l:1,t:'fill',q:'{{0}} is the use of Internet, Web and mobile apps to digitally enable commercial transactions between and among {{1}} and {{2}}.',b:[['e-commerce','ecommerce','electronic commerce','ec'],['organizations','organisations','organization'],['individuals','individual','people','consumers']],set:[1,2],e:'E-commerce … between and among organizations and individuals.'},
+{id:'1f2',l:1,t:'fill',q:'{{0}} primarily involves transactions that cross firm boundaries.',b:[['e-commerce','ecommerce','electronic commerce']],e:'E-commerce crosses firm boundaries.'},
+{id:'1f3',l:1,t:'fill',q:'{{0}} primarily involves the application of digital technologies to business processes within the firm.',b:[['e-business','ebusiness','electronic business']],e:'E-business stays inside the firm.'},
+{id:'1f4',l:1,t:'fill',q:'The {{0}} is the worldwide network of computer networks built on common standards.',b:[['internet']],e:'The Internet.'},
+{id:'1f5',l:1,t:'fill',q:'The {{0}} enables access to the Internet via wireless networks or cell-phone service.',b:[['mobile platform','mobile']],e:'The mobile platform.'},
+{id:'1f6',l:1,t:'fill',q:'The {{0}} provides access to Web pages.',b:[['web','world wide web','www']],e:'The World Wide Web (the Web).'},
+{id:'1f7',l:1,t:'fill',q:'In traditional commerce the interaction is "face-to-face"; in e-commerce it is "{{0}}".',b:[['screen-to-face','screen to face']],e:'Screen-to-face.'},
+{id:'1f8',l:1,t:'fill',q:'Web pages are created in a language called {{0}}.',b:[['html','hypertext markup language']],e:'HTML: HyperText Markup Language.'},
+{id:'1l1',l:1,t:'list',q:'List ten factors that can be used to differentiate between e-commerce and traditional commerce.',n:10,items:[
+  {s:'Cost effective',k:['cost']},{s:'Time saving',k:['time saving','saving time','saves time','time save']},{s:'Convenience',k:['convenien']},
+  {s:'Geographical accessibility',k:['geograph','geographic']},{s:'Introduction of new products',k:['new product','introduction']},{s:'Profit',k:['profit']},
+  {s:'Physical inspection',k:['physical','inspect']},{s:'Time accessibility',k:['time accessib','24x7','24/7','24 7','access time']},{s:'Customer interaction',k:['interaction','interact']},{s:'Fraud',k:['fraud']}],e:'Cats Take Cool Green Naps · Pink Pandas Talk Calmly Fridays.'},
+{id:'1l2',l:1,t:'list',q:'List the three features of Web 2.0.',n:3,items:[{s:'User-generated content and communication',k:['user generated','user-generated','generated content','user content']},{s:'Highly interactive, social communities',k:['interactive','communit']},{s:'Large audiences',k:['audience']}],e:'From the Web 2.0 slide.'},
+{id:'1l3',l:1,t:'list',q:'Give three examples of Web 2.0 technologies.',n:3,items:[{s:'Twitter (X)',k:['twitter','=x']},{s:'YouTube',k:['youtube']},{s:'Instagram',k:['instagram']},{s:'Wikipedia',k:['wikipedia']}],e:'Slide examples: Twitter (X), YouTube, Instagram, Wikipedia.'},
+{id:'1l4',l:1,t:'list',q:'List the two reasons for studying e-commerce.',n:2,items:[{s:'E-commerce technology is different and more powerful than previous technologies',k:['powerful','different','technolog']},{s:'E-commerce brings fundamental changes to commerce',k:['fundamental','change']}],e:'From the "Why study e-commerce?" slide.'},
+{id:'1x1',l:1,t:'exp',q:'Define e-commerce and describe how it differs from e-business.',pts:[{p:'Uses the Internet, Web and mobile apps',k:['internet','web','mobile']},{p:'Digitally enabled commercial transactions (exchange of money for goods/services)',k:['transaction','money','commercial']},{p:'Between and among organizations and individuals',k:['organization','organisation','individual']},{p:'E-commerce crosses firm boundaries',k:['boundar','cross','outside']},{p:'E-business = digital technology for processes within the firm (e.g. online inventory control)',k:['within','inside','internal','inventory']}],m:'E-commerce is the use of the Internet, Web and mobile apps to digitally enable commercial transactions between and among organizations and individuals. It involves transactions that cross firm boundaries. E-business is the application of digital technologies to business processes within the firm, using information systems under the firm\'s control (e.g. online inventory control).'},
+{id:'1x2',l:1,t:'exp',q:'Explain these three factors that differentiate e-commerce from traditional commerce: cost effective, time accessibility, and physical inspection.',pts:[{p:'Cost: traditional pays middlemen; e-commerce eliminates them (direct link to customer)',k:['middlem','direct']},{p:'Time accessibility: traditional open limited hours; e-commerce 24×7',k:['24','limited','round the clock','hours']},{p:'Physical inspection: traditional allows it; e-commerce relies on electronic images',k:['image','inspect','touch','physical']}],m:'Cost effective: in traditional commerce cost is incurred for middlemen; in e-commerce this is eliminated by a direct link between business and customer. Time accessibility: traditional businesses open for a limited time; e-commerce offers round-the-clock 24×7 service. Physical inspection: in traditional commerce goods can be inspected before purchase; in e-commerce customers rely on electronic images.'},
+{id:'1x3',l:1,t:'exp',q:'Explain Web 2.0 technologies and give three examples.',pts:[{p:'User-centered applications and social media technologies',k:['user centered','user-centered','social media','user centred']},{p:'Let people collaborate and share information online',k:['collaborat','share','sharing']},{p:'Features: user-generated content, interactive communities, large audiences',k:['generated','interactive','audience','communit']},{p:'Examples: Twitter (X), YouTube, Instagram, Wikipedia',k:['youtube','instagram','wikipedia','twitter']}],m:'Web 2.0 refers to user-centered applications and social media technologies: a new generation of websites that let people collaborate and share information online in ways not possible before (Web 1.0 was mostly static HTML pages). Features: user-generated content and communication, highly interactive social communities, large audiences. Examples: YouTube, Instagram, Wikipedia (also Twitter/X).'},
+{id:'1p1',l:1,t:'match',q:'Match each term with its definition.',n:4,pairs:[['The Internet','Worldwide network of computer networks built on common standards'],['The Web','Service on the Internet that provides access to Web pages'],['Mobile platform','Access to the Internet via wireless networks or cell-phone service'],['Web 2.0','User-centered applications and social media technologies'],['E-business','Digital technologies applied to business processes within the firm'],['HTML','Language used to create Web pages']],e:'Lecture 1 building blocks.'},
+{id:'1p2',l:1,t:'match',q:'Match each factor with what e-commerce offers.',n:4,pairs:[['Time accessibility','Round the clock (24 × 7) service'],['Customer interaction','Screen-to-face'],['Cost effective','No middlemen: direct link to the customer'],['Physical inspection','Customers rely on electronic images'],['Introduction of new products','Immediate customer feedback'],['Geographical accessibility','Easy to reach international markets']],e:'From the 10 factors.'},
+
+/* ===================== LECTURE 2 ===================== */
+{id:'2m1',l:2,t:'mcq',q:'Which is NOT one of the eight unique features of e-commerce technology?',o:['Physical inspection','Ubiquity','Information density','Social technology'],e:'The 8: ubiquity, global reach, universal standards, information richness, interactivity, information density, personalization/customization, social technology.'},
+{id:'2m2',l:2,t:'mcq',q:'"Available just about everywhere, at all times" describes…',o:['Ubiquity','Global reach','Interactivity','Universal standards'],e:'Ubiquity: you can shop from your desktop, at home, at work, or even from your car.'},
+{id:'2m3',l:2,t:'mcq',q:'A marketplace extended beyond traditional boundaries and removed from a temporal and geographic location is called a…',o:['marketspace','marketplace','market segment','portal'],e:'Ubiquity creates a marketspace.'},
+{id:'2m4',l:2,t:'mcq',q:'Because of global reach, the potential market size for e-commerce merchants is roughly equal to…',o:['the size of the world\'s online population','the population of the merchant\'s city','the number of physical stores','the number of websites'],e:'Global reach: the market ≈ the world\'s online population.'},
+{id:'2m5',l:2,t:'mcq',q:'Technical standards that are shared by all nations around the world describe…',o:['Universal standards','Global reach','Information density','Richness'],e:'Traditional commerce technologies differ from one nation to the next.'},
+{id:'2m6',l:2,t:'mcq',q:'Information richness refers to…',o:['the complexity and content of a message','the total amount of information available to all participants','two-way communication','many-to-many communication'],e:'Richness = complexity and content of a message.'},
+{id:'2m7',l:2,t:'mcq',q:'Search boxes that autofill as the user types are an example of…',o:['Interactivity','Ubiquity','Universal standards','Global reach'],e:'Interactivity examples: comments, forums, like/share buttons, forms that flag problems, autofill search.'},
+{id:'2m8',l:2,t:'mcq',q:'Information density is…',o:['the total amount and quality of information available to all market participants','the complexity and content of a single message','the number of websites per country','the speed of an Internet connection'],e:'E-commerce vastly increases information density.'},
+{id:'2m9',l:2,t:'mcq',q:'Price transparency refers to…',o:['the ease with which consumers can find out the variety of prices in a market','consumers discovering the actual costs merchants pay','selling the same goods at different prices','hiding prices from competitors'],e:'Price transparency: easy to see all prices.'},
+{id:'2m10',l:2,t:'mcq',q:'Cost transparency refers to…',o:['the ability of consumers to discover the actual costs merchants pay for products','the ease of comparing prices in a market','charging different groups different prices','the cost of building a website'],e:'Cost transparency: consumers can see what merchants pay.'},
+{id:'2m11',l:2,t:'mcq',q:'Coupons, age discounts and loyalty programs are examples of…',o:['price discrimination','price transparency','cost transparency','customization'],e:'Price discrimination: different prices for the same product based on what each customer will agree to pay.'},
+{id:'2m12',l:2,t:'mcq',q:'Airline tickets bought months in advance are cheaper than last-minute tickets. This illustrates…',o:['price discrimination','ubiquity','information richness','social technology'],e:'The airline industry is the main slide example of price discrimination.'},
+{id:'2m13',l:2,t:'mcq',q:'Targeting marketing messages by adjusting them to a person\'s name, interests and past purchases is…',o:['personalization','customization','interactivity','social technology'],e:'Personalization changes the MESSAGE.'},
+{id:'2m14',l:2,t:'mcq',q:'Changing the delivered product or service based on a user\'s preferences or prior behaviour is…',o:['customization','personalization','price discrimination','richness'],e:'Customization changes the PRODUCT (e.g. a custom T-shirt).'},
+{id:'2m15',l:2,t:'mcq',q:'Showing "customers also buy" recommendations after a purchase is an example of…',o:['personalization','customization','universal standards','global reach'],e:'Personalized product recommendations.'},
+{id:'2m16',l:2,t:'mcq',q:'Social technology provides a ___ model of mass communications.',o:['many-to-many','one-to-many','one-to-one','many-to-one'],e:'Millions of users generate content consumed by millions of others.'},
+{id:'2m17',l:2,t:'mcq',q:'Which feature makes the consumer a "co-participant" in the process of delivering goods to the market?',o:['Interactivity','Ubiquity','Universal standards','Information density'],e:'Business significance of interactivity.'},
+{id:'2m18',l:2,t:'mcq',q:'"A common, inexpensive, global technology foundation for businesses to use" is the business significance of…',o:['Universal standards','Global reach','Social technology','Richness'],e:'From Table 1.2.'},
+{id:'2m19',l:2,t:'mcq',q:'"Information becomes plentiful, cheap, and accurate" is the business significance of…',o:['Information density','Information richness','Interactivity','Ubiquity'],e:'From Table 1.2.'},
+{id:'2m20',l:2,t:'mcq',q:'Which industries are named on the slides as using price discrimination?',o:['Airline and arts/entertainment','Agriculture and mining','Banking and insurance','Construction and energy'],e:'Airline industry and arts/entertainment industry.'},
+{id:'2m21',l:2,t:'mcq',q:'The richness enabled by e-commerce allows merchants to market and sell…',o:['"complex" goods and services','only simple goods','only digital downloads','only local services'],e:'Richness lets merchants sell complex goods and services.'},
+{id:'2m22',l:2,t:'mcq',q:'Customized T-shirts, bags, carpets and tables are slide examples of…',o:['customization','personalization','ubiquity','price transparency'],e:'Customization: the product itself changes.'},
+{id:'2t1',l:2,t:'tf',q:'In traditional commerce, a marketplace is a physical place you visit in order to transact.',a:true,e:'True. E-commerce creates a marketspace instead.'},
+{id:'2t2',l:2,t:'tf',q:'Most traditional commerce is local or regional.',a:true,e:'True. It involves local merchants or national merchants with local outlets.'},
+{id:'2t3',l:2,t:'tf',q:'Traditional commerce technologies are the same in every nation.',a:false,e:'False. They differ from one nation to the next. Internet standards are universal.'},
+{id:'2t4',l:2,t:'tf',q:'E-commerce can offer more information richness than TV and radio because it is interactive and can adjust the message to individual users.',a:true,e:'True.'},
+{id:'2t5',l:2,t:'tf',q:'Customization means adjusting the marketing message to a person\'s name.',a:false,e:'False. That is personalization. Customization changes the product.'},
+{id:'2t6',l:2,t:'tf',q:'Flights home late on Sunday tend to be cheaper than flights leaving early Sunday morning.',a:false,e:'False. Late-Sunday flights are more expensive because many passengers prefer them.'},
+{id:'2t7',l:2,t:'tf',q:'Information density reduces information costs and raises quality.',a:true,e:'True.'},
+{id:'2t8',l:2,t:'tf',q:'Traditional retail stores have great information richness because they offer personal, face-to-face service.',a:true,e:'True. E-commerce can come close (e.g. chatting with an online salesperson).'},
+{id:'2f1',l:2,t:'fill',q:'Information {{0}} is the total amount and quality of information available to all market participants.',b:[['density']],e:'Information density.'},
+{id:'2f2',l:2,t:'fill',q:'Information {{0}} refers to the complexity and content of a message.',b:[['richness']],e:'Information richness.'},
+{id:'2f3',l:2,t:'fill',q:'Selling the same goods to different targeted groups at different prices is called {{0}}.',b:[['price discrimination']],e:'Price discrimination.'},
+{id:'2f4',l:2,t:'fill',q:'Ubiquity creates a {{0}}: a marketplace extended beyond traditional boundaries.',b:[['marketspace','market space']],e:'Marketspace.'},
+{id:'2f5',l:2,t:'fill',q:'Social technology provides a {{0}} model of mass communications.',b:[['many-to-many','many to many']],e:'Many-to-many.'},
+{id:'2f6',l:2,t:'fill',q:'{{0}} transparency refers to the ability of consumers to discover the actual costs merchants pay for products.',b:[['cost']],e:'Cost transparency.'},
+{id:'2l1',l:2,t:'list',q:'List the eight unique features of e-commerce technology.',n:8,items:[{s:'Ubiquity',k:['ubiquit','ubiqu']},{s:'Global reach',k:['global']},{s:'Universal standards',k:['universal','standard']},{s:'Information richness',k:['rich']},{s:'Interactivity',k:['interactiv']},{s:'Information density',k:['densit','dense']},{s:'Personalization and customization',k:['personali','customi']},{s:'Social technology',k:['social']}],e:'Ugly Goats Use III-Phones, Please Smile.'},
+{id:'2l2',l:2,t:'list',q:'List the three business consequences of growing information density.',n:3,items:[{s:'Price transparency',k:['price transparen']},{s:'Cost transparency',k:['cost transparen']},{s:'Price discrimination',k:['discrimin']}],e:'From the information density slide.'},
+{id:'2l3',l:2,t:'list',q:'List five examples of interactivity.',n:5,items:[{s:'Comment features',k:['comment']},{s:'Community forums',k:['forum']},{s:'Social networks with like and share buttons',k:['like','share','social network']},{s:'Forms that notify the user of a problem while being filled out',k:['form']},{s:'Search boxes that autofill as the user types',k:['autofill','auto fill','search','autocomplete']}],e:'From the interactivity slide.'},
+{id:'2l4',l:2,t:'list',q:'List three examples of price discrimination.',n:3,items:[{s:'Issuing coupons',k:['coupon']},{s:'Specific discounts (e.g. age discounts)',k:['discount','age']},{s:'Loyalty programs',k:['loyal']}],e:'From the price discrimination slide.'},
+{id:'2x1',l:2,t:'exp',q:'Discuss ubiquity in detail.',pts:[{p:'Available just about everywhere, at all times',k:['everywhere','all times','anytime','any time']},{p:'Shop from desktop, home, work, or car',k:['home','work','car','desktop']},{p:'Traditional marketplace = physical place you visit',k:['physical','visit','marketplace']},{p:'Creates a marketspace removed from a temporal and geographic location',k:['marketspace','market space','temporal','geographic']},{p:'Significance: convenience up, shopping costs down',k:['convenien','cost']}],m:'Ubiquity means e-commerce is available just about everywhere, at all times. You can shop from your desktop, at home, at work, or even from your car. In traditional commerce a marketplace is a physical place you visit to transact. E-commerce creates a marketspace: a marketplace extended beyond traditional boundaries and removed from a temporal and geographic location. Customer convenience is enhanced and shopping costs are reduced.'},
+{id:'2x2',l:2,t:'exp',q:'Explain information density and its three business consequences.',pts:[{p:'Total amount and quality of information available to all market participants',k:['amount','quality','all market','participants']},{p:'Price transparency: easy to find the variety of prices',k:['price transparen']},{p:'Cost transparency: discover merchants\' actual costs',k:['cost transparen']},{p:'Price discrimination: same goods, different prices for different groups',k:['discrimin']}],m:'Information density is the total amount and quality of information available to all market participants; e-commerce vastly increases it. Consequences: (1) price transparency: the ease of finding the variety of prices in a market; (2) cost transparency: consumers can discover the actual costs merchants pay; (3) price discrimination: selling the same goods to different targeted groups at different prices to maximize sales and profits.'},
+{id:'2x3',l:2,t:'exp',q:'Explain price discrimination using the airline industry example.',pts:[{p:'Charging different prices for the same product based on what the customer will agree to',k:['different price','same product','agree']},{p:'Tickets bought months in advance are cheaper than last-minute',k:['advance','last minute','last-minute','early']},{p:'High demand → prices rise; low sales → prices fall',k:['demand','raise','reduce']},{p:'Late-Sunday flights cost more than early-Sunday flights',k:['sunday']}],m:'Price discrimination is a selling strategy that charges customers different prices for the same product or service, based on what the seller thinks they can get the customer to agree to. In the airline industry: tickets bought several months in advance are cheaper than last-minute tickets; when demand for a flight is high prices go up, and when a flight is not selling prices go down; flights home late on Sunday are more expensive than early-Sunday-morning flights.'},
+{id:'2x4',l:2,t:'exp',q:'What is the difference between personalization and customization? Give an example of each.',pts:[{p:'Personalization targets marketing messages (name, interests, past purchases)',k:['message','name','interest','past purchase']},{p:'Personalization example: product recommendations ("customers also buy")',k:['recommend','also buy','also bought']},{p:'Customization changes the delivered product or service based on preferences',k:['product','service','preference']},{p:'Customization example: custom T-shirts, bags, furniture',k:['shirt','bag','furniture','carpet','table']}],m:'Personalization is the targeting of marketing messages to specific individuals by adjusting the message to a person\'s name, interests, and past purchases, e.g. "customers also buy" product recommendations. Customization is changing the delivered product or service based on a user\'s preferences or prior behavior, e.g. customized T-shirts and bags, or furniture such as carpets and tables.'},
+{id:'2x5',l:2,t:'exp',q:'How does the ubiquity of e-commerce impact consumers?',pts:[{p:'Shop anywhere, at any time',k:['anywhere','any time','anytime','everywhere']},{p:'No need to travel to a physical marketplace',k:['travel','physical','visit']},{p:'Marketspace removed from time and place',k:['marketspace','temporal','geographic']},{p:'Convenience increases and shopping costs fall',k:['convenien','cost']}],m:'Ubiquity means consumers can shop just about everywhere, at all times (at home, at work, even from the car) instead of travelling to a physical marketplace. This creates a marketspace removed from a temporal and geographic location, which enhances customer convenience and reduces shopping costs.'},
+{id:'2p1',l:2,t:'match',q:'Match each unique feature with its business significance.',n:4,pairs:[['Ubiquity','Shopping can take place anywhere; convenience up, shopping costs down'],['Global reach','Billions of consumers and millions of businesses worldwide'],['Universal standards','A common, inexpensive, global technology foundation'],['Richness','Video, audio and text integrated into one marketing message'],['Interactivity','Consumer becomes a co-participant in delivering goods'],['Information density','Information becomes plentiful, cheap and accurate'],['Personalization/customization','Personalized messages and customized products'],['Social technology','User content creation and social networks']],e:'Table 1.2.'},
+{id:'2p2',l:2,t:'match',q:'Match each term with its meaning.',n:4,pairs:[['Price transparency','Ease of finding the variety of prices in a market'],['Cost transparency','Discovering the actual costs merchants pay'],['Price discrimination','Same goods, different prices for different groups'],['Personalization','Adjusting the message to a person\'s name and interests'],['Customization','Changing the product based on user preferences'],['Marketspace','Marketplace removed from a temporal and geographic location']],e:'Lecture 2 terms.'},
+
+/* ===================== LECTURE 3 ===================== */
+{id:'3m1',l:3,t:'mcq',q:'Types of e-commerce are distinguished by…',o:['the nature of the market relationship: who is selling to whom','the size of the company','the country where the company is based','the programming language of the website'],e:'Who is selling to whom.'},
+{id:'3m2',l:3,t:'mcq',q:'Which is the LARGEST form of e-commerce?',o:['B2B','B2C','C2C','M-commerce'],e:'B2B is the largest. B2C is the one most consumers encounter.'},
+{id:'3m3',l:3,t:'mcq',q:'Which type of e-commerce are most consumers likely to encounter?',o:['B2C','B2B','C2C','Social e-commerce'],e:'B2C.'},
+{id:'3m4',l:3,t:'mcq',q:'Metalshub, an independent third-party marketplace serving the metals industry, is an example of…',o:['B2B','B2C','C2C','M-commerce'],e:'B2B example.'},
+{id:'3m5',l:3,t:'mcq',q:'Etsy, where people make, sell, buy and collect handmade items, is an example of…',o:['C2C','B2B','B2C','Social e-commerce'],e:'C2C example (with eBay).'},
+{id:'3m6',l:3,t:'mcq',q:'H&M, a Swedish fast-fashion clothing company, is a slide example of…',o:['B2C','B2B','C2C','M-commerce'],e:'B2C examples: Amazon, Walmart, H&M.'},
+{id:'3m7',l:3,t:'mcq',q:'In C2C e-commerce, the market maker provides…',o:['catalog, search engine and transaction clearing','the products being sold','manufacturing and packaging','bank loans to sellers'],e:'The consumer prepares the product; the market maker provides catalog, search, and transaction clearing.'},
+{id:'3m8',l:3,t:'mcq',q:'Social e-commerce is e-commerce enabled by…',o:['social networks and online social relationships','wireless digital devices','wholesalers and distributors','government portals'],e:'Example: Facebook, Instagram.'},
+{id:'3m9',l:3,t:'mcq',q:'Total social commerce revenues worldwide in 2020 were estimated at around…',o:['$90 billion','$9 billion','$900 billion','$9 trillion'],e:'Around $90 billion (Business Wire, 2020).'},
+{id:'3m10',l:3,t:'mcq',q:'M-commerce involves…',o:['the use of wireless digital devices to enable online transactions','businesses selling to businesses','consumers selling to consumers','selling through physical stores'],e:'Mobile e-commerce: smartphones and tablets.'},
+{id:'3m11',l:3,t:'mcq',q:'Mobile and social e-commerce can be looked at as…',o:['subsets of the other types of e-commerce','the largest types of e-commerce','types of e-business','the same thing as B2B'],e:'Slide: "Mobile and social e-commerce can be looked at as subsets of these types."'},
+{id:'3m12',l:3,t:'mcq',q:'In the B2B model, who orders products in bulk from the business organization\'s website?',o:['The wholesaler','The final consumer','The government','The market maker'],e:'Wholesaler orders → business processes and supplies → wholesaler sells to customers at a higher price.'},
+{id:'3m13',l:3,t:'mcq',q:'Which is a benefit of e-commerce to ORGANIZATIONS?',o:['Mass customization','Price comparisons','More choices','An environment of competition'],e:'Organizations: international marketplace, operational cost saving, mass customization, no time constraints.'},
+{id:'3m14',l:3,t:'mcq',q:'Which is a benefit of e-commerce to CONSUMERS?',o:['Price comparisons','Operational cost saving','International marketplace','Mass customization'],e:'Consumers: 24/7 access, more choices, price comparisons, improved delivery, competition.'},
+{id:'3m15',l:3,t:'mcq',q:'"Operational cost saving" means a lower cost of…',o:['creating, processing, distributing, storing and retrieving paper-based information','hiring and training staff','building physical stores','paying taxes'],e:'Benefit to organizations.'},
+{id:'3m16',l:3,t:'mcq',q:'The primary societal issues in e-commerce are…',o:['intellectual property and individual privacy','shipping costs and delivery time','website speed and design','stock prices and profits'],e:'The Society theme.'},
+{id:'3m17',l:3,t:'mcq',q:'TCP/IP, web servers, HTML and databases belong to which theme?',o:['Technology','Business','Society','Evolution'],e:'Technology theme.'},
+{id:'3m18',l:3,t:'mcq',q:'Electronic markets, business models, industry structure and consumer behaviour belong to which theme?',o:['Business','Technology','Society','Invention'],e:'Business theme.'},
+{id:'3m19',l:3,t:'mcq',q:'The Invention stage of e-commerce lasted from…',o:['1995–2000','2001–2006','2007–present','1990–1995'],e:'Invention 1995–2000 · Consolidation 2001–2006 · Reinvention 2007–present.'},
+{id:'3m20',l:3,t:'mcq',q:'Which stage ended with the "dot-com crash"?',o:['Invention','Consolidation','Reinvention','Globalization'],e:'2000: stock valuations plunged and thousands of companies disappeared.'},
+{id:'3m21',l:3,t:'mcq',q:'In which stage did the emphasis shift from "technology-driven" to "business-driven"?',o:['Consolidation','Invention','Reinvention','Disintermediation'],e:'Consolidation, 2001–2006.'},
+{id:'3m22',l:3,t:'mcq',q:'The emergence of the mobile digital platform, social networks and Web 2.0 started which stage?',o:['Reinvention','Consolidation','Invention','Integration'],e:'Reinvention began in 2007.'},
+{id:'3m23',l:3,t:'mcq',q:'On-demand personal service businesses such as Uber and Careem belong to which stage?',o:['Reinvention','Invention','Consolidation','None of them'],e:'Reinvention (2007–present).'},
+{id:'3m24',l:3,t:'mcq',q:'Disintermediation is…',o:['the displacement of market middlemen by a direct relationship between producers and consumers','the growth of wholesalers online','adding more intermediaries to a market','merging two companies'],e:'Middlemen are replaced by a direct producer–consumer relationship.'},
+{id:'3m25',l:3,t:'mcq',q:'"First movers" are…',o:['firms first to market in an area that moved quickly to gather market share','firms that copy competitors','the first customers to buy online','wholesalers that move goods first'],e:'Invention-period belief: extraordinary profits would go to first movers.'},
+{id:'3m26',l:3,t:'mcq',q:'Market middlemen are…',o:['distributors and wholesalers between producers and consumers','software developers','online customers','government regulators'],e:'Each demands a payment and raises costs while adding little value.'},
+{id:'3m27',l:3,t:'mcq',q:'The Consolidation period was enabled by…',o:['broadband networks and cheaper, more powerful personal computers','smartphones and social networks','Web 2.0 applications','on-demand service apps'],e:'Smartphones, social networks and Web 2.0 belong to Reinvention.'},
+{id:'3m28',l:3,t:'mcq',q:'During the Invention period, e-commerce meant selling…',o:['retail goods, usually quite simple goods','complex travel and financial services','on-demand personal services','only digital downloads'],e:'Complex services (travel, finance) came in Consolidation.'},
+{id:'3m29',l:3,t:'mcq',q:'"Improved delivery processes" as a consumer benefit includes…',o:['immediate download of digital goods and online package tracking','free shipping on every order','delivery by drone only','paper-based receipts'],e:'Benefit to consumers.'},
+{id:'3t1',l:3,t:'tf',q:'B2C is the largest form of e-commerce.',a:false,e:'False. B2B is the largest.'},
+{id:'3t2',l:3,t:'tf',q:'eBay facilitates consumer-to-consumer (C2C) sales through its website.',a:true,e:'True.'},
+{id:'3t3',l:3,t:'tf',q:'Walmart is a slide example of C2C e-commerce.',a:false,e:'False. Walmart is a B2C example.'},
+{id:'3t4',l:3,t:'tf',q:'During consolidation, brand extension and strengthening became more important than creating new brands.',a:true,e:'True.'},
+{id:'3t5',l:3,t:'tf',q:'The Reinvention period began in 2001.',a:false,e:'False. Reinvention began in 2007; Consolidation began in 2001.'},
+{id:'3t6',l:3,t:'tf',q:'During consolidation, e-commerce was growing again by more than 10% a year.',a:true,e:'True.'},
+{id:'3t7',l:3,t:'tf',q:'Facebook is both the leading social network and a social e-commerce site.',a:true,e:'True.'},
+{id:'3t8',l:3,t:'tf',q:'"No time constraints" is a benefit of e-commerce to organizations.',a:true,e:'True. Businesses can be contacted at any time.'},
+{id:'3t9',l:3,t:'tf',q:'The early years of e-commerce (Invention) were a technological failure.',a:false,e:'False. They were a technological success; the business side crashed in 2000.'},
+{id:'3f1',l:3,t:'fill',q:'E-commerce involves three broad interrelated themes: {{0}}, {{1}} and {{2}}.',b:[['technology'],['business'],['society']],set:[0,1,2],e:'Technology, business, society.'},
+{id:'3f2',l:3,t:'fill',q:'E-commerce has gone through three stages: {{0}}, {{1}} and {{2}}.',b:[['invention'],['consolidation'],['reinvention']],e:'In order: invention, consolidation, reinvention.'},
+{id:'3f3',l:3,t:'fill',q:'{{0}} is the displacement of market middlemen by a new direct relationship between producers and consumers.',b:[['disintermediation']],e:'Disintermediation.'},
+{id:'3f4',l:3,t:'fill',q:'{{0}} e-commerce involves businesses selling to other businesses and is the largest form of e-commerce.',b:[['b2b','business-to-business','business to business']],e:'B2B.'},
+{id:'3f5',l:3,t:'fill',q:'{{0}} involves the use of wireless digital devices to enable online transactions.',b:[['m-commerce','mcommerce','mobile e-commerce','mobile commerce','mobile ecommerce']],e:'M-commerce.'},
+{id:'3f6',l:3,t:'fill',q:'The Invention period came to a close in 2000 with the {{0}}.',b:[['dot-com crash','dotcom crash','dot com crash','dot-com bubble']],e:'The dot-com crash.'},
+{id:'3f7',l:3,t:'fill',q:'{{0}} e-commerce is a means for consumers to sell to each other.',b:[['c2c','consumer-to-consumer','consumer to consumer']],e:'C2C.'},
+{id:'3l1',l:3,t:'list',q:'List the five types of e-commerce.',n:5,items:[{s:'Business-to-Consumer (B2C)',k:['b2c','business to consumer']},{s:'Business-to-Business (B2B)',k:['b2b','business to business']},{s:'Consumer-to-Consumer (C2C)',k:['c2c','consumer to consumer']},{s:'Social e-commerce',k:['social']},{s:'Mobile e-commerce (M-commerce)',k:['mobile','m commerce','mcommerce']}],e:'Who sells to whom, plus social and mobile.'},
+{id:'3l2',l:3,t:'list',q:'List the benefits of e-commerce to organizations.',n:4,items:[{s:'International marketplace',k:['international','global market','borderless']},{s:'Operational cost saving',k:['operational','cost saving','cost']},{s:'Mass customization',k:['mass','customi']},{s:'No time constraints',k:['time constraint','no time','any time','anytime']}],e:'I Only Make Noodles.'},
+{id:'3l3',l:3,t:'list',q:'List the benefits of e-commerce to consumers.',n:5,items:[{s:'24/7 access',k:['24','access']},{s:'More choices',k:['choice']},{s:'Price comparisons',k:['comparison','compare']},{s:'Improved delivery processes',k:['deliver']},{s:'An environment of competition',k:['competition','competitive']}],e:'24 More Pizzas I Eat.'},
+{id:'3l4',l:3,t:'list',q:'List the three stages in the evolution of e-commerce.',n:3,items:[{s:'Invention (1995–2000)',k:['invention']},{s:'Consolidation (2001–2006)',k:['consolidat']},{s:'Reinvention (2007–present)',k:['reinvent','re invention']}],e:'I Can Restart.'},
+{id:'3l5',l:3,t:'list',q:'List the three major themes underlying the study of e-commerce.',n:3,items:[{s:'Technology',k:['technolog']},{s:'Business',k:['business']},{s:'Society',k:['societ','social']}],e:'Tech Builds Society.'},
+{id:'3x1',l:3,t:'exp',q:'Define Business-to-Consumer (B2C) e-commerce with an example, then describe the B2C model figure.',pts:[{p:'Businesses selling to consumers',k:['business','consumer']},{p:'The type most consumers are likely to encounter',k:['most consumer','encounter','common']},{p:'Example: Amazon / Walmart / H&M',k:['amazon','walmart','h&m','h m','hm']},{p:'Figure: customer orders on the website → order processing → business supplies customer',k:['order','website','suppl']}],m:'B2C e-commerce involves businesses selling to consumers and is the type of e-commerce most consumers are likely to encounter. Example: Amazon. In the B2C model the customer places orders on the website, the business organization does the order processing, and the business supplies the products to the customer.'},
+{id:'3x2',l:3,t:'exp',q:'Define Business-to-Business (B2B) e-commerce with an example, then describe the B2B model.',pts:[{p:'Businesses selling to other businesses',k:['other business','business to business','businesses selling']},{p:'The largest form of e-commerce',k:['largest']},{p:'Example: Metalshub / Grammarly for Business',k:['metalshub','metals hub','grammarly']},{p:'Wholesaler orders in bulk on the website; business processes and supplies',k:['wholesaler','bulk','suppl']},{p:'Wholesaler sells to its customers at a higher price',k:['sell','higher price','customer']}],m:'B2B e-commerce involves businesses selling to other businesses and is the largest form of e-commerce. Example: Metalshub, an independent third-party marketplace serving the metals industry. In the model a wholesaler orders products in bulk on the business organization\'s website; the business processes the order and supplies the wholesaler; the wholesaler then sells the products at a higher price to its customers.'},
+{id:'3x3',l:3,t:'exp',q:'Define Consumer-to-Consumer (C2C) e-commerce with an example, then describe the C2C model.',pts:[{p:'Consumers selling to each other',k:['each other','consumer to consumer','consumers sell']},{p:'Consumer prepares the product and places it for auction or sale',k:['auction','prepare','place']},{p:'Market maker provides catalog, search engine, transaction clearing',k:['market maker','catalog','search','clearing']},{p:'Example: eBay / Etsy',k:['ebay','etsy']}],m:'C2C e-commerce is a means for consumers to sell to each other. The consumer prepares the product for market, places it for auction or sale, and relies on the market maker to provide catalog, search engine, and transaction clearing so products can be displayed, discovered and paid for. Example: eBay. In the model, Customer 1 (seller) and Customer 2 (buyer) meet on the website; Customer 2 receives the product and Customer 1 receives the money.'},
+{id:'3x4',l:3,t:'exp',q:'Explain the benefits of e-commerce to consumers.',pts:[{p:'24/7 access from almost any location',k:['24','any location','all year']},{p:'More choices, including international suppliers',k:['choice','supplier']},{p:'Price comparisons across sites',k:['compar']},{p:'Improved delivery: instant downloads, online tracking',k:['deliver','download','track']},{p:'Environment of competition: discounts, added value',k:['competition','discount']}],m:'24/7 access: shop or transact 24 hours a day, all year round, from almost any location. More choices: a whole range of products plus an international selection of suppliers. Price comparisons: shop around the world by visiting different sites. Improved delivery processes: immediate download of digital goods and online tracking of packages. An environment of competition: different retailers compete, giving substantial discounts or added value.'},
+{id:'3x5',l:3,t:'exp',q:'Describe the three different stages in the evolution of e-commerce.',pts:[{p:'Invention 1995–2000: technological success, simple retail goods',k:['invention','1995','simple']},{p:'Dot-com crash, disintermediation, first movers',k:['crash','disintermed','first mover']},{p:'Consolidation 2001–2006: business-driven, brands, complex services, broadband',k:['consolidat','business driven','brand','broadband']},{p:'Reinvention 2007–present: mobile, social networks, Web 2.0',k:['reinvent','mobile','social','web 2']},{p:'On-demand services like Uber and Careem',k:['uber','careem','on demand']}],m:'Invention (1995–2000): a technological success; e-commerce meant selling simple retail goods; people expected disintermediation and first-mover profits; it ended with the dot-com crash in 2000. Consolidation (2001–2006): business-driven rather than technology-driven; traditional firms used the Web to strengthen their market positions; brand extension mattered; complex services such as travel and finance; enabled by broadband and cheaper PCs; growth above 10% a year. Reinvention (2007–present): the mobile platform, social networks and Web 2.0; recently on-demand service businesses like Uber and Careem.'},
+{id:'3x6',l:3,t:'exp',q:'Describe the major themes underlying the study of e-commerce.',pts:[{p:'Technology: Internet, Web, mobile, cloud, TCP/IP, HTML, databases',k:['technolog','internet','tcp','html','database','cloud']},{p:'Business: returns on investment; markets, business models, industry structure, consumer behaviour',k:['business model','return','industry','consumer behav','electronic market']},{p:'Society: intellectual property and individual privacy',k:['intellectual','privacy']}],m:'E-commerce involves three interrelated themes. Technology: the Internet, Web, mobile platform and complementary technologies such as cloud computing, LANs, client/server computing, TCP/IP, web servers, HTML and databases. Business: the business applications and potential returns on investment; key concepts are electronic markets, business models, industry structure and consumer behaviour in digital markets. Society: the pressures e-commerce places on society, mainly intellectual property and individual privacy.'},
+{id:'3x7',l:3,t:'exp',q:'Explain the benefits of e-commerce to organizations.',pts:[{p:'International marketplace: borderless access to customers worldwide',k:['international','borderless','world']},{p:'Operational cost saving: cheaper paper-based information handling',k:['paper','operational','cost']},{p:'Mass customization: customers configure products online in minutes',k:['customi','configure']},{p:'No time constraints: contactable any time',k:['any time','anytime','time constraint']}],m:'International marketplace: a single physical marketplace becomes a borderless national and international market, giving access to people all around the world. Operational cost saving: the cost of creating, processing, distributing, storing and retrieving paper-based information decreases. Mass customization: customers can configure a product to their specifications online within minutes. No time constraints: businesses can be contacted at any time.'},
+{id:'3p1',l:3,t:'match',q:'Match each type of e-commerce with an example from the slides.',n:4,pairs:[['B2C','Amazon'],['B2C','Walmart'],['B2C','H&M'],['B2B','Metalshub'],['B2B','Grammarly for Business'],['C2C','eBay'],['C2C','Etsy'],['Social e-commerce','Facebook'],['Social e-commerce','Instagram'],['M-commerce','Buying with a smartphone or tablet']],e:'Slide examples.'},
+{id:'3p2',l:3,t:'match',q:'Match each stage with its description.',n:3,pairs:[['Invention (1995–2000)','Technology-driven; simple retail goods; ended with the dot-com crash'],['Consolidation (2001–2006)','Business-driven; brand strengthening; travel and financial services'],['Reinvention (2007–present)','Mobile platform, social networks, Web 2.0; Uber and Careem']],e:'Evolution of e-commerce.'},
+{id:'3p3',l:3,t:'match',q:'Match each term with its definition.',n:4,pairs:[['Disintermediation','Middlemen replaced by a direct producer–consumer relationship'],['Market middlemen','Distributors and wholesalers between producers and consumers'],['First movers','Firms first to market that quickly gather market share'],['Social e-commerce','E-commerce enabled by social networks and online relationships'],['M-commerce','Wireless digital devices used to enable online transactions'],['Market maker (C2C)','Provides catalog, search engine and transaction clearing']],e:'Lecture 3 terms.'},
+
+/* ===================== LECTURE 4 ===================== */
+{id:'4m1',l:4,t:'mcq',q:'A business model is…',o:['a set of planned activities designed to result in a profit in a marketplace','a document that describes a firm\'s strategy','the company\'s website design','the list of a company\'s employees'],e:'Business model = planned activities for profit. Business plan = the document.'},
+{id:'4m2',l:4,t:'mcq',q:'A business plan is…',o:['a document that describes a firm\'s business model','a set of planned activities for profit','a type of revenue model','an organizational structure'],e:'Business plan = document.'},
+{id:'4m3',l:4,t:'mcq',q:'An e-commerce business model aims to use and leverage…',o:['the unique qualities of the Internet, the Web, and the mobile platform','physical store locations','printed catalogues','television advertising'],e:'Definition of an e-commerce business model.'},
+{id:'4m4',l:4,t:'mcq',q:'"Why should the customer buy from you?" is the key question of which element?',o:['Value proposition','Revenue model','Market strategy','Competitive advantage'],e:'Value proposition.'},
+{id:'4m5',l:4,t:'mcq',q:'"How will you earn money?" is the key question of which element?',o:['Revenue model','Value proposition','Market opportunity','Management team'],e:'Revenue model.'},
+{id:'4m6',l:4,t:'mcq',q:'"What marketspace do you intend to serve, and what is its size?" belongs to…',o:['Market opportunity','Market strategy','Competitive environment','Organizational development'],e:'Market opportunity.'},
+{id:'4m7',l:4,t:'mcq',q:'"Who else occupies your intended marketspace?" belongs to…',o:['Competitive environment','Competitive advantage','Market opportunity','Value proposition'],e:'Competitive environment.'},
+{id:'4m8',l:4,t:'mcq',q:'"What special advantages does your firm bring to the marketspace?" belongs to…',o:['Competitive advantage','Competitive environment','Market strategy','Revenue model'],e:'Competitive advantage.'},
+{id:'4m9',l:4,t:'mcq',q:'"How do you plan to promote your products or services to attract your target audience?" belongs to…',o:['Market strategy','Market opportunity','Value proposition','Management team'],e:'Market strategy.'},
+{id:'4m10',l:4,t:'mcq',q:'The single most important element of a business model is the…',o:['management team','revenue model','value proposition','market strategy'],e:'The management team makes the business model work.'},
+{id:'4m11',l:4,t:'mcq',q:'Value proposition defines…',o:['how a company\'s product or service fulfills the needs of customers','how the firm will earn revenue','who the competitors are','how the company is organized'],e:'Value proposition.'},
+{id:'4m12',l:4,t:'mcq',q:'Domino\'s "fresh, hot pizza delivered to your door in 30 minutes or less or it\'s free" is an example of a…',o:['value proposition','revenue model','market opportunity','competitive environment'],e:'Value proposition examples: Domino\'s, Uber ("Everyone\'s private driver"), Grammarly.'},
+{id:'4m13',l:4,t:'mcq',q:'Which is NOT one of the successful e-commerce value proposition features listed on the slides?',o:['Physical store locations','Personalization and customization','Convenience (24/7)','Quick delivery'],e:'The five: personalization/customization, convenience, price/no shipping cost, quick delivery, product/service quality.'},
+{id:'4m14',l:4,t:'mcq',q:'A revenue model describes how the firm will…',o:['earn revenue, produce profits, and produce a superior return on invested capital','fulfill customer needs','enter a new market','organize its staff'],e:'Revenue model definition.'},
+{id:'4m15',l:4,t:'mcq',q:'Yahoo earning significant revenue from display and video ads uses which revenue model?',o:['Advertising','Subscription','Transaction fee','Affiliate'],e:'Advertising: Yahoo, Facebook.'},
+{id:'4m16',l:4,t:'mcq',q:'Spotify, Grammarly and Adobe mainly use which revenue model?',o:['Subscription','Advertising','Sales','Transaction fee'],e:'Subscription: a fee for access to some or all offerings.'},
+{id:'4m17',l:4,t:'mcq',q:'eBay receiving a small fee from a seller when an item is sold is which revenue model?',o:['Transaction fee','Sales','Affiliate','Advertising'],e:'Transaction fee: a fee for enabling or executing a transaction.'},
+{id:'4m18',l:4,t:'mcq',q:'Amazon selling books, music and other products uses which revenue model?',o:['Sales','Subscription','Affiliate','Transaction fee'],e:'Sales revenue model.'},
+{id:'4m19',l:4,t:'mcq',q:'A website that earns a fee when customers it refers book a hotel or rent a car uses which revenue model?',o:['Affiliate','Advertising','Sales','Subscription'],e:'Affiliate: a referral fee or percentage of resulting sales.'},
+{id:'4m20',l:4,t:'mcq',q:'In a freemium strategy, companies…',o:['give away a basic level free and charge a subscription fee for premium levels','charge everyone the same premium price','give everything away for free forever','only earn from advertising'],e:'Freemium is combined with the subscription model (e.g. Spotify).'},
+{id:'4m21',l:4,t:'mcq',q:'Marketspace (in market opportunity) means…',o:['the area of actual or potential commercial value in which a company intends to operate','the physical location of a store','the number of competitors','the company\'s website'],e:'Marketspace definition from Lecture 4.'},
+{id:'4m22',l:4,t:'mcq',q:'A firm\'s realistic market opportunity will typically focus on…',o:['one or a few market segments','every market segment at once','only international markets','only its competitors\' customers'],e:'Marketspaces are composed of many segments.'},
+{id:'4m23',l:4,t:'mcq',q:'Which is NOT one of the high-level questions for analyzing a market?',o:['What colour should the logo be?','What is the market size?','What are the barriers to entry?','What is the bargaining power of suppliers?'],e:'The 7: size, growth, buyers, barriers, supplier power, competition intensity, threat of new entrants/substitutes.'},
+{id:'4m24',l:4,t:'mcq',q:'Priceline and Travelocity, which both sell discount airline tickets online, are…',o:['direct competitors','indirect competitors','affiliates','not competitors'],e:'Same products, same market segment.'},
+{id:'4m25',l:4,t:'mcq',q:'CNN.com and ESPN.com competing for consumers\' time online are…',o:['indirect competitors','direct competitors','partners','the same company'],e:'Different products, but they substitute for each other.'},
+{id:'4m26',l:4,t:'mcq',q:'Automobile manufacturers and airlines are…',o:['indirect competitors','direct competitors','not competitors at all','affiliates'],e:'Different industries, alternative means of transportation.'},
+{id:'4m27',l:4,t:'mcq',q:'Which factor influences the competitive environment?',o:['Competitors\' pricing','The CEO\'s age','The number of website pages','The office building colour'],e:'Four factors: number of competitors, market share, profitability, pricing.'},
+{id:'4m28',l:4,t:'mcq',q:'A firm achieves competitive advantage when it can…',o:['produce a superior product and/or bring it to market at a lower price than competitors','hire more employees than competitors','open more physical stores','advertise on more websites'],e:'Competitive advantage definition.'},
+{id:'4m29',l:4,t:'mcq',q:'Asymmetry exists whenever…',o:['one participant in a market has more resources than other participants','two companies merge','prices are the same for everyone','a company enters a market first'],e:'Asymmetry.'},
+{id:'4m30',l:4,t:'mcq',q:'Why do most first movers fail to keep their advantage?',o:['They lack the complementary resources needed to sustain it','They are always too small','They charge too little','They have too many customers'],e:'Complementary resources: marketing, management, financial assets, reputation.'},
+{id:'4m31',l:4,t:'mcq',q:'Marketing, management, financial assets and reputation are examples of…',o:['complementary resources','barriers to entry','revenue models','value propositions'],e:'Not directly involved in production, but required for success.'},
+{id:'4m32',l:4,t:'mcq',q:'Amazon moving into online grocery by using its huge customer database is an example of…',o:['leverage','asymmetry','first-mover advantage','disintermediation'],e:'Leverage: using competitive advantages to gain advantage in surrounding markets.'},
+{id:'4m33',l:4,t:'mcq',q:'Market strategy is…',o:['the plan detailing exactly how you intend to enter a new market and attract new customers','the area of commercial value you operate in','the way you earn revenue','your organizational structure'],e:'The best business concepts fail if not properly marketed.'},
+{id:'4m34',l:4,t:'mcq',q:'As a company grows, hiring moves from…',o:['generalists to specialists','specialists to generalists','managers to staff','local to international staff only'],e:'Organizational development.'},
+{id:'4m35',l:4,t:'mcq',q:'In which organizational structure do functional managers or vice presidents report to the CEO?',o:['Functional','Project','Matrix','Network'],e:'Example: most colleges and universities.'},
+{id:'4m36',l:4,t:'mcq',q:'Engineering and consulting companies that earn revenue by performing projects under contract often use a…',o:['project structure','functional structure','matrix structure','franchise structure'],e:'Program managers report to the CEO.'},
+{id:'4m37',l:4,t:'mcq',q:'In which structure do personnel often report to two or more bosses?',o:['Matrix','Functional','Project','Flat'],e:'Matrix: weak, balanced or strong.'},
+{id:'4m38',l:4,t:'mcq',q:'A strong management team gives the business…',o:['credibility to outside investors','free advertising','lower taxes','a guaranteed monopoly'],e:'It also has market-specific knowledge and experience implementing business plans.'},
+{id:'4m39',l:4,t:'mcq',q:'Seed capital is…',o:['an entrepreneur\'s personal funds from savings, credit cards, home equity loans, or family and friends','money from venture capital firms','a government grant only','revenue from the first sales'],e:'Seed capital.'},
+{id:'4m40',l:4,t:'mcq',q:'Incubators (accelerators) typically provide…',o:['a small amount of funding plus business, technical and marketing services','large loans that must be repaid','full ownership of the company','only office furniture'],e:'The services matter more than the money.'},
+{id:'4m41',l:4,t:'mcq',q:'What is the main advantage of getting capital as a bank loan?',o:['The entrepreneur does not give up any ownership','It never has to be repaid','It is easy for start-ups to get','The bank runs the company'],e:'It must be repaid, but no ownership is given up.'},
+{id:'4m42',l:4,t:'mcq',q:'Angel investors are…',o:['wealthy individuals who invest their own money in exchange for an equity share','banks that give loans','firms that invest other investors\' funds','the company\'s customers'],e:'Angel = own money.'},
+{id:'4m43',l:4,t:'mcq',q:'Venture capital firms typically…',o:['invest funds they manage for other investors and want a larger stake and more control','invest only their founder\'s savings','provide loans without taking ownership','only offer office space'],e:'VC = other people\'s money + more control.'},
+{id:'4m44',l:4,t:'mcq',q:'Using the Internet to let many individuals collectively contribute money to support a project is…',o:['crowdfunding','angel investing','seed capital','venture capital'],e:'Crowdfunding.'},
+{id:'4m45',l:4,t:'mcq',q:'An online retail store where customers can shop at any hour without leaving home or office is a(n)…',o:['E-tailer','Portal','Market creator','Content provider'],e:'E-tailer: revenue from sales; low barriers to entry.'},
+{id:'4m46',l:4,t:'mcq',q:'Barriers to entry means…',o:['the total cost of entering a new marketplace','the number of competitors','the price of a product','a website firewall'],e:'E-tailer barriers to entry are LOW.'},
+{id:'4m47',l:4,t:'mcq',q:'Which e-tailer variation is Zara?',o:['Bricks-and-clicks','Virtual merchant','Manufacturer-direct','Market creator'],e:'It has physical stores AND an online channel. Walmart too.'},
+{id:'4m48',l:4,t:'mcq',q:'Which e-tailer variation is Nike?',o:['Manufacturer-direct','Bricks-and-clicks','Virtual merchant','Transaction broker'],e:'The manufacturer sells online directly to customers.'},
+{id:'4m49',l:4,t:'mcq',q:'Which e-tailer variation is Amazon?',o:['Virtual merchant','Bricks-and-clicks','Manufacturer-direct','Portal'],e:'An online-only retailer.'},
+{id:'4m50',l:4,t:'mcq',q:'Facebook, LinkedIn and Pinterest are which B2C business model?',o:['Community provider','Content provider','Portal','Market creator'],e:'Revenue: hybrid (advertising, sales, affiliate referral fees).'},
+{id:'4m51',l:4,t:'mcq',q:'The revenue model of a community provider is typically…',o:['hybrid: advertising, sales and affiliate referral fees','only transaction fees','only subscriptions','only sales of services'],e:'Hybrid.'},
+{id:'4m52',l:4,t:'mcq',q:'A business offering newspapers, magazines, books, film, TV, music and games online is a…',o:['Content provider','Portal','Service provider','E-tailer'],e:'Revenue: subscription, pay per download (micropayment), advertising, affiliate, sales of digital goods.'},
+{id:'4m53',l:4,t:'mcq',q:'"Pay per download (micropayment)" is a revenue model of which B2C business model?',o:['Content provider','Market creator','Portal','Community provider'],e:'Content provider.'},
+{id:'4m54',l:4,t:'mcq',q:'Yahoo and Google, which seek to be a user\'s "home base", are…',o:['Portals','Content providers','Transaction brokers','E-tailers'],e:'Search + an integrated package of content and services in one place.'},
+{id:'4m55',l:4,t:'mcq',q:'The revenue models of a portal are…',o:['advertising and referral fees','sales of goods','subscription fees only','transaction fees only'],e:'Portal: advertising, referral fees.'},
+{id:'4m56',l:4,t:'mcq',q:'PayPal and Skyscanner are examples of which B2C business model?',o:['Transaction broker','Market creator','Portal','Service provider'],e:'They process online transactions for consumers (like stockbrokers and travel agents).'},
+{id:'4m57',l:4,t:'mcq',q:'eBay, which builds a digital environment where buyers and sellers meet and set prices, is a…',o:['Market creator','Transaction broker','E-tailer','Community provider'],e:'Market creator: revenue from transaction fees.'},
+{id:'4m58',l:4,t:'mcq',q:'Companies that make money by selling users a service rather than a product are…',o:['Service providers','Content providers','E-tailers','Portals'],e:'Revenue: sales of services.'},
+{id:'4m59',l:4,t:'mcq',q:'Which two B2C models both earn mainly transaction fees?',o:['Transaction broker and market creator','Portal and e-tailer','Content provider and community provider','Service provider and portal'],e:'A broker processes transactions for you; a market creator builds the meeting place.'},
+{id:'4m60',l:4,t:'mcq',q:'Which is NOT one of the eight key elements of a business model?',o:['Customer interaction','Market opportunity','Organizational development','Competitive advantage'],e:'Customer interaction is one of the 10 factors from Lecture 1.'},
+{id:'4m61',l:4,t:'mcq',q:'Which industries use the transaction broker model, according to the slides?',o:['Financial services, travel services, job placement','Agriculture, mining, oil','Newspapers and magazines','Furniture and clothing'],e:'PayPal (finance), Skyscanner (travel), job placement services.'},
+{id:'4t1',l:4,t:'tf',q:'A business plan is a document that describes a firm\'s business model.',a:true,e:'True.'},
+{id:'4t2',l:4,t:'tf',q:'The revenue model is the single most important element of a business model.',a:false,e:'False. The management team is.'},
+{id:'4t3',l:4,t:'tf',q:'Getting a bank loan requires the entrepreneur to give up ownership of the company.',a:false,e:'False. A loan is repaid, but no ownership is given up.'},
+{id:'4t4',l:4,t:'tf',q:'Venture capital firms usually want a larger stake and more control over the business.',a:true,e:'True.'},
+{id:'4t5',l:4,t:'tf',q:'Barriers to entry for e-tailers are high.',a:false,e:'False. They are low.'},
+{id:'4t6',l:4,t:'tf',q:'In a matrix organization, personnel often report to two or more bosses.',a:true,e:'True.'},
+{id:'4t7',l:4,t:'tf',q:'As a company grows, hiring moves from specialists to generalists.',a:false,e:'False. It moves from generalists to specialists.'},
+{id:'4t8',l:4,t:'tf',q:'Most first movers have the complementary resources needed to sustain their advantage.',a:false,e:'False. Most first movers LACK them.'},
+{id:'4t9',l:4,t:'tf',q:'A market creator and a transaction broker both earn revenue from transaction fees.',a:true,e:'True.'},
+{id:'4t10',l:4,t:'tf',q:'CNN.com and ESPN.com are direct competitors.',a:false,e:'False. They are indirect competitors (they compete for consumers\' time).'},
+{id:'4t11',l:4,t:'tf',q:'Most colleges and universities have strong functional organizations.',a:true,e:'True.'},
+{id:'4t12',l:4,t:'tf',q:'Angel investors invest money they manage for other investors.',a:false,e:'False. Angels invest their own money; VC firms invest others\' funds.'},
+{id:'4t13',l:4,t:'tf',q:'Many companies combine the subscription revenue model with a freemium strategy.',a:true,e:'True. Example: Spotify.'},
+{id:'4f1',l:4,t:'fill',q:'A {{0}} is a set of planned activities designed to result in a profit in a marketplace.',b:[['business model']],e:'Business model.'},
+{id:'4f2',l:4,t:'fill',q:'A {{0}} is a document that describes a firm\'s business model.',b:[['business plan']],e:'Business plan.'},
+{id:'4f3',l:4,t:'fill',q:'{{0}} capital is an entrepreneur\'s personal funds from savings, credit card advances, home equity loans, or family and friends.',b:[['seed']],e:'Seed capital.'},
+{id:'4f4',l:4,t:'fill',q:'In a {{0}} strategy, companies give away a certain level of product for free but charge a subscription fee for premium levels.',b:[['freemium']],e:'Freemium.'},
+{id:'4f5',l:4,t:'fill',q:'{{0}} to entry means the total cost of entering a new marketplace.',b:[['barriers','barrier']],e:'Barriers to entry.'},
+{id:'4f6',l:4,t:'fill',q:'{{0}} involves using the Internet to enable individuals to collectively contribute money to support a project.',b:[['crowdfunding','crowd funding']],e:'Crowdfunding.'},
+{id:'4f7',l:4,t:'fill',q:'The single most important element of a business model is the {{0}}.',b:[['management team','management']],e:'Management team.'},
+{id:'4f8',l:4,t:'fill',q:'Incubators are sometimes also referred to as {{0}}.',b:[['accelerators','accelerator']],e:'Accelerators.'},
+{id:'4f9',l:4,t:'fill',q:'{{0}} exists whenever one participant in a market has more resources than other participants.',b:[['asymmetry']],e:'Asymmetry.'},
+{id:'4f10',l:4,t:'fill',q:'When a company uses its competitive advantages to achieve more advantage in surrounding markets, it is called {{0}}.',b:[['leverage']],e:'Leverage.'},
+{id:'4f11',l:4,t:'fill',q:'{{0}} defines how a company\'s product or service fulfills the needs of customers.',b:[['value proposition']],e:'Value proposition.'},
+{id:'4l1',l:4,t:'list',q:'List the eight key elements of an e-commerce business model.',n:8,items:[{s:'Value proposition',k:['value']},{s:'Revenue model',k:['revenue']},{s:'Market opportunity',k:['opportunit']},{s:'Competitive environment',k:['environment']},{s:'Competitive advantage',k:['advantage']},{s:'Market strategy',k:['strateg']},{s:'Organizational development',k:['organi','development']},{s:'Management team',k:['management','team']}],e:'Vicky Really Must Cook Chicken Making Our Meal.'},
+{id:'4l2',l:4,t:'list',q:'List the five major types of e-commerce revenue models.',n:5,items:[{s:'Advertising',k:['advertis']},{s:'Subscription',k:['subscri']},{s:'Transaction fee',k:['transaction']},{s:'Sales',k:['sale']},{s:'Affiliate',k:['affiliat']}],e:'All Students Take Sweet Apples.'},
+{id:'4l3',l:4,t:'list',q:'What are the traditional sources of capital for start-ups? List them.',n:4,items:[{s:'Incubators (accelerators)',k:['incubat','accelerat']},{s:'Commercial banks (loans)',k:['bank','loan']},{s:'Angel investors',k:['angel']},{s:'Venture capital firms',k:['venture','vc']}],e:'I Can Always Visit.'},
+{id:'4l4',l:4,t:'list',q:'List the major B2C business models.',n:7,items:[{s:'E-tailer',k:['tailer','etailer','retail']},{s:'Community provider',k:['communit']},{s:'Content provider',k:['content']},{s:'Portal',k:['portal']},{s:'Transaction broker',k:['broker']},{s:'Market creator',k:['creator','market creat']},{s:'Service provider',k:['service']}],e:'Every Cat Can Purr To Make Sound.'},
+{id:'4l5',l:4,t:'list',q:'The competitive environment is influenced by different factors. List these factors.',n:4,items:[{s:'Number of active competitors',k:['number','active']},{s:'Each competitor\'s market share',k:['share']},{s:'Competitors\' profitability',k:['profitab','profit']},{s:'Competitors\' pricing',k:['pric']}],e:'Review question Q9.'},
+{id:'4l6',l:4,t:'list',q:'List the three general classifications of organizational structures.',n:3,items:[{s:'Functional',k:['function']},{s:'Project',k:['project']},{s:'Matrix',k:['matrix']}],e:'Functional, project, matrix.'},
+{id:'4l7',l:4,t:'list',q:'List the three variations of the e-tailer model with an example of each.',n:3,items:[{s:'Virtual merchant (Amazon)',k:['virtual']},{s:'Bricks-and-clicks (Zara)',k:['brick','click']},{s:'Manufacturer-direct (Nike)',k:['manufactur']}],e:'Virtual merchant, bricks-and-clicks, manufacturer-direct.'},
+{id:'4l8',l:4,t:'list',q:'List the five features of successful e-commerce value propositions (consumer point of view).',n:5,items:[{s:'Personalization and customization',k:['personali','customi']},{s:'Convenience (24/7)',k:['convenien','24']},{s:'Price / no shipping cost',k:['price','shipping']},{s:'Quick delivery',k:['deliver']},{s:'Product/service quality',k:['quality']}],e:'From the value proposition slide.'},
+{id:'4l9',l:4,t:'list',q:'List four things a strong management team does or has.',n:4,items:[{s:'Makes the business model work',k:['work','make']},{s:'Gives credibility to outside investors',k:['credib','investor']},{s:'Has market-specific knowledge',k:['knowledge','market specific']},{s:'Has experience implementing business plans',k:['experience','implement']}],e:'From the management team slide.'},
+{id:'4x1',l:4,t:'exp',q:'Explain these two elements of a business model: value proposition and revenue model.',pts:[{p:'Value proposition: how the product fulfills customer needs ("Why buy from you?")',k:['fulfil','needs','why should']},{p:'Value proposition features: personalization, convenience, price, quick delivery, quality',k:['personali','convenien','deliver','quality']},{p:'Revenue model: how the firm earns revenue, profits and return on capital ("How will you earn money?")',k:['earn','revenue','profit','return']},{p:'Revenue model types: advertising, subscription, transaction fee, sales, affiliate',k:['advertis','subscri','transaction','affiliat']}],m:'Value proposition defines how a company\'s product or service fulfills the needs of customers. It answers "Why should the customer buy from you?" Successful e-commerce value propositions include personalization and customization, convenience (24/7), price/no shipping cost, quick delivery, and product/service quality (e.g. Domino\'s 30-minute delivery). Revenue model describes how the firm will earn revenue, produce profits and a superior return on invested capital ("How will you earn money?"). Main types: advertising, subscription, transaction fee, sales, affiliate (e.g. Spotify uses subscription).'},
+{id:'4x2',l:4,t:'exp',q:'There are five types of e-commerce revenue models. Explain three of them with examples.',pts:[{p:'Advertising: forum for ads, fees from advertisers (Yahoo, Facebook)',k:['advertis','yahoo','facebook']},{p:'Subscription: fee for access to content/services (Spotify, Grammarly, Adobe)',k:['subscri','spotify','grammarly','adobe']},{p:'Transaction fee: fee for enabling a transaction (eBay)',k:['transaction','ebay']},{p:'Sales (Amazon) or affiliate (referral fees) also accepted',k:['sale','amazon','affiliat','referral']}],m:'Advertising: a company provides a forum for advertisements and receives fees from advertisers, e.g. Yahoo. Subscription: a company offers content or services and charges a subscription fee for access to some or all of them, e.g. Spotify (often with freemium). Transaction fee: a company receives a fee for enabling or executing a transaction, e.g. eBay charges a seller a small fee when the item sells. (Sales: Amazon sells products. Affiliate: a referral fee for steering business to an affiliate.)'},
+{id:'4x3',l:4,t:'exp',q:'List the major B2C business models, then explain two of them in detail (e-tailer and portal).',pts:[{p:'E-tailer: online retail store, shop any hour without leaving home',k:['online retail','retail store','any hour']},{p:'E-tailer: sales revenue, low barriers to entry, variations (Amazon, Zara, Nike)',k:['sales','barrier','amazon','zara','nike']},{p:'Portal: powerful search + integrated content and services in one place; home base',k:['search','integrated','home base','one place']},{p:'Portal: Yahoo, Google; revenue from advertising and referral fees',k:['yahoo','google','advertis','referral']}],m:'B2C models: e-tailer, community provider, content provider, portal, transaction broker, market creator, service provider. E-tailer: an online retail store where customers can shop at any hour without leaving home or office; revenue model: sales; barriers to entry: low; variations: virtual merchant (Amazon), bricks-and-clicks (Zara), manufacturer-direct (Nike). Portal: offers powerful search tools plus an integrated package of content and services (news, e-mail, chat, video, calendars) all in one place, and seeks to be the user\'s home base; examples: Yahoo, Google; revenue: advertising and referral fees.'},
+{id:'4x4',l:4,t:'exp',q:'Explain the difference between direct and indirect competitors, with examples.',pts:[{p:'Direct: very similar products in the same market segment',k:['similar','same market','same segment']},{p:'Direct example: Priceline and Travelocity',k:['priceline','travelocity']},{p:'Indirect: different industries but products substitute for one another',k:['different industr','substitut']},{p:'Indirect example: CNN.com vs ESPN.com, or cars vs airlines',k:['cnn','espn','automobile','car','airline']}],m:'Direct competitors sell products and services that are very similar and into the same market segment, e.g. Priceline and Travelocity, which both sell discount airline tickets online. Indirect competitors may be in different industries but still compete because their products can substitute for one another, e.g. CNN.com and ESPN.com compete for consumers\' time online, and automobile manufacturers and airlines both offer means of transportation.'},
+{id:'4x5',l:4,t:'exp',q:'Explain the traditional sources of capital: incubators, commercial banks, angel investors and venture capital firms.',pts:[{p:'Incubators: small funding plus business, technical and marketing services',k:['incubat','service','small']},{p:'Banks: loan must be repaid but no ownership given up',k:['loan','ownership','repaid','repay']},{p:'Angels: wealthy individuals invest their own money for equity',k:['angel','own money','equity','wealthy']},{p:'VC: invest others\' funds; want larger stake and more control',k:['venture','control','stake','other investor']}],m:'Incubators (accelerators) provide a small amount of funding but, more importantly, business, technical and marketing services and introductions to other sources of capital. Commercial banks: a loan is often hard for start-ups to get; it must be repaid, but the entrepreneur gives up no ownership. Angel investors are wealthy individuals who invest their own money in exchange for an equity share. Venture capital firms invest funds they manage for other investors and usually want a larger stake and more control.'},
+{id:'4x6',l:4,t:'exp',q:'Describe the three general classifications of organizational structures.',pts:[{p:'Functional: functional managers / VPs report to the CEO (universities)',k:['functional','vice president','vp','universit']},{p:'Project: program managers report to the CEO (engineering, consulting)',k:['project','program manager','consult','engineer']},{p:'Matrix: middle ground; two or more bosses; weak, balanced or strong',k:['matrix','two','boss','weak','balanced']}],m:'Functional: functional managers or vice presidents report to the CEO, e.g. most colleges and universities. Project: program managers report to the CEO; staff have the variety of skills needed for projects; revenue comes from performing projects under contract, e.g. engineering and consulting companies. Matrix: the middle ground between functional and project structures; personnel often report to two or more bosses; it can be a weak, balanced or strong matrix.'},
+{id:'4x7',l:4,t:'exp',q:'Explain competitive advantage and the concepts of asymmetry, first-mover advantage, complementary resources and leverage.',pts:[{p:'Competitive advantage: superior product and/or lower price than competitors',k:['superior','lower price']},{p:'Asymmetry: one participant has more resources',k:['asymmetr','more resource']},{p:'First-mover advantage: being first into the market; most lack complementary resources',k:['first']},{p:'Complementary resources: marketing, management, finance, reputation',k:['complement','reputation','marketing']},{p:'Leverage: use advantages in surrounding markets (Amazon → grocery)',k:['leverag','grocery','surrounding']}],m:'A firm achieves competitive advantage when it can produce a superior product and/or bring it to market at a lower price than most or all competitors. Asymmetry exists when one participant has more resources than others. First-mover advantage comes from being first into a marketplace with a serviceable product, but most first movers lack the complementary resources (marketing, management, financial assets, reputation) to sustain it. Leverage is using competitive advantages to gain advantage in surrounding markets, e.g. Amazon moving into online grocery.'},
+{id:'4p1',l:4,t:'match',q:'Match each B2C business model with its revenue model.',n:4,pairs:[['E-tailer','Sales of goods'],['Community provider','Hybrid: advertising, sales, affiliate fees'],['Content provider','Subscription, pay per download (micropayment)'],['Portal','Advertising and referral fees'],['Transaction broker','Transaction fees'],['Market creator','Transaction fees'],['Service provider','Sales of services']],e:'Each set avoids duplicate answers.'},
+{id:'4p2',l:4,t:'match',q:'Match each B2C business model with a slide example.',n:4,pairs:[['E-tailer','Amazon / Zara / Nike'],['Community provider','Facebook, LinkedIn, Pinterest'],['Portal','Yahoo, Google'],['Transaction broker','PayPal, Skyscanner'],['Market creator','eBay'],['Content provider','Online newspapers, music, films']],e:'B2C business models.'},
+{id:'4p3',l:4,t:'match',q:'Match each revenue model with its example.',n:4,pairs:[['Advertising','Yahoo display and video ads'],['Subscription','Spotify Premium'],['Transaction fee','eBay fee from a seller'],['Sales','Amazon selling books'],['Affiliate','Referral fee for a hotel booking']],e:'Five revenue models.'},
+{id:'4p4',l:4,t:'match',q:'Match each business-model element with its key question.',n:4,pairs:[['Value proposition','Why should the customer buy from you?'],['Revenue model','How will you earn money?'],['Market opportunity','What marketspace do you intend to serve, and what is its size?'],['Competitive environment','Who else occupies your intended marketspace?'],['Competitive advantage','What special advantages does your firm bring?'],['Market strategy','How will you promote products to attract your audience?'],['Organizational development','What organizational structures are necessary?'],['Management team','What experience and background should leaders have?']],e:'Key elements table.'},
+{id:'4p5',l:4,t:'match',q:'Match each source of capital with its description.',n:4,pairs:[['Seed capital','Personal funds, savings, family and friends'],['Incubators','Small funding plus business, technical, marketing services'],['Commercial bank loan','Must be repaid; no ownership given up'],['Angel investors','Wealthy individuals investing their own money for equity'],['Venture capital firms','Invest others\' funds; want a larger stake and control'],['Crowdfunding','Many individuals contribute money via the Internet']],e:'Raising capital.'},
+{id:'4p6',l:4,t:'match',q:'Match each organizational structure with its description.',n:3,pairs:[['Functional','VPs report to the CEO; e.g. universities'],['Project','Program managers report to the CEO; e.g. consulting firms'],['Matrix','Staff report to two or more bosses']],e:'Organizational development.'},
+];
+
+/* Flashcards for fast learning */
+const CARDS = [
+[1,'E-commerce','Use of the Internet, Web and mobile apps to digitally enable commercial transactions between and among organizations and individuals. Crosses firm boundaries.'],
+[1,'E-business','Digital technologies applied to business processes WITHIN the firm (e.g. online inventory control).'],
+[1,'Commercial transaction','Exchange of money across an organizational boundary in return for goods and services.'],
+[1,'The Internet','Worldwide network of computer networks built on common standards. Growth is measured by hosts with domain names.'],
+[1,'The Web','One of the most popular services on the Internet. Provides access to Web pages written in HTML.'],
+[1,'Web 2.0','User-centered apps and social media. Features: user-generated content · interactive communities · large audiences. E.g. YouTube, Instagram, Wikipedia, Twitter (X).'],
+[1,'Mobile platform','Most recent Internet development: access via wireless networks or cell-phone service (tablets, smartphones).'],
+[1,'10 factors vs traditional commerce','Cost · Time saving · Convenience · Geographical accessibility · New products · Profit · Physical inspection · Time accessibility · Customer interaction · Fraud\n"Cats Take Cool Green Naps · Pink Pandas Talk Calmly Fridays"'],
+[1,'Where traditional commerce wins','Physical inspection (e-commerce relies on electronic images) and Fraud (less fraud face-to-face).'],
+[1,'Customer interaction','Traditional = face-to-face. E-commerce = screen-to-face.'],
+[2,'8 unique features','Ubiquity · Global reach · Universal standards · Information richness · Interactivity · Information density · Personalization/customization · Social technology\n"Ugly Goats Use III-Phones, Please Smile"'],
+[2,'Ubiquity','Available just about everywhere, at all times. Creates a marketspace removed from a temporal and geographic location.'],
+[2,'Marketplace vs marketspace','Marketplace = physical place you visit. Marketspace = marketplace extended beyond traditional boundaries (no fixed time/place).'],
+[2,'Global reach','Transactions cross cultural and national boundaries; market ≈ the world\'s online population.'],
+[2,'Universal standards','Internet technical standards are shared by all nations, giving a common, inexpensive, global foundation.'],
+[2,'Information richness','The complexity and content of a message. Lets merchants sell "complex" goods.'],
+[2,'Interactivity','Two-way communication merchant ↔ consumer. E.g. comments, forums, like/share, form warnings, autofill search.'],
+[2,'Information density','Total amount and quality of information available to all market participants. Leads to price transparency, cost transparency, price discrimination.'],
+[2,'Price discrimination','Same product, different prices for different groups. E.g. coupons, age discounts, loyalty programs, airline tickets.'],
+[2,'Personalization vs customization','Personalization changes the MESSAGE (name, interests, past purchases). Customization changes the PRODUCT.'],
+[2,'Social technology','Many-to-many mass communication: millions create content consumed by millions.'],
+[3,'5 types of e-commerce','B2C · B2B (largest) · C2C · Social e-commerce · M-commerce. Classified by who sells to whom.'],
+[3,'B2C','Businesses → consumers. Most commonly encountered. Amazon, Walmart, H&M.'],
+[3,'B2B','Businesses → businesses. The LARGEST form. Metalshub, Grammarly for Business. Wholesaler orders in bulk → business supplies → wholesaler sells.'],
+[3,'C2C','Consumers → consumers via a market maker (catalog, search, transaction clearing). eBay, Etsy.'],
+[3,'Social e-commerce / M-commerce','Social: enabled by social networks (Facebook, Instagram; ~$90bn in 2020). M-commerce: wireless digital devices.'],
+[3,'Benefits to organizations','International marketplace · Operational cost saving · Mass customization · No time constraints ("I Only Make Noodles")'],
+[3,'Benefits to consumers','24/7 access · More choices · Price comparisons · Improved delivery · Environment of competition ("24 More Pizzas I Eat")'],
+[3,'3 themes','Technology · Business · Society (intellectual property & individual privacy)'],
+[3,'3 stages','Invention 1995–2000 · Consolidation 2001–2006 · Reinvention 2007–present ("I Can Restart")'],
+[3,'Invention (1995–2000)','Technological success; simple retail goods; disintermediation & first movers expected; ended with the dot-com crash.'],
+[3,'Consolidation (2001–2006)','Business-driven; brand extension; travel & financial services; broadband + cheaper PCs; >10% growth/year.'],
+[3,'Reinvention (2007–now)','Mobile platform, social networks, Web 2.0; on-demand services like Uber and Careem.'],
+[3,'Disintermediation','Middlemen (distributors, wholesalers) displaced by a direct producer–consumer relationship.'],
+[4,'Business model vs business plan','Model = planned activities designed to make a profit. Plan = the document describing the model.'],
+[4,'8 business-model elements','Value proposition · Revenue model · Market opportunity · Competitive environment · Competitive advantage · Market strategy · Organizational development · Management team\n"Vicky Really Must Cook Chicken Making Our Meal"'],
+[4,'Most important element','The management team. It makes the model work and gives credibility to investors.'],
+[4,'Value proposition','How the product fulfills customer needs. "Why should the customer buy from you?" E.g. Domino\'s 30 minutes or it\'s free.'],
+[4,'5 revenue models','Advertising (Yahoo) · Subscription (Spotify) · Transaction fee (eBay) · Sales (Amazon) · Affiliate (referral fees)\n"All Students Take Sweet Apples"'],
+[4,'Freemium','Basic level free + subscription fee for premium levels. Combined with the subscription model (Spotify).'],
+[4,'Market opportunity','Intended marketspace + its overall potential financial opportunities. Focus on one or a few segments.'],
+[4,'Direct vs indirect competitors','Direct: same products, same segment (Priceline vs Travelocity). Indirect: substitutes from different industries (CNN vs ESPN; cars vs airlines).'],
+[4,'Competitive environment factors','Number of competitors · market share · profitability · pricing'],
+[4,'Competitive advantage terms','Asymmetry (more resources) · First-mover advantage · Complementary resources (marketing, management, finance, reputation) · Leverage (Amazon → grocery)'],
+[4,'Org structures','Functional (VPs → CEO; universities) · Project (program managers → CEO; consulting) · Matrix (2+ bosses; weak/balanced/strong)'],
+[4,'Sources of capital','Seed capital · Incubators/accelerators · Bank loan (keep ownership) · Angel (own money) · VC (others\' money, more control) · Crowdfunding'],
+[4,'7 B2C models','E-tailer · Community provider · Content provider · Portal · Transaction broker · Market creator · Service provider\n"Every Cat Can Purr To Make Sound"'],
+[4,'E-tailer','Online retail store; revenue: sales; barriers to entry: low. Virtual merchant (Amazon) · Bricks-and-clicks (Zara, Walmart) · Manufacturer-direct (Nike)'],
+[4,'B2C models → revenue','Community → hybrid · Content → subscription/micropayment/ads · Portal → ads + referral · Broker → transaction fees · Market creator → transaction fees · Service provider → sales of services'],
+];
+
+</script>
+<script>
+/* IT 355 Midterm Trainer: app logic */
+(function(){
+'use strict';
+const LECT = {1:'Intro to E-commerce I',2:'Unique features',3:'Types, benefits, evolution',4:'Business strategies'};
+const TYPES = {mcq:'Multiple choice',tf:'True / False',fill:'Fill in the blank',list:'List',match:'Match',exp:'Explain'};
+const WEIGHT = {mcq:35,tf:15,fill:15,list:13,match:10,exp:12};
+const KEY = 'it355-trainer-v1';
+const $ = (s,r=document)=>r.querySelector(s);
+const app = $('#app');
+
+/* ---------- storage (best effort) ---------- */
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return {}; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(DB)); }catch(e){} }
+const DB = Object.assign({history:[],missed:{},recent:[],lstat:{},known:{}}, load());
+
+/* ---------- helpers ---------- */
+const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const norm = s => String(s||'').toLowerCase().replace(/&/g,' and ').replace(/[‐-―\-_/]/g,' ').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+const cmp = s => norm(s).replace(/ /g,'');
+function lev(a,b){ if(a===b) return 0; const m=a.length,n=b.length; if(!m) return n; if(!n) return m;
+  let p=Array.from({length:n+1},(_,i)=>i); for(let i=1;i<=m;i++){ const c=[i]; for(let j=1;j<=n;j++) c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1)); p=c; } return p[n]; }
+function hit(input,key){
+  const a=norm(input); if(!a) return false;
+  if(key.startsWith('=')) return a===norm(key.slice(1));
+  const b=norm(key); if(!b) return false;
+  const B=cmp(b);
+  const starts=[0]; for(let i=0;i<a.length;i++) if(a[i]===' ') starts.push(i+1);
+  for(const st of starts){
+    const tail=a.slice(st); if(tail.startsWith(b)) return true;
+    const T=cmp(tail); if(T.startsWith(B)) return true;
+    if(B.length>=5){ const tol=B.length>=10?2:1; for(let w=B.length-1;w<=B.length+1;w++){ if(w<=T.length && lev(T.slice(0,w),B)<=tol) return true; } }
+  }
+  return false;
+}
+function same(input,acc){
+  const strip = s => norm(s).replace(/^the /,'');
+  const a=strip(input), b=strip(acc); if(!a) return false;
+  if(a===b || a.replace(/ /g,'')===b.replace(/ /g,'')) return true;
+  const A=a.replace(/ /g,''),B=b.replace(/ /g,''); const tol = B.length>=12?2:(B.length>=6?1:0);
+  return lev(A,B)<=tol;
+}
+const pct = x => Math.round(x*100);
+const fmtScore = x => (Math.round(x*10)/10).toString();
+const timeStr = s => { s=Math.max(0,Math.round(s)); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); };
+
+/* ---------- state ---------- */
+let S = { view:'home', cfg:{lectures:[1,2,3,4], n:20, mode:'practice', types:Object.keys(TYPES)}, test:null, cards:null, dialog:null, review:'all' };
+let timerId=null;
+
+/* ---------- build a test ---------- */
+function instance(q){
+  const x = JSON.parse(JSON.stringify(q));
+  if(q.t==='mcq'){ const order=shuffle(q.o.map((_,i)=>i)); x.opts=order.map(i=>q.o[i]); x.ans=order.indexOf(0); }
+  if(q.t==='match'){
+    const usedL=new Set(), usedR=new Set(), chosen=[];
+    for(const p of shuffle(q.pairs)){ if(usedL.has(p[0])||usedR.has(p[1])) continue; usedL.add(p[0]); usedR.add(p[1]); chosen.push(p); if(chosen.length>=q.n) break; }
+    x.left=chosen.map(p=>p[0]); x.right=shuffle(chosen.map(p=>p[1])); x.key=chosen.map(p=>x.right.indexOf(p[1]));
+  }
+  return x;
+}
+function pick(cfg, onlyIds){
+  let pool = BANK.filter(q=>cfg.lectures.includes(q.l) && cfg.types.includes(q.t));
+  if(onlyIds) pool = BANK.filter(q=>onlyIds.includes(q.id));
+  const recent = new Set(DB.recent||[]);
+  const rank = q => (recent.has(q.id)?1:0) + Math.random()*0.9;
+  if(onlyIds) return shuffle(pool).slice(0,cfg.n).map(instance);
+  const types = cfg.types.filter(t=>pool.some(q=>q.t===t));
+  const wsum = types.reduce((a,t)=>a+WEIGHT[t],0);
+  const out=[]; const used=new Set();
+  types.forEach(t=>{
+    const want = Math.round(cfg.n*WEIGHT[t]/wsum);
+    pool.filter(q=>q.t===t).sort((a,b)=>rank(a)-rank(b)).slice(0,want).forEach(q=>{ out.push(q); used.add(q.id); });
+  });
+  const rest = pool.filter(q=>!used.has(q.id)).sort((a,b)=>rank(a)-rank(b));
+  while(out.length<cfg.n && rest.length) out.push(rest.shift());
+  const sel = shuffle(out.slice(0,cfg.n));
+  // spread lectures: interleave so the same lecture rarely appears 3 times in a row
+  return sel.map(instance);
+}
+function startTest(cfg, onlyIds, label){
+  const qs = pick(cfg, onlyIds);
+  if(!qs.length){ S.dialog={title:'No questions match',body:'Turn on at least one lecture and one question type.',ok:'OK'}; render(); return; }
+  S.test = { cfg:Object.assign({},cfg), qs, i:0, ans:{}, checked:{}, mode:cfg.mode, start:Date.now(), limit: cfg.mode==='exam'? qs.length*75 : 0, label: label||'Custom test', done:false };
+  DB.recent = qs.map(q=>q.id); save();
+  S.view='quiz'; render(); window.scrollTo({top:0});
+}
+
+/* ---------- grading ---------- */
+function grade(q,a){
+  if(a===undefined||a===null){
+    if(q.t==='mcq'||q.t==='tf') return {s:0,blank:true};
+    a = q.t==='fill'? q.b.map(()=>'') : q.t==='list'? Array(q.n).fill('') : q.t==='match'? q.left.map(()=>-1) : {text:''};
+  }
+  switch(q.t){
+    case 'mcq': return {s: a===q.ans?1:0};
+    case 'tf': return {s: a===q.a?1:0};
+    case 'fill': {
+      const res = q.b.map(()=>false); const set=q.set||[];
+      q.b.forEach((acc,i)=>{ if(!set.includes(i)) res[i]=acc.some(x=>same(a[i]||'',x)); });
+      if(set.length){ const free=set.slice(); set.forEach(i=>{ const j=free.findIndex(k=>q.b[k].some(x=>same(a[i]||'',x))); if(j>-1){ res[i]=true; free.splice(j,1);} }); }
+      return {s: res.filter(Boolean).length/q.b.length, res, blank: (a||[]).every(v=>!String(v||'').trim())};
+    }
+    case 'list': {
+      const used=new Set(); const res=(a||[]).map(v=>{ if(!String(v||'').trim()) return -1; const k=q.items.findIndex((it,ix)=>!used.has(ix)&&it.k.some(kk=>hit(v,kk))); if(k>-1) used.add(k); return k; });
+      return {s: Math.min(1,used.size/q.n), res, used, blank: (a||[]).every(v=>!String(v||'').trim())};
+    }
+    case 'match': { const res=q.left.map((_,i)=>a[i]===q.key[i]); return {s: res.filter(Boolean).length/q.left.length, res}; }
+    case 'exp': {
+      const txt=String(a.text||''); const auto=q.pts.map(p=>p.k.some(k=>hit(txt,k)));
+      const res=auto.map((v,i)=> a.over && a.over[i]!==undefined ? a.over[i] : v);
+      return {s: txt.trim()||a.over? res.filter(Boolean).length/q.pts.length : 0, res, auto, blank:!txt.trim()};
+    }
+  }
+  return {s:0};
+}
+function answered(q,a){
+  if(a===undefined||a===null) return false;
+  if(q.t==='fill'||q.t==='list') return a.some(v=>String(v||'').trim());
+  if(q.t==='match') return a.some(v=>v!==undefined&&v!==null&&v>-1);
+  if(q.t==='exp') return String(a.text||'').trim().length>0;
+  return true;
+}
+
+/* ---------- render: shell ---------- */
+function render(){
+  clearInterval(timerId);
+  const nav = [['home','Practice test'],['cards','Flashcards'],['progress','My progress']];
+  const inQuiz = S.view==='quiz';
+  app.innerHTML = `
+  <header class="top">
+    <div class="brand"><span class="mark" aria-hidden="true">355</span><span><b>Midterm Trainer</b><small>E-Commerce · Lectures 1–4</small></span></div>
+    ${inQuiz?'' : `<nav class="tabs" aria-label="Sections">${nav.map(([v,t])=>`<button class="tab ${S.view===v||(v==='home'&&S.view==='results')?'on':''}" data-go="${v}">${t}</button>`).join('')}</nav>`}
+  </header>
+  <main id="main">${ {home:viewHome, quiz:viewQuiz, results:viewResults, cards:viewCards, progress:viewProgress}[S.view]() }</main>
+  ${S.dialog?viewDialog():''}`;
+  after();
+}
+
+/* ---------- home ---------- */
+function viewHome(){
+  const c=S.cfg; const tests=DB.history.length; const best=tests?Math.max(...DB.history.map(h=>h.p)):null;
+  const missed=Object.keys(DB.missed).filter(id=>BANK.some(q=>q.id===id));
+  const last = DB.history[DB.history.length-1];
+  return `
+  <section class="hero">
+    <p class="eyebrow">IT 355 · Fall 2026–2027 · Dr. Hala Najwan Sabeh</p>
+    <h1>Train for the midterm.<br><span>A new mix of questions every time.</span></h1>
+    <p class="lede">${BANK.length} questions written in the style of the lecture review questions: define, list, explain, fill in the blank, match, true/false and multiple choice.</p>
+    <dl class="stats">
+      <div><dt>Questions in bank</dt><dd>${BANK.length}</dd></div>
+      <div><dt>Tests taken</dt><dd>${tests}</dd></div>
+      <div><dt>Best score</dt><dd>${best===null?'–':best+'%'}</dd></div>
+      <div><dt>Last score</dt><dd>${last?last.p+'%':'–'}</dd></div>
+    </dl>
+  </section>
+
+  ${missed.length?`<section class="weak"><div><b>${missed.length} question${missed.length>1?'s':''} you got wrong before</b><span>Practice them until they stick.</span></div><button class="btn dark" data-act="weak">Practice my mistakes</button></section>`:''}
+
+  <h2 class="sec">Start a test</h2>
+  <div class="presets">
+    <button class="preset" data-preset="quick"><span class="pn">10</span><b>Quick check</b><span>Practice mode · see each answer right away · about 8 min</span></button>
+    <button class="preset" data-preset="std"><span class="pn">20</span><b>Standard test</b><span>Practice mode · all question types · about 15 min</span></button>
+    <button class="preset accent" data-preset="mock"><span class="pn">30</span><b>Mock midterm</b><span>Exam mode · timed · answers shown at the end</span></button>
+  </div>
+
+  <details class="custom" ${S.openCustom?'open':''}>
+    <summary>Build your own test</summary>
+    <div class="field"><span class="fl">Lectures</span>
+      <div class="chips">${[1,2,3,4].map(l=>`<button class="chip ${c.lectures.includes(l)?'on':''}" data-lec="${l}" aria-pressed="${c.lectures.includes(l)}"><b>L${l}</b> ${LECT[l]}</button>`).join('')}</div></div>
+    <div class="field"><span class="fl">Number of questions</span>
+      <div class="seg">${[10,20,30,40].map(n=>`<button class="${c.n===n?'on':''}" data-n="${n}">${n}</button>`).join('')}</div></div>
+    <div class="field"><span class="fl">Mode</span>
+      <div class="seg wide"><button class="${c.mode==='practice'?'on':''}" data-mode="practice"><b>Practice</b><small>See the answer after each question</small></button><button class="${c.mode==='exam'?'on':''}" data-mode="exam"><b>Exam</b><small>Timed · answers at the end</small></button></div></div>
+    <div class="field"><span class="fl">Question types</span>
+      <div class="chips">${Object.entries(TYPES).map(([t,n])=>`<button class="chip ${c.types.includes(t)?'on':''}" data-type="${t}" aria-pressed="${c.types.includes(t)}">${n}</button>`).join('')}</div></div>
+    <button class="btn primary big" data-act="start">Start ${c.n}-question ${c.mode} test</button>
+  </details>
+  <p class="foot">Answers are checked by key words, so small spelling mistakes are accepted. Your progress is saved in this browser only.</p>`;
+}
+
+/* ---------- quiz ---------- */
+function viewQuiz(){
+  const T=S.test, q=T.qs[T.i], a=T.ans[T.i], chk=T.checked[T.i], exam=T.mode==='exam';
+  const g = chk? grade(q,a):null;
+  const segs = T.qs.map((qq,ix)=>{ let cls='';
+    if(exam){ cls = answered(qq,T.ans[ix])?'done':''; }
+    else if(T.checked[ix]){ const s=grade(qq,T.ans[ix]).s; cls = s>=0.999?'good':(s>0?'part':'bad'); }
+    if(ix===T.i) cls+=' cur';
+    return `<button class="sg ${cls}" ${exam?`data-jump="${ix}"`:'tabindex="-1"'} aria-label="Question ${ix+1}"></button>`; }).join('');
+  return `
+  <div class="qbar">
+    <button class="link" data-act="quit">✕ Quit</button>
+    <div class="qcount"><b>${T.i+1}</b> / ${T.qs.length}</div>
+    <div class="timer ${exam?'exam':''}" id="timer">${exam?timeStr(T.limit-(Date.now()-T.start)/1000):timeStr((Date.now()-T.start)/1000)}</div>
+  </div>
+  <div class="segs">${segs}</div>
+  <article class="qcard ${chk?(g.s>=0.999?'is-good':g.s>0?'is-part':'is-bad'):''}">
+    <div class="qmeta"><span class="tag l${q.l}">Lecture ${q.l}</span><span class="tag type">${TYPES[q.t]}</span>${q.t==='list'?`<span class="tag ghost">${q.n} item${q.n>1?'s':''}</span>`:''}</div>
+    <h2 class="qtext">${q.t==='fill'? fillText(q,a,chk,g) : esc(q.q)}</h2>
+    <div class="answer">${answerUI(q,a,chk,g)}</div>
+    ${chk?feedback(q,a,g):''}
+  </article>
+  <div class="qnav">
+    ${exam? `<button class="btn ghost" data-act="prev" ${T.i===0?'disabled':''}>← Previous</button>` : `<span class="hint">${hint(q,chk)}</span>`}
+    <div class="right">
+      ${exam? (T.i<T.qs.length-1? `<button class="btn primary" data-act="next">Next →</button>` : `<button class="btn primary" data-act="finish">Finish exam</button>`)
+       : (!chk? `<button class="btn ghost" data-act="skip">Skip</button><button class="btn primary" data-act="check">Check answer</button>`
+             : (T.i<T.qs.length-1? `<button class="btn primary" data-act="next">Next question →</button>` : `<button class="btn primary" data-act="finish">See my results</button>`))}
+    </div>
+  </div>
+  ${exam?`<p class="foot center">Exam mode: you can move between questions. Answers are shown after you finish. <button class="link" data-act="finish">Finish now</button></p>`:''}`;
+}
+function hint(q,chk){
+  if(chk) return 'Press Enter for the next question';
+  if(q.t==='mcq') return 'Keys 1–4 to choose · Enter to check';
+  if(q.t==='tf') return 'Press T or F · Enter to check';
+  if(q.t==='exp') return 'Write the main points · Ctrl+Enter to check';
+  return 'Press Enter to check';
+}
+function fillText(q,a,chk,g){
+  const parts = esc(q.q).split(/\{\{(\d+)\}\}/);
+  return parts.map((p,ix)=>{ if(ix%2===0) return p; const i=+p; const v=(a&&a[i])||''; const w=q.b[i][0].length>14?22:15;
+    const st = chk? (g.res[i]?'good':'bad'):'';
+    return `<input class="blank ${st}" data-blank="${i}" value="${esc(v)}" style="width:${w}ch" aria-label="Blank ${i+1}" autocomplete="off" spellcheck="false" ${chk?'disabled':''}>${chk&&!g.res[i]?`<span class="fix">${esc(q.b[i][0])}</span>`:''}`; }).join('');
+}
+function answerUI(q,a,chk,g){
+  const dis = chk?'disabled':'';
+  switch(q.t){
+    case 'mcq': return `<div class="opts">${q.opts.map((o,i)=>{ let st=''; if(chk){ if(i===q.ans) st='good'; else if(i===a) st='bad'; } else if(i===a) st='sel';
+      return `<button class="opt ${st}" data-opt="${i}" ${dis} aria-pressed="${i===a}"><span class="k">${'ABCD'[i]}</span><span>${esc(o)}</span></button>`; }).join('')}</div>`;
+    case 'tf': return `<div class="opts tf">${[true,false].map(v=>{ let st=''; if(chk){ if(v===q.a) st='good'; else if(v===a) st='bad'; } else if(v===a) st='sel';
+      return `<button class="opt ${st}" data-tf="${v}" ${dis} aria-pressed="${v===a}"><span class="k">${v?'T':'F'}</span><span>${v?'True':'False'}</span></button>`; }).join('')}</div>`;
+    case 'fill': return `<p class="sub">Type the missing word${q.b.length>1?'s':''} in the box${q.b.length>1?'es':''} above.</p>`;
+    case 'list': { const v=a||[]; return `<ol class="listin">${Array.from({length:q.n},(_,i)=>{ let st=''; if(chk){ st = g.res[i]>-1?'good':(String(v[i]||'').trim()?'bad':'empty'); }
+      return `<li><input data-li="${i}" value="${esc(v[i]||'')}" placeholder="${i+1}." autocomplete="off" spellcheck="false" class="${st}" ${dis} aria-label="Item ${i+1}">${chk&&g.res[i]>-1?`<span class="ok">${esc(q.items[g.res[i]].s)}</span>`:''}</li>`; }).join('')}</ol>`; }
+    case 'match': { const v=a||[]; return `<div class="match">${q.left.map((l,i)=>{ const st= chk?(g.res[i]?'good':'bad'):'';
+      return `<div class="mrow ${st}"><span class="ml">${esc(l)}</span><select data-m="${i}" ${dis} aria-label="Match for ${esc(l)}"><option value="-1">Choose…</option>${q.right.map((r,j)=>`<option value="${j}" ${v[i]===j?'selected':''}>${esc(r)}</option>`).join('')}</select>${chk&&!g.res[i]?`<span class="fix">${esc(q.right[q.key[i]])}</span>`:''}</div>`; }).join('')}</div>`; }
+    case 'exp': return `<textarea data-exp rows="6" placeholder="Write your answer the way you would in the exam: definition, explanation, example." ${dis} aria-label="Your answer">${esc((a&&a.text)||'')}</textarea>`;
+  }
+}
+function feedback(q,a,g){
+  const s=g.s; const verdict = s>=0.999?'Correct':(s>0?'Partly right':(g.blank?'Skipped':'Not quite'));
+  let body='';
+  if(q.t==='mcq') body = s<1?`<p><b>Answer:</b> ${esc(q.opts[q.ans])}</p>`:'';
+  if(q.t==='fill' && s<1) body = `<p><b>Answer${q.b.length>1?'s':''}:</b> ${q.b.map(x=>esc(x[0])).join(' · ')}</p>`;
+  if(q.t==='list') body = `<p><b>You got ${g.used.size} of ${q.n}.</b> Full answer:</p><ul class="full">${q.items.map((it,ix)=>`<li class="${g.used.has(ix)?'got':''}">${esc(it.s)}</li>`).join('')}</ul>${q.n<q.items.length?`<p class="sub">Any ${q.n} of these count.</p>`:''}`;
+  if(q.t==='exp') body = `<p><b>Key points (${g.res.filter(Boolean).length}/${q.pts.length}).</b> <span class="sub">Ticked automatically from your words. ${S.test&&!S.test.done&&S.test.mode==='practice'?'Tap a point to change it if you covered it in different words.':''}</span></p>
+    <ul class="pts">${q.pts.map((p,ix)=>`<li><button class="pt ${g.res[ix]?'got':''}" data-pt="${ix}" ${S.view!=='quiz'?'disabled':''}>${g.res[ix]?'✓':'○'} ${esc(p.p)}</button></li>`).join('')}</ul>
+    <details class="model" open><summary>Model answer</summary><p>${esc(q.m)}</p></details>`;
+  const tip = q.e?`<p class="tip">${esc(q.e)}</p>`:'';
+  return `<div class="fb"><div class="verdict"><span class="dot"></span>${verdict}${s>0&&s<1?` · ${fmtScore(s*1)}/1`:''}</div>${body}${tip}</div>`;
+}
+
+/* ---------- results ---------- */
+function finish(){
+  const T=S.test; T.done=true; T.end=Date.now();
+  const rows=T.qs.map((q,i)=>({q, g:grade(q,T.ans[i])}));
+  const total=rows.reduce((a,r)=>a+r.g.s,0); const p=pct(total/rows.length);
+  T.total=total; T.p=p;
+  DB.history.push({d:Date.now(), p, n:rows.length, mode:T.mode, label:T.label}); DB.history=DB.history.slice(-30);
+  rows.forEach(r=>{ const id=r.q.id; if(r.g.s<0.999) DB.missed[id]=(DB.missed[id]||0)+1; else if(DB.missed[id]) delete DB.missed[id];
+    const ls=DB.lstat[r.q.l]||(DB.lstat[r.q.l]={got:0,tot:0}); ls.got+=r.g.s; ls.tot+=1; });
+  save(); S.view='results'; S.review='all'; render(); window.scrollTo({top:0});
+}
+function gradeWord(p){ if(p>=90) return ['A','Excellent. You are ready.']; if(p>=80) return ['B','Very good. Polish the weak lecture.']; if(p>=70) return ['C','Good. Review your mistakes below.']; if(p>=50) return ['D','Getting there. Use the flashcards, then retry.']; return ['F','Start with the flashcards, then take a quick check.']; }
+function viewResults(){
+  const T=S.test; const rows=T.qs.map((q,i)=>({q,i,g:grade(q,T.ans[i])}));
+  const byL={}, byT={}; rows.forEach(r=>{ (byL[r.q.l]=byL[r.q.l]||[0,0]); byL[r.q.l][0]+=r.g.s; byL[r.q.l][1]++; (byT[r.q.t]=byT[r.q.t]||[0,0]); byT[r.q.t][0]+=r.g.s; byT[r.q.t][1]++; });
+  const [gw,msg]=gradeWord(T.p); const no=String(DB.history.length).padStart(4,'0');
+  const d=new Date(T.end||Date.now()); const ds=d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})+' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  const weakest = Object.entries(byL).sort((a,b)=>a[1][0]/a[1][1]-b[1][0]/b[1][1])[0];
+  const wrong = rows.filter(r=>r.g.s<0.999);
+  const line=(l,r)=>`<div class="rl"><span>${l}</span><i></i><span>${r}</span></div>`;
+  const list = (S.review==='wrong'?wrong:rows);
+  return `
+  <section class="res">
+    <div class="receipt" aria-label="Score receipt">
+      <div class="rh"><b>IT 355 MIDTERM TRAINER</b><span>${esc(T.label)} · ${T.mode==='exam'?'Exam':'Practice'} mode</span><span>Receipt #${no} · ${ds}</span></div>
+      <div class="rsec">${Object.keys(byL).sort().map(l=>line(`L${l} ${LECT[l]}`, `${fmtScore(byL[l][0])}/${byL[l][1]}`)).join('')}</div>
+      <div class="rsec small">${Object.keys(byT).map(t=>line(TYPES[t], `${fmtScore(byT[t][0])}/${byT[t][1]}`)).join('')}</div>
+      <div class="rsec">${line('Time', timeStr(((T.end||Date.now())-T.start)/1000))}${line('<b>TOTAL</b>', `<b>${fmtScore(T.total)}/${rows.length}</b>`)}</div>
+      <div class="rtotal"><div><span>SCORE</span><b>${T.p}%</b></div><div class="stamp g${gw}" aria-label="Grade ${gw}">${gw}</div></div>
+      <p class="rmsg">${msg}${weakest&&weakest[1][0]/weakest[1][1]<0.8?` Weakest: <b>Lecture ${weakest[0]}</b>.`:''}</p>
+    </div>
+    <div class="ractions">
+      ${wrong.length?`<button class="btn primary" data-act="retrywrong">Retry my ${wrong.length} mistake${wrong.length>1?'s':''}</button>`:''}
+      <button class="btn ${wrong.length?'ghost':'primary'}" data-act="again">New test, same settings</button>
+      <button class="btn ghost" data-go="home">Back to start</button>
+    </div>
+  </section>
+  <div class="revhead"><h2 class="sec">Review answers</h2><div class="seg small"><button class="${S.review==='all'?'on':''}" data-rev="all">All ${rows.length}</button><button class="${S.review==='wrong'?'on':''}" data-rev="wrong">Mistakes ${wrong.length}</button></div></div>
+  ${list.length?list.map(r=>reviewItem(r)).join(''):`<p class="empty">No mistakes. Every answer was right.</p>`}`;
+}
+function reviewItem({q,i,g}){
+  const a=S.test.ans[i]; const st=g.s>=0.999?'good':(g.s>0?'part':'bad');
+  let mine='';
+  if(q.t==='mcq') mine = a===undefined?'<i>No answer</i>':esc(q.opts[a]);
+  if(q.t==='tf') mine = a===undefined?'<i>No answer</i>':(a?'True':'False');
+  if(q.t==='fill') mine = (a||[]).map(v=>esc(v||'–')).join(' · ')||'<i>No answer</i>';
+  if(q.t==='list') mine = (a||[]).filter(v=>String(v||'').trim()).map(esc).join(' · ')||'<i>No answer</i>';
+  if(q.t==='match') mine = q.left.map((l,ix)=>`${esc(l)} → ${a&&a[ix]>-1?esc(q.right[a[ix]]):'–'}`).join('<br>');
+  if(q.t==='exp') mine = a&&a.text?esc(a.text):'<i>No answer</i>';
+  let correct='';
+  if(q.t==='mcq') correct=esc(q.opts[q.ans]);
+  if(q.t==='tf') correct=q.a?'True':'False';
+  if(q.t==='fill') correct=q.b.map(x=>esc(x[0])).join(' · ');
+  if(q.t==='list') correct=q.items.map(x=>esc(x.s)).join(' · ')+(q.n<q.items.length?` <span class="sub">(any ${q.n})</span>`:'');
+  if(q.t==='match') correct=q.left.map((l,ix)=>`${esc(l)} → ${esc(q.right[q.key[ix]])}`).join('<br>');
+  if(q.t==='exp') correct=esc(q.m);
+  const qt = q.t==='fill'? esc(q.q).replace(/\{\{\d+\}\}/g,'_____') : esc(q.q);
+  return `<details class="rev ${st}"><summary><span class="rn">${i+1}</span><span class="rq">${qt}</span><span class="rs">${fmtScore(g.s)}/1</span></summary>
+    <div class="rb"><p><span class="lab">Your answer</span>${mine}</p><p><span class="lab">Correct answer</span>${correct}</p>${q.e&&q.t!=='exp'?`<p class="tip">${esc(q.e)}</p>`:''}<p class="sub">Lecture ${q.l} · ${TYPES[q.t]}</p></div></details>`;
+}
+
+/* ---------- flashcards ---------- */
+function deck(){ const C=S.cards; return C.order.map(i=>CARDS[i]).filter(c=>C.l===0||c[0]===C.l); }
+function viewCards(){
+  if(!S.cards) S.cards={l:0,idx:0,flip:false,order:CARDS.map((_,i)=>i)};
+  const C=S.cards, d=deck(); if(C.idx>=d.length) C.idx=0; const c=d[C.idx];
+  const known = d.filter(x=>DB.known[x[1]]).length;
+  return `
+  <section class="cardsview">
+    <div class="chead"><h1 class="h1s">Flashcards</h1><p class="lede">Learn the definitions and lists fast. Tap the card to flip it.</p></div>
+    <div class="chips center">${[0,1,2,3,4].map(l=>`<button class="chip ${C.l===l?'on':''}" data-cl="${l}">${l?'L'+l:'All lectures'}</button>`).join('')}</div>
+    <div class="fcwrap"><button class="fc ${C.flip?'flip':''}" data-act="flip" aria-label="Flip card"><span class="face front"><span class="tag l${c[0]}">Lecture ${c[0]}</span><b>${esc(c[1])}</b><small>Tap or press Space to see the answer</small></span><span class="face back"><span class="tag l${c[0]}">${esc(c[1])}</span><span class="ans">${esc(c[2]).replace(/\n/g,'<br><br>')}</span></span></button></div>
+    <div class="fcbar"><button class="btn ghost" data-act="cprev" aria-label="Previous card">←</button><span class="mono">${C.idx+1} / ${d.length}</span><button class="btn ghost" data-act="cnext" aria-label="Next card">→</button></div>
+    <div class="fcbar"><button class="btn ghost" data-act="cshuf">Shuffle</button><button class="btn ${DB.known[c[1]]?'good':'dark'}" data-act="cknow">${DB.known[c[1]]?'✓ I know this':'Mark as known'}</button></div>
+    <p class="foot center">${known} of ${d.length} marked as known · ← → to move · Space to flip</p>
+  </section>`;
+}
+
+/* ---------- progress ---------- */
+function viewProgress(){
+  const H=DB.history.slice(-12);
+  const missed=Object.entries(DB.missed).filter(([id])=>BANK.some(q=>q.id===id)).sort((a,b)=>b[1]-a[1]);
+  return `
+  <h1 class="h1s">My progress</h1>
+  <p class="lede">Saved in this browser only.</p>
+  <h2 class="sec">Last ${H.length||''} test${H.length===1?'':'s'}</h2>
+  ${H.length?`<div class="bars">${H.map(h=>`<div class="bar" title="${h.p}%"><i style="height:${Math.max(3,h.p)}%" class="${h.p>=80?'good':h.p>=50?'part':'bad'}"></i><span>${h.p}</span></div>`).join('')}</div>`:`<p class="empty">No tests yet. Take a quick check to see your progress here.</p>`}
+  <h2 class="sec">Accuracy by lecture</h2>
+  <div class="lacc">${[1,2,3,4].map(l=>{ const s=DB.lstat[l]; const p=s&&s.tot?pct(s.got/s.tot):null; return `<div class="la"><span><b>L${l}</b> ${LECT[l]}</span><div class="track"><i style="width:${p||0}%" class="${p===null?'':p>=80?'good':p>=50?'part':'bad'}"></i></div><span class="mono">${p===null?'–':p+'%'}</span></div>`; }).join('')}</div>
+  <h2 class="sec">Questions to review (${missed.length})</h2>
+  ${missed.length?`<button class="btn primary" data-act="weak">Practice these now</button><ul class="mlist">${missed.slice(0,15).map(([id,c])=>{ const q=BANK.find(x=>x.id===id); return `<li><span class="tag l${q.l}">L${q.l}</span>${esc(q.q.replace(/\{\{\d+\}\}/g,'_____'))}<span class="mono">×${c}</span></li>`; }).join('')}</ul>`:`<p class="empty">Nothing to review yet.</p>`}
+  ${DB.history.length?`<p class="foot"><button class="link" data-act="reset">Reset my progress</button></p>`:''}`;
+}
+
+/* ---------- dialog ---------- */
+function viewDialog(){ const D=S.dialog; return `<div class="scrim"><div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt"><h3 id="dlgt">${esc(D.title)}</h3><p>${esc(D.body)}</p><div class="right">${D.cancel?`<button class="btn ghost" data-dlg="0">${esc(D.cancel)}</button>`:''}<button class="btn primary" data-dlg="1">${esc(D.ok)}</button></div></div></div>`; }
+function confirmBox(title,body,ok,cancel,fn){ S.dialog={title,body,ok,cancel,fn}; render(); }
+
+/* ---------- events ---------- */
+function after(){
+  if(S.view==='quiz'){ const T=S.test;
+    timerId=setInterval(()=>{ const el=$('#timer'); if(!el) return; if(T.mode==='exam'){ const left=T.limit-(Date.now()-T.start)/1000; el.textContent=timeStr(left); el.classList.toggle('low',left<60); if(left<=0){ clearInterval(timerId); finish(); } } else el.textContent=timeStr((Date.now()-T.start)/1000); },1000);
+    const first = app.querySelector('.qcard input:not([disabled]), .qcard textarea:not([disabled])'); if(first && !S.dialog) first.focus({preventScroll:true});
+  }
+  if(S.dialog){ const b=app.querySelector('[data-dlg="1"]'); b&&b.focus(); }
+  try{ window.claude?.hot?.snapshot?.(()=>({S})); }catch(e){}
+}
+app.addEventListener('input',e=>{
+  const t=e.target, T=S.test; if(!T) return; const q=T.qs[T.i];
+  if(t.dataset.blank!==undefined){ const a=T.ans[T.i]||(T.ans[T.i]=q.b.map(()=>'')); a[+t.dataset.blank]=t.value; }
+  if(t.dataset.li!==undefined){ const a=T.ans[T.i]||(T.ans[T.i]=Array(q.n).fill('')); a[+t.dataset.li]=t.value; }
+  if(t.dataset.exp!==undefined){ T.ans[T.i]={text:t.value}; }
+  if(T.mode==='exam'){ const sg=app.querySelectorAll('.sg')[T.i]; sg&&sg.classList.toggle('done',answered(q,T.ans[T.i])); }
+});
+app.addEventListener('change',e=>{
+  const t=e.target, T=S.test; if(!T||t.dataset.m===undefined) return; const q=T.qs[T.i];
+  const a=T.ans[T.i]||(T.ans[T.i]=q.left.map(()=>-1)); a[+t.dataset.m]=+t.value;
+  if(T.mode==='exam'){ const sg=app.querySelectorAll('.sg')[T.i]; sg&&sg.classList.toggle('done',answered(q,a)); }
+});
+app.addEventListener('click',e=>{
+  const b=e.target.closest('button, summary'); if(!b) return; const d=b.dataset; const T=S.test;
+  if(b.tagName==='SUMMARY'){ if(b.parentElement.classList.contains('custom')) S.openCustom=!b.parentElement.open; return; }
+  if(d.dlg!==undefined){ const D=S.dialog; S.dialog=null; if(d.dlg==='1'&&D.fn) D.fn(); else render(); return; }
+  if(d.go){ S.view=d.go; render(); window.scrollTo({top:0}); return; }
+  if(d.lec){ const l=+d.lec, L=S.cfg.lectures; S.cfg.lectures = L.includes(l)? L.filter(x=>x!==l): L.concat(l).sort(); S.openCustom=true; render(); return; }
+  if(d.type){ const ty=d.type, X=S.cfg.types; S.cfg.types = X.includes(ty)? X.filter(x=>x!==ty): X.concat(ty); S.openCustom=true; render(); return; }
+  if(d.n){ S.cfg.n=+d.n; S.openCustom=true; render(); return; }
+  if(d.mode){ S.cfg.mode=d.mode; S.openCustom=true; render(); return; }
+  if(d.preset){ const P={quick:{n:10,mode:'practice',label:'Quick check'},std:{n:20,mode:'practice',label:'Standard test'},mock:{n:30,mode:'exam',label:'Mock midterm'}}[d.preset];
+    startTest({lectures:S.cfg.lectures.length?S.cfg.lectures:[1,2,3,4], types:Object.keys(TYPES), n:P.n, mode:P.mode}, null, P.label); return; }
+  if(d.rev){ S.review=d.rev; render(); return; }
+  if(d.cl!==undefined){ S.cards.l=+d.cl; S.cards.idx=0; S.cards.flip=false; render(); return; }
+  if(d.jump!==undefined){ T.i=+d.jump; render(); return; }
+  if(d.opt!==undefined && T){ T.ans[T.i]=+d.opt; render(); return; }
+  if(d.tf!==undefined && T){ T.ans[T.i]= d.tf==='true'; render(); return; }
+  if(d.pt!==undefined && T){ const a=T.ans[T.i]||(T.ans[T.i]={text:''}); const g=grade(T.qs[T.i],a); a.over=a.over||{}; a.over[+d.pt]=!g.res[+d.pt]; render(); return; }
+  const act=d.act; if(!act) return;
+  const acts={
+    start(){ startTest(Object.assign({},S.cfg), null, 'Custom test'); },
+    weak(){ const ids=Object.keys(DB.missed).filter(id=>BANK.some(q=>q.id===id)); startTest({lectures:[1,2,3,4],types:Object.keys(TYPES),n:Math.min(20,ids.length),mode:'practice'}, ids, 'My mistakes'); },
+    check(){ T.checked[T.i]=true; render(); },
+    skip(){ T.checked[T.i]=true; render(); },
+    next(){ if(T.i<T.qs.length-1){ T.i++; render(); window.scrollTo({top:0}); } },
+    prev(){ if(T.i>0){ T.i--; render(); } },
+    finish(){ const left=T.qs.filter((q,i)=>!answered(q,T.ans[i])).length;
+      if(T.mode==='exam' && left) confirmBox('Finish the exam?',`You have ${left} unanswered question${left>1?'s':''}. Unanswered questions score 0.`,'Finish and see results','Keep working',finish); else finish(); },
+    quit(){ confirmBox('Quit this test?','Your answers for this test will not be saved.','Quit test','Keep going',()=>{ S.test=null; S.view='home'; render(); }); },
+    again(){ const T0=S.test; const c=T0.label==='My mistakes'?{lectures:[1,2,3,4],types:Object.keys(TYPES),n:20,mode:'practice'}:T0.cfg; startTest(Object.assign({},c), null, T0.label==='My mistakes'?'Standard test':T0.label); },
+    retrywrong(){ const ids=S.test.qs.filter((q,i)=>grade(q,S.test.ans[i]).s<0.999).map(q=>q.id); startTest({lectures:[1,2,3,4],types:Object.keys(TYPES),n:ids.length,mode:'practice'}, ids, 'My mistakes'); },
+    flip(){ S.cards.flip=!S.cards.flip; const el=$('.fc'); if(el){ el.classList.toggle('flip',S.cards.flip); } },
+    cnext(){ const d=deck(); S.cards.idx=(S.cards.idx+1)%d.length; S.cards.flip=false; render(); },
+    cprev(){ const d=deck(); S.cards.idx=(S.cards.idx-1+d.length)%d.length; S.cards.flip=false; render(); },
+    cshuf(){ S.cards.order=shuffle(S.cards.order); S.cards.idx=0; S.cards.flip=false; render(); },
+    cknow(){ const c=deck()[S.cards.idx]; if(DB.known[c[1]]) delete DB.known[c[1]]; else DB.known[c[1]]=1; save(); render(); },
+    reset(){ confirmBox('Reset progress?','This clears your test history, mistakes and known cards in this browser.','Reset','Cancel',()=>{ DB.history=[];DB.missed={};DB.lstat={};DB.known={};DB.recent=[]; save(); render(); }); },
+  };
+  acts[act]&&acts[act]();
+});
+document.addEventListener('keydown',e=>{
+  if(S.dialog){ if(e.key==='Escape'){ S.dialog=null; render(); } return; }
+  const tag=(e.target.tagName||'').toLowerCase(); const typing = tag==='input'||tag==='textarea'||tag==='select';
+  if(S.view==='cards'){ if(e.key===' '&&!typing){ e.preventDefault(); S.cards.flip=!S.cards.flip; $('.fc')?.classList.toggle('flip',S.cards.flip); } if(e.key==='ArrowRight'){ $('[data-act="cnext"]')?.click(); } if(e.key==='ArrowLeft'){ $('[data-act="cprev"]')?.click(); } return; }
+  if(S.view!=='quiz'||!S.test) return; const T=S.test, q=T.qs[T.i], chk=T.checked[T.i];
+  if(!typing && !chk){ if(q.t==='mcq' && /^[1-4]$/.test(e.key) && +e.key<=q.opts.length){ T.ans[T.i]=+e.key-1; render(); return; }
+    if(q.t==='mcq' && /^[a-d]$/i.test(e.key)){ T.ans[T.i]='abcd'.indexOf(e.key.toLowerCase()); render(); return; }
+    if(q.t==='tf' && /^[tf]$/i.test(e.key)){ T.ans[T.i]=e.key.toLowerCase()==='t'; render(); return; } }
+  if(e.key==='Enter'){ if(tag==='textarea' && !(e.ctrlKey||e.metaKey)) return; if(tag==='button') return; e.preventDefault();
+    const btn = $('[data-act="check"]') || $('[data-act="next"]') || $('.qnav [data-act="finish"]'); btn&&btn.click(); }
+});
+
+/* ---------- boot ---------- */
+function start(data){ if(data&&data.S){ S=data.S; S.dialog=null; } render(); }
+const hot = window.claude && window.claude.hot;
+if(hot && hot.ready) hot.ready(start); else start((hot&&hot.data)||{});
+})();
+
+</script>
+</body>
+</html>
