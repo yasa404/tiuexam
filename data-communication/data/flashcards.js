@@ -1,0 +1,82 @@
+/* Flashcards for fast revision. [week, slide, front, back] */
+(function (g) {
+  var EC = g.EC = g.EC || {};
+  var raw = [
+    // Week 2
+    [2, 7, 'Data communications', 'The exchange of data between two devices via some form of transmission medium (copper wire, fiber optic, wireless air). Needs a communication system: hardware + software.'],
+    [2, 9, 'The 5 components', 'Message (the data) · Sender (PC, server, camera) · Receiver · Medium (cables, fiber, radio waves) · Protocol (the set of rules).'],
+    [2, 10, 'The 4 fundamentals (Forouzan)', 'Delivery (correct destination) · Accuracy (no alteration) · Timeliness (on time, no late packets) · Jitter (minimize variation in packet arrival: video/voice).'],
+    [2, 11, 'Text and numbers as bits', 'Text: character codes map bits to symbols; Unicode (up to 32-bit) covers all languages, incl. Kurdish and Arabic. Numbers: direct binary, e.g. 10 → 1010.'],
+    [2, 12, 'Images, audio, video as bits', 'Image: matrix of pixels, each with a colour depth (e.g. 24-bit RGB). Audio: sample the analog wave at discrete intervals. Video: frames (e.g. 30 fps) + synchronized audio.'],
+    [2, 13, 'Data vs signal', 'Data = the meaning/message (“Hello”, a photo). Signal = the physical/electromagnetic form that carries it through the medium.'],
+    [2, 14, 'Analog vs digital signal', 'Analog varies continuously over time (natural audio). Digital uses discrete levels (binary data).'],
+    [2, 16, 'Simplex', 'Strictly one-way; one device only transmits, the other only receives; 100% capacity one direction. E.g. broadcast TV/radio, keyboard.'],
+    [2, 17, 'Half-duplex', 'Both directions but taking turns; full bandwidth goes to whoever is transmitting. E.g. walkie-talkies (Push-To-Talk, “Over”), shared Ethernet.'],
+    [2, 18, 'Full-duplex', 'Both directions at the same time; capacity split (frequency bands or separate Tx/Rx wires). E.g. mobile phone call, switched Ethernet (CAT6).'],
+    [2, 20, 'Guided vs unguided (intro)', 'Guided/wired: physical path (twisted pair, coaxial, fiber). Unguided/wireless: air or space (radio, microwave, infrared).'],
+    [2, 21, 'Protocol', 'Set of rules governing data communication. Specifies format · timing · sequence · what to do when something goes wrong. Connected ≠ able to communicate.'],
+    [2, 23, 'Computer network & node', 'Group of interconnected devices that exchange data and share resources. Each device is a node (computer, printer…).'],
+    [2, 24, 'Network criteria', 'Performance (bandwidth, throughput, delay, load, hardware, software) · Reliability (failure rate, recovery time, robustness) · Security (no unauthorized access/modification/disruption).'],
+    [2, 25, 'Point-to-point vs multipoint', 'P2P: only two devices, direct link (e.g. TV remote). Multipoint: >2 devices share a link by space share (portion each) or time share (whole link in turns).'],
+    [2, 28, 'Mesh topology', 'Every node linked to every other. Links = n(n − 1)/2 (5 nodes → 10); ports per node = n − 1. Robust, secure, easy fault isolation; very expensive, heavy cabling.'],
+    [2, 30, 'Star topology', 'Each node links only to a central switch/hub, which forwards data. Cheap (1 cable per device), easy; central controller = single point of failure.'],
+    [2, 32, 'Bus topology', 'One backbone cable with drop lines and taps; terminators at both ends absorb signals. Cheapest; backbone break kills everything, adding devices causes downtime.'],
+    [2, 34, 'Ring topology', 'Each node linked to its two neighbours; signals circulate one way; token passing. Predictable; one break disables the whole ring.'],
+    [2, 37, 'Why not mesh the Internet?', '5 billion devices → n(n − 1)/2 ≈ 1.25 × 10¹⁹ cables and ~5 billion ports per device. Cabling grows with n²: impossible. Real networks are hybrid.'],
+    [2, 39, 'Network categories', 'PAN (one person) · LAN (< 2 miles: home, office, building) · MAN (tens of miles, a city) · WAN (worldwide).'],
+    [2, 40, 'LAN vs WAN', 'LAN: private (one organization), 1–10 Gbps, few errors, Ethernet/Wi-Fi. WAN: public/leased (carriers, ISPs), long distance, more errors, routers.'],
+    // Week 3
+    [3, 6, 'Why layering?', 'Complexity → independent modules · Modularity → change one layer without breaking others · Interoperability → multi-vendor equipment works together.'],
+    [3, 6, 'Rules of layering', 'Each layer has a specific, well-defined function. Each layer serves the layer above and uses the services of the layer below.'],
+    [3, 7, 'Postal example of layering', 'L3 content (write letter) → L2 packaging (envelope + address) → L1 transport (truck/plane). Sender encapsulates ↓, receiver decapsulates ↑.'],
+    [3, 9, 'OSI model', 'Open Systems Interconnection: 7-layer theoretical benchmark by ISO (1984) for network education and design. “Please Do Not Throw Sausage Pizza Away” = layers 1→7.'],
+    [3, 11, 'Layer 1: Physical', 'Raw, unstructured bits → voltage, light or radio. Bit rate/duration, clock sync. UTP Cat6 + RJ-45, fiber, NICs.'],
+    [3, 13, 'Layer 2: Data Link', 'Bits → FRAMES. 48-bit MAC addressing. Error detection with FCS/CRC32. Sublayers LLC (to Network layer) and MAC (media access). Switches (CAM table).'],
+    [3, 15, 'Layer 3: Network', 'Source-to-destination PACKETS across subnets. IP addressing (IPv4 32-bit, IPv6 128-bit), routing. IP, ICMP (ping), ARP, OSPF, BGP. Routers.'],
+    [3, 16, 'Layer 4: Transport', 'End-to-end process-to-process SEGMENTS. 16-bit ports (80, 443). Sequence numbers. TCP: reliable, 3-way handshake (SYN, SYN-ACK, ACK). UDP: fast, connectionless.'],
+    [3, 17, 'Layers 5, 6, 7', 'Session: setup, dialogue control, checkpoint recovery. Presentation: formatting (ASCII/Unicode), encryption (SSL/TLS), compression (GZIP). Application: HTTP, HTTPS, DNS, SMTP, FTP.'],
+    [3, 19, 'PDU names', 'L7-5 data/message · L4 segment (TCP) / datagram (UDP) · L3 packet · L2 frame (header + packet + trailer) · L1 bits.'],
+    [3, 20, 'TCP/IP model', 'Practical 4-layer suite from DARPA that runs the Internet: Application · Transport · Internet (Network) · Network Access (Physical).'],
+    [3, 22, 'OSI → TCP/IP mapping', 'OSI 5, 6, 7 → Application (“3 in 1”, apps handle sessions/presentation) · 4 → Transport · 3 → Internet · 2 + 1 → Network Access.'],
+    [3, 23, 'Four addressing levels', 'URI/URL (data) → service · Port (segment) → process · IP (packet) → global host for routing · MAC (frame) → local NIC for switching.'],
+    [3, 24, 'Which layer? (devices)', 'Switch → Layer 2 (reads MAC). Router → Layer 3 (reads IP). Unplugged cable → Layer 1 fails first, then L2 link, L3 routing, L4 TCP timeout, L7 “No Internet”.'],
+    // Week 4
+    [4, 6, '5 steps of data across a network', '1 user creates data → 2 protocols add headers (port, IP, MAC) → 3 Physical layer serializes bits → 4 signals cross the media → 5 receiver reverses the process.'],
+    [4, 7, '4 duties of the Physical layer', 'Bit representation (+5 V/0 V, light on/off) · Transmission rate (bit duration, bps) · Bit synchronization (clocks) · Mechanical & electrical (connectors, pins, voltages, cable). Knows nothing of IP/MAC.'],
+    [4, 8, 'Data vs bits vs signals', 'Data = the meaning · Bits = the digital language · Signals = the physical carrier (voltage, light, radio).'],
+    [4, 9, 'Analog signal', 'Varies smoothly and continuously; sine waves (amplitude, frequency, phase). E.g. human voice, AM/FM radio, legacy telephone.'],
+    [4, 10, 'Digital signal', 'Changes abruptly between discrete levels; square pulses; highly resistant to noise. E.g. computer bus, Ethernet (+5 V = 1, 0 V = 0).'],
+    [4, 11, 'Cat6 and RJ-45', 'Cat6: 4 twisted pairs (8 conductors) cancel EMI; max 100 m at 1 Gbps. RJ-45: 8 gold-plated pins crimped by a standard.'],
+    [4, 12, 'Fiber and NIC (Week 4)', 'Fiber: glass core, laser/LED light pulses, immune to electrical noise, 10–40+ km. NIC: transceiver (parallel → serial) + burned-in MAC address.'],
+    [4, 13, 'Bit rate vs bandwidth vs throughput', 'Bit rate: bits per second actually sent. Bandwidth: theoretical max capacity (e.g. 1 Gbps). Throughput: actual delivered rate, lower due to overhead, retransmissions, congestion, latency.'],
+    [4, 14, 'Signal impairments', 'Attenuation: energy loss over distance (fix: amplifiers/repeaters). Distortion: frequencies travel at different speeds. Noise/crosstalk: external EMI corrupts bits.'],
+    [4, 15, 'Hub vs switch', 'Hub: Layer 1 multiport repeater, floods all ports, one collision domain, half-duplex, insecure. Switch: Layer 2, reads destination MAC, forwards to one port, microsegmentation, full-duplex.'],
+    [4, 16, 'House analogy for addresses', 'IP = city, street and house address · MAC = your immediate house door · Port = the specific person living in the house.'],
+    [4, 17, 'Three address scopes', 'Process scope (which program?) → port · Local scope (same switch/subnet) → MAC · Global scope (across the world) → IP.'],
+    [4, 18, 'Encapsulation / decapsulation', 'Adding headers/trailers going down: L4 ports + sequence, L3 IP addresses, L2 MACs + FCS trailer. Receiver strips them layer by layer.'],
+    [4, 21, 'MAC vs IP vs port', 'MAC: 48-bit flat, burned in, local hop-by-hop (changes each hop). IP: 32-bit hierarchical, global end-to-end (stays constant). Port: 16-bit, process isolation.'],
+    // Week 5
+    [5, 6, 'Layer 0', 'Transmission media sits beneath Layer 1. Layer 1 defines voltages, timing, encoding and pinouts; the medium is the actual physical pathway.'],
+    [5, 7, 'Interfaces to the medium', 'Electrical (NIC PHY chips over copper) · Optical transceivers (lasers/LEDs into fiber) · Wireless radios (antennas into the air).'],
+    [5, 9, 'Guided media', 'Bounded/conducted: solid conductors guide the signal. Twisted pair (UTP/STP) · Coaxial · Fiber optic.'],
+    [5, 13, 'How twisting cancels EMI', 'Differential signaling (+V and −V) → noise hits both wires equally → receiver subtracts → noise vanishes. More twists per meter = more immunity and bandwidth.'],
+    [5, 15, 'Coaxial cable', 'Shared center axis; BNC connector. Layers: copper core → foam insulator → braided shield (EMI + ground) → PVC/Teflon jacket. 185 m (thin) to 500 m (thick); TV, CCTV.'],
+    [5, 17, 'Fiber advantages', 'Immense bandwidth (100 Gbps → Tbps) · 10–100+ km without repeaters · EMI immunity · Cannot be tapped unnoticed · Light and compact.'],
+    [5, 19, 'Single-mode fiber (SMF)', '~9–10 µm core, one straight ray, laser diode, zero modal dispersion, 10–100+ km. Internet backbone, subsea cables.'],
+    [5, 20, 'Multimode fiber (MMF)', '~50–62.5 µm core, many rays bounce, LED (cheaper), modal dispersion limits it to 500 m – 2 km. Data centers, campus backbones.'],
+    [5, 21, 'Snell\'s law & total internal reflection', 'Core: higher refractive index; cladding: lower. n₁ sin θ₁ = n₂ sin θ₂; sin θc = n₂/n₁. Beyond the critical angle light reflects and zigzags through the core.'],
+    [5, 22, 'Straight-through vs crossover', 'Straight-through (RJ-45): different devices, PC → switch. Crossover (RJ-45): same devices, PC → PC. Both up to 1 Gbps.'],
+    [5, 23, 'Guided media matrix', 'Twisted pair: 100 m, moderate–high EMI immunity, cheapest, office LANs. Coax: 185–500 m, high immunity, medium cost, TV/CCTV. Fiber: 2 km (MMF) – 100+ km (SMF), immune, most expensive, backbones.'],
+    [5, 25, 'Noise types', 'Thermal noise: random electron movement, always present. Crosstalk & EMI: bleeding from adjacent wires, motors, power lines.'],
+    // Week 6
+    [6, 27, 'Unguided media', 'Electromagnetic signals without a physical conductor; free-space propagation (air, water, vacuum). Unbounded: anyone in range with an antenna can receive.'],
+    [6, 28, 'Wireless spectrum (3 kHz – 400 THz)', 'Radio 3 kHz – 1 GHz: omnidirectional, through walls (AM/FM). Microwave 1 – 300 GHz: directional, line-of-sight (Wi-Fi, satellite). Infrared 300 GHz – 400 THz: short range, no walls (TV remote).'],
+    [6, 4, 'Propagation modes', 'Ground wave < 2 MHz · Sky wave 2 – 30 MHz · Line-of-sight > 30 MHz.'],
+    [6, 29, 'Wireless standards', 'IEEE 802.11 Wi-Fi (wireless LAN) · IEEE 802.15 Bluetooth (short-range WPAN) · Cellular 4G LTE / 5G NR (licensed, nationwide).'],
+    [6, 30, 'Guided vs unguided', 'Guided: fixed path, no mobility, high security, immune to weather, very high bandwidth (fiber). Unguided: rapid deployment, roaming, low security (WPA3), rain fade, path loss.'],
+    [6, 32, 'TIU 1.5 km link case', 'Cat6a: fails (100 m max). SMF: superior 10 Gbps, zero EMI, but costly trenching + permit. Microwave P2P: no trenching, fast setup, but rain fade risk.']
+  ];
+  EC.CARDS = raw.map(function (c, i) {
+    return { id: 'C' + String(i + 1).padStart(3, '0'), lecture: c[0], slide: c[1], front: c[2], back: c[3] };
+  });
+})(typeof window !== 'undefined' ? window : globalThis);
