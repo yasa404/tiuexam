@@ -169,3 +169,17 @@ test('a retry paper keeps D and E questions in their own sections', () => {
   e.sections.forEach((sec) => sec.items.forEach((it) => assert.equal(it.q.sec, sec.key)));
   assert.equal(e.items.length, 6);
 });
+
+test('unticked sections: leftover marks move to another selected section, so the paper still reaches its total', () => {
+  // Bug found in QA: with Section A unticked, marks the written sections could not use were lost (papers came out short or empty).
+  for (const secs of ['BC', 'BCE', 'CE', 'BE', 'CDE', 'BD', 'B']) {
+    for (const len of ['S', 'M', 'F']) {
+      for (let s = 0; s < 6; s++) {
+        const code = C.buildCode(hex(s * 31 + secs.length), { length: len, sections: secs });
+        const e = C.makeExam(code);
+        assert.equal(e.total, C.LENGTHS[len].total, code);
+        assert.ok(e.sections.every((x) => secs.includes(x.key)), code + ' only chosen sections');
+      }
+    }
+  }
+});

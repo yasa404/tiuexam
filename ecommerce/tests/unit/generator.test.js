@@ -146,3 +146,17 @@ test('the 10-mark Quick paper: 4 + 2 + 2 + 2 marks, no Section E, code letter Q'
   assert.deepEqual(Array.from(e.sections, (s) => s.key + s.marks), ['A4', 'B2', 'C2', 'D2']);
   assert.equal(C.parseCode('ec-0bad-13qh').cfg.length, 'Q');
 });
+
+test('unticked sections: leftover marks move to another selected section, so the paper still reaches its total', () => {
+  // Bug found in QA: with Section A unticked, marks the written sections could not use were lost (papers came out short or empty).
+  for (const secs of ['BC', 'BCE', 'CE', 'BE', 'CDE', 'BD', 'B']) {
+    for (const len of ['S', 'M', 'F']) {
+      for (let s = 0; s < 6; s++) {
+        const code = C.buildCode(hex(s * 31 + secs.length), { length: len, sections: secs });
+        const e = C.makeExam(code);
+        assert.equal(e.total, C.LENGTHS[len].total, code);
+        assert.ok(e.sections.every((x) => secs.includes(x.key)), code + ' only chosen sections');
+      }
+    }
+  }
+});

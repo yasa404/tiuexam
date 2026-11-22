@@ -507,6 +507,14 @@
     }
 
     var out = {};
+    // Marks a section cannot use move to the next selected section that is still to be filled (A, then C, then B).
+    var done = {};
+    function spillTarget(from) {
+      var ks = ['A', 'C', 'B'];
+      for (var s = 0; s < ks.length; s++) if (ks[s] !== from && !done[ks[s]] && cfg.sections.indexOf(ks[s]) > -1) return ks[s];
+      return null;
+    }
+    function spill(from, amount) { var k = spillTarget(from); if (k && amount > 0) budget[k] += amount; }
     // Written sections first (fewest candidates), then the rest avoid overlapping them.
     ['E', 'D'].forEach(function (key) {
       out[key] = [];
@@ -527,13 +535,17 @@
           return reachable(others, rem - q.marks);
         };
         var q = choose(pool, ladder(L, D, function (x) { return x.type === wantType && fits(x); }).concat(ladder(L, D, fits)));
+        // Nowhere to send leftover marks (only written sections chosen): fill as close to the target as the bank allows.
+        if (!q && !spillTarget(key)) q = choose(pool, ladder(L, D, function (x) { return x.marks <= rem; }));
         if (!q) break;
         take(q); out[key].push(q); remaining -= q.marks; i++;
       }
-      if (remaining > 0 && sink !== key && cfg.sections.indexOf('A') > -1) budget.A += remaining;
+      done[key] = true;
+      if (remaining > 0) spill(key, remaining);
     });
     // Section B: one mark per blank.
     out.B = [];
+    done.B = true;
     if (budget.B) {
       var poolB = poolFor('B');
       var remB = budget.B, iB = 0, diffsB = diffPlan(Math.max(4, budget.B), rng, cfg.difficulty), multi = 0;
@@ -545,11 +557,12 @@
         if (qB.blanks.length > 1) multi++;
         take(qB); out.B.push(qB); remB -= qB.blanks.length; iB++;
       }
-      if (remB > 0 && cfg.sections.indexOf('A') > -1) budget.A += remB;
+      if (remB > 0) spill('B', remB);
     }
     // Section C and A: one mark each.
     ['C', 'A'].forEach(function (key) {
       out[key] = [];
+      done[key] = true;
       var n = budget[key];
       if (!n) return;
       var pool = poolFor(key);
@@ -564,7 +577,7 @@
           extra = function (q) { return q.answer === wantTrue; };
         }
         var q = choose(pool, ladder(L, D, extra).concat(ladder(L, D)));
-        if (!q) break;
+        if (!q) { spill(key, n - i); break; }
         if (key === 'C') { if (q.answer) tfTrue++; else tfFalse++; }
         take(q); out[key].push(q);
       }
