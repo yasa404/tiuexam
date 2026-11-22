@@ -48,6 +48,7 @@
     if (raw && typeof raw === 'object') {
       Object.keys(d).forEach(function (k) { if (raw[k] !== undefined && raw[k] !== null) d[k] = raw[k]; });
       d.settings = Object.assign(defaults().settings, raw.settings || {});
+      if (EC.COURSE && EC.COURSE.forceWordBank) d.settings.wordBank = true;
     }
     return d;
   })();
@@ -117,6 +118,10 @@
   function clock(sec) {
     sec = Math.max(0, Math.round(sec));
     return String(Math.floor(sec / 60)).padStart(2, '0') + ':' + String(sec % 60).padStart(2, '0');
+  }
+  function quickSections() {
+    var ks = 'ABCDE'.split('').filter(function (k) { return C.LENGTHS.Q.budget[k] > 0; });
+    return ks[0] + '–' + ks[ks.length - 1];
   }
   function lectureList(ls) { ls = ls.slice().sort(); return ls.length === U.length ? U[0] + '–' + U[U.length - 1] : ls.join(', '); }
   function slideRef(q) {
@@ -369,7 +374,7 @@
       '<span class="label" id="l-view">How to answer</span>' + views + '<p class="muted" id="view-hint" style="font-size:13px;margin:8px 0 0"></p>' +
       '<details class="more"><summary>' + I.chev + 'More options</summary>' +
       '<span class="label" id="l-sec" style="margin-top:6px">Sections</span><div class="chips" role="group" aria-labelledby="l-sec">' + secs + '</div>' +
-      '<div style="margin-top:12px">' + sw('timer', st.timer, 'Timer', 'Counts down and collects the paper at zero') + sw('wb', st.wordBank, 'Word bank', 'Show the Section B words plus 2–3 distractors') + sw('snd', st.sound, 'Sound effects', 'A short chime when the exam starts and when you finish') + '</div>' +
+      '<div style="margin-top:12px">' + sw('timer', st.timer, 'Timer', 'Counts down and collects the paper at zero') + (CO.forceWordBank ? '' : sw('wb', st.wordBank, 'Word bank', 'Show the Section B words plus 2–3 distractors')) + sw('snd', st.sound, 'Sound effects', 'A short chime when the exam starts and when you finish') + '</div>' +
       '</details>' +
       '<p class="form-error" id="set-err" role="alert" hidden></p>' +
       '<div class="start-row"><button class="btn primary big" type="submit" id="start">Start exam ' + I.right + '</button><span class="hint" id="start-hint"></span></div>' +
@@ -396,7 +401,7 @@
         difficulty: ($('input[name=diff]:checked', form) || {}).value || 'X',
         view: ($('input[name=view]:checked', form) || {}).value || 'focus',
         timer: $('input[name=timer]', form).checked,
-        wordBank: $('input[name=wb]', form).checked,
+        wordBank: CO.forceWordBank ? true : $('input[name=wb]', form).checked,
         sound: $('input[name=snd]', form).checked
       };
     }
@@ -404,7 +409,7 @@
       var s = readSettings(), L = C.LENGTHS[s.length];
       var nl = s.lectures.length;
       $('#start-hint').innerHTML = '<b>' + L.total + ' marks · ' + L.minutes + ' min</b><span>' + C.DIFFICULTY[s.difficulty].label + ' · ' +
-        (nl === U.length ? 'all ' + CO.unitsLabel.toLowerCase() : nl ? plural(nl, UNIT.toLowerCase()) : 'no ' + CO.unitsLabel.toLowerCase()) + (s.timer ? '' : ' · no timer') + (s.length === 'Q' ? ' · Sections A–D' : '') + '</span>';
+        (nl === U.length ? 'all ' + CO.unitsLabel.toLowerCase() : nl ? plural(nl, UNIT.toLowerCase()) : 'no ' + CO.unitsLabel.toLowerCase()) + (s.timer ? '' : ' · no timer') + (s.length === 'Q' ? ' · Sections ' + quickSections() : '') + '</span>';
       $('#diff-hint').textContent = {
         X: 'A realistic mix: about 30% easy, 50% medium, 20% hard.',
         E: 'Mostly definitions and direct recall. Good for a first pass.',
@@ -579,13 +584,23 @@
     out += '<li class="pt-h">' + (editable ? 'Key points: tick the ones you covered' : 'Key points') + needTxt + '</li>' + pts.map(row).join('');
     return '<ul class="points">' + out + '</ul>';
   }
+  /* Drawing questions (q.figure): a drawing space on the paper, and the model drawing in the key and marked paper. */
+  function figureHtml(q) {
+    var f = q.figure && EC.FIGURES && EC.FIGURES[q.figure];
+    if (!f) return '';
+    return '<figure class="fig"><div class="pt-h">Model drawing</div>' + f.svg + '<figcaption>' + esc(f.title) + '</figcaption></figure>';
+  }
+  function drawSpaceHtml(q) {
+    if (!q.figure) return '';
+    return '<div class="draw-box" aria-hidden="true"><span>Drawing space: draw your labeled diagram here. On screen, draw it on paper; the model drawing appears after you submit.</span></div>';
+  }
   function writtenHtml(it, mode, ans, r, pfx) {
     var q = it.q, text = ans && ans.text ? ans.text : '';
     var html = '<div class="q-text" id="' + pfx + 'qt' + it.n + '">' + esc(q.q) + '</div>';
-    if (mode === 'answer') return html + '<textarea class="ruled" rows="' + (it.type === 'exp' ? 9 : 5) + '" aria-labelledby="' + pfx + 'qt' + it.n + '" spellcheck="true">' + esc(text) + '</textarea>';
-    if (mode === 'key') return html + pointsList(it, null, false) + '<div class="model"><div class="pt-h">Model answer</div>' + esc(q.model) + '</div>';
+    if (mode === 'answer') return html + '<textarea class="ruled" rows="' + (it.type === 'exp' ? (q.figure ? 7 : 9) : 5) + '" aria-labelledby="' + pfx + 'qt' + it.n + '" spellcheck="true">' + esc(text) + '</textarea>' + drawSpaceHtml(q);
+    if (mode === 'key') return html + pointsList(it, null, false) + '<div class="model"><div class="pt-h">Model answer</div>' + esc(q.model) + '</div>' + figureHtml(q);
     return html + '<div class="answer-shown' + (text.trim() ? '' : ' empty') + '">' + (text.trim() ? esc(text) : 'No answer written.') + '</div>' +
-      pointsList(it, r, true) + '<div class="model"><div class="pt-h">Model answer</div>' + esc(q.model) + '</div>';
+      pointsList(it, r, true) + '<div class="model"><div class="pt-h">Model answer</div>' + esc(q.model) + '</div>' + figureHtml(q);
   }
   function keyChoice(it) {
     if (it.type === 'tf') return '<div><b>' + (it.q.answer ? 'True' : 'False') + '</b></div>';
@@ -999,7 +1014,8 @@
       body += '</ol>';
     } else {
       var text = ans && ans.text ? ans.text : '';
-      body = '<textarea class="ftext" aria-labelledby="fq" placeholder="' + (it.type === 'exp' ? 'Answer in full sentences. Each key point earns marks.' : 'Write a short, precise answer.') + '">' + esc(text) + '</textarea><div class="wc" id="wc">' + wordCount(text) + '</div>';
+      body = (q.figure ? '<p class="draw-note">✎ This question asks for a <b>labeled drawing</b>. Draw it on paper, write the explanation here, then compare with the model drawing after you submit.</p>' : '') +
+        '<textarea class="ftext" aria-labelledby="fq" placeholder="' + (it.type === 'exp' ? 'Answer in full sentences. Each key point earns marks.' : 'Write a short, precise answer.') + '">' + esc(text) + '</textarea><div class="wc" id="wc">' + wordCount(text) + '</div>';
     }
     var extra = it.type === 'list' && q.need < q.items.length ? ' <span class="muted">(any ' + q.need + ')</span>' : '';
     var qText = it.type === 'fill' ? 'Fill in the blank' + (q.blanks.length > 1 ? 's' : '') + '.' : esc(q.q);

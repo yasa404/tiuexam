@@ -327,72 +327,70 @@ EC.lecture(3, function (Q) {
   tf(24, 'm', "A standard Ethernet switch's highest layer is Layer 3.", false, "False. It works at Layer 2, using MAC addresses.");
   tf(24, 'h', "When a cable is unplugged, Layer 1 fails first and the upper layers then fail one after another.", true, "True. L2 loses link, L3 routing drops, L4 TCP times out, L7 shows No Internet.");
 
-  /* ---------- Section D: short answer ---------- */
-  def(9, 'e', 2, "Define the OSI reference model.",
-    [["Open Systems Interconnection: a 7-layer theoretical (benchmark) framework", "7 layer", "seven", "theoretical", "framework", "open systems"],
-     ["Established by ISO (1984) to simplify the data communication process / universal standard for education and design", "iso", "1984", "simplif", "standard"]],
-    "The OSI (Open Systems Interconnection) model is a 7-layer theoretical benchmark framework established by ISO in 1984 to simplify the complexity of the data communication process. It is a universal architectural standard for network education and design.");
-  def(19, 'm', 2, "What is a PDU? Give the PDU names for Layers 4, 3 and 2.",
-    [["Protocol Data Unit: the name of the data unit at each layer", "protocol data unit", "data unit"],
-     ["Layer 4 segment (or datagram), Layer 3 packet, Layer 2 frame", "segment", "packet", "frame"]],
-    "A PDU (Protocol Data Unit) is the name of the unit of data at a given layer. Layer 4 uses segments (TCP) or datagrams (UDP), Layer 3 uses packets and Layer 2 uses frames; Layers 5-7 carry data/messages and Layer 1 carries bits.");
-  def(16, 'm', 2, "Compare TCP and UDP.",
-    [["TCP: connection-oriented and reliable; uses the 3-way handshake", "connection oriented", "reliable", "handshake"],
-     ["UDP: connectionless, fast and low-overhead", "connectionless", "fast", "low overhead", "overhead"]],
-    "TCP is connection-oriented and reliable; it sets up a connection with the 3-way handshake (SYN, SYN-ACK, ACK). UDP is connectionless, fast and low-overhead.");
-  def(21, 'm', 2, "Why are the 7 OSI layers merged into 4 layers in the TCP/IP model?",
-    [["Software applications handle presentation and sessions internally", "internally", "applications handle", "handle"],
-     ["So the TCP/IP Application layer covers Application, Presentation and Session (3 in 1)", "3 in 1", "three in one", "session", "presentation"]],
-    "In the practical TCP/IP model, software applications handle presentation and session functions internally, so the TCP/IP Application layer covers the OSI Application, Presentation and Session layers: it is a 3-in-1 layer.");
-  list(9, 'e', 4, "List the seven layers of the OSI model, from Layer 1 to Layer 7.",
-    [["Physical", "physical"], ["Data Link", "data link", "datalink"], ["Network", "network"], ["Transport", "transport"],
-     ["Session", "session"], ["Presentation", "presentation"], ["Application", "application"]],
-    { explain: "Slides 9-10: Please Do Not Throw Sausage Pizza Away." });
-  list(20, 'e', 2, "List the four layers of the TCP/IP model.",
-    [["Application", "application"], ["Transport", "transport"], ["Internet (Network)", "internet", "network layer", "=network"], ["Network Access (Physical)", "network access", "access", "physical"]],
-    { explain: "Slides 20 and 22. Slide 20 calls them Application, Transport, Network and Physical; slide 22 calls the lower two Internet and Network Access." });
-  list(6, 'e', 3, "List the three reasons for using a layered architecture.",
-    [["Complexity (tasks broken into independent modules)", "complex"], ["Modularity", "modular"], ["Interoperability", "interoperab"]],
-    { explain: "Slide 6." });
-  list(17, 'm', 3, "List the three functions of the Presentation layer.",
-    [["Formatting (ASCII/Unicode)", "format", "ascii", "unicode"], ["Encryption (SSL/TLS)", "encrypt", "ssl", "tls"], ["Compression (GZIP)", "compress", "gzip"]],
-    { explain: "Slide 17." });
-  list(23, 'm', 2, "List the four addressing levels in TCP/IP.",
-    [["Application URI / URL", "uri", "url", "domain", "application"], ["Transport port", "port"], ["Logical IP address", "ip", "logical"], ["Physical MAC address", "mac", "physical"]],
-    { explain: "Slide 23." });
-  list(15, 'm', 3, "Name three protocols that work at the Network layer.",
-    [["IP", "=ip", "internet protocol"], ["ICMP", "icmp", "ping"], ["ARP", "arp"], ["OSPF", "ospf"], ["BGP", "bgp"]],
-    { n: 3, explain: "Slide 15: IP, ICMP (ping), ARP, OSPF, BGP." });
+  /* ---------- In the instructor's style (Types 1-3: long technical stems, definitional blanks, swapped-fact statements) ---------- */
+  mcq(13, 'm', "Which Layer 2 Protocol Data Unit (PDU) header component contains the physical source and destination addresses responsible for hop-by-hop delivery across a single network segment?",
+    ["MAC frame header", "IP header", "TCP segment header", "Physical bit stream"],
+    "Slides 13-14 and 23: the frame header carries the source and destination MAC addresses (the instructor's sample question).");
+  mcq(17, 'h', "A banking website encrypts its pages with TLS and compresses them with GZIP before sending them. Which OSI layer is responsible for both operations?",
+    ["Presentation", "Application", "Session", "Transport"],
+    "Slide 17: formatting, encryption (SSL/TLS) and compression (GZIP) are Presentation layer duties.");
+  mcq(16, 'h', "A live video stream prefers speed over guaranteed delivery and does not set up a connection first. Which transport protocol fits this description?",
+    ["UDP", "TCP", "ICMP", "ARP"],
+    "Slide 16: UDP is connectionless, fast and low-overhead.");
+  mcq(22, 'h', "An engineer troubleshooting Wi-Fi links and MAC addressing problems is working in which layer of the TCP/IP model?",
+    ["Network Access layer", "Internet layer", "Transport layer", "Application layer"],
+    "Slide 22: Ethernet, Wi-Fi, MAC, copper and fiber belong to Network Access.");
+  mcq(15, 'h', "A packet must travel from a laptop in one subnet to a server several networks away. Which OSI layer is responsible for choosing the path?",
+    ["Network", "Data Link", "Transport", "Physical"],
+    "Slide 15: path determination and routing.");
+  fill(10, 'm', "The process of uncovering control headers as a data unit ascends from Layer 1 up to Layer 7 of the OSI model is termed [[decapsulation]].", "Slide 10 (the instructor's sample blank).");
+  fill(16, 'h', "The SYN, SYN-ACK, ACK exchange that TCP uses to set up a connection is called the [[3-way handshake|three-way handshake|three way handshake|3 way handshake]].", "Slide 16.");
+  fill(6, 'm', "Breaking complex networking tasks into independent modules, each with a well-defined function, is called protocol [[layering]].", "Slide 6.");
+  fill(9, 'h', "The theoretical seven-layer benchmark framework established by ISO in 1984 is the [[OSI|osi model|open systems interconnection]] reference model.", "Slide 9.");
+  tf(19, 'h', "At the Transport layer the PDU is called a frame, while at the Data Link layer it is called a segment.", false, "False. Swapped: Layer 4 = segment, Layer 2 = frame.");
+  tf(24, 'h', "A router operates at Layer 3 because it inspects destination IP addresses, while a standard switch operates at Layer 2 because it inspects destination MAC addresses.", true, "True. Slide 24.");
+  tf(20, 'h', "The OSI model was developed by DARPA and powers today's Internet, while TCP/IP is a theoretical framework from ISO.", false, "False. Swapped: OSI is the theoretical ISO framework; TCP/IP came from DARPA and runs the Internet.");
+  tf(17, 'h', "The Session layer handles encryption and compression, while the Presentation layer handles dialogue control and checkpoint recovery.", false, "False. Swapped: Presentation = encryption and compression; Session = dialogue control and checkpoint recovery.");
 
-  /* ---------- Section E: explain ---------- */
-  exp([11, 13, 15, 16, 17], 'h', 5, "Identify the seven layers of the OSI model and describe the core responsibility of each.",
-    [["Physical: transmits raw bits as electrical, light or radio signals; bit rate and clock sync", "raw bit", "bits", "voltage", "signal"],
+  exp([6, 19, 20, 21, 22], 'h', 5, "Explain the key architectural benefits of protocol layering in computer communication networks. Then, formulate a side-by-side structural drawing that maps the seven layers of the OSI Reference Model to the four layers of the TCP/IP Protocol Suite, clearly indicating the PDU names at each layer.",
+    [["Benefits: complexity broken into independent modules; modularity (changing one layer does not break others); interoperability (multi-vendor equipment works together)", "modul", "interoperab", "independent"],
+     ["Mapping: OSI Application, Presentation and Session → TCP/IP Application (3 in 1)", "3 in 1", "three in one", "presentation and session", "5 6 7"],
+     ["Mapping: Transport → Transport; Network → Internet; Data Link + Physical → Network Access", "internet", "network access"],
+     ["PDU names: data/message (L7-5), segment/datagram (L4), packet (L3), frame (L2), bits (L1)", "segment", "packet", "frame", "bits"],
+     ["Labeled drawing: OSI 7 layers on one side, TCP/IP 4 layers on the other, with the PDU name beside each level","labeled drawing","labelled drawing","drawing","diagram"]],
+    "Protocol layering breaks complex networking into independent modules, each with a well-defined function that serves the layer above and uses the layer below. Its benefits are reduced complexity, modularity (changing one layer does not break the others) and interoperability (hardware and software from different vendors work together). Mapping: the OSI Application, Presentation and Session layers merge into the TCP/IP Application layer (3 in 1), because applications handle presentation and sessions internally; the OSI Transport layer maps to the TCP/IP Transport layer; the OSI Network layer maps to the Internet layer; and the OSI Data Link and Physical layers merge into Network Access. PDU names: data/message at Layers 7-5, segment (TCP) or datagram (UDP) at Layer 4, packet at Layer 3, frame at Layer 2 and bits at Layer 1. Labeled drawing: the seven OSI layers in one column and the four TCP/IP layers in the next, joined at matching levels, with the PDU name written beside each level.",
+    { sec: 'E', figure: 'osiTcpip' });
+  exp([13, 14, 15, 16, 19], 'm', 5, "Categorize the PDUs of Layers 4, 3, 2 and 1, describe what each one contains, and draw a labeled diagram showing how the segment, packet and frame nest inside each other.",
+    [["Layer 4 segment: TCP header with port and sequence numbers + data (a datagram for UDP)", "segment", "port", "datagram"],
+     ["Layer 3 packet: IP header with source and destination IP addresses + the segment", "packet", "ip header", "ip address"],
+     ["Layer 2 frame: header with MAC addresses + the IP packet as payload + FCS trailer", "frame", "fcs", "trailer"],
+     ["Layer 1: raw bits encoded as signals", "bits", "signal"],
+     ["Labeled drawing: segment inside the packet inside the frame, with the header, payload and trailer marked","labeled drawing","labelled drawing","drawing","diagram"]],
+    "At Layer 4 the PDU is a segment (TCP) or datagram (UDP): a TCP header with source and destination port numbers and sequence numbers, followed by the data. At Layer 3 it is a packet: an IP header with the source and destination IP addresses, followed by the segment. At Layer 2 it is a frame: a header with the source and destination MAC addresses, the IP packet as payload, and an FCS trailer for error detection. At Layer 1 everything is sent as raw bits encoded as signals. Labeled drawing: the segment drawn inside the packet, and the packet inside the frame between the MAC header and the FCS trailer.",
+    { sec: 'D', figure: 'framePacket' });
+  exp([11, 13, 15, 24], 'h', 5, "Categorize a hub, a Layer 2 switch and a router by the highest OSI layer at which each operates. Explain what each device inspects or does with incoming data, and draw a labeled diagram of the layers each device understands.",
+    [["Hub: Layer 1 (Physical); repeats raw bits out of all ports without reading any address", "layer 1", "repeat", "all ports"],
+     ["Switch: Layer 2 (Data Link); reads the destination MAC address in the frame header", "layer 2", "mac"],
+     ["Router: Layer 3 (Network); reads the destination IP address in the packet header to choose a path", "layer 3", "path", "rout"],
+     ["A device that works at a higher layer also handles the layers below it", "below", "lower layer"],
+     ["Labeled drawing: Layers 1-3 for each device, with the layers it understands filled in","labeled drawing","labelled drawing","drawing","diagram"]],
+    "A hub works at Layer 1 (Physical): it repeats the raw bits it receives out of all ports without reading any address. A Layer 2 switch works up to the Data Link layer: it reads the destination MAC address in the frame header and forwards the frame to the right port. A router works up to Layer 3 (Network): it reads the destination IP address in the packet header and chooses the best path (routing) across networks. A device that works at a higher layer also handles the layers below it. Labeled drawing: three stacks of Layers 1-3 with Layer 1 filled for the hub, Layers 1-2 for the switch and Layers 1-3 for the router.",
+    { sec: 'D', figure: 'devices' });
+
+  /* ---------- Section D: categorization & illustration (Type 4) · Section E: explanation & structural mapping (Type 6) ---------- */
+  exp([11, 13, 15, 16, 17], 'h', 5, "Identify the seven layers of the OSI model and describe the core responsibility of each.", [["Physical: transmits raw bits as electrical, light or radio signals; bit rate and clock sync", "raw bit", "bits", "voltage", "signal"],
      ["Data Link: builds frames, MAC addressing, error detection (FCS)", "frame", "mac", "fcs", "error"],
      ["Network: packet delivery across subnets, IP addressing and routing", "packet", "ip", "rout"],
      ["Transport: end-to-end process-to-process delivery of segments, ports, TCP/UDP", "segment", "port", "end to end", "tcp", "udp"],
      ["Session: session setup, maintenance, dialogue control, checkpoint recovery", "dialog", "checkpoint", "session setup"],
      ["Presentation: formatting, encryption (SSL/TLS), compression (GZIP)", "encrypt", "compress", "format"],
-     ["Application: network services directly to user applications (HTTP, DNS, SMTP, FTP)", "http", "dns", "smtp", "user application", "services"]],
-    "Layer 1 Physical transmits raw, unstructured bits as voltages, light pulses or radio waves and defines bit timing and clock synchronization. Layer 2 Data Link turns bits into frames, handles 48-bit MAC addressing and detects errors with the FCS. Layer 3 Network delivers packets from source to destination across subnets using IP addresses and routing. Layer 4 Transport provides end-to-end process-to-process delivery of segments using port numbers, with TCP (reliable) or UDP (fast). Layer 5 Session sets up and maintains sessions, controls dialogue and provides checkpoint recovery. Layer 6 Presentation handles formatting (ASCII/Unicode), encryption (SSL/TLS) and compression (GZIP). Layer 7 Application provides network services directly to user applications such as HTTP, HTTPS, DNS, SMTP and FTP.",
-    { need: 6 });
-  exp([20, 21, 22, 25], 'm', 5, "Map the OSI 7-layer model to the 4-layer TCP/IP model and explain why some layers are merged.",
-    [["OSI Application, Presentation and Session → TCP/IP Application layer", "application presentation", "5 6 7", "3 in 1", "three"],
-     ["OSI Transport → TCP/IP Transport (TCP, UDP, ports)", "transport"],
-     ["OSI Network → TCP/IP Internet layer (IP, routing)", "internet"],
-     ["OSI Data Link and Physical → TCP/IP Network Access layer (Ethernet, Wi-Fi, MAC)", "network access", "data link and physical", "access"],
-     ["Reason: applications handle presentation and session internally; OSI is theoretical, TCP/IP practical (DARPA, Internet)", "internally", "practical", "theoretical", "darpa"]],
-    "The OSI Application, Presentation and Session layers (5, 6, 7) merge into the TCP/IP Application layer, a 3-in-1 layer for user services such as HTTP and DNS. The OSI Transport layer maps directly to the TCP/IP Transport layer (TCP, UDP, end-to-end, ports). The OSI Network layer becomes the TCP/IP Internet layer (IPv4, IPv6, ICMP, routing and addressing). The OSI Data Link and Physical layers merge into the Network Access layer (Ethernet, Wi-Fi, MAC, copper, fiber). Layers are merged because, in the practical TCP/IP model developed by DARPA, software applications handle presentation and sessions internally, while OSI remains a theoretical 7-layer reference.",
-    { need: 4 });
-  exp([6, 7, 8], 'm', 4, "Explain the concept of protocol layering, its benefits and basic rules, using a real-world example.",
-    [["Benefits: complexity broken into independent modules", "complex", "module"],
+     ["Application: network services directly to user applications (HTTP, DNS, SMTP, FTP)", "http", "dns", "smtp", "user application", "services"]], "Layer 1 Physical transmits raw, unstructured bits as voltages, light pulses or radio waves and defines bit timing and clock synchronization. Layer 2 Data Link turns bits into frames, handles 48-bit MAC addressing and detects errors with the FCS. Layer 3 Network delivers packets from source to destination across subnets using IP addresses and routing. Layer 4 Transport provides end-to-end process-to-process delivery of segments using port numbers, with TCP (reliable) or UDP (fast). Layer 5 Session sets up and maintains sessions, controls dialogue and provides checkpoint recovery. Layer 6 Presentation handles formatting (ASCII/Unicode), encryption (SSL/TLS) and compression (GZIP). Layer 7 Application provides network services directly to user applications such as HTTP, HTTPS, DNS, SMTP and FTP.", { sec: 'E', need: 6 });
+  exp([6, 7, 8], 'm', 5, "Explain the concept of protocol layering, its benefits and basic rules, using a real-world example.", [["Benefits: complexity broken into independent modules", "complex", "module"],
      ["Modularity (change one layer without breaking others) and interoperability (multi-vendor equipment works together)", "modular", "interoperab", "vendor"],
      ["Rules: each layer has a specific, well-defined function and serves the layer above / uses the layer below", "well defined", "above", "below", "specific"],
-     ["Example: postal letter (content → envelope with address → truck/plane) or airline flight (symmetric steps)", "letter", "envelope", "postal", "airline", "flight", "baggage"]],
-    "Protocol layering breaks complex networking into independent modules. Its benefits are reduced complexity, modularity (modifying one layer does not break the others) and interoperability (hardware and software from different vendors work together). The basic rules are that each layer performs a specific, well-defined function, and each layer provides services to the layer above and receives services from the layer below. Example: sending a letter. Layer 3 writes the message, Layer 2 puts it in an envelope with addresses, Layer 1 (truck or plane) carries it; the receiver reverses the steps (decapsulation). An airline trip works the same way: ticket, baggage, gate, takeoff, then the reverse on arrival.");
-  exp([23, 25], 'h', 5, "Compare the four addressing levels in TCP/IP: give the PDU, an example and the function of each.",
-    [["Application URI/URL: data/message; e.g. https URL or domain name; identifies the application resource or user service", "url", "uri", "domain"],
+     ["Example: postal letter (content → envelope with address → truck/plane) or airline flight (symmetric steps)", "letter", "envelope", "postal", "airline", "flight", "baggage"]], "Protocol layering breaks complex networking into independent modules. Its benefits are reduced complexity, modularity (modifying one layer does not break the others) and interoperability (hardware and software from different vendors work together). The basic rules are that each layer performs a specific, well-defined function, and each layer provides services to the layer above and receives services from the layer below. Example: sending a letter. Layer 3 writes the message, Layer 2 puts it in an envelope with addresses, Layer 1 (truck or plane) carries it; the receiver reverses the steps (decapsulation). An airline trip works the same way: ticket, baggage, gate, takeoff, then the reverse on arrival.", { sec: 'E' });
+  exp([23, 25], 'h', 5, "Compare the four addressing levels in TCP/IP: give the PDU, an example and the function of each.", [["Application URI/URL: data/message; e.g. https URL or domain name; identifies the application resource or user service", "url", "uri", "domain"],
      ["Transport port: segment/datagram; e.g. port 80/443; identifies the software process on the destination host", "port", "process"],
      ["Logical IP address: packet; e.g. 192.168.1.100; identifies the host globally for routing across subnets", "192", "ip", "rout", "global"],
-     ["Physical MAC address: frame; e.g. 00:1A:2B:3C:4D:5E; identifies the local NIC for Layer 2 switching", "mac", "nic", "switch", "00 1a"]],
-    "Application URI: the PDU is data/message, the address is an https URL or domain name, and it identifies the application resource or user service. Transport port: the PDU is a segment or datagram, the address is a port such as 443 or 80, and it identifies the running software process on the destination host. Logical IP address: the PDU is a packet, the address is for example 192.168.1.100, and it identifies the host's global location across subnets for path routing. Physical MAC address: the PDU is a frame, the address is for example 00:1A:2B:3C:4D:5E, and it identifies the local network interface card for Layer 2 switching.");
+     ["Physical MAC address: frame; e.g. 00:1A:2B:3C:4D:5E; identifies the local NIC for Layer 2 switching", "mac", "nic", "switch", "00 1a"]], "Application URI: the PDU is data/message, the address is an https URL or domain name, and it identifies the application resource or user service. Transport port: the PDU is a segment or datagram, the address is a port such as 443 or 80, and it identifies the running software process on the destination host. Logical IP address: the PDU is a packet, the address is for example 192.168.1.100, and it identifies the host's global location across subnets for path routing. Physical MAC address: the PDU is a frame, the address is for example 00:1A:2B:3C:4D:5E, and it identifies the local network interface card for Layer 2 switching.", { sec: 'E' });
 });

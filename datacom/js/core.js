@@ -309,6 +309,15 @@
     D: { title: 'Short answer', instr: 'Answer briefly. Write one item per line where a list is asked for.', types: ['def', 'list'] },
     E: { title: 'Explain', instr: 'Answer in full sentences. Marks are given for each key point.', types: ['exp'] }
   };
+  /* A course can rename sections, change which types they hold, and change the mark budgets (EC.COURSE). */
+  if (EC.COURSE && EC.COURSE.sectionInfo) Object.keys(EC.COURSE.sectionInfo).forEach(function (k) { Object.assign(SECTION_INFO[k], EC.COURSE.sectionInfo[k]); });
+  if (EC.COURSE && EC.COURSE.budgets) Object.keys(EC.COURSE.budgets).forEach(function (k) { LENGTHS[k].budget = EC.COURSE.budgets[k]; });
+  /* Does question q belong in section key? Written questions carry sec: 'D' or 'E' when both sections hold 'exp'. */
+  function inSection(q, key) {
+    if (SECTION_INFO[key].types.indexOf(q.type) === -1) return false;
+    return q.type !== 'exp' || !SECTION_INFO[key].bySec || (q.sec || 'E') === key;
+  }
+
   /* Difficulty level of a paper: share of easy / medium / hard questions it aims for.
      X = mixed (default). Codes carry E, N or H after the length letter, e.g. DC-7F3A-23456MH. */
   var DIFFICULTY = {
@@ -465,9 +474,9 @@
     var picked = [];
     var used = new Set();
     var lects = shuffle(cfg.lectures, rng);
-    function poolFor(types) {
+    function poolFor(key) {
       return shuffle((EC.BANK || []).filter(function (q) {
-        return types.indexOf(q.type) > -1 && cfg.lectures.indexOf(q.lecture) > -1;
+        return inSection(q, key) && cfg.lectures.indexOf(q.lecture) > -1;
       }), rng);
     }
     // Levels with a 0% share never use that difficulty unless nothing else is left.
@@ -503,13 +512,14 @@
       out[key] = [];
       var target = budget[key];
       if (!target) return;
-      var pool = poolFor(SECTION_INFO[key].types);
+      var pool = poolFor(key);
       var remaining = target, i = 0;
       var typeTurn = rng() < 0.5 ? 0 : 1;
       var diffs = diffPlan(8, rng, cfg.difficulty);
       while (remaining > 0 && i < 40) {
         var L = lects[i % lects.length], D = diffs[i % diffs.length];
-        var wantType = key === 'D' ? (typeTurn++ % 2 === 0 ? 'list' : 'def') : 'exp';
+        var types = SECTION_INFO[key].types;
+        var wantType = types.length > 1 ? types[typeTurn++ % types.length] : types[0];
         var rem = remaining;
         var fits = function (q) {
           if (q.marks > rem) return false;
@@ -525,7 +535,7 @@
     // Section B: one mark per blank.
     out.B = [];
     if (budget.B) {
-      var poolB = poolFor(['fill']);
+      var poolB = poolFor('B');
       var remB = budget.B, iB = 0, diffsB = diffPlan(Math.max(4, budget.B), rng, cfg.difficulty), multi = 0;
       while (remB > 0 && iB < 80) {
         var LB = lects[iB % lects.length], DB = diffsB[iB % diffsB.length], r = remB;
@@ -542,7 +552,7 @@
       out[key] = [];
       var n = budget[key];
       if (!n) return;
-      var pool = poolFor(SECTION_INFO[key].types);
+      var pool = poolFor(key);
       var diffs = diffPlan(n, rng, cfg.difficulty);
       var tfTrue = 0, tfFalse = 0;
       for (var i = 0; i < n; i++) {
@@ -655,7 +665,7 @@
     var qs = ids.map(function (id) { return byId[id]; }).filter(Boolean);
     var sections = [], items = [], n = 0;
     'ABCDE'.split('').forEach(function (key) {
-      var sq = shuffle(qs.filter(function (q) { return SECTION_INFO[key].types.indexOf(q.type) > -1; }), rng);
+      var sq = shuffle(qs.filter(function (q) { return inSection(q, key); }), rng);
       if (!sq.length) return;
       var sec = { key: key, title: SECTION_INFO[key].title, instr: SECTION_INFO[key].instr, marks: 0, items: [] };
       var letters = key === 'A' ? letterPlan(sq.length, rng) : null;
@@ -703,7 +713,7 @@
     gradeItem: gradeItem, gradeExam: gradeExam, markPoints: markPoints, isAnswered: isAnswered,
     letterGrade: letterGrade, modelAnswer: modelAnswer, roundHalf: roundHalf,
     hashString: hashString, mulberry32: mulberry32, shuffle: shuffle,
-    LENGTHS: LENGTHS, DIFFICULTY: DIFFICULTY, SECTION_INFO: SECTION_INFO, DEFAULT_CFG: DEFAULT_CFG, normCfg: normCfg,
+    LENGTHS: LENGTHS, DIFFICULTY: DIFFICULTY, SECTION_INFO: SECTION_INFO, inSection: inSection, DEFAULT_CFG: DEFAULT_CFG, normCfg: normCfg,
     buildCode: buildCode, parseCode: parseCode, randomSeedHex: randomSeedHex,
     makeExam: makeExam, makeRetryExam: makeRetryExam, newCode: newCode, overlaps: overlaps,
     resetGlossary: function () { glossary = null; }

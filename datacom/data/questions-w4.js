@@ -273,70 +273,67 @@ EC.lecture(4, function (Q) {
   tf(20, 'h', "When a TIU lab laptop opens a Google page in Frankfurt, the destination IP in the packet is the Google server's IP.", true, "True. The IP identifies the final global destination.");
   tf(21, 'h', "MAC addresses stay the same end to end, while IP addresses change at every hop.", false, "False. It is the opposite: MAC changes hop by hop, IP stays constant end to end.");
 
-  /* ---------- Section D: short answer ---------- */
-  def(18, 'e', 2, "Define encapsulation and decapsulation.",
-    [["Encapsulation: adding protocol control information (headers/trailers) as data moves down the stack", "adding", "header", "down"],
-     ["Decapsulation: the receiver strips the headers layer by layer until the application gets pure data", "strip", "remov", "revers", "pure data"]],
-    "Encapsulation is the packaging process of adding protocol control information (headers and trailers) to data as it moves down the protocol stack. Decapsulation is the reverse: the destination host strips the headers layer by layer until the application receives the pure data.");
-  def(13, 'm', 2, "Distinguish between bandwidth and throughput.",
-    [["Bandwidth: maximum (theoretical) data-carrying capacity of a link, e.g. 1 Gbps", "maximum", "theoretical", "capacity"],
-     ["Throughput: actual rate of successfully delivered data; lower because of overhead, retransmissions, congestion, latency", "actual", "practice", "overhead", "congestion", "lower"]],
-    "Bandwidth is the theoretical maximum data-carrying capacity of a link, for example 1 Gbps. Throughput is the actual speed of successfully delivered data in practice; it is lower than bandwidth because of protocol header overhead, retransmissions, congestion and processing latency.");
-  def(9, 'm', 2, "Define a signal and name its two types.",
-    [["An electrical or electromagnetic quantity that varies over time to carry/represent information", "electrical", "electromagnetic", "varies", "carry"],
-     ["Two types: analog (continuous) and digital (discrete)", "analog", "digital"]],
-    "A signal is an electrical or electromagnetic quantity that varies over time to carry and represent information. The two types are analog signals (continuous sine waves) and digital signals (discrete square pulses).");
-  def(15, 'm', 2, "Compare a hub and a switch.",
-    [["Hub: Layer 1 multiport repeater; floods bits to all ports; shared collision domain, half-duplex, insecure", "flood", "all ports", "all other", "layer 1", "repeat"],
-     ["Switch: Layer 2; reads destination MAC; forwards only to the target port; microsegmentation, no collisions, full-duplex", "mac", "target port", "only", "layer 2", "selective"]],
-    "A hub is a dumb Layer 1 multiport repeater: it repeats (floods) the bits it receives out of all other ports, so all devices share one collision domain, work half-duplex, and everyone receives everyone else's traffic. A switch is an intelligent Layer 2 device: it reads the destination MAC address in each frame and forwards it only to the target port; microsegmentation means no collisions and full-duplex links.");
-  list(7, 'e', 2, "List the four duties of the Physical layer.",
-    [["Bit representation", "represent"], ["Transmission rate", "rate"], ["Bit synchronization", "synchron", "sync"], ["Mechanical and electrical", "mechanical", "electrical"]],
-    { explain: "Slide 7." });
-  list(13, 'e', 3, "List the three key performance metrics of the Physical layer.",
-    [["Bit rate", "bit rate", "data speed"], ["Bandwidth", "bandwidth"], ["Throughput", "throughput"]],
-    { explain: "Slide 13." });
-  list(14, 'e', 3, "List the three reasons why signals degrade (transmission impairments).",
-    [["Attenuation", "attenuat"], ["Distortion", "distort"], ["Noise and crosstalk", "noise", "crosstalk", "emi"]],
-    { explain: "Slide 14." });
-  list(13, 'm', 2, "Give two reasons why throughput is lower than bandwidth.",
-    [["Protocol header overhead", "overhead", "header"], ["Packet retransmissions", "retransmi"], ["Network congestion", "congest"], ["Processing latency", "latency", "processing"]],
-    { n: 2, explain: "Slide 13." });
-  list(17, 'm', 3, "List the three address scopes and the address that solves each.",
-    [["Process scope → port number", "process", "port"], ["Local scope → MAC address", "local", "mac"], ["Global scope → IP address", "global", "ip"]],
-    { explain: "Slide 17." });
-  list(11, 'm', 3, "List four hardware components of the Physical layer.",
-    [["Cat6 twisted-pair cable", "cat6", "cat 6", "twisted"], ["RJ-45 connector", "rj45", "rj 45", "connector"], ["Fiber optic cable", "fiber", "fibre", "optic"], ["Network Interface Card (NIC)", "nic", "interface card"]],
-    { explain: "Slides 11-12." });
+  /* ---------- In the instructor's style (Types 1-3: long technical stems, definitional blanks, swapped-fact statements) ---------- */
+  mcq(13, 'h', "A student's 1 Gbps link delivers only 650 Mbps when downloading, because of header overhead and retransmissions. The 650 Mbps figure is the link's…",
+    ["throughput", "bandwidth", "maximum bit rate", "attenuation"],
+    "Slide 13: throughput is the actual delivered rate; bandwidth (1 Gbps) is the theoretical capacity.");
+  mcq(14, 'h', "A technician runs a Cat6 cable 160 m between two switches and sees many corrupted bits. Which impairment, caused by losing signal energy over distance, is most likely?",
+    ["Attenuation", "Distortion", "Thermal noise", "Jitter"],
+    "Slides 11 and 14: the run exceeds the 100 m rule, so the signal is too weak.");
+  mcq(18, 'h', "During encapsulation, which layer is the only one that adds a trailer as well as a header?",
+    ["Layer 2 (Data Link)", "Layer 3 (Network)", "Layer 4 (Transport)", "Layer 7 (Application)"],
+    "Slides 18-19: Layer 2 adds the MAC header and the FCS trailer.");
+  mcq(7, 'h', "A sender's clock runs slightly faster than the receiver's, so the receiver reads bits at the wrong moments. Which Physical layer duty has failed?",
+    ["Bit synchronization", "Bit representation", "Mechanical and electrical", "Transmission rate"],
+    "Slide 7: bit synchronization keeps the clocks aligned so the receiver knows where each bit starts and ends.");
+  mcq(16, 'm', "In the house analogy, a letter reaches the right street address but is handed to the wrong person living in the house. Which address was wrong?",
+    ["The port number", "The IP address", "The MAC address", "The FCS"],
+    "Slide 16: the port is the specific person living in the house.");
+  fill(14, 'm', "The phenomenon of signal strength loss as an electromagnetic wave travels over distance through a physical medium is known as [[attenuation]].", "Slide 14 (the instructor's sample blank).");
+  fill(17, 'm', "The 16-bit identifier that tells the destination computer which program should receive the data is the [[port number|port]].", "Slides 17 and 21.");
+  fill(15, 'h', "On a hub, all devices share one collision [[domain]], so only one device can transmit at a time.", "Slide 15.");
+  fill(7, 'm', "Defining connectors, pin layout, voltages and cable type is the Physical layer's [[mechanical and electrical|mechanical & electrical|mechanical]] duty.", "Slide 7.");
+  tf(21, 'h', "In a global TCP/IP network, as a packet traverses intermediate routers from source to destination, its logical IP addresses change at every router hop, while its physical addresses remain constant end-to-end.", false, "False. It is the opposite: the IP addresses stay constant end to end, while the MAC (physical) addresses change at every hop. (The instructor's sample statement.)");
+  tf(15, 'h', "A hub is an intelligent Layer 2 device that reads MAC addresses, while a switch is a dumb Layer 1 repeater.", false, "False. Swapped: the hub is the dumb Layer 1 repeater; the switch is the intelligent Layer 2 device.");
+  tf(13, 'h', "Bandwidth is the actual rate of successfully delivered data, while throughput is the theoretical maximum capacity of the link.", false, "False. Swapped: bandwidth is the theoretical capacity; throughput is the actual delivered rate.");
+  tf(18, 'm', "During decapsulation, the receiver strips the headers layer by layer until the application receives the pure data.", true, "True. Slide 18.");
 
-  /* ---------- Section E: explain ---------- */
-  exp([16, 17, 21], 'h', 5, "Differentiate between physical (MAC) addressing, logical (IP) addressing and port numbers, using the house analogy.",
-    [["MAC: 48-bit flat burned-in address on the NIC; local scope (same switch/subnet); hop-by-hop delivery", "48", "burn", "local", "hop"],
+  exp([9, 10], 'm', 5, "Categorize transmission signals into their two types. Describe each type with its shape, behaviour and an example, state the main advantage of digital signals, and draw a labeled waveform of each.",
+    [["A signal is an electrical or electromagnetic quantity that varies over time to carry information; there are two types", "electrical", "electromagnetic", "varies over time"],
+     ["Analog: varies smoothly and continuously; sine waves with amplitude, frequency and phase", "continuous", "smooth", "sine"],
+     ["Analog examples: human voice, AM/FM radio, legacy telephone", "voice", "radio", "telephone"],
+     ["Digital: changes abruptly between discrete levels; square pulses (+5 V = 1, 0 V = 0); highly resistant to noise; e.g. Ethernet", "discrete", "square", "noise", "ethernet"],
+     ["Labeled drawing: a smooth sine wave and a square wave with +5 V / 0 V levels","labeled drawing","labelled drawing","drawing","diagram"]],
+    "A signal is an electrical or electromagnetic quantity that varies over time to carry and represent information, and there are two types. An analog signal varies smoothly and continuously over time and is drawn as a sine wave with varying amplitude, frequency and phase; examples are the human voice, AM/FM radio and legacy telephone systems. A digital signal changes abruptly between discrete voltage levels and is drawn as square pulses, for example +5 V for 1 and 0 V for 0 on Ethernet; its main advantage is that it is highly resistant to noise. Labeled drawing: a smooth sine wave for analog and a square wave alternating between +5 V and 0 V for digital.",
+    { sec: 'D', figure: 'signals' });
+  exp([15], 'h', 5, "Categorize a hub and a switch by OSI layer and intelligence. Explain how each forwards traffic and its effect on collisions, duplex mode and security, and draw a labeled diagram showing how each delivers a frame from PC A to PC B.",
+    [["Hub: Layer 1 multiport repeater, a “dumb” device", "layer 1", "repeater", "dumb"],
+     ["Hub floods bits out of all other ports: shared collision domain, half-duplex, insecure", "flood", "all other ports", "collision", "insecure"],
+     ["Switch: Layer 2 intelligent filter that reads the destination MAC address", "layer 2", "mac", "intelligent"],
+     ["Switch forwards only to the target port; microsegmentation means no collisions and full-duplex", "target port", "microsegment", "full duplex"],
+     ["Labeled drawing: the hub sending A’s frame to every PC, the switch sending it only to PC B","labeled drawing","labelled drawing","drawing","diagram"]],
+    "A hub is a dumb Layer 1 multiport repeater: it receives bits on one port and floods them out of all other ports. All devices share one collision domain, so only one can transmit at a time (half-duplex), and it is insecure because every device receives everyone else's traffic. A switch is an intelligent Layer 2 filter: it reads the destination MAC address in each frame and forwards it only to the target port. Microsegmentation means there are no collisions and links run full-duplex. Labeled drawing: on the hub side, the frame from PC A goes out to every PC; on the switch side, it goes only to PC B.",
+    { sec: 'D', figure: 'hubSwitch' });
+
+  /* ---------- Section D: categorization & illustration (Type 4) · Section E: explanation & structural mapping (Type 6) ---------- */
+  exp([16, 17, 21], 'h', 5, "Differentiate between physical (MAC) addressing, logical (IP) addressing and port numbers, using the house analogy.", [["MAC: 48-bit flat burned-in address on the NIC; local scope (same switch/subnet); hop-by-hop delivery", "48", "burn", "local", "hop"],
      ["IP: 32-bit hierarchical logical address; global scope; routers use it for end-to-end routing", "32", "hierarch", "global", "rout", "end to end"],
      ["Port: 16-bit number identifying the application process (browser, Zoom, Spotify)", "16", "process", "application", "browser", "program"],
      ["Analogy: IP = city/street/house address, MAC = the house door, port = the person in the house", "city", "street", "door", "person"],
-     ["MAC changes at each hop while IP stays constant end to end", "change", "constant", "same"]],
-    "A MAC address is a 48-bit flat, burned-in physical address on the NIC. It solves the local scope: how two devices on the same cable or switch identify each other, and it is used for hop-by-hop delivery, so it changes at every hop. An IP address is a 32-bit (IPv4) hierarchical logical address. It solves the global scope: routers use it to find a path across many networks, and it stays constant end to end. A port number is a 16-bit integer that solves the process scope: which program on the computer (browser, Zoom, Spotify) receives the data. In the house analogy, the IP address is your city, street and house address, the MAC address is your immediate house door, and the port is the specific person living in the house.",
-    { need: 4 });
-  exp([18, 19], 'm', 5, "Illustrate the data encapsulation and decapsulation pipeline, naming the PDU and what is added at each layer.",
-    [["Layer 7: data (HTTP / file / message)", "data", "http", "message"],
+     ["MAC changes at each hop while IP stays constant end to end", "change", "constant", "same"]], "A MAC address is a 48-bit flat, burned-in physical address on the NIC. It solves the local scope: how two devices on the same cable or switch identify each other, and it is used for hop-by-hop delivery, so it changes at every hop. An IP address is a 32-bit (IPv4) hierarchical logical address. It solves the global scope: routers use it to find a path across many networks, and it stays constant end to end. A port number is a 16-bit integer that solves the process scope: which program on the computer (browser, Zoom, Spotify) receives the data. In the house analogy, the IP address is your city, street and house address, the MAC address is your immediate house door, and the port is the specific person living in the house.", { sec: 'E', need: 4 });
+  exp([18, 19], 'm', 5, "Illustrate the data encapsulation and decapsulation pipeline: name the PDU and what is added at each layer, and draw the pipeline at the sender and the receiver.", [["Layer 7: data (HTTP / file / message)", "data", "http", "message"],
      ["Layer 4: segment = TCP header with ports (80/443) and sequence tracking + data", "segment", "port", "sequence"],
      ["Layer 3: packet = IP header with source/destination IP + segment", "packet", "ip"],
      ["Layer 2: frame = Ethernet header with MACs + packet + FCS trailer", "frame", "mac", "fcs", "trailer"],
-     ["Layer 1: bits sent as signals; the receiver decapsulates by stripping headers layer by layer", "bits", "signal", "decapsul", "strip"]],
-    "At the sender, Layer 7 produces the data (an HTTP request, file or message). Layer 4 adds a TCP header with port numbers (e.g. 80/443) and sequence tracking, creating a segment. Layer 3 adds an IP header with source and destination IP addresses, creating a packet. Layer 2 adds an Ethernet header with source and destination MAC addresses and an FCS error-checking trailer, creating a frame. Layer 1 sends the frame as bits encoded as physical signals. At the destination, decapsulation reverses the process: each layer strips its header until the application receives the pure data.");
-  exp([7, 8], 'm', 4, "Explain the role of the Physical layer and its four duties, and distinguish between data, bits and signals.",
-    [["Physical layer sends raw, unstructured bits as signals over the medium; no knowledge of IP/MAC", "raw", "bits", "signal", "zero knowledge"],
+     ["Layer 1: bits sent as signals; the receiver decapsulates by stripping headers layer by layer", "bits", "signal", "decapsul", "strip"],
+     ["Labeled drawing: sender stack adding headers going down, receiver stack stripping them going up","labeled drawing","labelled drawing","drawing","diagram"]], "At the sender, Layer 7 produces the data (an HTTP request, file or message). Layer 4 adds a TCP header with port numbers (e.g. 80/443) and sequence tracking, creating a segment. Layer 3 adds an IP header with source and destination IP addresses, creating a packet. Layer 2 adds an Ethernet header with source and destination MAC addresses and an FCS error-checking trailer, creating a frame. Layer 1 sends the frame as bits encoded as physical signals. At the destination, decapsulation reverses the process: each layer strips its header until the application receives the pure data. Labeled drawing: the sender stack (Data, Segment, Packet, Frame, Bits) with an arrow down marked “add headers”, the receiver stack with an arrow up marked “strip headers”, joined by the medium.", { sec: 'E', figure: 'encapsulation' });
+  exp([7, 8], 'm', 5, "Explain the role of the Physical layer and its four duties, and distinguish between data, bits and signals.", [["Physical layer sends raw, unstructured bits as signals over the medium; no knowledge of IP/MAC", "raw", "bits", "signal", "zero knowledge"],
      ["Duties: bit representation and transmission rate (bit duration, bps)", "represent", "rate", "bps", "duration"],
      ["Duties: bit synchronization and mechanical & electrical specifications (connectors, pins, voltages, cable)", "synchron", "mechanical", "connector", "pin", "voltage"],
-     ["Data = meaning, bits = digital language, signals = physical carrier (voltage, light, radio)", "meaning", "language", "carrier"]],
-    "The Physical layer sends raw, unstructured bits of data as physical signals over a medium; it has zero knowledge of IP, MAC or web pages. Its four duties are bit representation (how 0s and 1s become signals such as +5 V/0 V or light on/off), transmission rate (bit duration and speed in bps), bit synchronization (sender and receiver clocks agree where each bit starts and ends) and mechanical and electrical specifications (connectors, pin layout, voltages and cable type). Data is the meaning, bits are the digital language, and signals are the physical carrier (voltage, light or radio) that travels through the medium.");
-  exp([13, 14], 'h', 5, "Explain the three key performance metrics of the Physical layer and the three transmission impairments that degrade signals.",
-    [["Bit rate: number of bits per second (bps, Mbps, Gbps): the actual transmission speed", "bits per second", "bps"],
+     ["Data = meaning, bits = digital language, signals = physical carrier (voltage, light, radio)", "meaning", "language", "carrier"]], "The Physical layer sends raw, unstructured bits of data as physical signals over a medium; it has zero knowledge of IP, MAC or web pages. Its four duties are bit representation (how 0s and 1s become signals such as +5 V/0 V or light on/off), transmission rate (bit duration and speed in bps), bit synchronization (sender and receiver clocks agree where each bit starts and ends) and mechanical and electrical specifications (connectors, pin layout, voltages and cable type). Data is the meaning, bits are the digital language, and signals are the physical carrier (voltage, light or radio) that travels through the medium.", { sec: 'E' });
+  exp([13, 14], 'h', 5, "Explain the three key performance metrics of the Physical layer and the three transmission impairments that degrade signals.", [["Bit rate: number of bits per second (bps, Mbps, Gbps): the actual transmission speed", "bits per second", "bps"],
      ["Bandwidth: theoretical maximum capacity of a link (e.g. 1 Gbps)", "theoretical", "maximum", "capacity"],
      ["Throughput: actual delivered rate; lower than bandwidth due to overhead, retransmissions, congestion, latency", "actual", "overhead", "congestion"],
      ["Attenuation: energy loss over distance, fixed with amplifiers/repeaters", "attenuat", "distance", "repeater", "amplifier"],
-     ["Distortion (frequencies at different speeds change the waveform) and noise/crosstalk (EMI corrupts bits)", "distort", "noise", "crosstalk", "emi"]],
-    "Bit rate is the number of bits transmitted per second (bps, kbps, Mbps, Gbps). Bandwidth is the theoretical maximum data-carrying capacity of a link, such as 1 Gbps. Throughput is the actual speed of successfully delivered data, which is lower than bandwidth because of protocol header overhead, retransmissions, congestion and processing latency. Signals degrade in three ways: attenuation is the loss of signal energy over distance and is fixed with amplifiers or repeaters; distortion happens when different frequency components travel at different speeds and change the waveform; and noise and crosstalk are unwanted external electrical energy (EMI) that corrupts bits.",
-    { need: 4 });
+     ["Distortion (frequencies at different speeds change the waveform) and noise/crosstalk (EMI corrupts bits)", "distort", "noise", "crosstalk", "emi"]], "Bit rate is the number of bits transmitted per second (bps, kbps, Mbps, Gbps). Bandwidth is the theoretical maximum data-carrying capacity of a link, such as 1 Gbps. Throughput is the actual speed of successfully delivered data, which is lower than bandwidth because of protocol header overhead, retransmissions, congestion and processing latency. Signals degrade in three ways: attenuation is the loss of signal energy over distance and is fixed with amplifiers or repeaters; distortion happens when different frequency components travel at different speeds and change the waveform; and noise and crosstalk are unwanted external electrical energy (EMI) that corrupts bits.", { sec: 'E', need: 4 });
 });

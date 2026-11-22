@@ -94,11 +94,20 @@ for (const l of WEEKS) if (byLecture[l] < MIN_PER_WEEK[l]) errors.push(`week ${l
 if (byType.mcq < 220) errors.push(`only ${byType.mcq} MCQs; need at least 220`);
 if (byType.fill < 110) errors.push(`only ${byType.fill} fill-in-the-blank items; need at least 110`);
 
-// Every week must be able to fill a Full single-week paper's written sections.
+// Written questions follow the instructor's Types 4 and 6: 5 marks each, tagged Section D or E, with a model drawing when one is asked for.
+for (const q of BANK.filter((x) => x.type === 'exp')) {
+  if (q.marks !== 5) err(q, 'written questions must carry 5 marks');
+  if (!['D', 'E'].includes(q.sec)) err(q, 'written question needs sec D or E');
+  if (q.sec === 'D' && !q.figure) err(q, 'Section D questions need a model drawing (figure)');
+  if (q.figure && !(EC.FIGURES && EC.FIGURES[q.figure])) err(q, `unknown figure "${q.figure}"`);
+}
+if (BANK.some((q) => q.type === 'def' || q.type === 'list')) errors.push('define/list questions are not used in this course');
+// Every week must be able to fill a Full single-week paper's Sections D and E (2 × 5 marks each).
 for (const l of WEEKS) {
-  const exps = BANK.filter((q) => q.lecture === l && q.type === 'exp');
-  if (exps.filter((q) => q.marks === 5).length < 2) errors.push(`week ${l} needs at least two 5-mark explain questions`);
-  if (!exps.some((q) => q.marks === 4)) errors.push(`week ${l} needs a 4-mark explain question`);
+  for (const sec of ['D', 'E']) {
+    const n = BANK.filter((q) => q.lecture === l && q.type === 'exp' && q.sec === sec).length;
+    if (n < 2) errors.push(`week ${l} needs at least two Section ${sec} questions (has ${n})`);
+  }
 }
 
 const tfTrue = count((q) => q.type === 'tf' && q.answer);

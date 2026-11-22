@@ -192,53 +192,51 @@ EC.lecture(6, function (Q) {
   tf(32, 'm', "In the TIU case study, the microwave option avoids the highway trenching permits.", true, "True. But it carries a rain fade risk.");
   tf(32, 'h', "In the TIU case study, Cat6a copper is the best option because it is the cheapest.", false, "False. Cat6a fails: its maximum distance is 100 m and the buildings are 1.5 km apart.");
 
-  /* ---------- Section D: short answer ---------- */
-  def(27, 'e', 2, "Define unguided media and explain how the signal propagates.",
-    [["Transmitting electromagnetic signals without a physical conductor", "without", "no physical", "conductor", "electromagnetic"],
-     ["Free-space propagation through air, water or the vacuum of space", "free space", "air", "vacuum", "water"]],
-    "Unguided (unbounded, wireless) media transmit electromagnetic signals without using a physical conductor. They use free-space propagation: the signals travel through air, water or the vacuum of outer space, and anyone in range with an antenna can receive them.");
-  def(4, 'm', 3, "Name the three wireless propagation modes and the frequency range of each.",
-    [["Ground wave: below 2 MHz", "ground"],
-     ["Sky wave: 2 to 30 MHz", "sky"],
-     ["Line-of-sight: above 30 MHz", "line of sight", "los"]],
-    "Ground-wave propagation is used below 2 MHz, sky-wave propagation between 2 and 30 MHz, and line-of-sight propagation above 30 MHz (radio, microwave and infrared links).");
-  def(30, 'm', 2, "Compare guided and unguided media in terms of security.",
-    [["Guided: high security; the signal is confined in the jacket and fiber is immune to taps", "confined", "jacket", "high", "tap"],
-     ["Unguided: low security; broadcast into open air so it needs strong encryption such as WPA3", "broadcast", "open air", "wpa3", "encrypt", "low"]],
-    "Guided media have high transmission security because the signal is confined inside the cable jacket, and fiber cannot be tapped without interrupting the light. Unguided media have low security because the signal is broadcast into open air, where anyone in range can receive it, so strong encryption such as WPA3 is required.");
-  list(28, 'e', 3, "List the three types of wireless waves in the electromagnetic spectrum, with one example each.",
-    [["Radio waves (AM/FM radio)", "radio"], ["Microwaves (Wi-Fi, satellite)", "microwave"], ["Infrared (TV remote, short-range sensors)", "infrared", "=ir"]],
-    { explain: "Slide 28." });
-  list(28, 'e', 3, "List three reasons for going wireless.",
-    [["Mobility", "mobil"], ["Rapid deployment", "rapid", "deploy"], ["Connectivity where cabling is impossible", "cabling is impossible", "impossible", "no cabl", "where cabl"]],
-    { explain: "Slide 28." });
-  list(29, 'm', 3, "List three modern wireless standards and what each is used for.",
-    [["IEEE 802.11 Wi-Fi: high-speed wireless LAN", "802.11", "wi fi", "wifi"], ["IEEE 802.15 Bluetooth: short-range WPAN for peripherals", "802.15", "bluetooth"], ["Cellular 4G LTE / 5G NR: nationwide mobile connectivity", "cellular", "4g", "5g", "lte"]],
-    { explain: "Slide 29." });
-  list(32, 'm', 3, "List the three options evaluated for linking the two TIU buildings.",
-    [["Cat6a copper cable", "cat6a", "cat 6a", "copper"], ["Single-mode fiber", "single mode", "smf", "fiber", "fibre"], ["Point-to-point wireless microwave", "microwave", "wireless", "point to point"]],
-    { explain: "Slide 32." });
+  /* ---------- In the instructor's style (Types 1-3: long technical stems, definitional blanks, swapped-fact statements) ---------- */
+  mcq(30, 'h', "A university needs a link that is immune to rain fade and cannot be picked up by anyone with an antenna in range. Which media category should it choose?",
+    ["Guided media (e.g. fiber)", "Unguided microwave", "Unguided radio", "Infrared"],
+    "Slide 30: guided media are immune to weather and confine the signal.");
+  mcq(4, 'h', "A broadcast at 10 MHz is used to reach receivers far beyond the horizon. Which propagation mode does this frequency use?",
+    ["Sky wave", "Ground wave", "Line-of-sight", "Guided propagation"],
+    "Slide 4: 2-30 MHz is sky wave.");
+  mcq(27, 'm', "Which property of unguided media means that any receiver within range that has an antenna can pick up the signal?",
+    ["Its unbounded (broadcast) nature", "Total internal reflection", "Differential signaling", "Microsegmentation"],
+    "Slide 27.");
+  mcq(32, 'h', "In the TIU case study, which option is rejected outright rather than being a trade-off?",
+    ["Cat6a copper cable", "Single-mode fiber", "Point-to-point microwave", "Leasing dark fiber"],
+    "Slide 32: Cat6a fails because its maximum distance is 100 m; the other options are trade-offs.");
+  fill(28, 'm', "Waves that radiate in all directions, like AM/FM radio, are described as [[omnidirectional|omni-directional|omni directional]].", "Slide 28.");
+  fill(29, 'm', "High-speed local area wireless networking for computers and phones, defined by IEEE 802.11, is known as [[Wi-Fi|wifi|wireless lan]].", "Slide 29.");
+  fill(27, 'h', "Unguided media send signals through air, water or the vacuum of space instead of along a physical [[conductor|cable]].", "Slide 27.");
+  tf(28, 'h', "Radio waves are highly directional and cannot pass through walls, while infrared is omnidirectional and penetrates walls easily.", false, "False. Swapped: radio is omnidirectional and penetrates walls; infrared is short-range and cannot pass through walls.");
+  tf(30, 'h', "Unguided media offer high mobility and rapid deployment, but lower security, so they need strong encryption such as WPA3.", true, "True. Slide 30.");
+  tf(4, 'h', "Line-of-sight propagation is used below 2 MHz, while ground-wave propagation is used above 30 MHz.", false, "False. Swapped: ground wave is below 2 MHz; line-of-sight is above 30 MHz.");
+  tf(29, 'm', "Bluetooth (IEEE 802.15) is a short-range personal area network, while cellular 4G/5G uses licensed base stations for nationwide coverage.", true, "True. Slide 29.");
 
-  /* ---------- Section E: explain ---------- */
-  exp([28, 4], 'm', 5, "Contrast radio waves, microwaves and infrared in terms of frequency range, direction, wall penetration and examples.",
-    [["Radio waves: 3 kHz – 1 GHz; omnidirectional", "3 khz", "1 ghz", "omnidirectional", "omni"],
+  exp([4, 28], 'h', 5, "Categorize the three wireless propagation modes by frequency band. Describe how the signal travels in each mode, and draw a labeled diagram of all three.",
+    [["Ground wave: below 2 MHz; the signal travels close to the Earth's surface", "ground", "2 mhz", "surface"],
+     ["Sky wave: 2 to 30 MHz; the signal is reflected back down from the ionosphere to reach far receivers", "sky", "ionosphere", "30 mhz"],
+     ["Line-of-sight: above 30 MHz; a straight path between antennas or dishes with no obstacles", "line of sight", "straight", "dish"],
+     ["Microwaves (and infrared) need line-of-sight; low-frequency radio uses ground or sky waves", "microwave", "infrared", "low frequency"],
+     ["Labeled drawing: a ground wave along the surface, a sky wave bouncing off the ionosphere, and a straight line-of-sight path","labeled drawing","labelled drawing","drawing","diagram"]],
+    "Wireless signals propagate in three modes according to frequency. Ground-wave propagation is used below 2 MHz: the signal travels close to the Earth's surface. Sky-wave propagation is used between 2 and 30 MHz: the signal goes up and is reflected back down from the ionosphere, reaching receivers far away. Line-of-sight propagation is used above 30 MHz: the signal travels in a straight line between antennas or dishes and needs no obstacles in the way, which is why microwaves (and infrared) need line-of-sight, while low-frequency radio uses ground or sky waves. Labeled drawing: a ground wave following the surface, a sky wave bouncing off the ionosphere, and a straight line-of-sight path between two towers.",
+    { sec: 'D', figure: 'propagation' });
+
+  /* ---------- Section D: categorization & illustration (Type 4) · Section E: explanation & structural mapping (Type 6) ---------- */
+  exp([28, 4], 'm', 5, "Categorize the wireless electromagnetic spectrum into its three bands. For each band give the frequency range, direction, wall penetration and an example, and draw a labeled spectrum diagram.", [["Radio waves: 3 kHz – 1 GHz; omnidirectional", "3 khz", "1 ghz", "omnidirectional", "omni"],
      ["Radio waves penetrate solid walls easily; e.g. AM/FM radio", "penetrate", "wall", "am", "fm"],
      ["Microwaves: 1 – 300 GHz; highly directional focused beams; strict line-of-sight", "300 ghz", "directional", "line of sight", "focused"],
      ["Microwave examples: Wi-Fi, satellite", "wi fi", "wifi", "satellite"],
-     ["Infrared: 300 GHz – 400 THz; short-range; cannot penetrate walls; e.g. TV remote, sensors", "400 thz", "short range", "remote", "cannot"]],
-    "The wireless spectrum runs from 3 kHz to 400 THz. Radio waves (3 kHz – 1 GHz) are omnidirectional and penetrate solid building walls easily, for example AM/FM radio; low frequencies travel by ground wave (< 2 MHz) or sky wave (2 – 30 MHz). Microwaves (1 – 300 GHz) are highly directional, focused beams that require strict line-of-sight, for example Wi-Fi and satellite links. Infrared radiation (300 GHz – 400 THz) is short-range optical transmission that cannot penetrate walls, for example TV remote controls and short-range wireless sensors.");
-  exp([30, 33], 'm', 4, "Compare guided and unguided media in terms of installation and mobility, security, weather and bandwidth/distance.",
-    [["Installation & mobility: guided = fixed path, high labour cost, zero mobility; unguided = rapid deployment, high mobility, roaming", "fixed", "mobility", "roam", "rapid"],
+     ["Infrared: 300 GHz – 400 THz; short-range; cannot penetrate walls; e.g. TV remote, sensors", "400 thz", "short range", "remote", "cannot"],
+     ["Labeled drawing: one frequency axis divided into radio, microwave and infrared, with the boundary values","labeled drawing","labelled drawing","drawing","diagram"]], "The wireless spectrum runs from 3 kHz to 400 THz. Radio waves (3 kHz – 1 GHz) are omnidirectional and penetrate solid building walls easily, for example AM/FM radio; low frequencies travel by ground wave (< 2 MHz) or sky wave (2 – 30 MHz). Microwaves (1 – 300 GHz) are highly directional, focused beams that require strict line-of-sight, for example Wi-Fi and satellite links. Infrared radiation (300 GHz – 400 THz) is short-range optical transmission that cannot penetrate walls, for example TV remote controls and short-range wireless sensors. Labeled drawing: a frequency bar from 3 kHz to 400 THz divided at 1 GHz and 300 GHz into radio waves, microwaves and infrared, with each band’s properties written underneath.", { sec: 'D', figure: 'spectrum' });
+  exp([30, 33], 'm', 5, "Compare guided and unguided media in terms of installation and mobility, security, weather and bandwidth/distance.", [["Installation & mobility: guided = fixed path, high labour cost, zero mobility; unguided = rapid deployment, high mobility, roaming", "fixed", "mobility", "roam", "rapid"],
      ["Security: guided high (signal confined, fiber immune to taps); unguided low (broadcast, needs WPA3)", "secur", "wpa3", "broadcast", "confined"],
      ["Weather/interference: guided immune to rain and fog, shielded from EMI; unguided vulnerable to rain fade, absorption, collisions", "rain", "fade", "weather", "fog"],
-     ["Bandwidth/distance: guided (fiber) very high bandwidth over long distance; unguided limited by free-space path loss and obstacles", "path loss", "obstacle", "bandwidth", "long distance"]],
-    "Guided media use a solid conduit (copper or glass) with a fixed physical path: installation has a high labour cost and there is zero mobility, while unguided media use free-space propagation, allowing rapid deployment, high mobility and client roaming. Guided media are highly secure because the signal is confined in the jacket (fiber is immune to taps); unguided media are less secure because they broadcast into open air and need strong encryption such as WPA3. Guided media are immune to rain and fog and shielded from EMI; unguided media suffer rain fade, atmospheric absorption and shared collisions. Fiber offers extremely high bandwidth over long distances, whereas wireless distance is limited by free-space path loss and obstacles. Real networks combine them: fiber for backbones, copper for desks, wireless for mobility.");
-  exp([31, 32], 'h', 5, "TIU must connect two buildings 1.5 km apart across a public highway with a 10 Gbps link. Evaluate Cat6a copper, single-mode fiber and point-to-point microwave, and recommend an option.",
-    [["Cat6a fails: its maximum distance is 100 m, far less than 1.5 km", "100 m", "100 meter", "fails", "too far"],
+     ["Bandwidth/distance: guided (fiber) very high bandwidth over long distance; unguided limited by free-space path loss and obstacles", "path loss", "obstacle", "bandwidth", "long distance"]], "Guided media use a solid conduit (copper or glass) with a fixed physical path: installation has a high labour cost and there is zero mobility, while unguided media use free-space propagation, allowing rapid deployment, high mobility and client roaming. Guided media are highly secure because the signal is confined in the jacket (fiber is immune to taps); unguided media are less secure because they broadcast into open air and need strong encryption such as WPA3. Guided media are immune to rain and fog and shielded from EMI; unguided media suffer rain fade, atmospheric absorption and shared collisions. Fiber offers extremely high bandwidth over long distances, whereas wireless distance is limited by free-space path loss and obstacles. Real networks combine them: fiber for backbones, copper for desks, wireless for mobility.", { sec: 'E' });
+  exp([31, 32], 'h', 5, "TIU must connect two buildings 1.5 km apart across a public highway with a 10 Gbps link. Evaluate Cat6a copper, single-mode fiber and point-to-point microwave, and recommend an option.", [["Cat6a fails: its maximum distance is 100 m, far less than 1.5 km", "100 m", "100 meter", "fails", "too far"],
      ["Single-mode fiber: superior 10 Gbps performance and zero EMI", "superior", "zero emi", "10 gbps", "emi"],
      ["Fiber drawback: high civil trenching cost and a permit to dig under the highway", "trench", "permit", "cost"],
      ["Microwave: line-of-sight roof dishes bypass the trenching permits, rapid setup", "bypass", "rapid", "roof", "line of sight"],
-     ["Microwave risk: rain fade; recommendation justified (fiber for performance, microwave for speed of deployment)", "rain fade", "recommend", "choose", "best"]],
-    "Option 1, Cat6a copper, fails: its maximum distance is strictly 100 m, but the buildings are 1.5 km apart. Option 2, single-mode fiber (trenched or leased dark fiber), gives superior 10 Gbps performance with zero EMI and easily covers 1.5 km, but needs an official permit and a high civil trenching cost under the highway. Option 3, a point-to-point wireless microwave link with line-of-sight roof-mounted dishes, bypasses the trenching permits completely and is quick to set up, but carries a rain fade risk. Recommendation: single-mode fiber when stable 10 Gbps performance is the priority and the budget allows trenching; microwave when fast deployment without permits matters more and some weather risk is acceptable.",
-    { need: 4 });
+     ["Microwave risk: rain fade; recommendation justified (fiber for performance, microwave for speed of deployment)", "rain fade", "recommend", "choose", "best"],
+     ["Labeled drawing: the two buildings, the highway, and the three link options","labeled drawing","labelled drawing","drawing","diagram"]], "Option 1, Cat6a copper, fails: its maximum distance is strictly 100 m, but the buildings are 1.5 km apart. Option 2, single-mode fiber (trenched or leased dark fiber), gives superior 10 Gbps performance with zero EMI and easily covers 1.5 km, but needs an official permit and a high civil trenching cost under the highway. Option 3, a point-to-point wireless microwave link with line-of-sight roof-mounted dishes, bypasses the trenching permits completely and is quick to set up, but carries a rain fade risk. Recommendation: single-mode fiber when stable 10 Gbps performance is the priority and the budget allows trenching; microwave when fast deployment without permits matters more and some weather risk is acceptable. Labeled drawing: Building A and Building B on either side of the highway, with the failed copper run, the trenched fiber under the road, and the microwave beam between roof dishes.", { sec: 'E', figure: 'tiuLink', need: 4 });
 });

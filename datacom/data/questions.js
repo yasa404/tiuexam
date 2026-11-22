@@ -75,11 +75,14 @@
       o.q = q; o.points = points(pts); o.need = pts.length; o.model = model;
       BANK.push(o); return o;
     },
-    /* exp(slide, diff, marks, question, [[point, key...]...], modelAnswer, {need, list:{items, n, weight}}) */
+    /* exp(slide, diff, marks, question, [[point, key...]...], modelAnswer, {need, sec: 'D'|'E', figure, list:{items, n, weight}})
+       sec 'D' = categorize & illustrate, 'E' (default) = explain & map; figure = model drawing in EC.FIGURES. */
     exp: function (slide, diff, marks, q, pts, model, opt) {
       var o = base('exp', slide, diff, marks);
       o.q = q; o.points = points(pts); o.model = model;
       o.need = (opt && opt.need) || pts.length;
+      if (opt && opt.sec) o.sec = opt.sec;
+      if (opt && opt.figure) o.figure = opt.figure;
       if (opt && opt.list) {
         o.listPart = {
           items: points(opt.list.items),
@@ -103,7 +106,24 @@
     storage: 'dc301',
     unit: 'Week',
     unitsLabel: 'Weeks',
-    units: [2, 3, 4, 5, 6]
+    units: [2, 3, 4, 5, 6],
+    /* Sections and marks follow the instructor's question-style file (IT301 - Question Types):
+       Type 1 multiple choice · Type 2 fill in the blanks with a word bank · Type 3 true/false ·
+       Type 4 categorization & illustration (drawing) · Type 6 architectural explanation & structural mapping (drawing). */
+    forceWordBank: true,
+    sectionInfo: {
+      A: { title: 'Multiple choice', instr: 'Choose ONE correct option (A–D) for each question.' },
+      B: { title: 'Fill in the blanks (word bank)', instr: 'Complete the statements by selecting the correct technical terms from the Word Bank. Each blank carries one mark.' },
+      C: { title: 'True or false', instr: 'Decide whether each statement is True or False. Read every part of the statement carefully.' },
+      D: { title: 'Categorization & illustration', instr: 'Categorize, describe, and draw a clear, labeled diagram. Marks are given for each key point and for the labeled drawing.', types: ['exp'], bySec: true },
+      E: { title: 'Explanation & structural mapping', instr: 'Explain in full sentences, then draw the structural mapping asked for. Marks are given for each key point and for the drawing.', types: ['exp'], bySec: true }
+    },
+    budgets: {
+      Q: { A: 4, B: 3, C: 3, D: 0, E: 0 },
+      S: { A: 6, B: 4, C: 5, D: 0, E: 5 },
+      M: { A: 15, B: 8, C: 7, D: 5, E: 5 },
+      F: { A: 20, B: 12, C: 8, D: 10, E: 10 }
+    }
   };
   /* Weeks 5 and 6 share one PDF (Transmission Media I and II): Week 5 = guided media, Week 6 = unguided media. */
   EC.LECTURES = {

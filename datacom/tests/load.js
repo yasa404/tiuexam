@@ -11,6 +11,7 @@ const FILES = [
   'data/questions-w4.js',
   'data/questions-w5.js',
   'data/questions-w6.js',
+  'data/figures.js',
   'data/flashcards.js',
   'js/core.js'
 ];

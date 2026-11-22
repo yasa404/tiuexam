@@ -864,3 +864,13 @@ html[data-mode="dark"] .drawer-back { background: rgba(0, 0, 0, .45); }
 @media (pointer: coarse) {
   .code-form input { font-size: 16px; }
 }
+
+/* ---------- Drawing questions (Sections D and E): drawing space, model drawing, Focus note ---------- */
+.draw-box { margin-top: 8px; height: 46mm; border: 1.5px dashed #b8b6ae; border-radius: 6px; display: flex; align-items: flex-end; padding: 6px 9px; background: repeating-linear-gradient(0deg, transparent 0 23px, #f1f0eb 23px 24px); }
+.draw-box span { font-family: var(--sans); font-size: .7em; color: #8a877d; }
+.fig { margin: 8px 0 0; padding: 8px 10px 6px; border: 1px solid #e3e1da; border-radius: 6px; background: #fff; break-inside: avoid; }
+.fig .pt-h { font-family: var(--sans); font-size: .75em; text-transform: uppercase; letter-spacing: .06em; color: var(--red); margin-bottom: 4px; }
+.fig .fig-svg { display: block; width: 100%; height: auto; }
+.fig figcaption { font-family: var(--sans); font-size: .72em; color: #6a6a66; text-align: center; margin-top: 2px; }
+.draw-note { margin: 0 0 10px; padding: 9px 12px; border-radius: 10px; font-size: 14px; background: var(--accent-soft); border: 1px solid var(--accent-line); color: var(--ink-2); }
+.draw-note b { color: var(--accent); }

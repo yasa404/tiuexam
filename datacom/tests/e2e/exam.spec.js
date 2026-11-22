@@ -108,6 +108,7 @@ test('a blank paper scores zero and self-marking changes the total', async ({ pa
   await openCode(page, 'DC-0A1B');
   await submit(page);
   await expect(page.locator('[data-total2]')).toHaveText('0');
+  const written = await page.locator('#sheets .q-exp').count(); // Sections D and E: one written question each
   const e = page.locator('#sheets .q-exp').first();
   const boxes = e.locator('input[data-pt]');
   const n = await boxes.count();
@@ -115,7 +116,8 @@ test('a blank paper scores zero and self-marking changes the total', async ({ pa
   await expect(page.locator('#sheets [data-total]')).toHaveText('5');
   await expect(page.locator('[data-total2]')).toHaveText('5');
   await page.click('#btn-mistakes');
-  await expect(page.locator('#sheets .q-exp')).toHaveCount(0);
+  // The fully self-marked question is no longer a mistake; the other written question still is.
+  await expect(page.locator('#sheets .q-exp')).toHaveCount(written - 1);
   await page.click('.result-tools [data-view="a4"]');
   expect(await page.locator('#sheets .sheet').count()).toBeGreaterThan(1);
 });
@@ -285,4 +287,29 @@ test('sound effects play on start and finish, and can be turned off', async ({ p
   await submit(page);
   expect(await page.evaluate(() => window.__sim.sounds())).toEqual([]);
   expect(errors).toEqual([]);
+});
+
+test('instructor style: drawing questions get a drawing space, a Focus note and a model drawing; the word bank is always on', async ({ page }) => {
+  await fresh(page, 'a4');
+  await page.click('summary:has-text("More options")');
+  expect(await page.locator('input[name=wb]').count()).toBe(0);
+  await page.click('label.preset:has(input[value=F])');
+  await page.click('#start');
+  await page.waitForSelector('#sheets .sheet');
+  const sheets = page.locator('#sheets');
+  await expect(sheets).toContainText('Categorization & illustration');
+  await expect(sheets).toContainText('Explanation & structural mapping');
+  await expect(sheets.locator('.wordbank, .wb').first()).toBeVisible();
+  const draws = await page.evaluate(() => window.__sim.exam().items.filter((it) => it.q.figure).length);
+  expect(draws).toBeGreaterThan(1);
+  expect(await sheets.locator('.draw-box').count()).toBe(draws);
+  // Focus mode shows the "draw on paper" note on a drawing question.
+  await page.click('.exam-top [data-view="focus"]');
+  const idx = await page.evaluate(() => window.__sim.exam().items.findIndex((it) => it.q.figure));
+  await page.evaluate((i) => { const S = window.__sim.state(); S.current.idx = i; }, idx);
+  await page.click('.exam-top [data-view="a4"]'); await page.click('.exam-top [data-view="focus"]');
+  await expect(page.locator('.draw-note')).toBeVisible();
+  // After submitting, the marked paper shows the model drawings.
+  await submit(page);
+  expect(await page.locator('#sheets .fig svg').count()).toBe(draws);
 });

@@ -287,70 +287,57 @@ EC.lecture(5, function (Q) {
   tf(24, 'm', "With a good enough cable, a signal can travel infinitely without loss.", false, "False. Every physical medium degrades the signal.");
   tf(25, 'h', "Thermal noise only appears when there is a nearby motor or power line.", false, "False. Thermal noise is always present; motors and power lines cause EMI.");
 
-  /* ---------- Section D: short answer ---------- */
-  def(9, 'e', 2, "Define guided media and give the three types.",
-    [["Solid physical conductors (bounded) guide the signal along a specific path", "solid", "physical", "bounded", "specific path", "conduct"],
-     ["Types: twisted pair, coaxial, fiber optic", "twisted", "coax", "fiber", "fibre"]],
-    "Guided (bounded/conducted) media are solid physical conductors that guide signals along a specific path. The three types are twisted-pair cable, coaxial cable and fiber optic cable.");
-  def(6, 'm', 2, "Why is transmission media called Layer 0?",
-    [["It is located beneath Layer 1 (the Physical layer)", "beneath", "below", "under"],
-     ["Layer 1 defines voltages/timing/encoding; the medium is the actual physical pathway the signals travel", "pathway", "path", "physical channel", "propagate"]],
-    "Transmission media is located beneath Layer 1. The Physical layer defines voltages, frequencies, timing, bit encoding and pinouts, while the transmission medium is the actual physical pathway (channel) over which the signals propagate, so it is often called Layer 0.");
-  def(21, 'm', 2, "Explain total internal reflection in a fiber optic cable.",
-    [["Core has a higher refractive index than the cladding", "higher", "refractive"],
-     ["Light hitting the boundary beyond the critical angle reflects back and zigzags through the core without escaping", "critical", "reflect", "zigzag", "without escaping"]],
-    "The glass core has a higher refractive index than the glass cladding. According to Snell's law, light hitting the core-cladding boundary beyond the critical angle is reflected back instead of escaping, so it zigzags through the core indefinitely. This total internal reflection gives near-lossless optical transmission.");
-  def(24, 'm', 2, "Define attenuation and state how it is measured and solved.",
-    [["Loss of signal energy (strength) over distance; energy converts to heat", "loss", "energy", "strength", "heat", "distance"],
-     ["Measured in dB per meter/km; amplifiers or repeaters regenerate the signal", "db", "decibel", "amplifier", "repeater"]],
-    "Attenuation is the loss of signal energy over distance: signal strength drops as energy converts to heat. It is measured in decibels (dB) of loss per meter or kilometer, and amplifiers and repeaters are deployed to regenerate the degraded signal.");
-  list(15, 'e', 2, "List the four layers of a coaxial cable from the center outward.",
-    [["Center core conductor", "core", "conductor", "copper"], ["Non-conductive insulator", "insulat", "foam"], ["Metallic braided shield", "shield", "braid", "mesh"], ["Outer plastic jacket", "jacket", "pvc", "teflon"]],
-    { explain: "Slide 15." });
-  list(17, 'm', 3, "List four advantages of fiber optic cable.",
-    [["Immense bandwidth", "bandwidth", "tbps", "terabit"], ["Extended distance", "distance", "km", "long"], ["EMI immunity", "emi", "immun", "interference"], ["Superior security", "secur", "tap"], ["Lightweight and compact", "light weight", "lightweight", "compact", "thin"]],
-    { n: 4, explain: "Slide 17." });
-  list(14, 'm', 3, "Give three reasons why coaxial cable outperformed twisted pair.",
-    [["Heavy braided shielding prevents signal leakage", "shield", "leak", "braid"], ["Higher bandwidth (dozens of analog TV channels)", "bandwidth", "channel"], ["Extended range (hundreds of meters without severe attenuation)", "range", "hundreds", "distance", "attenuation"]],
-    { explain: "Slide 14." });
-  list(7, 'm', 3, "List the three types of interfaces that bridge Layer 1 to the medium.",
-    [["Electrical interfaces (NIC PHY chips over copper)", "electrical", "phy", "nic"], ["Optical transceivers (lasers/LEDs into fiber)", "optical", "laser", "led"], ["Wireless radios (antennas)", "wireless", "radio", "antenna"]],
-    { explain: "Slides 7-8." });
-  list(13, 'm', 3, "List the three steps of how a twisted pair cancels EMI.",
-    [["Differential signaling (+V and −V)", "differential", "inverted"], ["External noise hits both wires almost identically", "both wires", "identical", "noise hits"], ["Receiver subtraction cancels the noise", "subtract", "receiver", "cancel", "vanish"]],
-    { explain: "Slide 13." });
-  list([24, 25], 'e', 3, "List the three main reasons for transmission impairments.",
-    [["Attenuation", "attenuat"], ["Distortion", "distort"], ["Noise", "noise", "crosstalk", "emi"]],
-    { explain: "Slides 24-25." });
+  /* ---------- In the instructor's style (Types 1-3: long technical stems, definitional blanks, swapped-fact statements) ---------- */
+  mcq(23, 'h', "Which guided medium offers complete immunity to EMI and spans 2 km (multimode) to more than 100 km (single-mode), but has the highest cable and port cost?",
+    ["Fiber optic cable", "Shielded twisted pair", "Thick coaxial cable", "Cat6a UTP"],
+    "Slide 23.");
+  mcq(13, 'h', "Which technique lets a twisted pair cancel noise by sending the signal on one wire and its inverted copy on the other, so that the receiver can subtract them?",
+    ["Differential signaling", "Total internal reflection", "Microsegmentation", "Modal dispersion"],
+    "Slide 13.");
+  mcq(20, 'h', "In which fiber mode do light rays travel along different paths and arrive at slightly different times, limiting the distance to about 2 km?",
+    ["Multimode fiber", "Single-mode fiber", "Coaxial cable", "Shielded twisted pair"],
+    "Slide 20: modal dispersion.");
+  mcq(23, 'h', "Which statement about Shielded Twisted Pair (STP) is correct according to the guided media comparison?",
+    ["It has high EMI immunity, but only fiber is completely immune", "It is 100% immune to EMI", "It is the best guided medium on every metric", "It reaches 100 km without repeaters"],
+    "Slide 23: twisted pair immunity is moderate (UTP) to high (STP); fiber has complete immunity.");
+  fill(21, 'm', "The law that describes how light refracts at the boundary between the fiber core and the cladding is called [[Snell's law|snells law|snell law|snell]].", "Slide 21.");
+  fill(17, 'h', "Because fiber carries light pulses instead of electrical current, it has complete [[immunity]] to electromagnetic interference.", "Slide 17.");
+  fill(20, 'm', "The fiber mode with a 50–62.5 micron core and LED light sources, used in data centers and campus backbones, is [[multimode|multi mode|multi-mode|MMF]] fiber.", "Slide 20.");
+  fill(24, 'm', "Active devices that regenerate degraded signals to overcome attenuation are amplifiers and [[repeaters|repeater]].", "Slide 24.");
+  tf(23, 'h', "Shielded Twisted Pair is considered 100% immune against EMI, and is considered the best compared to the other types of guided media.", false, "False. STP has high EMI immunity, but only fiber is completely immune, and fiber also beats it on distance and bandwidth. (The instructor's sample statement.)");
+  tf(19, 'h', "Single-mode fiber uses an LED and a thick core, while multimode fiber uses a laser and a thin core.", false, "False. Swapped: single-mode = laser and a ~9 µm core; multimode = LED and a 50-62.5 µm core.");
+  tf(21, 'h', "In a fiber optic cable, the cladding has a higher refractive index than the core, which is what traps the light.", false, "False. The core has the higher refractive index; the lower-index cladding traps the light.");
+  tf(14, 'm', "The layers of a coaxial cable share a single geometric center line, and the cable uses a BNC connector.", true, "True. Slide 14.");
 
-  /* ---------- Section E: explain ---------- */
-  exp([19, 20], 'm', 5, "Compare single-mode fiber (SMF) and multimode fiber (MMF).",
-    [["SMF: ultra-thin core about 9-10 µm; only one straight ray", "9", "10 micron", "thin", "single ray", "one ray", "straight"],
+  exp([9, 10, 12, 14, 15, 16, 21], 'm', 5, "Categorize the primary classes of transmission media used in computer networks (guided vs. unguided). For guided media, describe two specific physical cable types, and provide a clear, labeled cross-sectional drawing illustrating the physical architecture of both cable types.",
+    [["Guided (bounded) media: solid physical conductors guide the signal along a path: twisted pair, coaxial, fiber", "guided", "bounded", "solid"],
+     ["Unguided (unbounded) media: electromagnetic waves through free space: radio, microwave, infrared", "unguided", "unbounded", "free space"],
+     ["Cable 1 described, e.g. twisted pair: insulated copper wires twisted in pairs to cancel EMI; RJ-45; up to 100 m", "twisted", "rj", "emi"],
+     ["Cable 2 described, e.g. coaxial: copper core, insulator, braided shield, jacket; BNC (or fiber: core, cladding, buffer, jacket)", "coax", "braided", "cladding", "insulator"],
+     ["Labeled drawing: cross-sections of both cables with every layer named","labeled drawing","labelled drawing","drawing","diagram"]],
+    "Transmission media fall into two classes. Guided (bounded) media are solid physical conductors that guide the signal along a specific path: twisted-pair, coaxial and fiber optic cable. Unguided (unbounded) media are electromagnetic waves that propagate through free space: radio waves, microwaves and infrared. Twisted pair: two insulated copper wires twisted around each other; a Cat6 cable has four twisted pairs (eight wires) inside a plastic jacket, the twisting cancels EMI, it uses RJ-45 connectors and runs up to 100 m. Coaxial: layers that share one center axis: a copper core conductor, a plastic-foam insulator, a braided metal shield that blocks EMI and acts as ground, and an outer plastic jacket; it uses BNC connectors and reaches 185-500 m. Labeled drawing: a cross-section of each cable with every layer named (for twisted pair: wires, insulation, jacket; for coax: core, insulator, braided shield, jacket).",
+    { sec: 'D', figure: 'cables' });
+
+  /* ---------- Section D: categorization & illustration (Type 4) · Section E: explanation & structural mapping (Type 6) ---------- */
+  exp([19, 20], 'm', 5, "Categorize the two modes of fiber optic cable. Describe the core size, light source, dispersion, distance and applications of each, and draw a labeled side view showing how light travels in each mode.", [["SMF: ultra-thin core about 9-10 µm; only one straight ray", "9", "10 micron", "thin", "single ray", "one ray", "straight"],
      ["SMF: laser diode source; zero modal dispersion; 10 to 100+ km", "laser", "zero", "100 km", "long distance"],
      ["SMF applications: Internet backbone, subsea cables, telecommunications", "backbone", "subsea", "ocean", "telecom"],
      ["MMF: thicker core about 50-62.5 µm; many rays bounce at different angles; LED source (lower cost)", "50", "62.5", "thick", "led", "bounce", "multiple ray"],
-     ["MMF: modal dispersion limits distance to 500 m - 2 km; used in data centers and campus backbones", "dispersion", "2 km", "500", "data center", "campus"]],
-    "Single-mode fiber has an ultra-thin core of about 9-10 microns that lets only one straight ray of light propagate. It uses a laser diode, has zero modal dispersion and carries signals 10 km to 100+ km, so it is used for the Internet backbone, trans-oceanic subsea cables and telecommunications. Multimode fiber has a thicker core of about 50-62.5 microns, so many rays bounce at different angles. It uses lower-cost LED transceivers, but modal dispersion (rays arriving at slightly different times) limits it to about 500 m - 2 km; it is used in data-center inter-rack links and enterprise campus backbones.");
-  exp([12, 13, 14, 15], 'h', 5, "Explain the architecture of twisted-pair and coaxial cables and how each protects the signal from interference.",
-    [["Twisted pair: two insulated copper wires twisted in a helical spiral; more twists per meter = better noise immunity", "twist", "helical", "spiral", "per meter"],
+     ["MMF: modal dispersion limits distance to 500 m - 2 km; used in data centers and campus backbones", "dispersion", "2 km", "500", "data center", "campus"],
+     ["Labeled drawing: a thin core with one straight ray (single-mode) and a thick core with zigzagging rays (multimode)","labeled drawing","labelled drawing","drawing","diagram"]], "Single-mode fiber has an ultra-thin core of about 9-10 microns that lets only one straight ray of light propagate. It uses a laser diode, has zero modal dispersion and carries signals 10 km to 100+ km, so it is used for the Internet backbone, trans-oceanic subsea cables and telecommunications. Multimode fiber has a thicker core of about 50-62.5 microns, so many rays bounce at different angles. It uses lower-cost LED transceivers, but modal dispersion (rays arriving at slightly different times) limits it to about 500 m - 2 km; it is used in data-center inter-rack links and enterprise campus backbones. Labeled drawing: a side view of a thin core with one straight ray for single-mode, and a thick core with several zigzagging rays for multimode.", { sec: 'D', figure: 'fiberModes' });
+  exp([12, 13, 14, 15], 'h', 5, "Explain the architecture of twisted-pair and coaxial cables and how each protects the signal from interference.", [["Twisted pair: two insulated copper wires twisted in a helical spiral; more twists per meter = better noise immunity", "twist", "helical", "spiral", "per meter"],
      ["Twisting + differential signaling: noise hits both wires equally and the receiver subtracts it", "differential", "subtract", "both wires", "cancel"],
      ["Coaxial: layers share one center axis: core conductor, insulator, braided shield, jacket", "axis", "core", "insulator", "jacket"],
      ["Coaxial braided shield blocks EMI and acts as ground; prevents leakage", "shield", "braid", "ground", "leak"],
-     ["Coaxial gives higher bandwidth and longer range than twisted pair (TV channels, hundreds of meters)", "bandwidth", "range", "tv", "television", "hundreds"]],
-    "A twisted pair is two insulated copper wires twisted around each other in a helical spiral (Cat6 has blue, orange, green and brown pairs). One wire carries the signal and the other its inverse (differential signaling); because of the continuous twisting, external noise hits both wires almost identically, and the receiver subtracts them so the noise cancels. More twists per meter give greater noise immunity and bandwidth. A coaxial cable shares one geometric center line: a copper core conductor, a plastic-foam insulator that keeps spacing uniform, a metallic braided shield that blocks EMI and serves as ground, and an outer PVC or Teflon jacket. The heavy shielding prevents signal leakage, which gave coax higher bandwidth (dozens of analog TV channels) and a longer range (hundreds of meters) than twisted pair.",
-    { need: 4 });
-  exp([22, 23], 'm', 4, "Evaluate twisted pair, coaxial and fiber optic cables in terms of distance, noise immunity, connectors, cost and usage.",
-    [["Twisted pair (Cat6): up to 100 m; moderate (UTP) to high (STP) immunity; RJ-45; lowest cost; desktop office LANs", "100 m", "rj", "lowest", "office", "desktop"],
+     ["Coaxial gives higher bandwidth and longer range than twisted pair (TV channels, hundreds of meters)", "bandwidth", "range", "tv", "television", "hundreds"]], "A twisted pair is two insulated copper wires twisted around each other in a helical spiral (Cat6 has blue, orange, green and brown pairs). One wire carries the signal and the other its inverse (differential signaling); because of the continuous twisting, external noise hits both wires almost identically, and the receiver subtracts them so the noise cancels. More twists per meter give greater noise immunity and bandwidth. A coaxial cable shares one geometric center line: a copper core conductor, a plastic-foam insulator that keeps spacing uniform, a metallic braided shield that blocks EMI and serves as ground, and an outer PVC or Teflon jacket. The heavy shielding prevents signal leakage, which gave coax higher bandwidth (dozens of analog TV channels) and a longer range (hundreds of meters) than twisted pair.", { sec: 'E', need: 4 });
+  exp([22, 23], 'm', 5, "Evaluate twisted pair, coaxial and fiber optic cables in terms of distance, noise immunity, connectors, cost and usage.", [["Twisted pair (Cat6): up to 100 m; moderate (UTP) to high (STP) immunity; RJ-45; lowest cost; desktop office LANs", "100 m", "rj", "lowest", "office", "desktop"],
      ["Coaxial: 185 m (thin) to 500 m (thick); high immunity (braided shield); BNC; medium cost; cable TV & CCTV", "185", "500", "bnc", "cctv", "tv"],
      ["Fiber: 2 km (MMF) to 100+ km (SMF); complete EMI immunity; LC connectors; highest cost; core backbones", "2 km", "100 km", "lc", "backbone", "highest"],
-     ["Conclusion: choice is a trade-off (copper for desks, fiber for backbones)", "trade", "desk", "choose", "depend"]],
-    "Twisted pair (Cat6/6a) is copper wire pairs with an RJ-45 connector; it reaches 100 m without a repeater, has moderate (UTP) to high (STP) noise immunity, has the lowest cost and is used for desktop office LANs. Coaxial cable (RG-58/59) has a copper core with braided mesh and a BNC connector; it reaches 185 m (thin) to 500 m (thick), has high immunity thanks to its shield, costs a medium amount and is used for cable TV and CCTV. Fiber optic (SMF/MMF) is ultra-pure silica glass with LC connectors; it reaches 2 km (MMF) to 100+ km (SMF), is completely immune to EMI, has the highest cable/port cost and is used in core backbones. The choice is a trade-off: copper for desks, fiber for backbones.");
-  exp([21], 'h', 5, "Using Snell's law, explain how light is guided in a fiber, and calculate the critical angle for a core with n₁ = 1.5 and cladding with n₂ = 1.0.",
-    [["Core has a higher refractive index; cladding has a lower one", "higher", "lower", "refractive"],
+     ["Conclusion: choice is a trade-off (copper for desks, fiber for backbones)", "trade", "desk", "choose", "depend"]], "Twisted pair (Cat6/6a) is copper wire pairs with an RJ-45 connector; it reaches 100 m without a repeater, has moderate (UTP) to high (STP) noise immunity, has the lowest cost and is used for desktop office LANs. Coaxial cable (RG-58/59) has a copper core with braided mesh and a BNC connector; it reaches 185 m (thin) to 500 m (thick), has high immunity thanks to its shield, costs a medium amount and is used for cable TV and CCTV. Fiber optic (SMF/MMF) is ultra-pure silica glass with LC connectors; it reaches 2 km (MMF) to 100+ km (SMF), is completely immune to EMI, has the highest cable/port cost and is used in core backbones. The choice is a trade-off: copper for desks, fiber for backbones.", { sec: 'E' });
+  exp([21], 'h', 5, "Using Snell's law, explain how light is guided in a fiber, and calculate the critical angle for a core with n₁ = 1.5 and cladding with n₂ = 1.0.", [["Core has a higher refractive index; cladding has a lower one", "higher", "lower", "refractive"],
      ["Snell's law: n₁ sin θ₁ = n₂ sin θ₂; light refracts at the core-cladding boundary", "n1 sin", "snell", "refract"],
      ["Critical angle: sin θc = n₂ / n₁", "sin", "n2 n1", "critical"],
      ["Calculation: sin θc = 1.0 / 1.5 = 0.667 → θc ≈ 41.8°", "41.8", "0.667", "0.67", "42"],
-     ["Beyond the critical angle: total internal reflection; light zigzags through the core without escaping", "total internal", "zigzag", "without escaping", "reflect"]],
-    "A fiber has a glass core with a higher refractive index and a glass cladding with a lower one. By Snell's law, n₁ sin θ₁ = n₂ sin θ₂: light refracts as it crosses the core-cladding boundary. The critical angle is where the refracted ray would travel along the boundary (θ₂ = 90°), so sin θc = n₂ / n₁ = 1.0 / 1.5 = 0.667 and θc = arcsin(0.667) ≈ 41.8°. Light that hits the boundary at more than 41.8° is not refracted out but totally internally reflected, so it zigzags through the core indefinitely without escaping: lossless optical signaling.",
-    { need: 4 });
+     ["Beyond the critical angle: total internal reflection; light zigzags through the core without escaping", "total internal", "zigzag", "without escaping", "reflect"],
+     ["Labeled drawing: the core-cladding boundary, the normal, a ray escaping below θc and a ray reflected above θc","labeled drawing","labelled drawing","drawing","diagram"]], "A fiber has a glass core with a higher refractive index and a glass cladding with a lower one. By Snell's law, n₁ sin θ₁ = n₂ sin θ₂: light refracts as it crosses the core-cladding boundary. The critical angle is where the refracted ray would travel along the boundary (θ₂ = 90°), so sin θc = n₂ / n₁ = 1.0 / 1.5 = 0.667 and θc = arcsin(0.667) ≈ 41.8°. Light that hits the boundary at more than 41.8° is not refracted out but totally internally reflected, so it zigzags through the core indefinitely without escaping: lossless optical signaling. Labeled drawing: the boundary between core and cladding with the normal, one ray below the critical angle refracting out, and one ray above it reflecting back into the core.", { sec: 'E', figure: 'tir', need: 4 });
 });

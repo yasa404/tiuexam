@@ -5,7 +5,7 @@ Practice midterm papers for Tishk International University IT courses, Fall 2026
 | Folder | Subject | Units | Questions |
 |---|---|---|---|
 | `ecommerce/` | IT 355 E-Commerce (Dr. Hala Najwan Sabeh) | Lectures 1–4 | 621 |
-| `datacom/` | IT 301 Data Communications and Computer Networks I (Azheen Ghafour) | Weeks 2–6 | 704 |
+| `datacom/` | IT 301 Data Communications and Computer Networks I (Azheen Ghafour) | Weeks 2–6 | 723 |
 
 Each subject is a self-contained static app (plain HTML, CSS and JavaScript, no backend) with its own README, question bank, tests and screenshots. Both share the same design and features; each keeps its own papers, flashcards and progress in the browser (`ec355.*` and `dc301.*` keys), so they never mix.
 
@@ -28,6 +28,6 @@ npm run dist          # dist/ with the chooser and both subjects, for Netlify dr
 
 ## Hosting
 
-GitHub Pages serves the repository root, so the chooser is at `https://yasa404.github.io/e-commerce/`, with the subjects at `…/ecommerce/` and `…/datacom/`.
+The repository is `yasa404/tiuexam`. GitHub Pages serves its root, so the chooser is at `https://yasa404.github.io/tiuexam/`, with the subjects at `https://yasa404.github.io/tiuexam/ecommerce/` and `https://yasa404.github.io/tiuexam/datacom/`.
 
 Developed by Yasa Sardar.

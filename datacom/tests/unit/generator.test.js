@@ -138,12 +138,34 @@ test('difficulty is part of the code and changes the paper', () => {
   assert.ok(share('N', 'medium') > 0.6, 'medium papers are mostly medium');
 });
 
-test('the 10-mark Quick paper: 4 + 2 + 2 + 2 marks, no Section E, code letter Q', () => {
+test('the 10-mark Quick paper: 4 + 3 + 3 marks (A, B, C only), code letter Q', () => {
   const code = C.buildCode('0bad', { length: 'Q' });
   assert.equal(code, 'DC-0BAD-23456Q');
   const e = C.makeExam(code);
   assert.equal(e.total, 10);
   assert.equal(e.minutes, 15);
-  assert.deepEqual(Array.from(e.sections, (s) => s.key + s.marks), ['A4', 'B2', 'C2', 'D2']);
+  assert.deepEqual(Array.from(e.sections, (s) => s.key + s.marks), ['A4', 'B3', 'C3']);
   assert.equal(C.parseCode('dc-0bad-36qh').cfg.length, 'Q');
+});
+
+test('sections follow the instructor\'s style: D = categorize & illustrate, E = explain & map, both drawing-based', () => {
+  assert.equal(C.SECTION_INFO.A.title, 'Multiple choice');
+  assert.match(C.SECTION_INFO.B.title, /word bank/i);
+  assert.equal(C.SECTION_INFO.D.title, 'Categorization & illustration');
+  assert.equal(C.SECTION_INFO.E.title, 'Explanation & structural mapping');
+  for (let s = 0; s < 40; s++) {
+    const e = C.makeExam(C.buildCode(hex(s + 7000), { length: 'F' }));
+    const d = e.sections.find((x) => x.key === 'D'), E = e.sections.find((x) => x.key === 'E');
+    assert.ok(d && E, 'Full paper has Sections D and E');
+    d.items.forEach((it) => { assert.equal(it.q.sec, 'D'); assert.ok(EC.FIGURES[it.q.figure], it.id + ' has a model drawing'); assert.equal(it.marks, 5); });
+    E.items.forEach((it) => { assert.equal(it.q.sec, 'E'); assert.equal(it.marks, 5); });
+    assert.ok(e.items.every((it) => it.type !== 'def' && it.type !== 'list'), 'no short define/list questions');
+  }
+});
+
+test('a retry paper keeps D and E questions in their own sections', () => {
+  const ids = EC.BANK.filter((q) => q.type === 'exp').slice(0, 6).map((q) => q.id);
+  const e = C.makeRetryExam(ids, '00aa');
+  e.sections.forEach((sec) => sec.items.forEach((it) => assert.equal(it.q.sec, sec.key)));
+  assert.equal(e.items.length, 6);
 });

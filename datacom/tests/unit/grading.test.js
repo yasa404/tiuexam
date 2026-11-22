@@ -103,8 +103,14 @@ test('fill: the PDU-order sentence needs the right order, the criteria sentence 
   assert.equal(C.gradeItem(itemFor(criteria), ['security', 'reliability']).got, 2);
 });
 
+// This course has no list questions on its papers (the instructor's style has none), but the grading engine
+// still supports them, so they are tested on a built-in example.
+const OSI_LIST = { id: 'T-L001', type: 'list', marks: 4, lecture: 3, q: 'List the seven layers of the OSI model.', need: 7,
+  items: [['Physical', 'physical'], ['Data Link', 'data link', 'datalink'], ['Network', 'network'], ['Transport', 'transport'],
+    ['Session', 'session'], ['Presentation', 'presentation'], ['Application', 'application']].map((p) => ({ text: p[0], keys: p.slice(1) })) };
+
 test('list: items are matched by keyword at word boundaries, with partial marks', () => {
-  const q = EC.BANK.find((x) => x.type === 'list' && /seven layers of the OSI model/i.test(x.q));
+  const q = OSI_LIST;
   const it = itemFor(q);
   const r = C.gradeItem(it, ['Physical', 'data link', 'Network', '', '', '', '']);
   assert.equal(r.got, C.roundHalf(3 / 7 * q.marks));
@@ -116,7 +122,7 @@ test('list: items are matched by keyword at word boundaries, with partial marks'
 });
 
 test('list: the seven OSI layers in any order score full marks', () => {
-  const q = EC.BANK.find((x) => x.type === 'list' && /seven layers of the OSI model/i.test(x.q));
+  const q = OSI_LIST;
   const lines = ['Application', 'presentation layer', 'Session', 'transport', 'Network', 'Data-link', 'physical'];
   assert.equal(C.gradeItem(itemFor(q), lines).got, q.marks);
 });
@@ -137,7 +143,7 @@ test('explain: auto-detected points, then self-marking overrides', () => {
 });
 
 test('explain with a list part: listing alone earns only the list weight', () => {
-  const q = EC.BANK.find((x) => x.type === 'exp' && x.listPart && /five components of data communication and explain/i.test(x.q));
+  const q = EC.BANK.find((x) => x.type === 'exp' && x.listPart && /five components of data communication, explain/i.test(x.q));
   const text = 'Message, sender, receiver, medium and protocol.';
   const r = C.gradeItem(itemFor(q), { text });
   assert.equal(r.got, C.roundHalf(q.listPart.weight * q.marks));
