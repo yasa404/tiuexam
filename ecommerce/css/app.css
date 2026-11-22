@@ -722,7 +722,8 @@ dialog::backdrop { background: rgba(20, 28, 50, .32); -webkit-backdrop-filter: b
    Theme button, score ring, lecture grid fix
    ========================================================= */
 .theme-btn { margin-left: 8px; }
-@media (max-width: 720px) { .theme-btn { margin-left: auto; } }
+.subjects-btn { margin-left: 8px; }
+@media (max-width: 720px) { .subjects-btn { margin-left: auto; } .theme-btn { margin-left: 8px; } }
 .ring .ring-track { stroke: var(--line-2); }
 .ring .ring-val { stroke: var(--accent); }
 /* Lecture cards: one column whenever two would be cramped. */

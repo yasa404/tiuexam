@@ -2,11 +2,11 @@
 
 Practice midterm papers for **IT 301 Data Communications and Computer Networks I** (Tishk International University, Fall 2026–2027, lecturer Azheen Ghafour), Weeks 2–6.
 
-It is a copy of the IT 355 E-Commerce simulator (one folder up) with the same design, features, grading engine and tests. Only the course content changed. Plain HTML, CSS and JavaScript with no backend: open `index.html`, or host the folder on any static host.
+It is a copy of the IT 355 E-Commerce simulator (`../ecommerce/`) with the same design, features, grading engine and tests. Only the course content changed. Plain HTML, CSS and JavaScript with no backend: open `index.html`, or host the folder on any static host.
 
 ## What changed from the E-Commerce version
 
-| | E-Commerce (`../`) | Data Communications (this folder) |
+| | E-Commerce (`../ecommerce/`) | Data Communications (`datacom/`, this folder) |
 |---|---|---|
 | Course | IT 355 E-Commerce, Dr. Hala Najwan Sabeh | IT 301 Data Communications and Computer Networks I, Azheen Ghafour |
 | Units | Lectures 1–4 | Weeks 2–6 |
@@ -71,6 +71,8 @@ npm run dist          # dist/ for Netlify drag-and-drop
 
 ## Hosting
 
-On GitHub Pages this folder is served at `https://yasa404.github.io/e-commerce/data-communication/`. The two sites link to each other in the footer.
+The site root (`../index.html`) is a subject chooser: students pick IT 355 E-Commerce or IT 301 Data Communications first. The grid button in the top bar and the “All subjects” footer link return to it.
+
+On GitHub Pages this folder is served at `https://yasa404.github.io/e-commerce/datacom/`. To deploy the whole site to Netlify, run `npm run dist` in the parent folder and drag its `dist/` folder onto <https://app.netlify.com/drop>.
 
 Developed by Yasa Sardar.

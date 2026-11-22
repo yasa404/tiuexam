@@ -1,14 +1,12 @@
 {
-  "name": "it355-midterm-simulator",
+  "name": "tiu-midterm-simulators",
   "version": "1.0.0",
   "private": true,
-  "description": "IT 355 E-Commerce midterm exam simulator (Lectures 1-4). Static site, no backend.",
+  "description": "Midterm exam simulators for Tishk International University IT courses. Root page lets students choose a subject. Static site, no backend.",
   "scripts": {
-    "validate": "node scripts/validate-bank.js",
-    "test:unit": "node --test tests/unit/*.test.js",
-    "test:e2e": "playwright test",
-    "test": "npm run validate && npm run test:unit && npm run test:e2e",
-    "screenshots": "node scripts/screenshots.js",
+    "check": "node scripts/check-subjects.js",
+    "test": "npm run check && npm --prefix ecommerce test && npm --prefix datacom test",
+    "screenshots": "npm --prefix ecommerce run screenshots && npm --prefix datacom run screenshots",
     "dist": "node scripts/dist.js"
   },
   "devDependencies": {
