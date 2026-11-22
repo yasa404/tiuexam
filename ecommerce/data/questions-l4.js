@@ -5,11 +5,11 @@ EC.lecture(4, function (Q) {
   /* ---------- Section A ---------- */
   // Business model / plan p4
   mcq(4, 'e', "A business model is…",
-    ["a set of planned activities designed to result in a profit in a marketplace", "a document that describes a firm's business model", "the plan for entering a new market and attracting customers", "the organizational structure needed to carry out the plan"], "Slide 4.");
+    ["a set of planned activities designed to result in a profit in a marketplace", "a document that describes a firm's business model in detail", "the plan for entering a new market and attracting new customers", "the organizational structure needed to carry out the business plan"], "Slide 4.");
   mcq(4, 'e', "A business plan is…",
     ["a document that describes a firm's business model", "a set of planned activities designed to result in a profit", "a description of how the firm will earn revenue", "the area of commercial value the firm intends to serve"], "Slide 4.");
   mcq(4, 'm', "An e-commerce business model aims to use and leverage…",
-    ["the unique qualities of the Internet, the Web, and the mobile platform", "the firm's physical store locations", "printed catalogues and television advertising", "the personal savings of the founder"], "Slide 4.");
+    ["the unique qualities of the Internet, the Web, and the mobile platform", "the firm's physical store locations and its face-to-face sales staff", "printed catalogues, newspapers and television advertising campaigns", "the personal savings of the founder and loans from family and friends"], "Slide 4.");
   // Eight elements p5-7, 48
   mcq(5, 'm', "Which is NOT one of the eight key elements of a business model?",
     ["Customer interaction", "Market opportunity", "Organizational development", "Competitive advantage"], "Customer interaction is one of the Lecture 1 factors.");
@@ -35,7 +35,7 @@ EC.lecture(4, function (Q) {
     ["Management team", "Organizational development", "Competitive advantage", "Market opportunity"], "Slide 48.");
   // Value proposition p8-10
   mcq(8, 'e', "Value proposition defines…",
-    ["how a company's product or service fulfills the needs of customers", "how the firm will earn revenue and profits", "who else occupies the intended marketspace", "how the company is organized"], "Slide 8.");
+    ["how a company's product or service fulfills the needs of customers", "how the firm will earn revenue, produce profits and return on capital", "who else occupies the intended marketspace and sells similar products", "how the company is organized to carry out its business plan"], "Slide 8.");
   mcq(9, 'e', "Domino's “fresh, hot pizza delivered to your door in 30 minutes or less or it's free” is an example of a…",
     ["value proposition", "revenue model", "market opportunity", "competitive environment"], "Slide 9.");
   mcq(10, 'm', "Uber's slogan “Everyone's private driver” shown on the slides is an example of a…",
@@ -48,23 +48,23 @@ EC.lecture(4, function (Q) {
     ["Quick delivery", "Personalization and customization", "Product/service quality only", "No shipping cost"], "Slides 8-9.");
   // Revenue models p12-23
   mcq(12, 'e', "A revenue model describes how the firm will…",
-    ["earn revenue, produce profits, and produce a superior return on invested capital", "fulfill the needs of its customers", "enter a new market and attract customers", "organize its staff and managers"], "Slide 12.");
+    ["earn revenue, produce profits, and produce a superior return on invested capital", "fulfill the needs of its customers better than competing products do", "enter a new market and attract new customers with promotions", "organize its staff and managers into departments and project teams"], "Slide 12.");
   mcq(13, 'm', "According to the slides, most companies rely on…",
-    ["one or some combination of the major revenue models", "only the advertising revenue model", "exactly three revenue models at once", "a different revenue model every year"], "Slide 13.");
+    ["one or some combination of the major revenue models", "only the advertising revenue model, since content is free online", "exactly three revenue models used at the same time", "a different revenue model every year to test the market"], "Slide 13.");
   mcq(14, 'e', "In the advertising revenue model, a company…",
-    ["provides a forum for advertisements and receives fees from advertisers", "charges a subscription fee for access to content", "receives a fee for enabling a transaction", "receives a referral fee from an affiliate"], "Slide 14.");
+    ["provides a forum for advertisements and receives fees from advertisers", "charges a subscription fee for access to some or all of its content", "receives a fee for enabling or executing a transaction between users", "receives a referral fee for steering business to an affiliate"], "Slide 14.");
   mcq(14, 'e', "Yahoo earning a significant amount of revenue from display and video advertising is an example of which revenue model?",
     ["Advertising", "Subscription", "Transaction fee", "Affiliate"], "Slide 14.");
   mcq(14, 'm', "Besides Yahoo, which company is given on the slides as an example of the advertising revenue model?",
     ["Facebook", "Spotify", "eBay", "Amazon"], "Slide 14.");
   mcq(15, 'e', "In the subscription revenue model, a company…",
-    ["offers content or services and charges a fee for access to some or all of its offerings", "provides a forum for advertisements", "sells products directly to customers", "steers business to an affiliate"], "Slide 15.");
+    ["offers content or services and charges a fee for access to some or all of its offerings", "provides a forum for advertisements, such as banner ads on its pages, and receives fees from the advertisers", "sells goods, information or services directly to its customers", "steers business to an affiliate and receives a referral fee"], "Slide 15.");
   mcq(15, 'e', "Spotify, Grammarly and Adobe are given on the slides as examples of which revenue model?",
     ["Subscription", "Advertising", "Sales", "Transaction fee"], "Slide 15.");
   mcq(18, 'm', "Adobe charging US$69.99 per month for Creative Cloud Pro, shown on the slides, illustrates which revenue model?",
     ["Subscription", "Transaction fee", "Affiliate", "Advertising"], "Slide 18.");
   mcq(19, 'e', "In a freemium strategy, companies…",
-    ["give away a certain level of product or service free and charge a subscription fee for premium levels", "charge every user the same premium price", "earn only from advertising and never charge users", "charge a fee only when a transaction succeeds"], "Slide 19.");
+    ["give away a certain level of product or service free and charge a subscription fee for premium levels", "charge every user the same premium price, with no free version available at all", "earn money only from advertising shown to users and never charge them anything for any level of product or service", "charge a fee only when a transaction between a buyer and a seller succeeds"], "Slide 19.");
   mcq(19, 'm', "According to the slides, many companies have recently been combining a freemium strategy with which revenue model?",
     ["Subscription", "Transaction fee", "Affiliate", "Sales"], "Slide 19.");
   mcq(16, 'h', "Grammarly offers a Free plan alongside paid Premium and Business plans. This combination is called…",
@@ -74,19 +74,19 @@ EC.lecture(4, function (Q) {
   mcq(17, 'h', "On the Spotify slide, which Premium plan offers a special discount for eligible students in university?",
     ["Student", "Individual", "Duo", "Family"], "Slide 17.");
   mcq(20, 'e', "In the transaction fee revenue model, a company…",
-    ["receives a fee for enabling or executing a transaction", "provides a forum for advertisements", "charges a monthly subscription", "sells its own products to customers"], "Slide 20.");
+    ["receives a fee for enabling or executing a transaction", "provides a forum for advertisements and receives fees from advertisers", "charges a monthly subscription fee for access to its content", "sells its own goods, information or services to customers"], "Slide 20.");
   mcq(20, 'e', "eBay receiving a small fee from a seller when the seller is successful in selling the item is which revenue model?",
-    ["Transaction fee", "Sales", "Affiliate", "Advertising"], "Slide 20.");
+    ["Transaction fee", "Sales revenue", "Affiliate referral", "Advertising"], "Slide 20.");
   mcq(21, 'e', "In the sales revenue model, companies derive revenue by…",
     ["selling products, content, or services to customers", "receiving referral fees from affiliates", "charging fees to advertisers", "charging a fee for each transaction between others"], "Slide 21.");
   mcq(21, 'e', "Amazon selling books, music and other products is given as an example of which revenue model?",
     ["Sales", "Subscription", "Affiliate", "Transaction fee"], "Slide 21.");
   mcq(22, 'e', "In the affiliate revenue model, a company…",
-    ["steers business to an affiliate and receives a referral fee or percentage of resulting sales", "receives a fee for executing a transaction", "charges users a subscription fee", "sells content directly to customers"], "Slide 22.");
+    ["steers business to an affiliate and receives a referral fee or percentage of resulting sales", "receives a fee for enabling or executing a transaction between buyers and sellers", "charges users a monthly subscription fee for access to premium content", "sells content, goods or services directly to customers at a fixed price"], "Slide 22.");
   mcq(22, 'm', "A website earns a fee whenever a visitor it sends to an airline, car rental or hotel company makes a purchase. Which revenue model is this?",
     ["Affiliate", "Advertising", "Sales", "Subscription"], "Slide 22.");
   mcq(23, 'm', "In the summary table of revenue models, “Fees (commissions) for enabling or executing a transaction” is the revenue source of…",
-    ["Transaction fee", "Affiliate", "Sales", "Advertising"], "Slide 23.");
+    ["Transaction fee", "Affiliate referral", "Sales", "Advertising"], "Slide 23.");
   mcq(23, 'm', "In the summary table of revenue models, “Fees for business referrals” is the revenue source of…",
     ["Affiliate", "Transaction fee", "Subscription", "Advertising"], "Slide 23.");
   mcq(23, 'm', "In the summary table of revenue models, “Sales of goods, information, or services” is the revenue source of…",
@@ -95,26 +95,26 @@ EC.lecture(4, function (Q) {
     ["Subscription", "Sales", "Advertising", "Transaction fee"], "Slide 23.");
   // Market opportunity p25-26
   mcq(25, 'e', "In Lecture 4, a marketspace is…",
-    ["an area of actual or potential commercial value in which a company intends to operate", "the physical store where a company sells", "the number of active competitors", "the plan for promoting a product"], "Slide 25.");
+    ["an area of actual or potential commercial value in which a company intends to operate", "the physical store or shopping mall where a company sells its products directly to customers who visit in person", "the number of active competitors operating in the same market", "the plan for promoting a product to customers in a target market"], "Slide 25.");
   mcq(25, 'e', "Market opportunity refers to…",
-    ["the company's intended marketspace and the overall potential financial opportunities available to the firm in that marketspace", "the other companies selling similar products in the same marketspace", "the plan for entering a new market", "the special advantages the firm brings"], "Slide 25.");
+    ["the company's intended marketspace and the overall potential financial opportunities available to the firm in that marketspace", "the other companies selling similar products in the same marketspace, including direct and indirect competitors", "the plan that details exactly how the firm intends to enter a new market and attract new customers", "the special advantages the firm brings to its marketspace, such as a superior product or a lower price"], "Slide 25.");
   mcq(25, 'm', "A firm's realistic market opportunity will typically focus on…",
     ["one or a few market segments", "every market segment at once", "only its competitors' customers", "only international markets"], "Slide 25.");
   mcq(25, 'm', "Companies conduct marketing opportunity analyses to determine if they can…",
-    ["introduce new products, sell more products, attract more customers and achieve growth", "avoid paying taxes", "remove their competitors from the market", "reduce the number of employees"], "Slide 25.");
+    ["introduce new products, sell more products, attract more customers and achieve growth", "avoid paying taxes by moving their sales and profits into new markets", "remove their competitors from the market by copying their products", "reduce the number of employees, close their less profitable stores and cut costs instead of growing their sales"], "Slide 25.");
   mcq(26, 'm', "Which is NOT one of the high-level questions for analyzing a market listed on the slides?",
     ["What colour should the company logo be?", "What is the market size?", "What are the barriers to entry?", "What is the bargaining power of suppliers?"], "Slide 26.");
   mcq(26, 'm', "“How quickly is the market expanding or contracting?” is one of the high-level questions used when analyzing…",
     ["a market (market opportunity)", "the management team", "the organizational structure", "the revenue model"], "Slide 26.");
   // Competitive environment p28-31
   mcq(28, 'e', "Competitive environment refers to…",
-    ["the other companies operating in the same marketspace selling similar products", "the area of potential commercial value a company intends to operate in", "the special advantages a firm brings to the market", "the plan to promote products to a target audience"], "Slide 28.");
+    ["the other companies operating in the same marketspace selling similar products", "the area of actual or potential commercial value a company intends to operate in", "the special advantages a firm brings to the market that competitors cannot match", "the plan that details how a firm will promote its products to a target audience"], "Slide 28.");
   mcq(28, 'm', "According to the slides, the competitive environment includes…",
-    ["both direct and indirect competitors", "only direct competitors", "only indirect competitors", "only companies in the same city"], "Slide 28.");
+    ["both direct and indirect competitors", "only direct competitors in the same segment", "only indirect competitors in other industries", "only companies located in the same city"], "Slide 28.");
   mcq(29, 'e', "Direct competitors are companies that…",
     ["sell products and services that are very similar and into the same market segment", "are in different industries but whose products can substitute for one another", "invest money in exchange for equity", "refer customers in exchange for a fee"], "Slide 29.");
   mcq(30, 'e', "Indirect competitors are companies that…",
-    ["may be in different industries but compete because their products can substitute for one another", "sell identical products into the same market segment", "share the same management team", "process transactions for consumers"], "Slide 30.");
+    ["may be in different industries but compete because their products can substitute for one another", "sell identical or very similar products into the same market segment, so customers compare them side by side", "share the same management team and investors as the firm", "process transactions for consumers, such as payments and bookings"], "Slide 30.");
   mcq(29, 'm', "Priceline and Travelocity, which both sell discount airline tickets online, are…",
     ["direct competitors", "indirect competitors", "affiliates", "not competitors"], "Slide 29.");
   mcq(30, 'm', "CNN.com and ESPN.com, which compete for consumers' time online, are…",
@@ -124,32 +124,32 @@ EC.lecture(4, function (Q) {
   mcq(31, 'e', "Which is one of the factors that influence the competitive environment, according to the slides?",
     ["Competitors' pricing", "The founder's seed capital", "The number of slides in the business plan", "The colour of the company website"], "Slide 31: number of competitors, market share, profitability, pricing.");
   mcq(31, 'h', "Which is NOT one of the four factors that influence the competitive environment?",
-    ["Competitors' value proposition slogans", "Number of active competitors", "Each competitor's market share", "Competitors' profitability"], "Slide 31.");
+    ["Competitors' value proposition slogans", "Number of active competitors in the marketspace", "Each competitor's share of the market", "Competitors' profitability and pricing"], "Slide 31.");
   // Competitive advantage p33-35
   mcq(33, 'e', "A firm achieves competitive advantage when it can…",
-    ["produce a superior product and/or bring the product to market at a lower price than most or all competitors", "hire more employees than its competitors", "be the first company to register a website", "occupy the same marketspace as its competitors"], "Slide 33.");
+    ["produce a superior product and/or bring the product to market at a lower price than most or all competitors", "hire more employees and open more offices than its competitors do", "be the first company in its industry to register a website and domain name", "occupy exactly the same marketspace as its competitors with a very similar product sold at the same price as theirs"], "Slide 33.");
   mcq(34, 'e', "Asymmetry exists whenever…",
-    ["one participant in a market has more resources than other participants", "two companies sell identical products", "a company is first into a marketplace", "a company uses its advantages in surrounding markets"], "Slide 34.");
+    ["one participant in a market has more resources than other participants", "two companies sell identical products to the same customers", "a company is the first to enter a marketplace with its product", "a company uses its advantages in one market to win surrounding markets"], "Slide 34.");
   mcq(34, 'e', "First-mover advantage is a competitive advantage that results from…",
-    ["being the first into a marketplace with a serviceable product or service", "having more resources than other participants", "using advantages in surrounding markets", "charging a lower price than every competitor"], "Slide 34.");
+    ["being the first into a marketplace with a serviceable product or service", "having more resources than the other participants in a market", "using its competitive advantages in surrounding markets", "charging a lower price than every competitor in the market"], "Slide 34.");
   mcq(34, 'm', "Why do most first movers fail to sustain their advantage?",
-    ["They lack the complementary resources needed to sustain it", "They always charge too little", "They have too many customers", "They are prevented by direct competitors' pricing"], "Slide 34.");
+    ["They lack the complementary resources needed to sustain it", "They always charge too little to cover the cost of their products", "They attract too many customers to serve well at the start", "They are pushed out by their direct competitors' lower pricing"], "Slide 34.");
   mcq(34, 'm', "Marketing, management, financial assets and reputation are examples of…",
-    ["complementary resources", "barriers to entry", "revenue models", "value propositions"], "Slide 34.");
+    ["complementary resources", "barriers to entry", "revenue models", "competitive environment factors"], "Slide 34.");
   mcq(34, 'h', "Complementary resources are resources and assets that are…",
-    ["not directly involved in the production of the product but required for success", "directly used to manufacture the product", "owned by competitors", "only financial assets such as loans"], "Slide 34.");
+    ["not directly involved in the production of the product but required for success", "directly used to manufacture or deliver the product itself, such as factories, raw materials and machines", "owned by competitors and rented to the firm when needed", "only financial assets, such as bank loans and investor funds"], "Slide 34.");
   mcq(35, 'e', "When a company uses its competitive advantages to achieve more advantage in surrounding markets, this is called…",
     ["leverage", "asymmetry", "first-mover advantage", "market strategy"], "Slide 35.");
   mcq(35, 'm', "Amazon's move into the online grocery business, using its huge customer database and years of e-commerce experience, is an example of…",
     ["leverage", "asymmetry", "first-mover advantage", "a freemium strategy"], "Slide 35.");
   // Market strategy p37
   mcq(37, 'e', "Market strategy is…",
-    ["the plan that details exactly how you intend to enter a new market and attract new customers", "the area of commercial value you intend to operate in", "the way the firm earns revenue", "the organizational structure of the firm"], "Slide 37.");
+    ["the plan that details exactly how you intend to enter a new market and attract new customers", "the area of actual or potential commercial value the company intends to operate in", "the way the firm earns revenue, produces profits and returns on invested capital", "the organizational structure the firm needs to carry out its business plan"], "Slide 37.");
   mcq(37, 'm', "According to the market strategy slide, the best business concepts will fail if they are not…",
-    ["properly marketed to potential customers", "funded by venture capital", "protected by first-mover advantage", "organized as a matrix structure"], "Slide 37.");
+    ["properly marketed to potential customers", "funded by venture capital firms at an early stage", "protected by a first-mover advantage in their market", "organized into a matrix structure with project teams"], "Slide 37.");
   // Organizational development p39-44
   mcq(39, 'e', "An organizational development plan describes…",
-    ["the types of organizational structures within the firm necessary to carry out the business plan", "how the firm will promote its products", "how the firm will earn money", "the experience the company's leaders need"], "Slide 39.");
+    ["the types of organizational structures within the firm necessary to carry out the business plan", "how the firm will promote its products to customers in its target market", "how the firm will earn revenue, produce profits and produce a superior return on the capital that investors put in", "the experience and background the company's leaders need to succeed"], "Slide 39.");
   mcq(39, 'm', "As a company grows, hiring moves from…",
     ["generalists to specialists", "specialists to generalists", "managers to staff", "investors to employees"], "Slide 39.");
   mcq(40, 'e', "What are the three general classifications of organizational structures?",
@@ -169,52 +169,52 @@ EC.lecture(4, function (Q) {
   mcq(42, 'm', "Engineering and consulting companies that earn revenue mainly by performing projects for other groups under contract often use a…",
     ["project structure", "functional structure", "matrix structure", "virtual merchant structure"], "Slide 42.");
   mcq(42, 'h', "In a project organization structure, companies often…",
-    ["hire people specifically to work on particular projects", "let only one department do all the work", "have staff report to two or more bosses", "avoid working under contract"], "Slide 42.");
+    ["hire people specifically to work on particular projects", "let a single department do all the work for every project", "have staff report to two or more bosses at the same time", "avoid working under contract and keep all staff permanent"], "Slide 42.");
   mcq(44, 'h', "In the matrix structure figure, which project manager has 0 manufacturing staff?",
     ["Project Manager C", "Project Manager A", "Project Manager B", "VP Manufacturing"], "Slide 44: Project Manager C has 1 engineering, 0 manufacturing, 4 IT and 1/10 HR.");
   mcq(44, 'h', "In the functional structure figure, which managers report directly to the CEO?",
-    ["VP Engineering, VP Manufacturing, VP IT and VP HR", "Program Managers A, B and C", "Project Managers A, B and C", "Staff from all departments"], "Slide 44.");
+    ["VP Engineering, VP Manufacturing, VP IT and VP HR", "Program Managers A, B and C and their teams", "Project Managers A, B and C and their staff", "Staff from all departments and all projects"], "Slide 44.");
   // Management team p46-47
   mcq(46, 'e', "According to the slides, the single most important element of a business model is the…",
     ["management team", "revenue model", "value proposition", "market strategy"], "Slide 46.");
   mcq(46, 'm', "The management team is defined as…",
-    ["employees of the company responsible for making the business model work", "outside investors who fund the company", "wealthy individuals who invest their own money", "the program managers in a project structure"], "Slide 46.");
+    ["employees of the company responsible for making the business model work", "outside investors who fund the company and give it credibility", "wealthy individuals who invest their own money for an equity share", "the program managers who lead projects in a matrix structure"], "Slide 46.");
   mcq(47, 'm', "Which is listed on the slides as something a strong management team does?",
     ["Gives credibility to outside investors", "Guarantees a monopoly in the market", "Removes the need for a revenue model", "Eliminates all competitors"], "Slide 47.");
   mcq(47, 'h', "Which is NOT listed on the slides as a quality of a strong management team?",
     ["Owns the majority of the company's shares", "Has market-specific knowledge", "Has experience in implementing business plans", "Makes the business model work"], "Slide 47.");
   // Raising capital p49-53
   mcq(49, 'e', "Seed capital is…",
-    ["an entrepreneur's personal funds from savings, credit card advances, home equity loans, or family and friends", "money from venture capital firms that want control", "money collected from many people on the Internet", "a small amount of funding plus business services from an incubator"], "Slide 49.");
+    ["an entrepreneur's personal funds from savings, credit card advances, home equity loans, or family and friends", "money from venture capital firms that invest funds they manage for other investors and want a large stake and control", "money collected from many people over the Internet, usually in small amounts", "a small amount of funding plus business services provided by an incubator"], "Slide 49.");
   mcq(49, 'm', "According to the slides, raising capital is…",
-    ["one of the most important functions for a founder of a start-up business and its management team", "only needed after the company becomes profitable", "the job of the company's customers", "a part of the revenue model"], "Slide 49.");
+    ["one of the most important functions for a founder of a start-up business and its management team", "only needed after the company becomes profitable and wants to expand into new markets with more products and staff", "the job of the company's customers, who pay for products in advance", "a part of the revenue model that describes how the firm earns money"], "Slide 49.");
   mcq(50, 'm', "According to the slides, additional capital will be needed when…",
-    ["the company is not generating enough revenue to cover operating costs", "the company has more customers than competitors", "the company becomes a first mover", "the company uses a functional structure"], "Slide 50.");
+    ["the company is not generating enough revenue to cover operating costs", "the company has more customers than its competitors in the market", "the company becomes a first mover in a new marketspace", "the company changes to a functional organizational structure"], "Slide 50.");
   mcq(50, 'e', "Which list shows the traditional sources of capital named on the slides?",
-    ["Incubators, commercial banks, angel investors and venture capital firms", "Advertising, subscription, sales and affiliate fees", "Seed capital, crowdfunding, coupons and loyalty programs", "Portals, market creators, content providers and e-tailers"], "Slide 50.");
+    ["Incubators, commercial banks, angel investors and venture capital firms", "Advertising, subscription, sales, transaction and affiliate fees", "Seed capital, crowdfunding, coupons, discounts and loyalty programs", "Portals, market creators, content providers, e-tailers and brokers"], "Slide 50.");
   mcq(51, 'm', "Which is NOT a traditional source of capital?",
     ["Crowdfunding", "Incubators", "Commercial banks", "Angel investors"], "Slide 51: crowdfunding is the alternative to traditional sources.");
   mcq(52, 'e', "Incubators (sometimes called accelerators) typically provide…",
-    ["a small amount of funding plus business, technical and marketing assistance", "large loans that must be repaid with interest", "funds managed for investment banks in exchange for control", "money collected from the public over the Internet"], "Slide 52.");
+    ["a small amount of funding plus business, technical and marketing assistance", "large loans that must be repaid with interest by a fixed date", "funds managed for investment banks in exchange for control of the firm", "money collected from the public over the Internet in small amounts"], "Slide 52.");
   mcq(52, 'm', "Incubators are sometimes also referred to as…",
     ["accelerators", "angels", "venture capitalists", "market makers"], "Slide 52.");
   mcq(52, 'm', "What is the main advantage of getting capital as a commercial bank loan?",
-    ["It does not require the entrepreneur to give up any ownership of the company", "It never has to be repaid", "It is very easy for start-ups without revenue to get", "It comes with business and marketing assistance"], "Slide 52.");
+    ["It does not require the entrepreneur to give up any ownership of the company", "It never has to be repaid, even if the company becomes profitable", "It is very easy for start-ups with no revenue to get from any bank", "It comes with business, technical and marketing assistance from the bank"], "Slide 52.");
   mcq(52, 'h', "According to the slides, because bank loans are often difficult for start-ups without much revenue, it may be worthwhile to investigate programs offered by…",
     ["governmental agencies", "venture capital firms", "competitors", "market creators"], "Slide 52.");
   mcq(52, 'e', "Angel investors are…",
-    ["wealthy individuals or groups who invest their own money in exchange for an equity share", "firms that invest funds they manage for other investors", "banks that provide loans without taking ownership", "programs that provide business, technical and marketing services"], "Slide 52.");
+    ["wealthy individuals or groups who invest their own money in exchange for an equity share", "firms that invest funds they manage for other investors and want control", "banks that provide loans without taking any ownership in the company", "programs that provide funding plus business, technical and marketing services"], "Slide 52.");
   mcq(52, 'e', "Venture capital firms typically…",
-    ["invest funds they manage for other investors and want a larger stake and more control", "invest only their own personal savings", "provide loans that leave the founder full ownership", "collect small contributions from the public online"], "Slide 52.");
+    ["invest funds they manage for other investors and want a larger stake and more control", "invest only their own personal savings in exchange for a small equity share", "provide loans that are repaid with interest and leave the founder full ownership", "collect small contributions from many members of the public over the Internet"], "Slide 52.");
   mcq(52, 'h', "What is the key difference between angel investors and venture capital firms?",
-    ["Angels invest their own money; VC firms invest funds they manage for other investors and want more control", "Angels must be repaid like a loan; VC firms never take equity", "Angels only fund non-profits; VC firms only fund banks", "There is no difference; the terms mean the same"], "Slide 52.");
+    ["Angels invest their own money; VC firms invest funds they manage for other investors and want more control", "Angels must be repaid like a bank loan with interest, while VC firms never take any equity", "Angels only fund non-profit projects, while VC firms only fund banks and large corporations", "There is no real difference; both terms describe wealthy individuals investing their own money"], "Slide 52.");
   mcq(53, 'e', "Using the Internet to enable individuals to collectively contribute money to support a project is called…",
     ["crowdfunding", "angel investing", "seed capital", "venture capital"], "Slide 53.");
   // B2C business models p54-68
   mcq(54, 'm', "Which is NOT one of the major B2C business models?",
-    ["Venture capitalist", "Portal", "Market creator", "Service provider"], "Slide 54.");
+    ["Venture capitalist", "Portal", "Market creator", "Transaction broker"], "Slide 54.");
   mcq(54, 'm', "According to the slides, B2C e-commerce, in which online businesses seek to reach individual consumers, is…",
-    ["the most well-known and familiar type of e-commerce", "the largest type of e-commerce", "the newest type of e-commerce", "the least common type of e-commerce"], "Slide 54. (B2B is the largest, Lecture 3.)");
+    ["the most well-known and familiar type of e-commerce", "the largest type of e-commerce by total sales volume", "the newest type of e-commerce, enabled by smartphones", "the least common type of e-commerce in most countries"], "Slide 54. (B2B is the largest, Lecture 3.)");
   mcq(55, 'e', "An online retail store where customers can shop at any hour of the day or night without leaving their home or office is a(n)…",
     ["e-tailer", "portal", "market creator", "content provider"], "Slide 55.");
   mcq(55, 'e', "The revenue model of an e-tailer is…",
@@ -222,7 +222,7 @@ EC.lecture(4, function (Q) {
   mcq(55, 'm', "According to the slides, the barriers to entry for an e-tailer are…",
     ["low", "high", "impossible to overcome", "the same as for a bank"], "Slide 55.");
   mcq(55, 'e', "Barriers to entry means…",
-    ["the total cost of entering a new marketplace", "the number of competitors in a market", "the price of a product", "the time needed to deliver a product"], "Slide 55.");
+    ["the total cost of entering a new marketplace", "the number of competitors already in a market", "the price customers pay for a product online", "the time needed to deliver a product to a customer"], "Slide 55.");
   mcq(56, 'e', "Which e-tailer variation is Amazon?",
     ["Virtual merchant", "Bricks-and-clicks", "Manufacturer-direct", "Portal"], "Slides 55-56.");
   mcq(56, 'e', "Which e-tailer variation is Zara?",
@@ -236,11 +236,11 @@ EC.lecture(4, function (Q) {
   mcq(56, 'm', "Besides Zara, which company is listed in the e-tailer table as a bricks-and-clicks example?",
     ["Walmart", "Amazon", "Nike", "eBay"], "Slide 56.");
   mcq(58, 'e', "Facebook, LinkedIn and Pinterest are examples of which B2C business model?",
-    ["Community provider", "Content provider", "Portal", "Market creator"], "Slide 58.");
+    ["Community provider", "Content provider", "Portal", "Transaction broker"], "Slide 58.");
   mcq(58, 'm', "A business that creates an online environment where people with similar interests can transact, share photos and videos and communicate is a…",
     ["community provider", "transaction broker", "service provider", "virtual merchant"], "Slide 58.");
   mcq(58, 'm', "The revenue model of a community provider is typically…",
-    ["hybrid: combining advertising, sales and affiliate referral fees", "transaction fees only", "subscription fees only", "sales of services only"], "Slide 58.");
+    ["hybrid: combining advertising, sales and affiliate referral fees", "transaction fees only, charged on every successful sale", "subscription fees only, charged for premium membership", "sales of services only, charged per hour of service"], "Slide 58.");
   mcq(60, 'e', "A business that offers customers newspapers, magazines, books, film, television, music and games online is a…",
     ["content provider", "portal", "service provider", "e-tailer"], "Slide 60.");
   mcq(60, 'm', "“Pay per download (micropayment)” is a revenue model of which B2C business model?",
@@ -250,17 +250,17 @@ EC.lecture(4, function (Q) {
   mcq(62, 'm', "Which B2C business model seeks to be a user's “home base”?",
     ["Portal", "Market creator", "E-tailer", "Service provider"], "Slide 62.");
   mcq(62, 'm', "The revenue models of a portal are…",
-    ["advertising and referral fees", "sales of goods", "subscription fees only", "transaction fees only"], "Slide 62.");
+    ["advertising and referral fees", "sales of goods to its visitors", "subscription fees for premium access", "transaction fees on every booking"], "Slide 62.");
   mcq(64, 'e', "PayPal (financial services) and Skyscanner (travel services) are examples of which B2C business model?",
-    ["Transaction broker", "Market creator", "Portal", "Service provider"], "Slide 64.");
+    ["Transaction broker", "Market creator", "Community provider", "Service provider"], "Slide 64.");
   mcq(64, 'm', "Processors of online transactions, such as stockbrokers and travel agents, that help customers get things done faster and more cheaply are…",
     ["transaction brokers", "market creators", "content providers", "community providers"], "Slide 64.");
   mcq(64, 'h', "Which industries are listed on the slides as using the transaction broker model?",
-    ["Financial services, travel services and entertainment, and job placement services", "Newspapers, magazines and games", "Furniture, clothing and groceries", "Metals, mining and manufacturing"], "Slide 64.");
+    ["Financial services, travel services and entertainment, and job placement services", "Newspapers, magazines, music streaming services, online games and other digital content providers", "Furniture, clothing, groceries and other retail goods", "Metals, mining, manufacturing and heavy industry"], "Slide 64.");
   mcq(66, 'e', "eBay, which uses Internet technology to bring buyers and sellers together, is an example of which B2C business model?",
     ["Market creator", "Transaction broker", "E-tailer", "Community provider"], "Slide 66.");
   mcq(66, 'm', "A market creator builds a digital environment where buyers and sellers can…",
-    ["meet, display products, search for products, and establish a price for products", "only read news and watch videos", "borrow money from banks", "receive a subscription for premium content"], "Slide 66.");
+    ["meet, display products, search for products, and establish a price for products", "only read news, watch videos and share content with friends", "borrow money from banks and other financial institutions", "receive a subscription to premium content for a monthly fee and read news, articles and reviews written by experts"], "Slide 66.");
   mcq(66, 'm', "The revenue model of a market creator is…",
     ["transaction fees", "sales of goods", "advertising and referral fees", "pay per download"], "Slide 66.");
   mcq(68, 'e', "Companies that make money by selling users a service, rather than a product, are…",
@@ -268,7 +268,7 @@ EC.lecture(4, function (Q) {
   mcq(68, 'm', "The revenue model of a service provider is…",
     ["sales of services", "transaction fees", "advertising and referral fees", "hybrid affiliate fees"], "Slide 68.");
   mcq(68, 'h', "The value proposition of service providers is…",
-    ["valuable, convenient, time-saving, low-cost alternatives to traditional service providers", "a digital place where buyers and sellers set prices", "an integrated package of search, content and services", "an online version of a retail store"], "Slide 68.");
+    ["valuable, convenient, time-saving, low-cost alternatives to traditional service providers", "a digital environment where buyers and sellers can meet, display and search for products, and establish prices", "an integrated package of search, content and other services in one place", "an online version of a retail store where customers buy at any hour"], "Slide 68.");
   mcq([64, 66], 'h', "Which two B2C business models both earn revenue mainly from transaction fees?",
     ["Transaction broker and market creator", "Portal and e-tailer", "Content provider and community provider", "Service provider and portal"], "Slides 64 and 66.");
   mcq(56, 'h', "Which B2C business model and revenue model are correctly paired?",

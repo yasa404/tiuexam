@@ -19,7 +19,7 @@ EC.lecture(2, function (Q) {
   mcq(6, 'm', "According to the ubiquity slide, television and radio typically motivate the consumer to…",
     ["go someplace to make a purchase", "buy immediately from their desktop", "post reviews for other users", "compare all prices in the market"], "Slide 6.");
   mcq(6, 'm', "Ubiquity makes it possible to shop…",
-    ["from your desktop, at home, at work, or even from your car", "only inside a physical store", "only during store opening hours", "only from merchants in your own country"], "Slide 6.");
+    ["from your desktop, at home, at work, or even from your car", "only inside a physical store during its normal working hours", "only during store opening hours, using a printed catalogue", "only from merchants located inside your own country"], "Slide 6.");
   mcq(21, 'm', "“Customer convenience is enhanced, and shopping costs are reduced” is the business significance of…",
     ["Ubiquity", "Information density", "Global reach", "Social technology"], "Table 1.2.");
   // Global reach p7
@@ -42,11 +42,11 @@ EC.lecture(2, function (Q) {
   mcq(9, 'e', "Information richness refers to…",
     ["the complexity and content of a message", "the total amount and quality of information available to all market participants", "two-way communication between merchant and consumer", "a many-to-many model of mass communications"], "Slide 9.");
   mcq(9, 'm', "Why do traditional markets and retail stores have great information richness?",
-    ["They can provide personal, face-to-face service when making a sale", "They are available just about everywhere, at all times", "Their prices are transparent to every customer", "They use universal technical standards"], "Slide 9.");
+    ["They can provide personal, face-to-face service when making a sale", "They are available just about everywhere and at all times of the day", "Their prices are transparent and identical for every customer", "They follow universal technical standards shared around the world"], "Slide 9.");
   mcq(10, 'm', "Why can e-commerce offer more information richness than printing presses, radio and television?",
-    ["It is interactive and can adjust the message to individual users", "It always has lower prices", "It is regulated by universal standards", "It removes all middlemen"], "Slide 10.");
+    ["It is interactive and can adjust the message to individual users", "It always has lower prices than shops, radio or television", "It is regulated by universal standards that every nation shares", "It removes all middlemen between the producer and the consumer"], "Slide 10.");
   mcq(10, 'h', "On the information richness slide, chatting with an online salesperson is said to come very close to…",
-    ["the customer experience in a small retail shop", "watching a television advertisement", "reading a printed catalogue", "posting on a community forum"], "Slide 10.");
+    ["the customer experience in a small retail shop", "watching a television advertisement at home", "reading a printed mail-order catalogue", "posting a question on a community forum"], "Slide 10.");
   mcq(10, 'm', "The richness enabled by e-commerce technologies allows merchants to market and sell…",
     ["“complex” goods and services", "only simple, low-cost goods", "only goods that do not need explanation", "only local services"], "Slide 10.");
   mcq(21, 'm', "“Video, audio, and text marketing messages are integrated into a single marketing message and consuming experience” describes the business significance of…",
@@ -55,7 +55,7 @@ EC.lecture(2, function (Q) {
   mcq(11, 'e', "Technology that allows two-way communication between merchant and consumer is called…",
     ["interactivity", "ubiquity", "information density", "global reach"], "Slide 11.");
   mcq(11, 'm', "Interactivity enables the merchant to engage a consumer in ways similar to…",
-    ["a face-to-face experience, but on a much more massive, global scale", "a television advertisement", "a printed newspaper", "a one-way radio message"], "Slide 11.");
+    ["a face-to-face experience, but on a much more massive, global scale", "a television advertisement that reaches millions of viewers at once", "a printed newspaper delivered to readers around the world", "a one-way radio message broadcast to a whole country"], "Slide 11.");
   mcq(12, 'e', "Search boxes that autofill as the user types are an example of…",
     ["interactivity", "ubiquity", "universal standards", "price transparency"], "Slide 12.");
   mcq(12, 'm', "Forms that notify the user of a problem as they are being filled out are an example of…",
@@ -68,13 +68,13 @@ EC.lecture(2, function (Q) {
     ["Interactivity", "Ubiquity", "Universal standards", "Information density"], "Table 1.2.");
   // Information density p13-14
   mcq(13, 'e', "Information density is…",
-    ["the total amount and quality of information available to all market participants", "the complexity and content of a single message", "two-way communication between merchant and consumer", "the targeting of messages to specific individuals"], "Slide 13.");
+    ["the total amount and quality of information available to all market participants", "the complexity and content of a single message sent to one customer", "two-way communication between the merchant and the consumer online", "the targeting of marketing messages to specific individuals by name"], "Slide 13.");
   mcq(13, 'e', "E-commerce technologies ___ information density.",
     ["vastly increase", "slightly reduce", "do not affect", "completely remove"], "Slide 13.");
   mcq(14, 'e', "Price transparency refers to…",
     ["the ease with which consumers can find out the variety of prices in a market", "the ability of consumers to discover the actual costs merchants pay for products", "selling the same goods to different groups at different prices", "the complexity and content of a message"], "Slide 14.");
   mcq(14, 'e', "Cost transparency refers to…",
-    ["the ability of consumers to discover the actual costs merchants pay for products", "the ease of finding the variety of prices in a market", "charging different groups different prices", "the total amount of information available"], "Slide 14.");
+    ["the ability of consumers to discover the actual costs merchants pay for products", "the ease with which consumers can find the variety of prices in a market", "charging different targeted groups different prices for the same product", "the total amount and quality of information available to all participants"], "Slide 14.");
   mcq(14, 'm', "A shopper uses a comparison website to see what every online store charges for the same camera. This illustrates…",
     ["price transparency", "cost transparency", "price discrimination", "customization"], "Slide 14: the ease of finding the variety of prices in a market.");
   mcq(14, 'h', "A shopper finds out how much a retailer actually paid the manufacturer for a phone. This illustrates…",
@@ -84,47 +84,47 @@ EC.lecture(2, function (Q) {
   mcq(21, 'm', "“Information becomes plentiful, cheap, and accurate” is the business significance of…",
     ["Information density", "Information richness", "Interactivity", "Ubiquity"], "Table 1.2.");
   mcq(21, 'h', "“Information processing, storage, and communication costs drop dramatically, while currency, accuracy, and timeliness improve greatly” describes…",
-    ["Information density", "Global reach", "Social technology", "Personalization"], "Table 1.2.");
+    ["Information density", "Global reach", "Social technology", "Personalization/customization"], "Table 1.2.");
   // Price discrimination p14-16
   mcq(14, 'e', "Selling the same goods, or nearly the same goods, to different targeted groups at different prices is called…",
-    ["price discrimination", "price transparency", "cost transparency", "personalization"], "Slide 14.");
+    ["price discrimination", "price transparency", "cost transparency", "personalization/customization"], "Slide 14.");
   mcq(14, 'm', "Price discrimination aims to…",
     ["maximize sales and profits", "make all prices equal", "reveal the merchant's costs", "remove middlemen"], "Slide 14.");
   mcq(15, 'm', "Price discrimination charges customers different prices for the same product based on…",
-    ["what the seller thinks they can get the customer to agree to", "the actual cost the merchant paid", "the customer's country only", "the universal standards of the Internet"], "Slide 15.");
+    ["what the seller thinks they can get the customer to agree to", "the actual cost the merchant paid to buy or make the product", "the customer's country only, set by international trade agreements", "the universal technical standards of the Internet and the Web"], "Slide 15.");
   mcq(15, 'e', "Coupons, age discounts and loyalty programs are examples of…",
-    ["price discrimination", "price transparency", "cost transparency", "customization"], "Slide 15.");
+    ["price discrimination", "price transparency", "cost transparency", "product customization"], "Slide 15.");
   mcq(15, 'e', "Which industries are named on the slides as using price discrimination strategies?",
-    ["The airline industry and the arts/entertainment industry", "The furniture and clothing industries", "The metals and mining industries", "The banking and insurance industries"], "Slide 15.");
+    ["The airline industry and the arts/entertainment industry", "The furniture and the clothing and fashion industries", "The metals, mining and heavy manufacturing industries", "The banking, insurance and financial services industries"], "Slide 15.");
   mcq(16, 'e', "Airline tickets bought several months in advance usually cost less than tickets bought at the last minute. This illustrates…",
     ["price discrimination", "ubiquity", "information richness", "social technology"], "Slide 16.");
   mcq(16, 'm', "When demand for a particular flight is high, airlines…",
     ["raise ticket prices", "reduce ticket prices", "cancel the flight", "keep the price fixed"], "Slide 16.");
   mcq(16, 'm', "When tickets for a flight are not selling well, the airline…",
-    ["reduces the cost of available tickets", "raises the ticket prices", "stops selling online", "only sells to loyalty members"], "Slide 16.");
+    ["reduces the cost of available tickets", "raises the ticket prices for all customers", "stops selling tickets online for that flight", "only sells the tickets to loyalty members"], "Slide 16.");
   mcq(16, 'h', "Why do flights home late on Sunday tend to cost more than flights leaving early Sunday morning?",
     ["Many passengers prefer flying home late on Sunday", "Late flights cost the airline more fuel", "Early flights are paid for by advertisers", "Late flights are only sold to business travellers"], "Slide 16.");
   mcq(15, 'm', "A cinema charges a lower ticket price to seniors over 65 for the same film. This is an example of…",
-    ["price discrimination", "cost transparency", "customization", "global reach"], "Slide 15: specific discounts such as age discounts.");
+    ["price discrimination", "cost transparency", "product customization", "information density"], "Slide 15: specific discounts such as age discounts.");
   // Personalization and customization p17-19
   mcq(17, 'e', "Targeting marketing messages to specific individuals by adjusting the message to a person's name, interests and past purchases is…",
     ["personalization", "customization", "interactivity", "price discrimination"], "Slide 17.");
   mcq(19, 'e', "Changing the delivered product or service based on a user's preferences or prior behaviour is…",
     ["customization", "personalization", "information richness", "price transparency"], "Slide 19.");
   mcq(17, 'm', "Creating personalized product recommendations is described on the slides as an effective strategy for…",
-    ["companies with an e-commerce site", "companies with no website", "governments regulating prices", "middlemen and wholesalers"], "Slide 17.");
+    ["companies with an e-commerce site", "companies with no website at all", "governments that regulate market prices", "middlemen and wholesalers in a supply chain"], "Slide 17.");
   mcq(17, 'h', "According to the slides, “customers also buy” suggestions are based on…",
-    ["other customers' past purchase histories when they bought a similar product", "the actual cost the merchant paid", "the customer's location only", "random products the merchant wants to sell"], "Slide 17.");
+    ["other customers' past purchase histories when they bought a similar product", "the actual cost the merchant paid for each of the recommended products", "the customer's location only, so everyone in one city sees the same list", "random products the merchant wants to sell quickly to clear its stock"], "Slide 17.");
   mcq(18, 'm', "Sending a post-purchase email that includes “customers also buy” recommendations is an example of…",
     ["personalization", "customization", "universal standards", "global reach"], "Slide 18.");
   mcq(18, 'h', "According to the slides, a more proactive way to show recommendations is to show them…",
-    ["at checkout before the customer completes their purchase", "only in printed catalogues", "a year after the purchase", "only to new visitors"], "Slide 18.");
+    ["at checkout before the customer completes their purchase", "only in printed catalogues mailed to the customer's home", "a year after the purchase, in a reminder e-mail", "only to new visitors on their very first page view"], "Slide 18.");
   mcq(19, 'e', "Customized T-shirts and bags with unique materials and colours are slide examples of…",
     ["customization", "personalization", "ubiquity", "price transparency"], "Slide 19.");
   mcq(19, 'm', "Which industry is named on the slides as also benefiting from product customization (carpets, tables, kitchen accessories)?",
     ["The furniture industry", "The airline industry", "The arts/entertainment industry", "The newspaper industry"], "Slide 19.");
   mcq([17, 19], 'h', "What is the key difference between personalization and customization?",
-    ["Personalization adjusts the marketing message; customization changes the product or service", "Personalization changes the product; customization adjusts the message", "Personalization is offline; customization is online", "There is no difference; they are the same thing"], "Slides 17 and 19.");
+    ["Personalization adjusts the marketing message; customization changes the product or service", "Personalization changes the product or service; customization adjusts the marketing message", "Personalization happens only offline, while customization happens only online in web stores", "There is no real difference; both terms describe changing the product for each customer"], "Slides 17 and 19.");
   mcq(17, 'm', "A website greets a returning user by name and shows products related to their last purchase. This is…",
     ["personalization", "customization", "cost transparency", "universal standards"], "Slide 17.");
   mcq(21, 'm', "“Enables personalization of marketing messages and customization of products and services based on individual characteristics” is the business significance of…",
@@ -135,14 +135,14 @@ EC.lecture(2, function (Q) {
   mcq(20, 'e', "“Millions of users are able to generate content consumed by millions of other users” describes…",
     ["social technology", "global reach", "information density", "universal standards"], "Slide 20.");
   mcq(21, 'm', "“Enables user content creation and distribution and supports development of social networks” is the business significance of…",
-    ["Social technology", "Interactivity", "Ubiquity", "Richness"], "Table 1.2.");
+    ["Social technology", "Interactivity", "Universal standards", "Information richness"], "Table 1.2.");
   // Applied
   mcq(7, 'm', "A small shop in Erbil sells handmade goods online to customers in Europe and Asia. Which unique feature does this mainly show?",
     ["Global reach", "Information density", "Price discrimination", "Customization"], "Slide 7: transactions across cultural and national boundaries.");
   mcq(10, 'h', "A product page combines a demo video, audio commentary and detailed text in one marketing message. Which unique feature does this mainly show?",
     ["Information richness", "Universal standards", "Global reach", "Information density"], "Slides 9-10 and Table 1.2.");
   mcq(21, 'm', "“The technology reduces information costs and raises quality” describes which e-commerce technology dimension?",
-    ["Information density", "Global reach", "Interactivity", "Social technology"], "Table 1.2.");
+    ["Information density", "Global reach", "Universal standards", "Information richness"], "Table 1.2.");
   mcq(21, 'm', "“The technology works through interaction with the user” describes which dimension?",
     ["Interactivity", "Richness", "Ubiquity", "Information density"], "Table 1.2.");
 

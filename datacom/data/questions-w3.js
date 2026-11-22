@@ -5,7 +5,7 @@ EC.lecture(3, function (Q) {
   /* ---------- Section A: choose the correct option ---------- */
   // Protocol layering (p5-8)
   mcq(5, 'e', "Week 3's solution to breaking network software into structured, manageable parts is to introduce…",
-    ["logical network models", "faster cables", "new topologies", "wireless media"],
+    ["logical network models", "faster physical cables", "new physical topologies", "wireless transmission media"],
     "Slide 5: Solution: introducing logical network models.");
   mcq(6, 'e', "Which benefit of layered architecture means that modifying one layer does not break the others?",
     ["Modularity", "Complexity", "Interoperability", "Encapsulation"],
@@ -17,10 +17,10 @@ EC.lecture(3, function (Q) {
     ["breaking tasks into independent modules", "putting all functions into one program", "removing the need for protocols", "connecting every device to every other device"],
     "Slide 6.");
   mcq(6, 'm', "According to the basic rules of layering, each layer…",
-    ["provides services to the layer above and receives services from the layer below", "communicates only with the physical medium", "performs every function of the network", "provides services to the layer below only"],
+    ["provides services to the layer above and receives services from the layer below", "communicates only with the physical medium and never with other layers", "performs every function of the network so other layers are not needed", "provides services only to the layer below and receives none from it"],
     "Slide 6.");
   mcq(6, 'm', "Which is one of the basic rules of layering?",
-    ["Each layer must perform a specific, well-defined function", "Each layer must use the same protocol", "Layers must be modified together", "Only the top layer may add information"],
+    ["Each layer must perform a specific, well-defined function", "Each layer must use the same protocol as every other layer", "All layers must be modified together whenever one changes", "Only the top layer may add information to the data"],
     "Slide 6.");
   mcq(7, 'm', "In the postal-system example of layering, putting the letter in an envelope with addresses corresponds to…",
     ["Layer 2 (packaging)", "Layer 3 (content)", "Layer 1 (transport)", "the receiver's decapsulation"],
@@ -42,10 +42,10 @@ EC.lecture(3, function (Q) {
     ["ISO", "DARPA", "IEEE", "Cisco"],
     "Slide 9: established by ISO in 1984.");
   mcq(9, 'm', "The OSI model is described on the slides as…",
-    ["a theoretical benchmark framework that simplifies the data communication process", "the practical protocol suite that powers today's Internet", "a physical cable standard", "a type of network topology"],
+    ["a theoretical benchmark framework that simplifies the data communication process", "the practical protocol suite developed by DARPA that powers today's Internet", "a physical cable standard for copper and fiber connections", "a type of network topology used in large enterprise networks"],
     "Slide 9.");
   mcq(9, 'm', "What is the purpose of the OSI model according to the slides?",
-    ["A universal architectural standard for network education and design", "A commercial protocol used by every router", "A cable standard for LANs", "A replacement for TCP/IP on the Internet"],
+    ["A universal architectural standard for network education and design", "A commercial protocol that every router on the Internet must run", "A cable and connector standard for local area networks", "A replacement for TCP/IP that will run the Internet in the future"],
     "Slide 9.");
   mcq(9, 'm', "In the mnemonic “Please Do Not Throw Sausage Pizza Away” (layers 1 to 7), “Sausage” stands for the…",
     ["Session layer", "Presentation layer", "Transport layer", "Physical layer"],
@@ -73,7 +73,7 @@ EC.lecture(3, function (Q) {
     ["Physical", "Data Link", "Network", "Transport"],
     "Slide 11.");
   mcq(11, 'm', "Which is a duty of the Physical layer?",
-    ["Converting bits to electrical voltage, light pulses or radio waves", "Adding MAC addresses to frames", "Choosing the best route across networks", "Encrypting data with SSL/TLS"],
+    ["Converting bits to electrical voltage, light pulses or radio waves", "Adding source and destination MAC addresses to frames", "Choosing the best route for packets across many networks", "Encrypting and compressing the data with SSL/TLS and GZIP"],
     "Slide 11.");
   mcq(11, 'm', "Defining bit rate duration and clock synchronization is the job of the…",
     ["Physical layer", "Session layer", "Network layer", "Application layer"],
@@ -95,10 +95,10 @@ EC.lecture(3, function (Q) {
     ["Data Link", "Physical", "Network", "Session"],
     "Slide 13.");
   mcq(13, 'm', "The Data Link layer handles physical addressing using…",
-    ["48-bit MAC addresses burned into the NIC", "32-bit IPv4 addresses", "16-bit port numbers", "URLs and domain names"],
+    ["48-bit MAC addresses burned into the NIC", "32-bit logical IPv4 addresses", "16-bit port numbers such as 80 and 443", "URLs and domain names of web servers"],
     "Slide 13.");
   mcq(13, 'm', "The Data Link layer performs error detection using the…",
-    ["Frame Check Sequence (FCS / CRC32)", "3-way handshake", "sequence numbers", "SSL/TLS"],
+    ["Frame Check Sequence (FCS / CRC32)", "3-way handshake (SYN, SYN-ACK, ACK)", "sequence numbers in the segment", "SSL/TLS encryption and certificates"],
     "Slide 13.");
   mcq(13, 'm', "Which Data Link sublayer interfaces with the Network layer?",
     ["LLC (Logical Link Control)", "MAC (Media Access Control)", "FCS (Frame Check Sequence)", "CAM (Content Addressable Memory)"],
@@ -113,7 +113,7 @@ EC.lecture(3, function (Q) {
     ["The IP packet", "The MAC addresses", "The FCS error check", "Raw bits only"],
     "Slide 14: header (MAC addresses) · payload (IP packet) · trailer.");
   mcq(14, 'h', "An Ethernet frame consists of…",
-    ["a header with MAC addresses, the IP packet as payload, and a trailer", "an IP header and a TCP segment only", "a port number and the application data", "a URL, a port and a MAC address"],
+    ["a header with MAC addresses, the IP packet as payload, and a trailer", "an IP header and a TCP segment only, with no trailer at all", "a port number, a sequence number and the application data", "a URL, a port number and a MAC address in one header"],
     "Slides 14 and 19.");
   // Layer 3 (p15)
   mcq(15, 'e', "Which OSI layer is responsible for source-to-destination packet delivery across multiple subnets?",
@@ -126,7 +126,7 @@ EC.lecture(3, function (Q) {
     ["32; 128", "48; 32", "16; 48", "128; 32"],
     "Slide 15: 32-bit IPv4 / 128-bit IPv6.");
   mcq(15, 'm', "Which of these protocols works at the Network layer?",
-    ["ICMP (ping)", "HTTP", "FTP", "UDP"],
+    ["ICMP (ping)", "HTTP (web)", "FTP (files)", "UDP (datagrams)"],
     "Slide 15: IP, ICMP, ARP, OSPF, BGP.");
   mcq(15, 'e', "What is the primary hardware of the Network layer?",
     ["Routers and Layer 3 switches", "Repeater hubs", "RJ-45 connectors", "Network interface cards only"],
@@ -164,7 +164,7 @@ EC.lecture(3, function (Q) {
     ["Session layer", "Presentation layer", "Application layer", "Transport layer"],
     "Slide 17.");
   mcq(17, 'e', "Formatting (ASCII/Unicode), encryption (SSL/TLS) and compression (GZIP) happen at the…",
-    ["Presentation layer", "Session layer", "Network layer", "Data Link layer"],
+    ["Presentation layer", "Session layer", "Network layer", "Application layer"],
     "Slide 17.");
   mcq(17, 'e', "Which layer provides network services directly to user applications such as HTTP, DNS and SMTP?",
     ["Application", "Presentation", "Session", "Transport"],
@@ -173,7 +173,7 @@ EC.lecture(3, function (Q) {
     ["Presentation", "Application", "Transport", "Session"],
     "Slide 17.");
   mcq(17, 'm', "Compressing data with GZIP belongs to which OSI layer?",
-    ["Presentation", "Physical", "Session", "Network"],
+    ["Presentation", "Application", "Session", "Transport"],
     "Slide 17.");
   mcq(17, 'h', "A large file download is interrupted and resumes from the last saved point instead of the beginning. Which OSI layer function does this illustrate?",
     ["Checkpoint recovery at the Session layer", "Compression at the Presentation layer", "Routing at the Network layer", "Framing at the Data Link layer"],
@@ -195,7 +195,7 @@ EC.lecture(3, function (Q) {
     ["datagram", "segment", "frame", "bit stream"],
     "Slide 19: segment (TCP) / datagram (UDP).");
   mcq(19, 'm', "The PDU at Layers 7, 6 and 5 is called…",
-    ["data / message", "segment", "packet", "frame"],
+    ["data / message", "segment / datagram", "packet", "frame"],
     "Slide 19.");
   mcq(19, 'h', "Which PDU contains [ETH header] + [IP] + [TCP] + payload + [FCS]?",
     ["Frame", "Packet", "Segment", "Data"],
@@ -211,13 +211,13 @@ EC.lecture(3, function (Q) {
     ["TCP/IP", "OSI", "The postal model", "The mesh model"],
     "Slide 20.");
   mcq(21, 'm', "Why are the 7 OSI layers merged into 4 layers in TCP/IP?",
-    ["Software applications handle presentation and sessions internally", "The Physical layer is not needed in TCP/IP", "TCP/IP has no Transport layer", "Routers replace the Network layer"],
+    ["Software applications handle presentation and sessions internally", "The Physical layer is not needed because TCP/IP is software", "TCP/IP has no Transport layer, so TCP and UDP run elsewhere", "Routers replace the Network layer, so it can be removed"],
     "Slide 21.");
   mcq(21, 'm', "The TCP/IP Application layer is described as a “3 in 1” layer because it covers the OSI…",
     ["Application, Presentation and Session layers", "Transport, Network and Data Link layers", "Network, Data Link and Physical layers", "Application, Transport and Network layers"],
     "Slide 21.");
   mcq(22, 'm', "In the OSI vs TCP/IP mapping, the OSI Data Link and Physical layers are merged into the TCP/IP…",
-    ["Network Access layer", "Internet layer", "Transport layer", "Application layer"],
+    ["Network Access layer", "Internet (Network) layer", "Transport layer", "Application layer"],
     "Slide 22.");
   mcq(22, 'm', "Which TCP/IP layer handles IPv4, IPv6, ICMP, routing and addressing?",
     ["Internet layer", "Network Access layer", "Transport layer", "Application layer"],
@@ -226,10 +226,10 @@ EC.lecture(3, function (Q) {
     ["Transport (Layer 4)", "Session (Layer 5)", "Network (Layer 3)", "Data Link (Layer 2)"],
     "Slide 22: TCP and UDP, end-to-end, ports.");
   mcq(22, 'm', "Ethernet, Wi-Fi, MAC addresses, copper and fiber all belong to the TCP/IP…",
-    ["Network Access layer", "Internet layer", "Application layer", "Transport layer"],
+    ["Network Access layer", "Internet (Network) layer", "Application layer", "Transport layer"],
     "Slide 22.");
   mcq(25, 'm', "Which statement compares OSI and TCP/IP correctly?",
-    ["OSI is a theoretical 7-layer framework; TCP/IP is a practical 4-layer Internet suite", "OSI is the practical Internet suite; TCP/IP is only used in education", "Both models have 7 layers", "TCP/IP has more layers than OSI"],
+    ["OSI is a theoretical 7-layer framework; TCP/IP is a practical 4-layer Internet suite", "OSI is the practical 4-layer Internet suite; TCP/IP is a theoretical framework", "Both models have exactly 7 layers, but they use different names for them", "TCP/IP has more layers than OSI because it adds an Internet layer"],
     "Slide 25.");
   // Addressing levels (p23)
   mcq(23, 'm', "Which address identifies the running software process on the destination host?",
@@ -251,7 +251,7 @@ EC.lecture(3, function (Q) {
     ["Application", "Transport", "Logical (IP)", "Physical (MAC)"],
     "Slide 23: Application URI identifies an application resource or user service.");
   mcq(23, 'h', "Which row of the addressing table is correctly matched?",
-    ["Transport port: Segment/Datagram: Port 443", "Physical MAC: Packet: 192.168.1.100", "Logical IP: Frame: 00:1A:2B:3C:4D:5E", "Application URI: Segment: Port 80"],
+    ["Transport port: Segment/Datagram: Port 443", "Physical MAC: Packet: 192.168.1.100 (IPv4)", "Logical IP: Frame: 00:1A:2B:3C:4D:5E", "Application URI: Segment/Datagram: Port 80"],
     "Slide 23.");
   mcq(13, 'h', "A 48-bit MAC address is written as 12 hexadecimal digits. How many bytes is that?",
     ["6", "4", "12", "48"],
@@ -267,10 +267,10 @@ EC.lecture(3, function (Q) {
     ["Layer 1 (Physical)", "Layer 2 (Data Link)", "Layer 4 (Transport)", "Layer 7 (Application)"],
     "Slide 24.");
   mcq(24, 'h', "After the cable is unplugged, which sequence describes what happens to the upper layers?",
-    ["L2 loses link → L3 routing drops → L4 TCP times out → browser shows “No Internet”", "L7 fails first → L4 retries → L1 recovers", "Only Layer 1 is affected; upper layers keep working", "L3 routing drops → L1 fails → L2 recovers"],
+    ["L2 loses link → L3 routing drops → L4 TCP times out → browser shows “No Internet”", "L7 fails first → L4 retries the connection → L3 reroutes the packets → L1 recovers the cable by itself", "Only Layer 1 is affected; all upper layers keep working normally", "L3 routing drops first → L1 fails → L2 recovers the link"],
     "Slide 24.");
   mcq(24, 'h', "Why does a router need to look at the packet header rather than only the frame header?",
-    ["It forwards using the destination IP address in the packet header", "It forwards using the destination MAC address only", "It only regenerates raw bits", "It reads port numbers to choose the application"],
+    ["It forwards using the destination IP address in the packet header", "It forwards using the destination MAC address in the frame only", "It only regenerates raw bits and repeats them out of all ports", "It reads the port numbers to choose the receiving application"],
     "Slide 24.");
 
   /* ---------- Section B: fill in the blanks ---------- */
@@ -338,7 +338,7 @@ EC.lecture(3, function (Q) {
     ["UDP", "TCP", "ICMP", "ARP"],
     "Slide 16: UDP is connectionless, fast and low-overhead.");
   mcq(22, 'h', "An engineer troubleshooting Wi-Fi links and MAC addressing problems is working in which layer of the TCP/IP model?",
-    ["Network Access layer", "Internet layer", "Transport layer", "Application layer"],
+    ["Network Access layer", "Internet (Network) layer", "Transport layer", "Application layer"],
     "Slide 22: Ethernet, Wi-Fi, MAC, copper and fiber belong to Network Access.");
   mcq(15, 'h', "A packet must travel from a laptop in one subnet to a server several networks away. Which OSI layer is responsible for choosing the path?",
     ["Network", "Data Link", "Transport", "Physical"],

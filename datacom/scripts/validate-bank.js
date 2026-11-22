@@ -44,6 +44,9 @@ for (const q of BANK) {
       if (new Set(normed).size !== 4) err(q, 'MCQ options are not distinct');
       if (normed.some((o) => !o)) err(q, 'empty MCQ option');
       if (q.options.some((o) => BANNED.test(o))) err(q, '"all/none of the above" style option');
+      // The correct option must not give itself away by being much longer than every wrong option.
+      const lens = q.options.map((o) => o.length);
+      if (lens[0] > 30 && lens[0] > 1.25 * Math.max(...lens.slice(1))) err(q, `correct option is much longer than every wrong option (${lens.join('/')} chars)`);
       break;
     }
     case 'tf':
@@ -110,11 +113,14 @@ for (const l of WEEKS) {
   }
 }
 
+const mcqs = BANK.filter((q) => q.type === 'mcq');
+const longest = mcqs.filter((q) => q.options[0].length >= Math.max(...q.options.slice(1).map((o) => o.length))).length;
 const tfTrue = count((q) => q.type === 'tf' && q.answer);
 console.log(`Questions: ${BANK.length}  (flashcards: ${EC.CARDS.length})`);
 console.log('By week:   ', byLecture);
 console.log('By type:   ', byType);
 console.log('By level:  ', byDiff);
+console.log(`MCQ length check: correct option is the longest in ${Math.round(100 * longest / mcqs.length)}% (chance is 25%)`);
 console.log(`True/false balance: ${tfTrue} true / ${byType.tf - tfTrue} false`);
 if (warnings.length) {
   console.log(`\n${warnings.length} warning(s)` + (verbose ? ':' : ' (run with --verbose to list)'));

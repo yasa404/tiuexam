@@ -11,10 +11,10 @@ EC.lecture(2, function (Q) {
     ["Fiber optic", "A web browser", "A protocol", "A message"],
     "Slide 7: copper wire, fiber optic or wireless air.");
   mcq(7, 'm', "According to Week 2, data can communicate only if the devices are part of a communication system made of…",
-    ["hardware devices and software programs", "senders and receivers only", "cables and connectors only", "users and administrators"],
+    ["hardware devices and software programs", "senders and receivers with no software", "cables and connectors between two devices", "users and network administrators only"],
     "Slide 7: communication system = hardware device + software program.");
   mcq(6, 'e', "The basic idea behind every data communication example (people, devices, systems) is that…",
-    ["information moves from one point to another", "data is stored in one place", "devices share the same screen", "users type messages on keyboards"],
+    ["information moves from one point to another", "data is stored safely in one central place", "devices share the same screen and keyboard", "users type messages on computer keyboards"],
     "Slide 6.");
   mcq(6, 'm', "In the life scenario, banking, hospitals and universities are given as examples of data communication between…",
     ["systems", "people", "devices", "protocols"],
@@ -68,13 +68,13 @@ EC.lecture(2, function (Q) {
     "Slide 10: accuracy means data is delivered without alteration.");
   // Data representation (p11-12)
   mcq(11, 'e', "Inside computers, all data types are represented as…",
-    ["binary bits (0s and 1s)", "decimal digits", "analog waves", "ASCII letters only"],
+    ["binary bits (0s and 1s)", "decimal digits (0 to 9)", "continuous analog waves", "ASCII letters and symbols only"],
     "Slide 11.");
   mcq(11, 'm', "Which code, up to 32 bits, can represent all global languages, including Kurdish and Arabic?",
     ["Unicode", "Binary", "RGB", "HTML"],
     "Slide 11.");
   mcq(11, 'e', "How is text represented in data communication?",
-    ["Character codes map combinations of bits to symbols", "Each letter is sampled at discrete intervals", "Text is divided into a matrix of pixels", "Text is sent as continuous analog waves"],
+    ["Character codes map combinations of bits to symbols", "Each letter is sampled at discrete intervals in time", "Text is divided into a matrix of coloured pixels", "Text is sent as a continuous analog wave of sound"],
     "Slide 11.");
   mcq(11, 'm', "Using the method on the slides, the decimal number 10 is represented in binary as…",
     ["1010", "1100", "0110", "1001"],
@@ -86,7 +86,7 @@ EC.lecture(2, function (Q) {
     ["7", "6", "14", "11"],
     "0·8 + 1·4 + 1·2 + 1·1 = 7 (slide 11: numbers are represented directly in binary).");
   mcq(12, 'e', "How is an image represented?",
-    ["As a matrix of pixels, each with a bit pattern for its colour", "As a sequence of samples of a sound wave", "As character codes mapped to symbols", "As a sequence of frames with audio"],
+    ["As a matrix of pixels, each with a bit pattern for its colour", "As a sequence of samples taken from a sound wave's amplitude", "As character codes that map combinations of bits to symbols", "As a sequence of frames displayed rapidly with synchronized audio"],
     "Slide 12.");
   mcq(12, 'm', "In image representation, 24-bit RGB describes each pixel's…",
     ["colour depth", "position in the matrix", "frame rate", "sampling interval"],
@@ -98,10 +98,10 @@ EC.lecture(2, function (Q) {
     ["sampling", "framing", "encoding", "pixelation"],
     "Slide 12: audio is sampled and converted to binary values.");
   mcq(12, 'm', "Why must audio be sampled before it can be stored as binary?",
-    ["Sound waves are continuous (analog)", "Sound waves are already digital", "Audio is made of pixels", "Audio uses Unicode characters"],
+    ["Sound waves are continuous (analog)", "Sound waves are already digital (discrete)", "Audio is made of pixels with a colour depth", "Audio uses Unicode characters for each sound"],
     "Slide 12: sound waves are continuous, so samples are taken at discrete intervals.");
   mcq(12, 'e', "Video is represented as…",
-    ["a sequence of image frames displayed rapidly with synchronized audio", "a single high-resolution image", "a set of characters mapped to symbols", "a continuous analog wave only"],
+    ["a sequence of image frames displayed rapidly with synchronized audio", "a single high-resolution image with 24-bit colour for every pixel", "a set of character codes that map combinations of bits to symbols", "a continuous analog wave that is never sampled or converted to bits"],
     "Slide 12: e.g. 30 frames per second, combined with synchronized audio.");
   mcq(12, 'h', "A video plays at 30 frames per second, as in the slide example. How many frames are shown in 10 seconds?",
     ["300", "30", "3,000", "40"],
@@ -148,7 +148,7 @@ EC.lecture(2, function (Q) {
     ["It is divided between the two directions", "It is dedicated to one direction only", "It changes direction turn by turn", "It is given to whichever device holds the token"],
     "Slides 18-19: capacity split/shared, by frequency bands or separate transmit/receive wires.");
   mcq(17, 'm', "In half-duplex mode, the full channel bandwidth is dedicated to…",
-    ["whichever direction is currently transmitting", "both directions at the same time", "the receiver only", "the sender only, permanently"],
+    ["whichever direction is currently transmitting", "both directions at the same time, split in half", "the receiver only, while the sender waits", "the sender only, permanently, in one direction"],
     "Slide 17.");
   mcq(19, 'h', "Which pairing of mode and channel utilization is correct?",
     ["Half-duplex: 100% capacity that changes direction", "Simplex: capacity split between two directions", "Full-duplex: 100% capacity in one direction", "Half-duplex: capacity split and used simultaneously"],
@@ -164,7 +164,7 @@ EC.lecture(2, function (Q) {
     ["guided (wired) media", "unguided (wireless) media", "protocols", "network topologies"],
     "Slide 20.");
   mcq(20, 'e', "Radio, microwave and infrared are examples of…",
-    ["unguided (wireless) media", "guided (wired) media", "data flow modes", "network categories"],
+    ["unguided (wireless) media", "guided (wired) media", "full-duplex data flow modes", "network categories (PAN, LAN)"],
     "Slide 20.");
   mcq(20, 'm', "In unguided media, signals travel through…",
     ["air or space", "a physical cable", "a glass core", "copper wire pairs"],
@@ -174,7 +174,7 @@ EC.lecture(2, function (Q) {
     ["Timing", "Topology", "Bandwidth", "Distance"],
     "Slide 21: format, timing, sequence, what to do when something goes wrong.");
   mcq(21, 'm', "According to the slides, what happens without shared rules (protocols)?",
-    ["Devices may be connected but still unable to communicate meaningfully", "Devices cannot be physically connected at all", "Data travels faster because there are no rules", "Only wireless devices can communicate"],
+    ["Devices may be connected but still unable to communicate meaningfully", "Devices cannot be physically connected to each other at all", "Data travels faster because no time is spent following rules", "Only wireless devices can communicate, because they need no cables"],
     "Slide 21.");
   mcq(22, 'm', "In the human-conversation analogy for protocols, “turn-taking” corresponds in data communications to…",
     ["timing rules", "message format", "a shared protocol", "agreed interpretation"],
@@ -184,13 +184,13 @@ EC.lecture(2, function (Q) {
     "Slide 22.");
   // Computer networks & criteria (p23-24)
   mcq(23, 'e', "A computer network is a group of interconnected devices that can…",
-    ["exchange data and share resources", "only print documents", "only store files locally", "only run the same software"],
+    ["exchange data and share resources", "only print documents on a shared printer", "only store files locally on each computer", "only run the same software at the same time"],
     "Slide 23.");
   mcq(23, 'e', "The connected devices in a network are often called…",
     ["nodes", "protocols", "frames", "taps"],
     "Slide 23.");
   mcq(24, 'e', "Which are the three most important network criteria?",
-    ["Performance, reliability and security", "Delivery, accuracy and timeliness", "Mesh, star and bus", "Bandwidth, delay and load"],
+    ["Performance, reliability and security", "Delivery, accuracy, timeliness and jitter", "Mesh, star, bus and ring topologies", "Bandwidth, throughput, delay and load"],
     "Slide 24.");
   mcq(24, 'm', "Which criterion is about how quickly and efficiently data can be delivered?",
     ["Performance", "Reliability", "Security", "Robustness"],
@@ -199,7 +199,7 @@ EC.lecture(2, function (Q) {
     ["reliability", "performance", "security", "throughput"],
     "Slide 24.");
   mcq(24, 'm', "Which of these does NOT influence network performance according to the slides?",
-    ["Recovery time", "Bandwidth", "Throughput", "Load"],
+    ["Recovery time", "Bandwidth", "Throughput", "Network load"],
     "Slide 24: performance depends on bandwidth, throughput, delay, load, hardware, software. Recovery time measures reliability.");
   mcq(24, 'e', "Protecting data and resources from unauthorized access, modification or disruption is network…",
     ["security", "performance", "reliability", "timeliness"],
@@ -209,10 +209,10 @@ EC.lecture(2, function (Q) {
     "Slide 24: reliability is the availability of the network, measured by failure rate, recovery time and robustness.");
   // Connection types (p25-26)
   mcq(25, 'e', "A connection that links only two devices directly, with a single transmitter and receiver, is…",
-    ["point-to-point", "multipoint", "bus", "time share"],
+    ["point-to-point", "multipoint link", "bus topology", "time share"],
     "Slide 25.");
   mcq(25, 'm', "Changing TV channels with a remote control is given as an example of…",
-    ["a wireless (infrared) point-to-point connection", "a multipoint connection", "a bus topology", "a full-duplex connection"],
+    ["a wireless (infrared) point-to-point connection", "a multipoint connection shared by several devices", "a bus topology with drop lines and taps", "a full-duplex connection between two phones"],
     "Slide 25.");
   mcq(26, 'e', "A connection where more than two devices share a single link is…",
     ["multipoint", "point-to-point", "simplex", "mesh"],
@@ -225,7 +225,7 @@ EC.lecture(2, function (Q) {
     "Slide 26.");
   // Topologies (p27-36)
   mcq(27, 'e', "Network topology refers to…",
-    ["the physical or logical arrangement of links and nodes in a network", "the set of rules governing communication", "the speed of a network link", "the geographic area a network covers"],
+    ["the physical or logical arrangement of links and nodes in a network", "the set of rules that governs how devices communicate", "the speed of a network link, measured in bits per second", "the geographic area a network covers, such as a LAN or a WAN"],
     "Slide 27.");
   mcq(27, 'e', "In which topology are all nodes directly connected to each other?",
     ["Mesh", "Star", "Bus", "Ring"],
@@ -240,7 +240,7 @@ EC.lecture(2, function (Q) {
     ["Ring", "Bus", "Star", "Mesh"],
     "Slide 27.");
   mcq(28, 'm', "The formula for the total number of physical links in a mesh of n nodes is…",
-    ["n(n − 1) / 2", "n − 1", "n²", "2n"],
+    ["n(n − 1) / 2", "n − 1", "n × n", "(n − 1) / 2"],
     "Slide 28.");
   mcq(28, 'm', "How many physical cables does a mesh topology of 5 nodes need?",
     ["10", "5", "20", "25"],
@@ -264,19 +264,19 @@ EC.lecture(2, function (Q) {
     ["If one link fails, traffic reroutes", "It needs only one cable per device", "It is the cheapest topology to install", "It uses a single backbone cable"],
     "Slide 28: highly robust, secure, easy fault isolation.");
   mcq(28, 'm', "What is the main disadvantage of mesh topology?",
-    ["It is extremely expensive and difficult to install due to heavy cabling", "It has a single point of failure", "A single break disables the entire network", "Adding devices causes network downtime"],
+    ["It is extremely expensive and difficult to install due to heavy cabling", "It has a single point of failure at the central controller", "A single break in the ring disables the entire network", "Adding new devices always causes network downtime on the backbone"],
     "Slide 28.");
   mcq(30, 'm', "In a star topology, if Node A sends data to Node B, the data…",
-    ["flows to the central controller first, which forwards it", "goes directly from A to B over a dedicated link", "circulates around the ring until it reaches B", "travels along the backbone to every node"],
+    ["flows to the central controller first, which forwards it", "goes directly from A to B over a dedicated point-to-point link", "circulates around the ring until it reaches B with the token", "travels along the shared backbone and reaches every node"],
     "Slide 30.");
   mcq(30, 'm', "What is the single point of failure in a star topology?",
-    ["The central controller (switch or hub)", "Each individual node", "The terminators", "The token"],
+    ["The central controller (switch or hub)", "Each individual node and its cable", "The terminators at both cable ends", "The token that circulates the network"],
     "Slide 30: if the central controller dies, the whole network collapses.");
   mcq(30, 'm', "Why is star topology described as cost effective?",
     ["Only one cable is needed per device", "Every node links to every other node", "It needs no central device", "It uses one shared backbone with no drop lines"],
     "Slide 30.");
   mcq(30, 'h', "In a star network of 12 PCs, one PC's cable is cut. What happens?",
-    ["Only that PC loses its connection; the others keep working", "The whole network collapses", "Traffic is rerouted through the other PCs", "The token stops circulating"],
+    ["Only that PC loses its connection; the others keep working", "The whole network collapses until the cable is replaced", "Traffic is rerouted through the other PCs automatically", "The token stops circulating and every PC waits"],
     "Slide 30: high fault tolerance: if one node link breaks, the others survive.");
   mcq(30, 'm', "How many cables are needed to connect 8 PCs to a central switch in a star topology?",
     ["8", "28", "7", "16"],
@@ -285,22 +285,22 @@ EC.lecture(2, function (Q) {
     ["drop lines and taps", "a central switch", "a circulating token", "dedicated links to every other node"],
     "Slide 32.");
   mcq(32, 'm', "Why are terminators placed at both ends of a bus backbone?",
-    ["To absorb signals and prevent reflections", "To connect new devices", "To pass the token", "To forward data to the right node"],
+    ["To absorb signals and prevent reflections", "To connect new devices to the backbone", "To pass the token from node to node", "To forward data to the right destination node"],
     "Slide 32.");
   mcq(32, 'm', "What happens in a bus topology if the backbone cable breaks?",
     ["All communication is disabled", "Only one node is affected", "Traffic reroutes through another path", "The central switch takes over"],
     "Slide 32.");
   mcq(32, 'e', "Which is an advantage of bus topology?",
-    ["Very simple to install with minimal cabling", "Excellent fault tolerance", "No single point of failure", "Easy to add devices without downtime"],
+    ["Very simple to install with minimal cabling", "Excellent fault tolerance through multiple paths", "No single point of failure anywhere in the network", "Easy to add new devices without any downtime"],
     "Slide 32.");
   mcq(34, 'm', "In a ring topology, only the device holding the ___ can transmit data.",
     ["token", "terminator", "tap", "central controller"],
     "Slide 34: token passing.");
   mcq(34, 'm', "In a ring topology, each device has a dedicated point-to-point connection with…",
-    ["only the two devices on either side of it", "every other device", "a central switch only", "a backbone cable through a tap"],
+    ["only the two devices on either side of it", "every other device in the network", "a central switch only, like a star", "a backbone cable through a drop line and tap"],
     "Slide 34.");
   mcq(34, 'm', "What is the main disadvantage of ring topology?",
-    ["A single break in the physical ring disables the entire network", "It is extremely expensive because of heavy cabling", "It needs a terminator at both ends", "It needs one cable per device to a central switch"],
+    ["A single break in the physical ring disables the entire network", "It is extremely expensive because every node needs heavy cabling", "It needs a terminator at both ends of the main backbone", "It needs one cable from every device to a central switch"],
     "Slide 34: unidirectional vulnerability.");
   mcq(34, 'm', "Which is an advantage of ring topology?",
     ["Predictable performance", "No single point of failure", "Minimal cabling with drop lines", "Traffic reroutes when a link fails"],
@@ -318,14 +318,14 @@ EC.lecture(2, function (Q) {
     ["Star", "Bus", "Ring", "Mesh"],
     "Slide 42.");
   mcq(37, 'h', "Why can't all devices on the global Internet be physically connected in a mesh?",
-    ["The number of cables and ports grows with n², which is impossible for billions of devices", "Mesh topology has a single point of failure", "Mesh topology cannot carry Internet traffic", "Mesh topology only works with wireless media"],
+    ["The number of cables and ports grows with n², which is impossible for billions of devices", "Mesh topology has a single point of failure at the central switch", "Mesh topology cannot carry Internet traffic between different countries because each link must stay inside one LAN", "Mesh topology only works with wireless media, not with copper or fiber"],
     "Slide 37: with 5 billion devices, n(n − 1)/2 ≈ 1.25 × 10¹⁹ cables and about 5 billion ports per device.");
   mcq(38, 'm', "A topology that combines two or more of the basic topologies is called a…",
     ["hybrid topology", "multipoint topology", "logical topology", "point-to-point topology"],
     "Slide 38: Critical Thinking 2: search Hybrid Topology.");
   // Network categories (p39-41)
   mcq(39, 'e', "Computer networks are categorized (LAN, MAN, WAN, PAN) by…",
-    ["the geographic area they cover", "the protocol they use", "the topology they use", "the type of data they carry"],
+    ["the geographic area they cover", "the protocol they use to communicate", "the physical topology they use", "the type of data they carry"],
     "Slide 39.");
   mcq(39, 'e', "Which network category covers an area of less than 2 miles, such as a home, office, lab or building?",
     ["LAN", "WAN", "MAN", "PAN"],
@@ -340,22 +340,22 @@ EC.lecture(2, function (Q) {
     ["a single organization", "telecommunication carriers", "several ISPs together", "the government only"],
     "Slide 40: private ownership (e.g. Tishk International University).");
   mcq(40, 'm', "Which technologies are common in LANs according to the slides?",
-    ["IEEE 802.3 Ethernet and IEEE 802.11 Wi-Fi", "BGP and OSPF", "Leased telephone lines only", "Satellite links"],
+    ["IEEE 802.3 Ethernet and IEEE 802.11 Wi-Fi", "BGP and OSPF routing between ISPs", "Leased telephone lines from carriers", "Satellite links and microwave towers"],
     "Slide 40.");
   mcq(40, 'h', "Modern LANs typically run at…",
     ["1 Gbps to 10 Gbps", "10 kbps to 100 kbps", "1 Mbps to 10 Mbps", "100 Tbps"],
     "Slide 40: historically 10–100 Mbps; modern LANs 1–10 Gbps.");
   mcq(41, 'm', "WANs are run by…",
-    ["telecommunication carriers and ISPs", "a single university", "one home user", "the LAN switch"],
+    ["telecommunication carriers and ISPs", "a single university or company", "one home user and their family", "the LAN switch in each building"],
     "Slide 41: public/leased ownership.");
   mcq(41, 'm', "Which device does a WAN primarily use to route packets across separate networks?",
     ["Routers", "Hubs", "Terminators", "Repeaters"],
     "Slide 41.");
   mcq(41, 'h', "Why do WANs have higher error rates than LANs?",
-    ["They interconnect diverse media over thousands of miles", "They use high-quality local cabling", "They are owned by a single organization", "They cover less than 2 miles"],
+    ["They interconnect diverse media over thousands of miles", "They use high-quality local cabling such as UTP", "They are owned and managed by a single organization", "They cover less than 2 miles, so signals bounce"],
     "Slide 41.");
   mcq([40, 41], 'h', "Tishk International University connects its campus buildings with its own cabling and links to the Internet through an ISP. Which statement is correct?",
-    ["The campus network is a LAN; the ISP's long-distance network is a WAN", "The campus network is a WAN; the ISP's network is a LAN", "Both networks are PANs", "Both networks are LANs because they are connected"],
+    ["The campus network is a LAN; the ISP's long-distance network is a WAN", "The campus network is a WAN; the ISP's long-distance network is a LAN", "Both networks are PANs, because each covers only a few users", "Both networks are LANs, because they are connected to each other"],
     "Slides 40-41: LANs are privately owned and local; WANs are run by carriers and ISPs over large areas.");
 
   /* ---------- Section B: fill in the blanks ---------- */

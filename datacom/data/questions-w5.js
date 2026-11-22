@@ -11,10 +11,10 @@ EC.lecture(5, function (Q) {
     ["Layer 0", "Layer 1", "Layer 2", "Layer 7"],
     "Slide 6: media is located beneath Layer 1.");
   mcq(6, 'm', "Which statement correctly separates Layer 1 from the transmission media (Layer 0)?",
-    ["Layer 1 defines voltages, timing, bit encoding and pinouts; the media is the actual physical pathway for the signals", "Layer 1 is the cable itself; the media defines the voltages", "Layer 1 routes packets; the media switches frames", "Layer 1 and the media are the same thing"],
+    ["Layer 1 defines voltages, timing, bit encoding and pinouts; the media is the actual physical pathway for the signals", "Layer 1 is the cable itself, while the transmission media defines the voltages, timing, bit encoding and pinouts used", "Layer 1 routes packets between networks, while the media switches frames inside a LAN", "Layer 1 and the transmission media are the same thing with two different names"],
     "Slide 6.");
   mcq(7, 'e', "Which devices bridge Layer 1 to the transmission medium?",
-    ["Transceivers such as NICs", "Routers only", "Terminators", "Web browsers"],
+    ["Transceivers such as NICs", "Routers and Layer 3 switches", "Terminators at the cable ends", "Web browsers and applications"],
     "Slide 7: the interface boundary.");
   mcq(7, 'm', "Which type of interface uses NIC PHY chips to send current over copper twisted pairs?",
     ["Electrical interface", "Optical transceiver", "Wireless radio", "Infrared port"],
@@ -26,7 +26,7 @@ EC.lecture(5, function (Q) {
     ["Wireless radio", "Optical transceiver", "Electrical interface", "RJ-45 connector"],
     "Slide 8.");
   mcq(8, 'h', "In the optical transceiver module shown on the slides, what happens to the signal?",
-    ["It is converted between electrical form (to the device) and optical form (to the fiber)", "It is converted from radio waves to electrical current", "It is amplified as an electrical signal only", "It is encrypted before entering the cable"],
+    ["It is converted between electrical form (to the device) and optical form (to the fiber)", "It is converted from radio waves (from an antenna) into electrical current (to the device) inside the module", "It is amplified as an electrical signal only, with no change of form", "It is encrypted with SSL/TLS before it enters the fiber optic cable"],
     "Slide 8: optical signal on one side, electrical signal on the other.");
   // Classification (p9-10)
   mcq(9, 'e', "Media in which solid physical conductors guide signals along a specific path are called…",
@@ -36,35 +36,35 @@ EC.lecture(5, function (Q) {
     ["Microwave", "Twisted-pair cable", "Coaxial cable", "Fiber optic cable"],
     "Slides 9-10: microwave is unguided (wireless).");
   mcq(10, 'e', "Unguided (unbounded) media are…",
-    ["electromagnetic waves that propagate through open air", "copper wires inside a plastic jacket", "glass fibers carrying light", "cables with braided shielding"],
+    ["electromagnetic waves that propagate through open air", "copper wires twisted together inside a plastic jacket", "glass fibers carrying light pulses along a fixed path", "cables with a copper core and braided metal shielding"],
     "Slide 10.");
   mcq(10, 'm', "Infrared radiation is classified on the slides as…",
-    ["short-range optical line-of-sight wireless transmission", "long-range omnidirectional radio", "a guided medium", "a type of coaxial cable"],
+    ["short-range optical line-of-sight wireless transmission", "long-range omnidirectional radio that passes through walls", "a guided medium that carries light along a glass fiber", "a type of coaxial cable used for short-range links"],
     "Slide 10.");
   mcq(9, 'm', "UTP and STP are two kinds of…",
     ["twisted-pair cable", "coaxial cable", "fiber optic cable", "wireless antenna"],
     "Slide 9: unshielded (UTP) and shielded (STP) twisted pair.");
   // Twisted pair (p12-13)
   mcq(12, 'e', "A twisted pair consists of…",
-    ["two insulated copper wires twisted around each other in a helical spiral", "a copper core surrounded by braided shielding", "a glass core surrounded by cladding", "a single bare copper wire"],
+    ["two insulated copper wires twisted around each other in a helical spiral", "a copper core surrounded by an insulator and braided metal shielding", "a glass core surrounded by a cladding with a lower refractive index", "a single bare copper wire running inside a thick plastic jacket"],
     "Slide 12.");
   mcq(12, 'm', "Which colours are used for the pairs in Cat6 cable (each paired with a white-striped wire)?",
     ["Blue, orange, green, brown", "Red, yellow, black, white", "Blue, red, green, yellow", "Orange, purple, grey, brown"],
     "Slide 12.");
   mcq(12, 'm', "What happens when a twisted-pair cable has more twists per meter?",
-    ["Greater noise immunity and higher supported bandwidth", "More crosstalk and lower bandwidth", "Longer maximum distance of several kilometers", "No effect on transmission"],
+    ["Greater noise immunity and higher supported bandwidth", "More crosstalk between pairs and lower supported bandwidth", "A longer maximum distance of several kilometers per run", "No effect on transmission, since only the shield matters"],
     "Slide 12: twist rate matters.");
   mcq(13, 'e', "Twisting the wires in a twisted-pair cable cancels…",
-    ["electromagnetic interference (EMI) and crosstalk", "attenuation over long distances", "all collisions on the network", "the need for a connector"],
+    ["electromagnetic interference (EMI) and crosstalk", "attenuation of the signal over long distances", "all collisions between devices on the network", "the need for a connector at each end of the cable"],
     "Slide 13.");
   mcq(13, 'm', "In differential signaling over a twisted pair, the two wires carry…",
     ["the signal (+V) and the inverted signal (−V)", "two copies of the same signal (+V and +V)", "data and power", "light and electrical current"],
     "Slide 13.");
   mcq(13, 'h', "Why does external noise almost vanish at the receiver of a twisted pair?",
-    ["Noise hits both wires almost identically, so subtracting the two signals cancels it", "The shield absorbs all the noise", "The receiver ignores voltages below 5 V", "The light pulses are immune to EMI"],
+    ["Noise hits both wires almost identically, so subtracting the two signals cancels it", "The braided metal shield around the twisted pairs absorbs all of the external noise before it reaches the wires", "The receiver ignores every voltage below 5 V as background noise", "The light pulses inside the cable are completely immune to EMI"],
     "Slide 13: differential signaling + continuous twisting + receiver subtraction.");
   mcq(13, 'h', "In differential signaling, wire A carries +2 V and wire B carries −2 V. Noise adds +0.5 V to both. What does the receiver get when it subtracts B from A?",
-    ["4 V: the noise cancels", "4.5 V", "5 V", "0 V"],
+    ["4 V: the noise cancels", "4.5 V: half the noise remains", "5 V: the noise doubles", "0 V: the signals cancel"],
     "(2 + 0.5) − (−2 + 0.5) = 2.5 − (−1.5) = 4 V. The +0.5 V of noise appears on both wires and cancels out.");
   // Coaxial (p14-15)
   mcq(14, 'e', "Which connector is used with coaxial cable?",
@@ -74,10 +74,10 @@ EC.lecture(5, function (Q) {
     ["share a single geometric center line (axis)", "are made of two kinds of glass", "carry two signals in opposite directions", "are twisted around each other"],
     "Slide 14: central shared-axis design.");
   mcq(14, 'm', "Which is a reason coaxial cable outperformed twisted pair?",
-    ["Heavy braided shielding prevents signal leakage", "It carries light instead of electricity", "It is the cheapest cable available", "It has no conductor at all"],
+    ["Heavy braided shielding prevents signal leakage", "It carries light pulses instead of electricity", "It is the cheapest guided cable available", "It has no conductor, so nothing can interfere"],
     "Slide 14: shielding, higher bandwidth (dozens of TV channels), extended range.");
   mcq(14, 'm', "Coaxial cable's higher bandwidth allowed it to carry…",
-    ["dozens of analog television channels simultaneously", "only one telephone call", "light pulses over 100 km", "Wi-Fi signals through walls"],
+    ["dozens of analog television channels simultaneously", "only one telephone call at a time per cable", "light pulses over distances of more than 100 km", "Wi-Fi signals through the walls of a building"],
     "Slide 14.");
   mcq(15, 'm', "Which is the innermost layer of a coaxial cable?",
     ["Center core conductor", "Metallic braided shield", "Outer plastic jacket", "Non-conductive insulator"],
@@ -89,7 +89,7 @@ EC.lecture(5, function (Q) {
     ["Maintains uniform spacing around the core", "Carries the electrical signal", "Protects against moisture", "Blocks external EMI and serves as ground"],
     "Slide 15: plastic foam maintaining uniform core spacing.");
   mcq(15, 'h', "What is the correct order of the four coaxial layers, from the center outward?",
-    ["Core conductor → insulator → braided shield → outer jacket", "Insulator → core conductor → jacket → braided shield", "Braided shield → core → insulator → jacket", "Core conductor → braided shield → insulator → jacket"],
+    ["Core conductor → insulator → braided shield → outer jacket", "Insulator → core conductor → outer jacket → braided shield", "Braided shield → core conductor → insulator → outer jacket", "Core conductor → braided shield → insulator → outer jacket"],
     "Slide 15.");
   mcq(15, 'm', "The outer jacket of a coaxial cable is made of PVC or Teflon to protect against…",
     ["moisture and physical damage", "electromagnetic interference", "signal reflection", "modal dispersion"],
@@ -99,19 +99,19 @@ EC.lecture(5, function (Q) {
     ["pulses of light", "electrical voltage currents", "radio waves", "sound waves"],
     "Slide 16.");
   mcq(16, 'm', "Which components generate the optical pulses in a fiber link?",
-    ["Injection laser diodes (ILDs) or LEDs", "Photodiodes", "Antennas", "Terminators"],
+    ["Injection laser diodes (ILDs) or LEDs", "Photodiodes or photo-transistors", "Antennas and wireless radios", "Terminators at each fiber end"],
     "Slide 16.");
   mcq(16, 'm', "Which components decode the light pulses back into binary bits?",
-    ["Photodiodes or photo-transistors", "Injection laser diodes", "LEDs", "Braided shields"],
+    ["Photodiodes or photo-transistors", "Injection laser diodes (ILDs)", "LEDs in the optical transmitter", "Braided shields around the core"],
     "Slide 16.");
   mcq(17, 'm', "Why is fiber described as having superior security?",
-    ["It cannot be tapped without visibly interrupting the light transmission", "It encrypts every bit automatically", "It is buried deeper than copper", "It uses a token to control access"],
+    ["It cannot be tapped without visibly interrupting the light transmission", "It encrypts every bit automatically as the light enters the glass, so no one can read it", "It is always buried deeper underground than copper cables", "It uses a token so only one device can access the cable"],
     "Slide 17.");
   mcq(17, 'm', "Light in a fiber is unaffected by power cables, lightning or industrial motors. This advantage is…",
     ["EMI immunity", "immense bandwidth", "lightweight design", "low cost"],
     "Slide 17.");
   mcq(17, 'm', "Thanks to ultra-low attenuation, fiber can span…",
-    ["10 to 100+ km without repeaters", "only up to 100 m", "185 m to 500 m", "only within one building"],
+    ["10 to 100+ km without repeaters", "only up to 100 m per cable run", "185 m to 500 m, like coaxial cable", "only within one building or floor"],
     "Slide 17.");
   mcq(17, 'h', "Which is NOT one of the fiber optic advantages listed on the slides?",
     ["Lowest cost per port", "Immense bandwidth", "Extended distance", "Lightweight and compact"],
@@ -126,19 +126,19 @@ EC.lecture(5, function (Q) {
     ["Laser diode", "LED", "Photodiode", "Incandescent lamp"],
     "Slide 19: concentrated coherent light.");
   mcq(19, 'm', "Why does single-mode fiber have zero modal dispersion?",
-    ["Only a single straight ray of light propagates, so there are no different bouncing angles", "It uses an LED light source", "Its core is thicker than multimode", "It carries electrical signals"],
+    ["Only a single straight ray of light propagates, so there are no different bouncing angles", "It uses an LED light source, which produces only one colour of light", "Its core is thicker than multimode fiber, so the light rays have more room and never touch the cladding boundary", "It carries electrical signals instead of light, so nothing can bounce"],
     "Slide 19.");
   mcq(19, 'm', "Which is an application of single-mode fiber?",
     ["Trans-oceanic subsea cables", "Connecting a PC to a desk switch", "Cable TV to a home", "A TV remote control"],
     "Slide 19: Internet backbone, subsea cables, telecommunications.");
   mcq(20, 'm', "Multimode fiber has a core of about…",
-    ["50 to 62.5 microns", "9 to 10 microns", "1 to 2 microns", "500 microns"],
+    ["50 to 62.5 microns", "9 to 10 microns", "100 to 125 microns", "500 to 600 microns"],
     "Slide 20.");
   mcq(20, 'm', "What light source does multimode fiber use?",
-    ["LED (lower-cost transceivers)", "Laser diode only", "Antenna", "Photo-transistor"],
+    ["LED (lower-cost transceivers)", "Laser diode only (coherent light)", "Antenna (radio waves)", "Photo-transistor (light detector)"],
     "Slide 20.");
   mcq(20, 'm', "What limits the distance of multimode fiber?",
-    ["Modal dispersion: different ray paths arrive at slightly different times", "Electromagnetic interference from power lines", "Thermal noise in copper", "Lack of a cladding layer"],
+    ["Modal dispersion: different ray paths arrive at slightly different times", "Electromagnetic interference from nearby power lines and motors", "Thermal noise caused by electrons moving in the copper core", "The lack of a cladding layer, so light escapes from the core"],
     "Slide 20.");
   mcq(20, 'm', "Multimode fiber typically reaches…",
     ["500 m to 2 km", "10 to 100+ km", "only 100 m", "thousands of kilometers"],
@@ -153,13 +153,13 @@ EC.lecture(5, function (Q) {
     ["The glass core", "The glass cladding", "The plastic buffer", "The outer jacket"],
     "Slide 21.");
   mcq(21, 'm', "What is the role of the glass cladding?",
-    ["It has a lower refractive index and traps the light within the core", "It carries the light pulses itself", "It converts light into electrical signals", "It protects the cable from moisture"],
+    ["It has a lower refractive index and traps the light within the core", "It carries the light pulses itself, while the core protects it", "It converts the light pulses into electrical signals at the end", "It protects the cable from moisture and physical damage"],
     "Slide 21.");
   mcq(21, 'm', "According to the slide on Snell's law, what happens to light that hits the core-cladding boundary beyond the critical angle?",
-    ["It reflects and stays guided within the core", "It escapes into the cladding", "It is absorbed by the jacket", "It turns into an electrical signal"],
+    ["It reflects and stays guided within the core", "It escapes into the cladding and is lost", "It is absorbed by the plastic outer jacket", "It turns into an electrical signal at once"],
     "Slide 21: total internal reflection.");
   mcq(21, 'm', "The best, lossless optical signaling according to Snell's law is when light…",
-    ["zigzags through the core indefinitely without escaping", "travels straight out of the cladding", "is absorbed by the buffer", "refracts into the outer jacket"],
+    ["zigzags through the core indefinitely without escaping", "travels straight out through the glass cladding", "is absorbed by the plastic coating or buffer layer", "refracts into the outer jacket at a steep angle"],
     "Slide 21.");
   mcq(21, 'h', "A fiber core has refractive index n₁ = 1.5 and the cladding n₂ = 1.0. Using Snell's law, what is the critical angle (sin θc = n₂ / n₁)?",
     ["About 41.8°", "About 30°", "About 60°", "About 90°"],
@@ -168,14 +168,14 @@ EC.lecture(5, function (Q) {
     ["About 48.6°", "About 30°", "About 19.5°", "It is totally reflected"],
     "sin θ₂ = (1.5 × sin 30°) / 1.0 = 1.5 × 0.5 = 0.75 → θ₂ = arcsin(0.75) ≈ 48.6°. 30° is below the critical angle (41.8°), so the ray escapes, bending away from the normal.");
   mcq(21, 'h', "Light hits the core-cladding boundary at 60° when the critical angle is 41.8°. What happens?",
-    ["Total internal reflection: the light stays in the core", "The light refracts into the cladding", "The light stops", "The light is converted to heat immediately"],
+    ["Total internal reflection: the light stays in the core", "The light refracts out into the cladding and is lost", "The light stops at the boundary and goes no further", "The light is converted to heat immediately at the boundary"],
     "60° > 41.8° (the critical angle), so the light is totally internally reflected and stays guided (slide 21).");
   mcq(21, 'm', "Which layers of a fiber optic cable are shown on the slides, from the inside out?",
-    ["Glass core → glass cladding → plastic coating/buffer → plastic outer jacket", "Copper core → insulator → braided shield → jacket", "Cladding → core → jacket → buffer", "Glass core → braided shield → insulator → jacket"],
+    ["Glass core → glass cladding → plastic coating/buffer → plastic outer jacket", "Copper core → insulator → braided shield → plastic outer jacket", "Glass cladding → glass core → plastic outer jacket → buffer", "Glass core → braided shield → insulator → plastic outer jacket"],
     "Slide 21.");
   // Cable comparison (p22-23)
   mcq(22, 'm', "Which cable is used to connect different devices, such as a PC to a switch?",
-    ["Straight-through twisted pair", "Crossover twisted pair", "Single-mode fiber", "Coaxial cable"],
+    ["Straight-through twisted pair", "Crossover twisted pair cable", "Single-mode fiber optic", "Coaxial cable with BNC"],
     "Slide 22.");
   mcq(22, 'm', "Which cable is used to connect the same kind of devices, such as PC to PC?",
     ["Crossover twisted pair", "Straight-through twisted pair", "Coaxial cable", "Multimode fiber"],
@@ -193,7 +193,7 @@ EC.lecture(5, function (Q) {
     ["100 meters", "185 meters", "500 meters", "2 kilometers"],
     "Slide 23.");
   mcq(23, 'm', "Coaxial cable (RG-58/59) reaches…",
-    ["185 m (thin) to 500 m (thick)", "only 100 m", "2 km to 100 km", "10 m"],
+    ["185 m (thin) to 500 m (thick)", "only 100 m, like twisted pair", "2 km (MMF) to 100 km (SMF)", "about 10 m inside one room"],
     "Slide 23.");
   mcq(23, 'm', "Which guided medium has the lowest cost and is used in desktop office LANs?",
     ["Twisted pair", "Coaxial cable", "Single-mode fiber", "Multimode fiber"],
@@ -212,16 +212,16 @@ EC.lecture(5, function (Q) {
     "Slide 23: twisted pair 100 m, thin coax 185 m, thick coax 500 m.");
   // Impairments (p24-25)
   mcq(24, 'e', "Can signals travel infinitely through a medium?",
-    ["No: every physical medium degrades the signal as it propagates", "Yes, in fiber optic cable", "Yes, in shielded twisted pair", "Yes, if the bit rate is low"],
+    ["No: every physical medium degrades the signal as it propagates", "Yes, in fiber optic cable, because light never loses energy", "Yes, in shielded twisted pair, because the shield blocks all loss", "Yes, as long as the bit rate is kept low enough"],
     "Slide 24.");
   mcq(24, 'm', "In attenuation, the lost signal energy is converted to…",
     ["heat", "light", "noise", "bandwidth"],
     "Slide 24.");
   mcq(24, 'm', "Attenuation is measured in…",
-    ["decibels (dB) of loss per meter or kilometer", "bits per second", "hertz", "microns"],
+    ["decibels (dB) of loss per meter or kilometer", "bits per second, like the bit rate of the link", "hertz, like the frequency of the signal", "microns, like the diameter of the fiber core"],
     "Slide 24.");
   mcq(24, 'm', "Which active devices are deployed to regenerate degraded signals?",
-    ["Amplifiers and repeaters", "Terminators", "Hubs and taps", "Photodiodes only"],
+    ["Amplifiers and repeaters", "Terminators at the cable ends", "Hubs, taps and drop lines", "Photodiodes and LEDs only"],
     "Slide 24.");
   mcq(24, 'h', "A fiber loses 0.4 dB per kilometer. What is the total attenuation over 50 km?",
     ["20 dB", "2 dB", "50 dB", "125 dB"],
@@ -233,7 +233,7 @@ EC.lecture(5, function (Q) {
     ["Distortion", "Attenuation", "Thermal noise", "Crosstalk"],
     "Slide 25.");
   mcq(25, 'm', "Random movement of electrons in conductors, which is always present, is called…",
-    ["thermal noise", "crosstalk", "attenuation", "distortion"],
+    ["thermal noise", "crosstalk", "signal attenuation", "distortion"],
     "Slide 25.");
   mcq(25, 'm', "Signal bleeding from adjacent wires is called…",
     ["crosstalk", "thermal noise", "attenuation", "modal dispersion"],
@@ -298,7 +298,7 @@ EC.lecture(5, function (Q) {
     ["Multimode fiber", "Single-mode fiber", "Coaxial cable", "Shielded twisted pair"],
     "Slide 20: modal dispersion.");
   mcq(23, 'h', "Which statement about Shielded Twisted Pair (STP) is correct according to the guided media comparison?",
-    ["It has high EMI immunity, but only fiber is completely immune", "It is 100% immune to EMI", "It is the best guided medium on every metric", "It reaches 100 km without repeaters"],
+    ["It has high EMI immunity, but only fiber is completely immune", "It is 100% immune to EMI, just like fiber optic cable", "It is the best guided medium on every metric, including cost", "It reaches 100 km without repeaters, like single-mode fiber"],
     "Slide 23: twisted pair immunity is moderate (UTP) to high (STP); fiber has complete immunity.");
   fill(21, 'm', "The law that describes how light refracts at the boundary between the fiber core and the cladding is called [[Snell's law|snells law|snell law|snell]].", "Slide 21.");
   fill(17, 'h', "Because fiber carries light pulses instead of electrical current, it has complete [[immunity]] to electromagnetic interference.", "Slide 17.");

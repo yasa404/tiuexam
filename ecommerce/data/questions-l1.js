@@ -14,7 +14,7 @@ EC.lecture(1, function (Q) {
     ["goods and services", "Web pages and e-mail", "information systems under the firm's control", "domain names and hosts"],
     "Slide 4: “…in exchange for goods, and services.”");
   mcq(5, 'm', "“E-commerce is where business transactions take place via ___, especially the internet.”",
-    ["telecommunications networks", "physical marketplaces", "printed catalogues", "face-to-face meetings"],
+    ["telecommunications networks", "physical marketplaces and shopping malls", "printed mail-order catalogues", "face-to-face sales meetings"],
     "Slide 5, first alternative definition.");
   mcq(5, 'm', "Which of these is one of the definitions of e-commerce given on the slides?",
     ["The conduct of a financial transaction by electronic means", "The application of digital technologies to business processes within the firm", "User-centered applications and social media technologies", "A worldwide network of computer networks built on common standards"],
@@ -27,7 +27,7 @@ EC.lecture(1, function (Q) {
     "Slide 5: “E-commerce (EC) is about doing business electronically.”");
   // E-commerce vs e-business (p6-7)
   mcq(6, 'e', "E-business primarily involves…",
-    ["the application of digital technologies to business processes within the firm", "transactions that cross firm boundaries", "selling goods to customers around the world", "user-generated content and communication"],
+    ["the application of digital technologies to business processes within the firm", "commercial transactions that cross the firm's boundaries to reach its customers", "selling goods and services to customers all around the world online", "user-generated content and communication on social media platforms"],
     "Slide 6.");
   mcq(6, 'e', "Online inventory control is an example of…",
     ["e-business", "e-commerce", "Web 2.0", "the mobile platform"],
@@ -36,7 +36,7 @@ EC.lecture(1, function (Q) {
     ["under the firm's control", "under the customers' control", "under the suppliers' control", "owned by middlemen"],
     "Slide 6: “…involving information systems under firm's control.”");
   mcq(6, 'm', "Which of these is an example of e-business rather than e-commerce?",
-    ["A firm tracking its own stock levels with an online inventory system", "A customer paying a merchant for a product on its website", "A business selling goods to customers in another country", "A consumer ordering a product with a smartphone app"],
+    ["A firm tracking its own stock levels with an online inventory system", "A customer paying a merchant online for a product listed on its website", "A business selling and shipping goods to customers in another country", "A consumer ordering and paying for a product with a smartphone app"],
     "E-business stays inside the firm; the others are commercial transactions that cross firm boundaries.");
   mcq(7, 'e', "E-commerce primarily involves transactions that…",
     ["cross firm boundaries", "stay within the firm", "never involve money", "only use paper documents"],
@@ -48,7 +48,7 @@ EC.lecture(1, function (Q) {
     ["suppliers", "customers", "competitors", "advertisers"],
     "Slide 7: e-business systems are on the suppliers' side; e-commerce systems on the customers' side.");
   mcq(7, 'h', "In the e-commerce vs e-business figure, what forms the centre of the firm where the two systems overlap?",
-    ["The technology infrastructure", "The customers", "The suppliers", "The middlemen"],
+    ["The technology infrastructure", "The customers and their orders", "The suppliers and their deliveries", "The market middlemen and distributors"],
     "Slide 7: “Technology infrastructure — the firm”. The Internet appears inside both systems.");
   mcq([6, 7], 'h', "Which statement about e-commerce and e-business is correct?",
     ["E-commerce crosses firm boundaries, while e-business applies digital technology inside the firm", "E-business crosses firm boundaries, while e-commerce applies digital technology inside the firm", "E-commerce and e-business are two names for the same thing", "E-business only involves selling to customers on the Internet"],
@@ -61,7 +61,7 @@ EC.lecture(1, function (Q) {
     ["standards", "Web pages", "smartphones", "middlemen"],
     "Slide 9: “…built on common standards.”");
   mcq(9, 'm', "According to the slides, the growth of the Internet can be measured by the number of…",
-    ["Internet hosts with domain names", "smartphones and tablets sold", "Web pages written in HTML", "Web 2.0 users"],
+    ["Internet hosts with domain names", "smartphones and tablets sold each year", "Web pages written in HTML worldwide", "Web 2.0 users and social media accounts"],
     "Slide 9.");
   mcq(9, 'e', "Which list contains services of the Internet named on the slides?",
     ["The Web, e-mail and file transfers", "Tablets, smartphones and laptops", "Text, graphics and animations", "Suppliers, customers and firms"],
@@ -70,7 +70,7 @@ EC.lecture(1, function (Q) {
     ["E-mail", "HTML", "Tablets", "Domain names"],
     "Slide 9: the Web, e-mail, file transfers.");
   mcq(10, 'e', "The World Wide Web is…",
-    ["one of the most popular services that runs on the Internet infrastructure", "the worldwide network of computer networks itself", "the most recent development in Internet infrastructure", "a type of mobile device"],
+    ["one of the most popular services that runs on the Internet infrastructure", "the worldwide network of computer networks built on common standards", "the most recent development in Internet infrastructure, used through phones", "a type of mobile device that connects its users to social networks"],
     "Slide 10.");
   mcq(10, 'e', "The World Wide Web provides access to…",
     ["Web pages", "wireless networks", "inventory systems", "cell-phone service"],
@@ -82,19 +82,19 @@ EC.lecture(1, function (Q) {
     ["HyperText Markup Language", "HyperText Mobile Language", "High Transfer Markup Language", "Hosted Text Media Link"],
     "Slide 10.");
   mcq(10, 'm', "According to the slides, HTML pages can contain…",
-    ["text, graphics, animations, music, videos and other objects", "only plain text and links", "only text and pictures", "only static text with no media"],
+    ["text, graphics, animations, music, videos and other objects", "only plain text and hyperlinks to other pages", "only text and still pictures, but never sound or video", "only static text, since media needs a separate program"],
     "Slide 10.");
   mcq([9, 10], 'h', "Which statement best describes the relationship between the Internet and the Web?",
     ["The Web is a service that runs on the Internet", "The Internet is a service that runs on the Web", "They are two names for the same network", "The Web replaced the Internet when Web 2.0 arrived"],
     "Slides 9-10.");
   mcq(11, 'e', "Web 2.0 is described on the slides as…",
-    ["user-centered applications and social media technologies", "a worldwide network of computer networks", "static HTML pages", "access to the Internet through cell-phone service"],
+    ["user-centered applications and social media technologies", "a worldwide network of computer networks built on common standards", "a collection of static HTML pages written only by website owners", "access to the Internet through wireless networks or cell-phone service"],
     "Slide 11.");
   mcq(11, 'm', "With Web 1.0, most websites consisted of…",
     ["static HTML pages", "user-generated content", "highly interactive social communities", "mobile apps"],
     "Slide 11.");
   mcq(11, 'm', "Web 2.0 lets people…",
-    ["collaborate and share information online in ways that were not possible before", "access the Internet only through wired networks", "view static pages created by the website owner", "control inventory inside the firm"],
+    ["collaborate and share information online in ways that were not possible before", "access the Internet only through wired networks in offices and homes", "view static pages that only the website owner can create and change", "control inventory and other business processes inside the firm"],
     "Slide 11.");
   mcq(11, 'h', "Which is NOT one of the features of Web 2.0 listed on the slides?",
     ["Mostly static HTML pages", "User-generated content and communication", "Highly interactive, social communities", "Large audiences"],
@@ -112,17 +112,17 @@ EC.lecture(1, function (Q) {
     ["the mobile platform", "the World Wide Web", "e-mail", "file transfer"],
     "Slide 12.");
   mcq(12, 'e', "The mobile platform enables access to the Internet via…",
-    ["wireless networks or cell-phone service", "static HTML pages", "Internet hosts with domain names", "face-to-face service"],
+    ["wireless networks or cell-phone service", "static HTML pages stored on web servers", "Internet hosts registered with domain names", "face-to-face service in physical shops"],
     "Slide 12.");
   mcq(12, 'e', "Which mobile devices are listed on the slides?",
-    ["Tablets and smartphones", "Desktops and servers", "Web pages and HTML", "Routers and cables"],
+    ["Tablets and smartphones", "Desktop computers and servers", "Web pages and HTML documents", "Routers and network cables"],
     "Slide 12.");
   // Why study e-commerce (p13)
   mcq(13, 'm', "Why study e-commerce, according to Lecture 1?",
-    ["Its technology is different and more powerful than previous technologies, and it brings fundamental changes to commerce", "It allows customers to physically inspect goods before buying", "It has less fraud than traditional commerce", "It removes the need for the Internet"],
+    ["Its technology is different and more powerful than previous technologies, and it brings fundamental changes to commerce", "It allows customers to physically inspect goods before buying, which traditional shops and markets have never been able to offer", "It has less fraud than traditional commerce because the legal issues online are always clear", "It removes the need for the Internet and other telecommunications networks in business"],
     "Slide 13.");
   mcq(13, 'e', "E-commerce brings ___ changes to commerce.",
-    ["fundamental", "minor", "temporary", "no"],
+    ["fundamental", "superficial", "temporary", "purely cosmetic"],
     "Slide 13.");
   // Ten factors (p15-25)
   mcq(15, 'm', "Which is NOT one of the ten factors used to differentiate e-commerce from traditional commerce?",
@@ -132,7 +132,7 @@ EC.lecture(1, function (Q) {
     ["Physical inspection and fraud", "Convenience and profit", "Cost effective and time saving", "Time accessibility and geographical accessibility"],
     "Slides 22 and 25: goods cannot be inspected online, and fraud is more common online.");
   mcq(16, 'e', "Why is e-commerce more cost effective than traditional commerce?",
-    ["The cost incurred on middlemen is eliminated because there is a direct link between business and customer", "Customers can physically inspect goods", "Businesses are open only for limited hours", "There is face-to-face interaction"],
+    ["The cost incurred on middlemen is eliminated because there is a direct link between business and customer", "Customers can physically inspect goods, so fewer products are returned to the seller", "Businesses are open only for limited hours, which reduces their running costs", "There is face-to-face interaction between buyer and seller, which builds trust and lowers the cost of marketing every product"],
     "Slide 16.");
   mcq(16, 'm', "In traditional commerce, a cost has to be incurred for the role of ___ to sell the company's product.",
     ["middlemen", "websites", "domain names", "electronic images"],
@@ -144,7 +144,7 @@ EC.lecture(1, function (Q) {
     ["Convenience", "Time saving", "Geographical accessibility", "Introduction of new products"],
     "Slide 18.");
   mcq(18, 'm', "According to the slides, e-commerce provides convenience to…",
-    ["both the customers and the business", "only the customers", "only the business", "only the middlemen"],
+    ["both the customers and the business", "only the customers, who can shop at any time", "only the business, which saves on staff", "only the middlemen who handle delivery"],
     "Slide 18.");
   mcq(19, 'm', "“By hosting a website, placing advertisements on the internet and satisfying certain legal norms, a business can enter the global market.” Which factor is this?",
     ["Geographical accessibility", "Introduction of new products", "Profit", "Convenience"],
@@ -153,13 +153,13 @@ EC.lecture(1, function (Q) {
     ["regional to national level", "national to regional level", "online to offline", "international to local level"],
     "Slide 19.");
   mcq(20, 'e', "When introducing a new product, e-commerce allows a company to…",
-    ["get immediate feedback from customers on the website", "avoid paying middlemen for every sale", "let customers inspect the product physically", "keep the business open 24 × 7"],
+    ["get immediate feedback from customers on the website", "avoid paying middlemen a commission for every sale", "let customers inspect the product physically before launch", "keep the business open 24 × 7 during the launch period"],
     "Slide 20. The other options describe other factors.");
   mcq(20, 'm', "In traditional commerce, before launching a new product, cost is incurred to carry out…",
-    ["pilot surveys to understand the taste of customers", "website hosting and online advertising", "screen-to-face chats", "domain name registration"],
+    ["pilot surveys to understand the taste of customers", "website hosting and online advertising campaigns", "screen-to-face chats with selected online customers", "domain name registration and web page design"],
     "Slide 20.");
   mcq(21, 'm', "E-commerce helps an organization earn greater profits by…",
-    ["increasing sales, cutting cost and streamlining operating processes", "allowing physical inspection of goods", "adding more middlemen", "opening only for limited hours"],
+    ["increasing sales, cutting cost and streamlining operating processes", "allowing customers to physically inspect goods before every purchase", "adding more middlemen between the business and its customers", "opening only for limited hours to reduce staff and running costs"],
     "Slide 21.");
   mcq(21, 'h', "Which costs pull down the profit of an organization in traditional commerce, according to the slides?",
     ["Middlemen, overhead and inventory", "Websites, hosting and domain names", "Online advertising and e-mail", "Electronic images and screen-to-face service"],
@@ -171,7 +171,7 @@ EC.lecture(1, function (Q) {
     ["electronic images", "physical inspection", "face-to-face service", "pilot surveys"],
     "Slide 22.");
   mcq(23, 'e', "“Round the clock (24 × 7) service” describes which factor?",
-    ["Time accessibility", "Time saving", "Convenience", "Profit"],
+    ["Time accessibility", "Time saving", "Geographical accessibility", "Customer interaction"],
     "Slide 23.");
   mcq(23, 'm', "In traditional commerce, the business is open…",
     ["only for a limited time", "round the clock (24 × 7)", "only on the Internet", "only to international customers"],
@@ -183,10 +183,10 @@ EC.lecture(1, function (Q) {
     ["face-to-face", "screen-to-face", "screen-to-screen", "machine-to-machine"],
     "Slide 24.");
   mcq(25, 'm', "Why do more frauds take place in e-commerce transactions?",
-    ["Lack of physical presence in markets and unclear legal issues give loopholes", "Customers can physically inspect goods", "There are too many middlemen online", "Businesses are open only for limited hours"],
+    ["Lack of physical presence in markets and unclear legal issues give loopholes", "Customers can physically inspect goods, which makes it easy to swap them for fakes", "There are too many middlemen online who can change the price of every product", "Businesses are open only for limited hours, so nobody checks the orders at night"],
     "Slide 25.");
   mcq(25, 'm', "Why is fraud comparatively less in traditional commerce?",
-    ["There is personal interaction between the buyer and the seller", "Prices are always lower in shops", "Shops are open round the clock", "Customers rely on electronic images"],
+    ["There is personal interaction between the buyer and the seller", "Prices in physical shops are always lower than prices online", "Shops are open round the clock, so problems are fixed quickly", "Customers rely on electronic images that are carefully checked"],
     "Slide 25.");
   mcq(25, 'e', "According to the slides, people generally fear giving ___ information online.",
     ["credit card", "e-mail", "domain name", "product review"],

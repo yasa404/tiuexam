@@ -5,9 +5,9 @@ EC.lecture(3, function (Q) {
   /* ---------- Section A ---------- */
   // Types of e-commerce p4-22
   mcq(4, 'e', "Types of e-commerce are distinguished by…",
-    ["the nature of the market relationship: who is selling to whom", "the size of the company's website", "the programming language of the website", "the year the company was founded"], "Slide 4.");
+    ["the nature of the market relationship: who is selling to whom", "the size of the company's website and the number of its pages", "the programming language and servers used to build the website", "the year the company was founded and the country it is based in"], "Slide 4.");
   mcq(4, 'm', "According to the slides, mobile and social e-commerce can be looked at as…",
-    ["subsets of the other types of e-commerce", "the largest types of e-commerce", "types of e-business inside the firm", "older forms of B2B"], "Slide 4.");
+    ["subsets of the other types of e-commerce", "the largest types of e-commerce by total revenue", "types of e-business that happen inside the firm", "older forms of B2B that are now disappearing"], "Slide 4.");
   mcq(10, 'e', "Which is the LARGEST form of e-commerce?",
     ["B2B", "B2C", "C2C", "M-commerce"], "Slide 10.");
   mcq(5, 'e', "Which type of e-commerce are most consumers likely to encounter?",
@@ -37,19 +37,19 @@ EC.lecture(3, function (Q) {
   mcq(16, 'm', "In C2C e-commerce, who prepares the product for market and places it for auction or sale?",
     ["The consumer (seller)", "The market maker", "The wholesaler", "The business organization"], "Slide 16.");
   mcq(16, 'h', "In C2C e-commerce, the market maker provides catalog, search engine and transaction clearing so that products can be…",
-    ["easily displayed, discovered, and paid for", "manufactured and packaged", "bought in bulk by wholesalers", "physically inspected before purchase"], "Slide 16.");
+    ["easily displayed, discovered, and paid for", "manufactured, packaged and shipped by the market maker", "bought in bulk by wholesalers at a discount", "physically inspected by buyers before purchase"], "Slide 16.");
   mcq(13, 'e', "In the B2B model, who orders products in bulk from the business organization's website?",
     ["The wholesaler", "The final customer", "The market maker", "The middleman's bank"], "Slide 13.");
   mcq(13, 'm', "In the B2B model, after the wholesaler receives the products, the wholesaler…",
-    ["sells those products at a higher price to its customers", "returns them to the business organization", "auctions them to other wholesalers only", "uses them inside its own firm only"], "Slide 13.");
+    ["sells those products at a higher price to its customers", "returns them to the business organization for a full refund", "auctions them only to other wholesalers in the same market", "uses them inside its own firm instead of reselling them"], "Slide 13.");
   mcq(9, 'm', "In the B2C business model figure, the customer sends orders to…",
     ["the website", "the wholesaler", "another customer", "the market maker"], "Slide 9: Customer → Orders → Website.");
   mcq(9, 'h', "In the B2C business model figure, “order processing” takes place between…",
-    ["the website and the business organization", "the customer and the wholesaler", "two customers", "the wholesaler and the website"], "Slide 9.");
+    ["the website and the business organization", "the customer and the wholesaler in the supply chain", "two customers who trade with each other directly", "the wholesaler and the website that lists the product"], "Slide 9.");
   mcq(9, 'm', "In the B2C business model figure, who supplies the products to the customer?",
-    ["The business organization", "The wholesaler", "Another customer", "The website visitor"], "Slide 9.");
+    ["The business organization", "The wholesaler in the middle", "Another customer on the site", "The website visitor who ordered"], "Slide 9.");
   mcq([14, 15], 'h', "In the numbered B2B figure (1 Order, 2 Order processing, 3 Supplies, 4 Sells), what happens in step 3?",
-    ["The business organization supplies the products to the wholesaler", "The wholesaler sells the products to the customer", "The wholesaler places an order on the website", "The website processes the order with the business"], "Slides 14-15.");
+    ["The business organization supplies the products to the wholesaler", "The wholesaler sells the products to the customer at a higher price", "The wholesaler places an order for the products on the website", "The website processes the order together with the business"], "Slides 14-15.");
   mcq([14, 15], 'h', "In the numbered B2B figure, what happens in step 4?",
     ["The wholesaler sells to the customer", "The wholesaler orders from the website", "The business supplies the wholesaler", "The website processes the order"], "Slides 14-15.");
   mcq(15, 'm', "In the B2B figure, “Business 2” is the…",
@@ -59,15 +59,15 @@ EC.lecture(3, function (Q) {
   mcq(19, 'h', "In the C2C business model figure, both customers connect to…",
     ["the website", "the business organization", "the wholesaler", "a physical store"], "Slide 19.");
   mcq(20, 'e', "Social e-commerce is e-commerce enabled by…",
-    ["social networks and online social relationships", "wireless digital devices", "wholesalers and distributors", "market makers and auctions"], "Slide 20.");
+    ["social networks and online social relationships", "wireless digital devices such as tablets and smartphones", "wholesalers and distributors in a supply chain", "market makers, auctions and transaction clearing"], "Slide 20.");
   mcq(20, 'e', "Which company is described on the slides as both the leading social network and social e-commerce site?",
     ["Facebook", "eBay", "Amazon", "Metalshub"], "Slide 20.");
   mcq(21, 'm', "The slide showing a Zara jacket bought with “Checkout on Instagram” is an example of…",
     ["social e-commerce", "B2B e-commerce", "C2C e-commerce", "disintermediation"], "Slide 21.");
   mcq(22, 'e', "M-commerce involves…",
-    ["the use of wireless digital devices to enable online transactions", "businesses selling to other businesses", "consumers selling to each other", "e-commerce enabled by social relationships"], "Slide 22.");
+    ["the use of wireless digital devices to enable online transactions", "businesses selling products and services to other businesses online", "consumers selling to each other through an online market maker", "e-commerce enabled by social networks and online relationships"], "Slide 22.");
   mcq(22, 'e', "Which devices are given on the slides as examples for M-commerce?",
-    ["Tablet computers and smartphones", "Mainframes and servers", "Printers and scanners", "Televisions and radios"], "Slide 22.");
+    ["Tablet computers and smartphones", "Mainframe computers and servers", "Printers, scanners and fax machines", "Televisions and radio receivers"], "Slide 22.");
   mcq(13, 'm', "A wholesaler orders 500 units in bulk from a manufacturer's website and resells them to its own customers. Which type of e-commerce is the wholesaler's purchase?",
     ["B2B", "B2C", "C2C", "Social e-commerce"], "Slides 10 and 13.");
   mcq(16, 'm', "A student sells a used textbook to another student through a marketplace website. Which type of e-commerce is this?",
@@ -94,11 +94,11 @@ EC.lecture(3, function (Q) {
   mcq(26, 'm', "“Customers can shop or conduct other transactions 24 hours a day, all year round, from almost any location.” Which consumer benefit is this?",
     ["24/7 access", "More choices", "Price comparisons", "Improved delivery processes"], "Slide 26.");
   mcq(26, 'm', "According to the slides, “more choices” means customers can choose from a whole range of products and also…",
-    ["an international selection of suppliers", "a wider range of physical stores", "a single trusted local supplier", "free delivery on every product"], "Slide 26.");
+    ["an international selection of suppliers", "a wider range of physical stores in their city", "a single trusted local supplier for each product", "free delivery on every product they order"], "Slide 26.");
   mcq(26, 'm', "Immediate download of digital goods and online tracking of packages are part of which consumer benefit?",
-    ["Improved delivery processes", "Price comparisons", "24/7 access", "Mass customization"], "Slide 26.");
+    ["Improved delivery processes", "Price comparisons", "24/7 access from any location", "An environment of competition"], "Slide 26.");
   mcq(26, 'm', "“Substantial discounts can be found or value added, with different retailers for customers.” Which consumer benefit is this?",
-    ["An environment of competition", "More choices", "Operational cost saving", "No time constraints"], "Slide 26.");
+    ["An environment of competition", "More choices from international suppliers", "Operational cost saving", "No time constraints"], "Slide 26.");
   // Themes p27-30
   mcq(27, 'e', "E-commerce involves three broad interrelated themes. They are…",
     ["technology, business and society", "invention, consolidation and reinvention", "B2C, B2B and C2C", "price, cost and discrimination"], "Slide 27.");
@@ -109,11 +109,11 @@ EC.lecture(3, function (Q) {
   mcq(29, 'e', "Electronic markets, business models, industry structure and consumer behaviour in digital markets belong to which theme?",
     ["Business", "Technology", "Society", "Invention"], "Slide 29.");
   mcq(30, 'e', "The primary societal issues in e-commerce are…",
-    ["intellectual property and individual privacy", "broadband and personal computers", "business models and industry structure", "web servers and databases"], "Slide 30.");
+    ["intellectual property and individual privacy", "broadband networks and cheaper personal computers", "business models and industry structure", "web servers, databases and hosting services"], "Slide 30.");
   mcq(29, 'm', "According to the slides, while technology provides the infrastructure, the interest and excitement in e-commerce comes from…",
-    ["the business applications and the potential for extraordinary returns on investment", "the number of web servers", "intellectual property laws", "individual privacy rules"], "Slide 29.");
+    ["the business applications and the potential for extraordinary returns on investment", "the number of web servers and networks that carry e-commerce traffic", "the intellectual property laws that protect online content, brands and software from being copied by competitors", "the individual privacy rules that govern how customer data is used"], "Slide 29.");
   mcq(30, 'h', "Why is understanding the pressures that global e-commerce places on society important?",
-    ["It is critical to being successful in the e-commerce marketplace", "It is needed to write HTML pages", "It decides the price of broadband", "It replaces the need for a business model"], "Slide 30.");
+    ["It is critical to being successful in the e-commerce marketplace", "It is needed in order to write and publish HTML web pages", "It decides the price that customers pay for broadband access", "It replaces the need for a business model and a revenue model"], "Slide 30.");
   // Evolution p31-36
   mcq(31, 'e', "E-commerce has gone through three stages. In order, they are…",
     ["invention, consolidation, reinvention", "consolidation, invention, reinvention", "reinvention, invention, consolidation", "invention, reinvention, consolidation"], "Slide 31.");
@@ -134,31 +134,31 @@ EC.lecture(3, function (Q) {
   mcq(31, 'm', "During the Invention period, e-commerce meant selling…",
     ["retail goods, usually quite simple goods, on the Internet", "complex services such as travel and financial services", "on-demand personal services such as Uber", "only digital downloads"], "Slide 31.");
   mcq(31, 'h', "The early years of e-commerce (Invention) are described on the slides as…",
-    ["a technological success, with infrastructure solid enough to sustain growth", "a technological failure that had to be rebuilt", "a period driven mainly by social networks", "a period of slow growth with no crash"], "Slide 31.");
+    ["a technological success, with infrastructure solid enough to sustain growth", "a technological failure whose infrastructure had to be rebuilt from scratch", "a period driven mainly by social networks and mobile apps", "a period of slow, steady growth that ended without any crash"], "Slide 31.");
   mcq(32, 'e', "Disintermediation is…",
-    ["the displacement of market middlemen by a new direct relationship between producers and consumers", "the growth of distributors and wholesalers online", "adding more intermediaries between producers and consumers", "merging two e-commerce companies"], "Slide 32.");
+    ["the displacement of market middlemen by a new direct relationship between producers and consumers", "the growth of distributors and wholesalers as they move their business online", "adding more intermediaries such as distributors and wholesalers between producers and consumers to speed up delivery", "the merging of two e-commerce companies into one larger online firm"], "Slide 32.");
   mcq(32, 'm', "Market middlemen are…",
-    ["the distributors and wholesalers who are intermediaries between producers and consumers", "the first firms to enter a market", "consumers who sell to other consumers", "the business organizations that process orders"], "Slide 32.");
+    ["the distributors and wholesalers who are intermediaries between producers and consumers", "the first firms to enter a new market and gain a first-mover advantage", "consumers who sell to other consumers through an online market maker", "the business organizations that receive and process customer orders from websites before supplying the products"], "Slide 32.");
   mcq(32, 'h', "Why were market middlemen expected to disappear during the Invention period?",
-    ["Each demanded a payment and raised costs while adding little value", "They refused to use the Internet", "They were banned by intellectual property law", "They were replaced by social networks"], "Slide 32.");
+    ["Each demanded a payment and raised costs while adding little value", "They refused to use the Internet and kept selling only through shops", "They were banned from online trading by intellectual property law", "They were replaced by social networks that connected buyers directly"], "Slide 32.");
   mcq(33, 'm', "During the Invention period, extraordinary profits were expected to go to…",
-    ["first movers: firms first to market in an area that quickly gathered market share", "market middlemen", "large traditional firms with strong brands", "on-demand service businesses"], "Slide 33.");
+    ["first movers: firms first to market in an area that quickly gathered market share", "market middlemen, who could now reach customers in every country", "large traditional firms with strong brands and many physical stores", "on-demand service businesses that launched mobile apps for customers"], "Slide 33.");
   mcq(34, 'm', "In which stage did the emphasis shift to a more “business-driven” approach rather than a “technology-driven” one?",
     ["Consolidation", "Invention", "Reinvention", "Disintermediation"], "Slide 34.");
   mcq(34, 'm', "During Consolidation, large traditional firms learned how to use the Web to…",
     ["strengthen their market positions", "replace all their physical stores", "avoid the dot-com crash", "become market middlemen"], "Slide 34.");
   mcq(34, 'h', "During Consolidation, what became more important than creating new brands?",
-    ["Brand extension and strengthening", "Being the first mover", "Removing all middlemen", "Building social networks"], "Slide 34.");
+    ["Brand extension and strengthening", "Being the first mover in every market", "Removing all middlemen from the supply chain", "Building social networks and mobile apps"], "Slide 34.");
   mcq(35, 'm', "During Consolidation, e-commerce changed to include not just retail products but also…",
-    ["more complex services such as travel and financial services", "on-demand ride services", "only digital goods", "social networks and Web 2.0"], "Slide 35.");
+    ["more complex services such as travel and financial services", "on-demand ride and delivery services booked through mobile apps", "only digital goods such as music and software downloads", "social networks, Web 2.0 sites and user-generated content"], "Slide 35.");
   mcq(35, 'h', "The Consolidation period was enabled by…",
-    ["widespread adoption of broadband networks and more powerful, cheaper personal computers", "the emergence of smartphones and social networks", "Web 2.0 applications with huge audiences", "on-demand personal service apps"], "Slide 35.");
+    ["widespread adoption of broadband networks and more powerful, cheaper personal computers", "the emergence of smartphones, tablets and social networks with huge audiences", "Web 2.0 applications such as YouTube and Instagram attracting huge audiences", "on-demand personal service apps that used location and mobile payments"], "Slide 35.");
   mcq(36, 'e', "The emergence of the mobile digital platform, social networks and Web 2.0 applications started which stage?",
     ["Reinvention", "Consolidation", "Invention", "Disintermediation"], "Slide 36.");
   mcq(36, 'e', "On-demand personal service businesses such as Uber and Careem belong to which stage?",
     ["Reinvention", "Invention", "Consolidation", "The dot-com crash"], "Slide 36.");
   mcq(36, 'h', "Which development belongs to the Reinvention period rather than Consolidation?",
-    ["Social networks and the mobile digital platform", "Broadband networks in American homes", "Travel and financial services online", "Brand extension by traditional firms"], "Slides 35-36.");
+    ["Social networks and the mobile digital platform", "Broadband networks spreading into American homes", "Travel and financial services moving online", "Brand extension and strengthening by traditional firms"], "Slides 35-36.");
 
   /* ---------- Section B ---------- */
   fill(27, 'e', "E-commerce involves three broad interrelated themes: [[technology]], [[business]] and [[society]].", "Slide 27.", { set: true });

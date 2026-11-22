@@ -5,19 +5,19 @@ EC.lecture(6, function (Q) {
   /* ---------- Section A: choose the correct option ---------- */
   // Unguided basics (p27)
   mcq(27, 'e', "Unguided transmission means transmitting electromagnetic signals…",
-    ["without using a physical conductor", "through copper twisted pairs", "through a glass core", "only inside a building"],
+    ["without using a physical conductor", "through copper twisted pairs and coax", "through a glass core surrounded by cladding", "only inside a single building or room"],
     "Slide 27.");
   mcq(27, 'e', "Unguided signals propagate using…",
     ["free-space propagation", "differential signaling", "total internal reflection", "token passing"],
     "Slide 27.");
   mcq(27, 'm', "Through which of these can unguided signals propagate, according to the slides?",
-    ["Air, water or the vacuum of outer space", "Only copper wire", "Only glass fiber", "Only air inside buildings"],
+    ["Air, water or the vacuum of outer space", "Only copper wire and coaxial cable", "Only glass fiber with a cladding layer", "Only the air inside buildings and rooms"],
     "Slide 27.");
   mcq(27, 'm', "Because unguided media are unbounded, who can receive a broadcast signal?",
     ["Anyone within transmission range who has an antenna", "Only the device at the other end of the cable", "Only devices with a MAC address on the same switch", "Only the sender"],
     "Slide 27.");
   mcq(27, 'h', "Why is unguided transmission naturally less secure than guided transmission?",
-    ["The signal is broadcast into open air, so anyone in range with an antenna can receive it", "Wireless signals cannot be encrypted", "Wireless signals carry no addresses", "Wireless signals always travel through fiber"],
+    ["The signal is broadcast into open air, so anyone in range with an antenna can receive it", "Wireless signals cannot be encrypted, so they are always readable", "Wireless signals carry no source or destination addresses, so the receivers cannot be identified or protected", "Wireless signals always travel through fiber, which anyone can tap"],
     "Slides 27 and 30: unbounded nature; security is low and needs strong encryption such as WPA3.");
   // Why wireless & spectrum (p28)
   mcq(28, 'e', "Which is a reason to go wireless given on the slides?",
@@ -36,7 +36,7 @@ EC.lecture(6, function (Q) {
     ["1 GHz to 300 GHz", "3 kHz to 1 GHz", "300 GHz to 400 THz", "2 MHz to 30 MHz"],
     "Slide 28.");
   mcq(28, 'm', "Infrared radiation occupies the frequency range…",
-    ["300 GHz to 400 THz", "1 GHz to 300 GHz", "3 kHz to 1 GHz", "below 2 MHz"],
+    ["300 GHz to 400 THz", "1 GHz to 300 GHz", "3 kHz to 1 GHz", "400 THz to 800 THz"],
     "Slide 28.");
   mcq(28, 'e', "AM/FM radio broadcasting is an example of…",
     ["radio waves", "microwaves", "infrared", "fiber optics"],
@@ -92,54 +92,54 @@ EC.lecture(6, function (Q) {
     ["Bluetooth", "Wi-Fi", "5G NR", "Ethernet"],
     "Slide 29.");
   mcq(29, 'm', "Bluetooth is a short-range wireless…",
-    ["personal area network (WPAN) for peripherals", "wide area network for whole countries", "metropolitan network for cities", "backbone for data centers"],
+    ["personal area network (WPAN) for peripherals", "wide area network covering whole countries", "metropolitan area network covering a city", "backbone network linking large data centers"],
     "Slide 29.");
   mcq(29, 'm', "Which wireless technology uses licensed base stations to provide nationwide mobile connectivity?",
-    ["Cellular (4G LTE / 5G NR)", "Bluetooth", "Infrared", "Wi-Fi"],
+    ["Cellular (4G LTE / 5G NR)", "Bluetooth (IEEE 802.15)", "Infrared (TV remote)", "Wi-Fi (IEEE 802.11)"],
     "Slide 29.");
   mcq(29, 'm', "Which standard provides high-speed local area wireless networking for computers and phones?",
     ["IEEE 802.11 (Wi-Fi)", "IEEE 802.15 (Bluetooth)", "Cellular 5G NR", "IEEE 802.3 (Ethernet)"],
     "Slide 29.");
   mcq(29, 'h', "Wireless earbuds connected to a phone are an example of which network type?",
-    ["WPAN using Bluetooth (IEEE 802.15)", "WLAN using IEEE 802.11", "WAN using 5G", "LAN using Ethernet"],
+    ["WPAN using Bluetooth (IEEE 802.15)", "WLAN using Wi-Fi (IEEE 802.11)", "WAN using cellular 4G/5G", "LAN using Ethernet (IEEE 802.3)"],
     "Slide 29: Bluetooth is a short-range WPAN for peripherals.");
   // Guided vs unguided (p30)
   mcq(30, 'm', "Which statement about mobility is correct according to the guided vs unguided comparison?",
-    ["Guided media have zero mobility; unguided media offer high mobility and flexible roaming", "Guided media offer high mobility; unguided media have zero mobility", "Both have zero mobility", "Both offer flexible roaming"],
+    ["Guided media have zero mobility; unguided media offer high mobility and flexible roaming", "Guided media offer high mobility; unguided media have zero mobility and no roaming", "Both guided and unguided media have zero mobility because devices must stay fixed", "Both guided and unguided media offer flexible roaming for every client device"],
     "Slide 30.");
   mcq(30, 'm', "Which encryption standard does the comparison say wireless networks require?",
     ["WPA3", "GZIP", "FCS", "NRZ"],
     "Slide 30.");
   mcq(30, 'm', "Which problem affects unguided media but not guided media, according to the comparison?",
-    ["Rain fade and atmospheric absorption", "Fixed physical paths", "High installation labour cost", "Being confined in a jacket"],
+    ["Rain fade and atmospheric absorption", "Fixed physical paths for every link", "High installation labour cost for cabling", "Signals being confined in a cable jacket"],
     "Slide 30.");
   mcq(30, 'm', "In unguided media, distance is limited by…",
-    ["free-space path loss and path obstacles", "the 100-meter copper rule", "modal dispersion", "the number of twists per meter"],
+    ["free-space path loss and path obstacles", "the 100-meter rule for copper cables", "modal dispersion in the glass core", "the number of twists per meter of cable"],
     "Slide 30.");
   mcq(30, 'h', "Which row of the guided vs unguided comparison is correct?",
     ["Security: guided high, unguided low", "Installation: guided rapid, unguided fixed path", "Weather: guided vulnerable to rain, unguided immune", "Conductor: guided free-space, unguided copper or glass"],
     "Slide 30.");
   mcq(30, 'm', "Guided media have a fixed physical path, which means…",
-    ["high labour cost and zero mobility", "rapid deployment and roaming", "vulnerability to rain fade", "low security"],
+    ["high labour cost and zero mobility", "rapid deployment and flexible roaming", "vulnerability to rain fade and fog", "low security, since anyone can listen"],
     "Slide 30.");
   // Case study (p31-32)
   mcq(31, 'm', "In the case study, TIU must connect Building A to Building B. What makes the link difficult?",
-    ["The buildings are 1.5 km apart across a public highway, and trenching needs a permit", "The buildings are in the same room", "The link only needs 1 Mbps", "Wireless is not allowed at TIU"],
+    ["The buildings are 1.5 km apart across a public highway, and trenching needs a permit", "The buildings share one room, so no cable can be routed between them", "The link only needs 1 Mbps, which no medium can provide over a highway", "Wireless links are not allowed anywhere on the TIU campus by law"],
     "Slide 31.");
   mcq(32, 'm', "Why does Cat6a copper fail for the 1.5 km link between the two TIU buildings?",
-    ["Cat6a's maximum distance is strictly 100 meters", "Cat6a cannot carry 10 Gbps", "Cat6a is a wireless medium", "Cat6a is affected by rain fade"],
+    ["Cat6a's maximum distance is strictly 100 meters", "Cat6a cannot carry 10 Gbps over any distance", "Cat6a is a wireless medium that needs line-of-sight", "Cat6a is affected by rain fade on the highway"],
     "Slide 32.");
   mcq(32, 'm', "What is the main drawback of single-mode fiber for the TIU building link?",
     ["High civil trenching cost", "It cannot reach 1.5 km", "It suffers from EMI", "It cannot carry 10 Gbps"],
     "Slide 32: superior 10 Gbps performance, zero EMI, but high trenching cost.");
   mcq(32, 'm', "What is the main advantage of a point-to-point wireless microwave link for the TIU case?",
-    ["It bypasses the highway trenching permits completely and is rapid to set up", "It is immune to rain fade", "It is completely secure without encryption", "It needs no line-of-sight"],
+    ["It bypasses the highway trenching permits completely and is rapid to set up", "It is completely immune to rain fade and other weather problems", "It is completely secure without any encryption on the link", "It needs no line-of-sight, so the dishes can be mounted anywhere"],
     "Slide 32.");
   mcq(32, 'm', "What is the risk of the point-to-point microwave option in the TIU case?",
     ["Rain fade", "The 100-meter limit", "High trenching cost", "Modal dispersion"],
     "Slide 32.");
   mcq(32, 'h', "A point-to-point microwave link between the two TIU buildings needs roof-mounted dishes because microwaves…",
-    ["require strict line-of-sight", "penetrate walls easily", "travel by sky wave", "need a physical conductor"],
+    ["require strict line-of-sight", "penetrate solid walls easily", "travel by sky wave off the ionosphere", "need a physical conductor to travel"],
     "Slides 28 and 32.");
   mcq(32, 'h', "If the TIU link must give the best, most stable 10 Gbps performance and the budget allows trenching, which option should be chosen?",
     ["Single-mode fiber", "Cat6a copper", "Point-to-point microwave", "Bluetooth"],
@@ -152,7 +152,7 @@ EC.lecture(6, function (Q) {
     ["broadcast and client roaming", "complete immunity to weather", "zero path loss", "higher security than cables"],
     "Slide 33.");
   mcq(10, 'm', "Satellite communication, shown with radio and microwave on the unguided media slide, uses…",
-    ["electromagnetic waves through free space", "fiber optic cables under the sea", "twisted pairs on poles", "infrared beams through walls"],
+    ["electromagnetic waves through free space", "fiber optic cables laid under the sea", "twisted pairs strung between tall poles", "infrared beams that pass through walls"],
     "Slides 10 and 28: satellite is a microwave example.");
 
   /* ---------- Section B: fill in the blanks ---------- */
@@ -194,13 +194,13 @@ EC.lecture(6, function (Q) {
 
   /* ---------- In the instructor's style (Types 1-3: long technical stems, definitional blanks, swapped-fact statements) ---------- */
   mcq(30, 'h', "A university needs a link that is immune to rain fade and cannot be picked up by anyone with an antenna in range. Which media category should it choose?",
-    ["Guided media (e.g. fiber)", "Unguided microwave", "Unguided radio", "Infrared"],
+    ["Guided media (e.g. fiber)", "Unguided microwave links", "Unguided radio broadcast", "Infrared line-of-sight links"],
     "Slide 30: guided media are immune to weather and confine the signal.");
   mcq(4, 'h', "A broadcast at 10 MHz is used to reach receivers far beyond the horizon. Which propagation mode does this frequency use?",
     ["Sky wave", "Ground wave", "Line-of-sight", "Guided propagation"],
     "Slide 4: 2-30 MHz is sky wave.");
   mcq(27, 'm', "Which property of unguided media means that any receiver within range that has an antenna can pick up the signal?",
-    ["Its unbounded (broadcast) nature", "Total internal reflection", "Differential signaling", "Microsegmentation"],
+    ["Its unbounded (broadcast) nature", "Total internal reflection in the air", "Differential signaling on two wires", "Microsegmentation by the access point"],
     "Slide 27.");
   mcq(32, 'h', "In the TIU case study, which option is rejected outright rather than being a trade-off?",
     ["Cat6a copper cable", "Single-mode fiber", "Point-to-point microwave", "Leasing dark fiber"],

@@ -11,13 +11,13 @@ EC.lecture(4, function (Q) {
     ["The user generates meaningful data", "Protocols add control headers", "The Physical layer serializes bits", "The receiver reverses the process"],
     "Slide 6: e.g. a person types HELLO NETWORKS! on a laptop.");
   mcq(6, 'm', "In the 5 steps of data traversing the network, which step comes right after “protocols add control headers”?",
-    ["The Physical layer serializes the bits into signals", "The user generates meaningful data", "The receiver rebuilds the original message", "The signals travel across the media"],
+    ["The Physical layer serializes the bits into signals", "The user generates meaningful data on the laptop", "The receiver reverses the process and rebuilds the message", "The signals travel across copper, fiber or wireless media"],
     "Slide 6: 1 data → 2 headers → 3 serialize bits → 4 traverse media → 5 receiver reverses.");
   mcq(6, 'm', "In step 2 of the big picture, which three headers are added to the data?",
-    ["Transport port, Network IP, Data Link MAC", "URL, domain name, port", "Sender, receiver, medium", "Bandwidth, throughput, delay"],
+    ["Transport port, Network IP, Data Link MAC", "URL, domain name and application port", "Sender, receiver and transmission medium", "Bandwidth, throughput and delay values"],
     "Slide 6.");
   mcq(6, 'm', "What does the receiver do in step 5 of the big picture?",
-    ["Reverses the process and rebuilds the original message", "Adds control headers to the data", "Converts the bits into radio waves", "Chooses the best route across networks"],
+    ["Reverses the process and rebuilds the original message", "Adds control headers (port, IP, MAC) to the data", "Converts the bits into radio waves for the antenna", "Chooses the best route across the intermediate networks"],
     "Slide 6.");
   // Physical layer duties (p7)
   mcq(7, 'e', "The Physical layer sends raw, unstructured ___ as physical signals over a medium.",
@@ -36,7 +36,7 @@ EC.lecture(4, function (Q) {
     ["Mechanical and electrical", "Bit representation", "Transmission rate", "Addressing"],
     "Slide 7.");
   mcq(7, 'h', "According to the key rule for Layer 1, what does the Physical layer know about?",
-    ["Only raw bits as signals; it has zero knowledge of IP, MAC or web pages", "IP addresses, so it can route packets", "MAC addresses, so it can switch frames", "Port numbers, so it can deliver data to applications"],
+    ["Only raw bits as signals; it has zero knowledge of IP, MAC or web pages", "IP addresses, so that it can route packets between networks", "MAC addresses, so that it can switch frames to the right port", "Port numbers, so that it can deliver data to the right application"],
     "Slide 7.");
   mcq(7, 'h', "A link sends bits at 1 Gbps. What is the duration of one bit?",
     ["1 nanosecond", "1 microsecond", "1 millisecond", "1 second"],
@@ -55,7 +55,7 @@ EC.lecture(4, function (Q) {
     ["Physical signals", "User data", "Digital bits", "Protocol headers"],
     "Slide 8.");
   mcq(9, 'm', "A signal is defined as an electrical or electromagnetic quantity that…",
-    ["varies over time to carry and represent information", "never changes over time", "stores data permanently", "decides the route of a packet"],
+    ["varies over time to carry and represent information", "never changes over time once it leaves the sender", "stores data permanently on the receiving device", "decides the route a packet takes across networks"],
     "Slide 9.");
   mcq(9, 'e', "Analog signals are represented by…",
     ["sine waves", "square pulses", "binary digits", "MAC addresses"],
@@ -67,7 +67,7 @@ EC.lecture(4, function (Q) {
     ["Traditional FM/AM radio", "An Ethernet cable carrying +5 V and 0 V", "A computer bus", "A binary file"],
     "Slide 9: natural human voice, FM/AM radio, legacy telephone systems.");
   mcq(10, 'e', "Digital signals are represented as…",
-    ["rectangular square pulses", "smooth sine waves", "light rays only", "continuous curves"],
+    ["rectangular square pulses", "smooth, continuous sine waves", "light rays bouncing in a core", "continuous curves of amplitude"],
     "Slide 10.");
   mcq(10, 'm', "What is the main advantage of digital signals given on the slides?",
     ["They are highly resistant to noise", "They vary smoothly over time", "They travel infinitely without loss", "They need no synchronization"],
@@ -83,19 +83,19 @@ EC.lecture(4, function (Q) {
     ["100 meters", "10 meters", "1 kilometer", "40 kilometers"],
     "Slide 11: max run 100 m at 1 Gbps.");
   mcq(11, 'm', "The RJ-45 modular connector has…",
-    ["8 gold-plated contact pins crimped onto copper wires", "a glass core and cladding", "a single central copper pin", "a laser transmitter"],
+    ["8 gold-plated contact pins crimped onto copper wires", "a glass core surrounded by lower-index cladding", "a single central copper pin inside a metal shield", "a laser transmitter and a photodiode receiver"],
     "Slide 11.");
   mcq(12, 'e', "Which cable carries laser or LED light pulses through a glass core?",
     ["Fiber optic cable", "Cat6 twisted pair", "RJ-45 patch cord", "Coaxial cable"],
     "Slide 12.");
   mcq(12, 'm', "Which is an advantage of fiber optic cable given in Week 4?",
-    ["Complete immunity to electrical noise", "It uses 8 copper conductors", "It is limited to 100 meters", "It carries electrical voltage"],
+    ["Complete immunity to electrical noise", "It uses 8 copper conductors in 4 pairs", "It is limited to 100 meters per cable run", "It carries electrical voltage instead of light"],
     "Slide 12: complete immunity to electrical noise; runs 10 to 40+ km.");
   mcq(12, 'm', "Which device contains the transceiver that converts the motherboard's parallel bits into serial signals on the cable?",
-    ["Network Interface Card (NIC)", "Hub", "RJ-45 connector", "Terminator"],
+    ["Network Interface Card (NIC)", "Hub (multiport repeater)", "RJ-45 modular connector", "Terminator at the cable end"],
     "Slide 12.");
   mcq(12, 'm', "Where is the hardware-burned MAC address stored?",
-    ["On the Network Interface Card (NIC)", "In the router's routing table", "In the RJ-45 connector", "In the fiber cladding"],
+    ["On the Network Interface Card (NIC)", "In the router's routing table of networks", "In the RJ-45 connector's gold pins", "In the fiber cladding of the cable"],
     "Slide 12.");
   mcq(11, 'h', "Two buildings are 250 m apart. Using Cat6 at 1 Gbps, what is the minimum number of separate cable runs needed (with a switch or repeater between runs)?",
     ["3", "2", "1", "25"],
@@ -111,10 +111,10 @@ EC.lecture(4, function (Q) {
     ["Throughput", "Bandwidth", "Bit duration", "Frequency"],
     "Slide 13.");
   mcq(13, 'm', "Why is throughput usually lower than bandwidth?",
-    ["Header overhead, retransmissions, congestion and processing latency", "Throughput is measured in bytes and bandwidth in bits", "Bandwidth includes only wireless links", "Throughput ignores dropped packets"],
+    ["Header overhead, retransmissions, congestion and processing latency", "Throughput is measured in bytes while bandwidth is measured in bits", "Bandwidth only counts wireless links, while throughput counts cables", "Throughput ignores dropped packets, so it is always reported lower"],
     "Slide 13.");
   mcq(13, 'h', "A 1 Gbps link delivers 750 Mbps of useful data in practice. Which statement is correct?",
-    ["Bandwidth is 1 Gbps and throughput is 750 Mbps (75%)", "Bandwidth is 750 Mbps and throughput is 1 Gbps", "Throughput is 1.75 Gbps", "Bandwidth and throughput are both 750 Mbps"],
+    ["Bandwidth is 1 Gbps and throughput is 750 Mbps (75%)", "Bandwidth is 750 Mbps and throughput is 1 Gbps (133%)", "Throughput is 1.75 Gbps, the sum of both figures", "Bandwidth and throughput are both 750 Mbps in practice"],
     "Slide 13: bandwidth = theoretical capacity, throughput = actual delivered rate; 750 / 1000 = 75%.");
   mcq(13, 'h', "At a throughput of 100 Mbps, how long does it take to transfer a 500-megabit file?",
     ["5 seconds", "50 seconds", "0.5 seconds", "500 seconds"],
@@ -127,23 +127,23 @@ EC.lecture(4, function (Q) {
     ["attenuation", "distortion", "crosstalk", "jitter"],
     "Slide 14.");
   mcq(14, 'm', "Attenuation is fixed by using…",
-    ["amplifiers or repeaters", "terminators", "routers only", "encryption"],
+    ["amplifiers or repeaters", "terminators at both ends", "routers and switches only", "encryption of the signal"],
     "Slide 14.");
   mcq(14, 'm', "When different frequency components travel at different speeds and change the waveform's shape, this is…",
     ["distortion", "attenuation", "noise", "throughput"],
     "Slide 14.");
   mcq(14, 'm', "Unwanted external electrical energy (EMI) that corrupts bits is…",
-    ["noise and crosstalk", "attenuation", "distortion", "synchronization"],
+    ["noise and crosstalk", "attenuation over distance", "distortion", "bit synchronization"],
     "Slide 14.");
   // Hub vs switch (p15)
   mcq(15, 'e', "A hub operates at which OSI layer?",
     ["Layer 1 (Physical)", "Layer 2 (Data Link)", "Layer 3 (Network)", "Layer 4 (Transport)"],
     "Slide 15: a multiport repeater.");
   mcq(15, 'm', "What does a hub do with the bits it receives on one port?",
-    ["Repeats (floods) them out of all other ports", "Sends them only to the destination port", "Routes them using IP addresses", "Drops them unless a token is held"],
+    ["Repeats (floods) them out of all other ports", "Sends them only to the destination port", "Routes them using the destination IP addresses", "Drops them unless the sender holds the token"],
     "Slide 15.");
   mcq(15, 'm', "Why is a hub described as insecure?",
-    ["Every device receives everyone else's traffic", "It encrypts all traffic", "It needs a password", "It uses fiber optic cables"],
+    ["Every device receives everyone else's traffic", "It encrypts all traffic with a shared password", "It needs a password that users often forget", "It uses fiber optic cables that can be tapped"],
     "Slide 15.");
   mcq(15, 'm', "Devices on a hub share a single collision domain, so they work in…",
     ["half-duplex", "full-duplex", "simplex", "microsegmented mode"],
@@ -152,10 +152,10 @@ EC.lecture(4, function (Q) {
     ["destination MAC address", "destination IP address", "port number", "URL"],
     "Slide 15.");
   mcq(15, 'h', "What is the result of microsegmentation on a switch?",
-    ["No collisions and full-duplex communication", "One shared collision domain", "Traffic flooded to every port", "Half-duplex only"],
+    ["No collisions and full-duplex communication", "One shared collision domain for all ports", "Traffic is flooded out of every other port", "Half-duplex links where devices take turns"],
     "Slide 15.");
   mcq(15, 'h', "PC1 on a 24-port hub sends a frame to PC2. Which devices receive the frame?",
-    ["Every other device connected to the hub", "Only PC2", "Only the router", "No device until a token arrives"],
+    ["Every other device connected to the hub", "Only PC2, the destination of the frame", "Only the router connected to the hub", "No device until a token arrives at PC1"],
     "Slide 15: a hub floods bits out of all other ports.");
   mcq(15, 'h', "The same frame is sent by PC1 to PC2 through a Layer 2 switch whose MAC table already knows PC2. Which device receives it?",
     ["Only PC2", "Every connected device", "Every device except PC2", "Only the hub"],
@@ -165,7 +165,7 @@ EC.lecture(4, function (Q) {
     ["destination", "bandwidth", "topology", "cable type"],
     "Slide 16: who created the message, and where it should go.");
   mcq(16, 'm', "In the house analogy, the port number is…",
-    ["the specific person living in the house", "your immediate house door", "your city, street and house address", "the postal truck"],
+    ["the specific person living in the house", "your immediate front door of the house", "your city, street and house address", "the postal truck that carries the letter"],
     "Slide 16.");
   mcq(16, 'm', "In the house analogy, the MAC address is…",
     ["your immediate house door", "your city, street and house address", "the specific person living in the house", "the post office"],
@@ -214,7 +214,7 @@ EC.lecture(4, function (Q) {
     ["Layer 2 (Data Link)", "Layer 3 (Network)", "Layer 4 (Transport)", "Layer 1 (Physical)"],
     "Slide 18.");
   mcq(18, 'm', "Decapsulation at the destination host means…",
-    ["stripping headers layer by layer until the application receives pure data", "adding headers as data moves down the stack", "converting bits into light pulses", "choosing the best path across networks"],
+    ["stripping headers layer by layer until the application receives pure data", "adding headers and trailers to the data as it moves down the stack", "converting the bits into light pulses for the fiber cable", "choosing the best path for packets across many networks"],
     "Slide 18: reversibility.");
   mcq(19, 'm', "What is the correct encapsulation order of PDUs going down the stack?",
     ["Data → Segment → Packet → Frame → Bits", "Bits → Frame → Packet → Segment → Data", "Data → Packet → Segment → Frame → Bits", "Segment → Data → Frame → Packet → Bits"],
