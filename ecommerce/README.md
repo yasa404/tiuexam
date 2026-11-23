@@ -9,7 +9,7 @@ Plain HTML, CSS and JavaScript. No backend, no build step: open `index.html` and
 
 ## Run it
 
-This subject lives in `ecommerce/`. The site root (`../index.html`) is a subject chooser that links here and to IT 301 Data Communications (`../datacom/`); the grid button in the top bar and the footer link go back to it.
+This subject lives in `ecommerce/`. The site root (`../index.html`) is a subject chooser that links here and to IT 301 Data Communications (`../datacom/`); the “← Subjects” button in the top bar and the footer link go back to it.
 
 - **Locally:** double-click `index.html` (works from `file://`), or open `../index.html` to choose a subject.
 - **Deploy the whole site to Netlify:** run `npm run dist` in the parent folder, then drag its `dist/` folder onto <https://app.netlify.com/drop>. (`npm run dist` here builds only this subject.)

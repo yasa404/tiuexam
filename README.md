@@ -10,7 +10,7 @@ Practice midterm papers for Tishk International University IT courses, Fall 2026
 
 Each subject is a self-contained static app (plain HTML, CSS and JavaScript, no backend) with its own README, question bank, tests and screenshots. All share the same design and features; each keeps its own papers, flashcards and progress in the browser (`ec355.*`, `dc301.*` and `os327.*` keys), so they never mix.
 
-The subject cards show the student's own progress (papers done, average, best). Inside a subject, the grid button in the top bar and the “All subjects” footer link return to the chooser. Old links that pointed at the E-Commerce app at the site root (for example `#/code/EC-7F3A`) are forwarded to the right subject.
+The subject cards show the student's own progress (papers done, average, best). Inside a subject, the “← Subjects” button in the top bar and the “All subjects” footer link return to the chooser. Old links that pointed at the E-Commerce app at the site root (for example `#/code/EC-7F3A`) are forwarded to the right subject.
 
 ## Commands (run in this folder)
 

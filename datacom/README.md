@@ -89,7 +89,7 @@ npm run dist          # dist/ for Netlify drag-and-drop
 
 ## Hosting
 
-The site root (`../index.html`) is a subject chooser: students pick IT 355 E-Commerce or IT 301 Data Communications first. The grid button in the top bar and the “All subjects” footer link return to it.
+The site root (`../index.html`) is a subject chooser: students pick IT 355 E-Commerce or IT 301 Data Communications first. The “← Subjects” button in the top bar and the “All subjects” footer link return to it.
 
 On GitHub Pages this folder is served at `https://yasa404.github.io/tiuexam/datacom/`. To deploy the whole site to Netlify, run `npm run dist` in the parent folder and drag its `dist/` folder onto <https://app.netlify.com/drop>.
 
