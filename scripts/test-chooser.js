@@ -1,6 +1,5 @@
-/* Browser test of the subject chooser (index.html): alignment, progress, theme, backup.
+/* Browser test of the subject chooser (index.html): alignment, progress, theme.
    Uses the installed Google Chrome (PW_CHANNEL=msedge for Edge, PW_CHANNEL=bundled for Playwright's Chromium). */
-const fs = require('fs');
 const path = require('path');
 const { pathToFileURL } = require('url');
 const { chromium } = require('@playwright/test');
@@ -28,17 +27,7 @@ const running = (code) => ({ kind: 'exam', code, answers: { 'L1-A001': 2, 'L1-E0
     await page.evaluate(() => document.fonts.ready);
     return page;
   };
-  const get = (page, k) => page.evaluate((x) => JSON.parse(localStorage.getItem(x)), k);
   const stats = (page, cls) => page.locator(`.subject.${cls} .stats dd`).allTextContents();
-  const choose = async (page, text) => {
-    await page.setInputFiles('#file', { name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(text) });
-  };
-  const answer = async (page, v) => {
-    await page.waitForSelector('dialog[open]');
-    await page.evaluate(() => { window.__closed = new Promise((r) => document.getElementById('dlg').addEventListener('close', () => setTimeout(r, 0), { once: true })); });
-    await page.click(`dialog button[value=${v}]`);
-    await page.evaluate(() => window.__closed);
-  };
   const SEED = { 'dc301.sim.v1': state([paper('Rmlk1', 'DC-0001', 10, 40), paper('Rmlk2', 'DC-0002', 30, 40)], running('DC-7F3A')), 'os327.sim.v1': state([paper('Rmlk3', 'OS-0001', 40, 40)]) };
 
   // Alignment: every part sits on the same line across a row of cards, with and without progress.
@@ -112,74 +101,13 @@ const running = (code) => ({ kind: 'exam', code, answers: { 'L1-A001': 2, 'L1-E0
       const dark = document.documentElement.dataset.mode === 'dark';
       const worst = dark ? [42, 47, 58] : [205, 218, 240];
       const cr = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
-      return ['.note', 'footer span', 'footer b', '.tool', '.lead', '.brand span:not(.logo)', '.facts li', '.stats dt', '.status.new'].filter((s) => cr(num(getComputedStyle(document.querySelector(s)).color), worst) < 4.5);
+      return ['.note', 'footer span', 'footer b', '.lead', '.brand span:not(.logo)', '.facts li', '.stats dt', '.status.new'].filter((s) => cr(num(getComputedStyle(document.querySelector(s)).color), worst) < 4.5);
     });
     same(low, [], scheme + ' contrast');
     const btn = await page.locator('.go').evaluateAll((a) => a.map((x) => getComputedStyle(x).color + ' on ' + getComputedStyle(x).backgroundColor));
     ok(btn.every((t) => t.length > 10), 'buttons have colours');
     await page.context().close();
   }
-
-  // Export, then import on a "new device": everything comes back exactly.
-  page = await open({}, SEED);
-  const [dl] = await Promise.all([page.waitForEvent('download'), page.click('#export')]);
-  ok(/^midterm-progress-\d{4}-\d\d-\d\d\.json$/.test(dl.suggestedFilename()), 'file name');
-  const text = fs.readFileSync(await dl.path(), 'utf8');
-  await page.context().close();
-  page = await open({});
-  await page.click('#export');
-  same(await page.textContent('#msg'), 'There is no progress to export yet.', 'nothing to export');
-  await choose(page, text);
-  await page.waitForSelector('dialog[open]');
-  ok((await page.textContent('#dlg-l')).includes('2 papers + 1 in progress'), 'the dialog says what is inside');
-  await answer(page, 'cancel');
-  same(await get(page, 'dc301.sim.v1'), null, 'cancel changes nothing');
-  await choose(page, text);
-  await answer(page, 'merge');
-  same(await get(page, 'dc301.sim.v1'), SEED['dc301.sim.v1'], 'restored exactly');
-  same(await stats(page, 'dc'), ['2', '50%', '75%'], 'numbers update at once');
-  await choose(page, text);
-  await answer(page, 'merge');
-  same((await get(page, 'dc301.sim.v1')).history.length, 2, 'importing twice adds nothing');
-  await page.locator('.subject.dc .go').click();
-  await page.waitForSelector('.exam-top');
-  await page.context().close();
-
-  // Merge keeps this device's work; Replace overwrites only the subjects in the file.
-  const MINE = { 'dc301.sim.v1': state([paper('Rmlk0', 'DC-0009', 4, 40), paper('Rmlk9', 'DC-000A', 8, 40)], running('DC-1111')), 'ec355.sim.v1': state([paper('Rmlk5', 'EC-0001', 1, 2)]) };
-  page = await open({}, MINE);
-  await choose(page, text);
-  await answer(page, 'merge');
-  let dc = await get(page, 'dc301.sim.v1');
-  same(dc.history.map((h) => h.rid), ['Rmlk0', 'Rmlk1', 'Rmlk2', 'Rmlk9'], 'merged in date order');
-  same(dc.current.code, 'DC-1111', 'merge keeps the paper in progress here');
-  await choose(page, text);
-  await answer(page, 'replace');
-  dc = await get(page, 'dc301.sim.v1');
-  same(dc, SEED['dc301.sim.v1'], 'replaced');
-  same(await get(page, 'ec355.sim.v1'), MINE['ec355.sim.v1'], 'subjects not in the file are untouched');
-
-  // Bad files are refused and change nothing.
-  const good = JSON.parse(text);
-  const bad = (fn) => { const g = JSON.parse(text); fn(g); return JSON.stringify(g); };
-  const before = await page.evaluate(() => JSON.stringify(localStorage));
-  for (const [name, t] of Object.entries({
-    'not JSON': 'hello', 'another app': bad((g) => { g.app = 'x'; }), 'no subjects': bad((g) => { g.data = { evil: {} }; }),
-    'markup in a code': bad((g) => { g.data['dc301.sim.v1'].history[0].code = '<img src=x onerror=alert(1)>'; }),
-    'markup in a number': bad((g) => { g.data['dc301.sim.v1'].history[0].max = '<b>'; }),
-    'markup in a key': bad((g) => { g.data['dc301.sim.v1'].history[0].byLecture = { '<b>': [1, 2] }; }),
-    'prototype key': text.replace('"cards":{', '"cards":{"__proto__":{"x":1},'),
-    'history is not a list': bad((g) => { g.data['dc301.sim.v1'].history = {}; }),
-    'answers missing': bad((g) => { delete g.data['dc301.sim.v1'].current.answers; })
-  })) {
-    await page.evaluate(() => { document.getElementById('msg').textContent = ''; });
-    await choose(page, t);
-    await page.waitForFunction(() => document.getElementById('msg').textContent || document.querySelector('dialog[open]'));
-    ok((await page.textContent('#msg')).includes('not a valid progress backup'), 'refuses: ' + name);
-    if (await page.locator('dialog[open]').count()) await answer(page, 'cancel');
-  }
-  same(await page.evaluate(() => JSON.stringify(localStorage)), before, 'refused files change nothing');
-  ok(good.data['dc301.sim.v1'].profile.name === 'A <b> student', 'typed names may hold any character');
 
   await browser.close();
   console.log(`Chooser: ${checks} checks, ${problems.length} problem(s)`);

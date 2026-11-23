@@ -11,7 +11,7 @@ Practice midterm papers for Tishk International University IT courses, Fall 2026
 
 Each subject is a self-contained static app (plain HTML, CSS and JavaScript, no backend) with its own README, question bank, tests and screenshots. All share the same design and features; each keeps its own papers, flashcards and progress in the browser (`ec355.*`, `dc301.*`, `os327.*` and `ma319.*` keys), so they never mix.
 
-The subject cards show the student's own progress (papers, average, best) and offer “Continue Paper” when one is in progress. The theme button saves `tiu.theme` and sets every subject to the same theme. “Export / Import progress” in the footer saves every subject's data to one JSON file; importing can merge with, or replace, what is on the device. Inside a subject, the “← Subjects” button in the top bar and the “All subjects” footer link return to the chooser. Old links that pointed at the E-Commerce app at the site root (for example `#/code/EC-7F3A`) are forwarded to the right subject.
+The subject cards show the student's own progress (papers, average, best) and offer “Continue Paper” when one is in progress. The theme button saves `tiu.theme` and sets every subject to the same theme. Inside a subject, the “← Subjects” button in the top bar and the “All subjects” footer link return to the chooser. Old links that pointed at the E-Commerce app at the site root (for example `#/code/EC-7F3A`) are forwarded to the right subject.
 
 ## Commands (run in this folder)
 
@@ -19,7 +19,7 @@ The subject cards show the student's own progress (papers, average, best) and of
 npm install           # once: Playwright test runner, shared by all subjects
 npm test              # chooser check + all subjects' bank checks, unit tests and browser tests
 npm run check         # chooser only: links exist and question counts match the banks
-npm run test:chooser  # chooser only, in the browser: alignment, progress, theme, backup
+npm run test:chooser  # chooser only, in the browser: alignment, progress, theme
 npm run screenshots   # screenshots for all subjects
 npm run dist          # dist/ with the chooser and all subjects, for Netlify drag-and-drop
 ```

@@ -165,36 +165,14 @@
 
     /* Footer */
     footer { padding-top: 14px; padding-bottom: max(22px, env(safe-area-inset-bottom)); font-size: 13.5px; color: var(--ink-2); }
-    .foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px; padding-top: 14px; border-top: 1px solid var(--line); }
+    .foot { padding-top: 14px; border-top: 1px solid var(--line); text-align: center; }
     .foot b { color: var(--ink); font-weight: 600; }
-    .tools { display: flex; flex-wrap: wrap; gap: 8px; }
-    .tool, .btn { font: inherit; cursor: pointer; border-radius: 10px; color: var(--ink); background: transparent; border: 1px solid var(--line); }
-    .tool { display: inline-flex; align-items: center; gap: 7px; min-height: 40px; padding: 0 12px; font-size: 13px; font-weight: 500; transition: background-color .18s ease, border-color .18s ease; }
-    .tool:hover, .btn:hover { background: var(--tile); border-color: var(--muted); }
-    .tool svg { width: 16px; height: 16px; }
-    .msg { flex-basis: 100%; margin: 0; font-size: 13.5px; font-weight: 500; color: var(--ink); }
-    .msg:empty { display: none; }
-    .msg.err { color: #a61b1b; }
-    html[data-mode="dark"] .msg.err { color: #ff9c9c; }
-    .theme:focus-visible, .tool:focus-visible, .btn:focus-visible { outline: 3px solid #4c7dff; outline-offset: 2px; }
-
-    dialog { width: min(440px, calc(100vw - 32px)); padding: 22px; border: 1px solid var(--line); border-radius: 18px; color: var(--ink); background: var(--bg); box-shadow: 0 24px 70px rgba(0, 0, 0, .35); }
-    dialog::backdrop { background: rgba(10, 14, 22, .5); }
-    dialog h2 { margin: 0 0 8px; font-size: 19px; letter-spacing: -.015em; }
-    dialog p { margin: 0 0 12px; font-size: 14.5px; color: var(--ink-2); }
-    dialog ul { margin: 0 0 14px; padding: 10px 14px; list-style: none; border-radius: 12px; background: var(--tile); font-size: 14px; display: grid; gap: 4px; }
-    dialog li { display: flex; justify-content: space-between; gap: 12px; font-variant-numeric: tabular-nums; }
-    .acts { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
-    .btn { min-height: 44px; padding: 0 16px; font-size: 14.5px; font-weight: 600; }
-    .btn.main { color: #fff; background: #2a57c2; border-color: transparent; }
-    .btn.main:hover { background: #2249a6; }
+    .theme:focus-visible { outline: 3px solid #4c7dff; outline-offset: 2px; }
 
     @media (max-width: 560px) {
       header { padding-top: 16px; }
       main { padding-top: 20px; }
       .lead { font-size: 15.5px; margin-bottom: 20px; }
-      .foot { flex-direction: column; text-align: center; }
-      .acts { flex-direction: column; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition: none !important; animation: none !important; }
@@ -304,26 +282,8 @@
   <footer class="wrap">
     <div class="foot">
       <span>Developed by <b>Yasa Sardar</b></span>
-      <div class="tools" role="group" aria-label="Progress backup">
-        <button type="button" class="tool" id="export"><svg class="s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg>Export progress</button>
-        <button type="button" class="tool" id="import"><svg class="s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 20h16"/></svg>Import progress</button>
-        <input type="file" id="file" accept=".json,application/json" hidden>
-      </div>
-      <p class="msg" id="msg" role="status"></p>
     </div>
   </footer>
-
-  <dialog id="dlg" aria-labelledby="dlg-t">
-    <h2 id="dlg-t">Import this backup?</h2>
-    <p id="dlg-p"></p>
-    <ul id="dlg-l"></ul>
-    <p><b>Merge</b> adds these papers to what is already here. <b>Replace</b> overwrites the subjects listed. Close other tabs of this site first.</p>
-    <form method="dialog" class="acts">
-      <button class="btn" value="cancel">Cancel</button>
-      <button class="btn" value="replace">Replace</button>
-      <button class="btn main" value="merge" autofocus>Merge</button>
-    </form>
-  </dialog>
 
   <script>
     (function () {
@@ -379,127 +339,6 @@
         var mq = matchMedia('(prefers-color-scheme: dark)');
         if (mq.addEventListener) mq.addEventListener('change', paintTheme);
       }
-
-      /* ---------- Backup: one JSON file with every subject's saved data ---------- */
-      var APP = 'tiu-midterm-simulator', MAX = 10 * 1024 * 1024;
-      var KEYS = cards.map(function (c) { return c.getAttribute('data-key'); });
-      var NAME = {};
-      cards.forEach(function (c) { NAME[c.getAttribute('data-key')] = c.querySelector('h2').textContent; });
-      function say(t, err) { $('msg').textContent = t; $('msg').className = 'msg' + (err ? ' err' : ''); }
-      function plural(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }
-
-      $('export').addEventListener('click', function () {
-        var data = {}, n = 0;
-        KEYS.forEach(function (k) { var s = readKey(k); if (s) { data[k] = s; n += papers(s).length; } });
-        if (!Object.keys(data).length) { say('There is no progress to export yet.'); return; }
-        var now = new Date(), p = function (x) { return String(x).padStart(2, '0'); };
-        var blob = new Blob([JSON.stringify({ app: APP, version: 1, exportedAt: now.toISOString(), data: data })], { type: 'application/json' });
-        var a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'midterm-progress-' + now.getFullYear() + '-' + p(now.getMonth() + 1) + '-' + p(now.getDate()) + '.json';
-        document.body.appendChild(a); a.click(); a.remove();
-        setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
-        say('Exported ' + plural(n, 'paper') + '. The file includes any name and student ID you entered, so keep it private.');
-      });
-
-      /* A backup is only accepted if it has the expected shape. Outside typed answers and the name on the paper,
-         text may only hold plain characters, so a tampered file cannot put markup into a subject's pages. */
-      function safe(v, free, depth) {
-        if (depth > 8) throw new Error('depth');
-        if (v === null || typeof v === 'boolean') return v;
-        if (typeof v === 'number') { if (!isFinite(v)) throw new Error('number'); return v; }
-        if (typeof v === 'string') { if (v.length > (free ? 20000 : 200) || (!free && /[<>&"'`\\]/.test(v))) throw new Error('text'); return v; }
-        if (Array.isArray(v)) return v.map(function (x) { return safe(x, free, depth + 1); });
-        var out = {};
-        Object.keys(v).forEach(function (k) {
-          if (!/^[\w:.-]{1,60}$/.test(k) || k === '__proto__' || k === 'constructor' || k === 'prototype') throw new Error('key');
-          out[k] = safe(v[k], free || k === 'answers' || k === 'profile', depth + 1);
-        });
-        return out;
-      }
-      function check(s) {
-        if (!isObj(s)) throw new Error('subject');
-        s = safe(s, false, 0);
-        if (s.history !== undefined && !Array.isArray(s.history)) throw new Error('history');
-        papers(s).forEach(function (h) {
-          if (['got', 'max', 'pct'].some(function (k) { return typeof h[k] !== 'number'; }) || typeof h.code !== 'string') throw new Error('paper');
-          if (h.items !== undefined && !Array.isArray(h.items)) throw new Error('items');
-        });
-        s.history = papers(s);
-        if (s.current != null && (!isObj(s.current) || typeof s.current.code !== 'string' || !isObj(s.current.answers) || (s.current.flags !== undefined && !isObj(s.current.flags)))) throw new Error('current');
-        ['cards', 'settings', 'profile'].forEach(function (k) { if (s[k] !== undefined && !isObj(s[k])) throw new Error(k); });
-        if (s.settings && s.settings.lectures !== undefined && !Array.isArray(s.settings.lectures)) throw new Error('settings');
-        return s;
-      }
-      function parse(text) {
-        var f = JSON.parse(text), out = {};
-        if (!isObj(f) || f.app !== APP || f.version !== 1 || !isObj(f.data)) throw new Error('format');
-        KEYS.forEach(function (k) { if (Object.prototype.hasOwnProperty.call(f.data, k)) out[k] = check(f.data[k]); });
-        if (!Object.keys(out).length) throw new Error('empty');
-        return out;
-      }
-      function paperId(h) { return h.rid ? 'r' + h.rid : [h.code, h.date, h.seconds, h.got].join('|'); }
-      function when(h) { var t = h.rid ? parseInt(String(h.rid).slice(1), 36) : NaN; return isFinite(t) ? t : 0; }
-      /* Keep everything on this device and add what is missing. */
-      function merge(mine, theirs) {
-        if (!mine) return theirs;
-        var seen = {}, out = JSON.parse(JSON.stringify(mine)), all = papers(mine).slice();
-        all.forEach(function (h) { seen[paperId(h)] = 1; });
-        papers(theirs).forEach(function (h) { if (!seen[paperId(h)]) { seen[paperId(h)] = 1; all.push(h); } });
-        all = all.map(function (h, i) { return [when(h), i, h]; }).sort(function (a, b) { return a[0] - b[0] || a[1] - b[1]; }).map(function (x) { return x[2]; });
-        out.history = all.slice(-200); // the same limit as inside a subject
-        out.cards = Object.assign({}, theirs.cards, mine.cards);
-        if (!active(mine) && (active(theirs) || !mine.current)) out.current = theirs.current || null;
-        return out;
-      }
-      function store(data, mode) {
-        var before = {}, added = 0;
-        try {
-          Object.keys(data).forEach(function (k) {
-            before[k] = localStorage.getItem(k);
-            var mine = readKey(k), next = mode === 'replace' ? data[k] : merge(mine, data[k]);
-            added += mode === 'replace' ? papers(next).length : Math.max(0, papers(next).length - papers(mine).length);
-            localStorage.setItem(k, JSON.stringify(next));
-          });
-        } catch (e) {
-          Object.keys(before).forEach(function (k) { try { if (before[k] === null) localStorage.removeItem(k); else localStorage.setItem(k, before[k]); } catch (x) { /* nothing more to do */ } });
-          say('Import failed: this browser could not save the data. Nothing was changed.', true);
-          return;
-        }
-        paint();
-        say(mode === 'replace' ? 'Replaced with the backup (' + plural(added, 'paper') + ').' : added ? 'Merged: added ' + plural(added, 'paper') + '.' : 'Merged: every paper in the backup was already here.');
-      }
-      var pending = null, dlg = $('dlg');
-      $('import').addEventListener('click', function () { $('file').click(); });
-      $('file').addEventListener('change', function () {
-        var f = this.files && this.files[0];
-        this.value = '';
-        if (!f) return;
-        if (f.size > MAX) { say('That file is too large to be a progress backup.', true); return; }
-        var r = new FileReader();
-        r.onerror = function () { say('That file could not be read.', true); };
-        r.onload = function () {
-          try { pending = parse(String(r.result)); } catch (e) { pending = null; say('That file is not a valid progress backup. Nothing was changed.', true); return; }
-          say('');
-          $('dlg-p').textContent = 'From ' + f.name + ':';
-          $('dlg-l').textContent = '';
-          Object.keys(pending).forEach(function (k) {
-            var li = document.createElement('li'), a = document.createElement('span'), b = document.createElement('b');
-            a.textContent = NAME[k];
-            b.textContent = plural(papers(pending[k]).length, 'paper') + (active(pending[k]) ? ' + 1 in progress' : '');
-            li.appendChild(a); li.appendChild(b); $('dlg-l').appendChild(li);
-          });
-          dlg.returnValue = 'cancel';
-          dlg.showModal();
-        };
-        r.readAsText(f);
-      });
-      dlg.addEventListener('close', function () {
-        var data = pending;
-        pending = null;
-        if (data && (dlg.returnValue === 'merge' || dlg.returnValue === 'replace')) store(data, dlg.returnValue);
-        $('import').focus();
-      });
 
       /* Fresh numbers after Back, or when another tab saves. */
       function refresh() { paint(); paintTheme(); }
