@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Midterm Simulator · Choose a subject</title>
-  <meta name="description" content="Practice midterm papers for Tishk International University IT courses: IT 355 E-Commerce and IT 301 Data Communications. Real exam layout, instant marking, flashcards.">
+  <meta name="description" content="Practice midterm papers for Tishk International University IT courses: IT 355 E-Commerce, IT 301 Data Communications and IT 327 Operating Systems. Real exam layout, instant marking, flashcards.">
   <meta name="theme-color" content="#ffffff">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232a57c2'/%3E%3Cpath d='M10 8h9l4 4v12H10z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M13 16h7M13 20h5' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,10 +15,10 @@
       /* Old shared links pointed at the E-Commerce app in this folder (e.g. #/code/EC-7F3A).
          Send them to the right subject so they keep working. */
       var h = location.hash;
-      if (/^#\/./.test(h)) { location.replace((/DC-/i.test(h) ? 'datacom/' : 'ecommerce/') + 'index.html' + h); return; }
+      if (/^#\/./.test(h)) { location.replace((/DC-/i.test(h) ? 'datacom/' : /OS-/i.test(h) ? 'os/' : 'ecommerce/') + 'index.html' + h); return; }
       /* Use the theme the student picked inside a subject (Auto / Light / Dark). */
       var t = 'auto';
-      try { t = localStorage.getItem('ec355.theme') || localStorage.getItem('dc301.theme') || 'auto'; } catch (e) { /* storage blocked */ }
+      try { t = localStorage.getItem('ec355.theme') || localStorage.getItem('dc301.theme') || localStorage.getItem('os327.theme') || 'auto'; } catch (e) { /* storage blocked */ }
       var dark = t === 'dark' || (t === 'auto' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
       document.documentElement.setAttribute('data-mode', dark ? 'dark' : 'light');
     })();
@@ -83,8 +83,10 @@
       transition: transform .18s ease, box-shadow .18s ease;
     }
     .subject.dc { --c: #0f7c78; --c-soft: rgba(15, 124, 120, .13); --c-deep: #0b6663; }
+    .subject.os { --c: #6b3fc0; --c-soft: rgba(107, 63, 192, .12); --c-deep: #5a33a6; }
     html[data-mode="dark"] .subject { --c: #82a8ff; --c-soft: rgba(130, 168, 255, .15); --c-deep: #a0bdff; }
     html[data-mode="dark"] .subject.dc { --c: #5fd0c5; --c-soft: rgba(95, 208, 197, .15); --c-deep: #86ddd4; }
+    html[data-mode="dark"] .subject.os { --c: #b79bff; --c-soft: rgba(183, 155, 255, .15); --c-deep: #cbb6ff; }
     .subject::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--c); }
     .subject:hover { transform: translateY(-3px); box-shadow: var(--glass-shadow), 0 0 0 1px var(--c), 0 16px 36px rgba(31, 45, 90, .14); }
     .subject:focus-visible { outline: 3px solid var(--c); outline-offset: 3px; }
@@ -157,6 +159,19 @@
         </ul>
         <div class="mine" data-mine>Not started yet.</div>
         <span class="go">Open Data Communications <svg class="s" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+
+      <a class="subject os" href="os/index.html" data-key="os327.sim.v1">
+        <div class="top">
+          <span class="ico" aria-hidden="true"><svg class="s" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="10" y="10" width="4" height="4" rx=".6"/><path d="M9 6V3M15 6V3M9 21v-3M15 21v-3M6 9H3M6 15H3M21 9h-3M21 15h-3"/></svg></span>
+          <div><div class="code">IT 327</div><h2>Operating Systems</h2></div>
+        </div>
+        <ul class="facts">
+          <li><span>Mr. Alaa Ghazi</span></li>
+          <li><span><b>Lectures 1–4</b> · <b data-count="os">675</b> questions</span></li>
+        </ul>
+        <div class="mine" data-mine>Not started yet.</div>
+        <span class="go">Open Operating Systems <svg class="s" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>
     </div>
 

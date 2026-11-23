@@ -5,8 +5,8 @@
   "description": "Midterm exam simulators for Tishk International University IT courses. Root page lets students choose a subject. Static site, no backend.",
   "scripts": {
     "check": "node scripts/check-subjects.js",
-    "test": "npm run check && npm --prefix ecommerce test && npm --prefix datacom test",
-    "screenshots": "npm --prefix ecommerce run screenshots && npm --prefix datacom run screenshots",
+    "test": "npm run check && npm --prefix ecommerce test && npm --prefix datacom test && npm --prefix os test",
+    "screenshots": "npm --prefix ecommerce run screenshots && npm --prefix datacom run screenshots && npm --prefix os run screenshots",
     "dist": "node scripts/dist.js"
   },
   "devDependencies": {
