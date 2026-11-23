@@ -7,8 +7,9 @@ Practice midterm papers for Tishk International University IT courses, Fall 2026
 | `ecommerce/` | IT 355 E-Commerce (Dr. Hala Najwan Sabeh) | Lectures 1–4 | 621 |
 | `datacom/` | IT 301 Data Communications and Computer Networks I (Azheen Ghafour) | Weeks 2–6 | 723 |
 | `os/` | IT 327 Operating Systems (Mr. Alaa Ghazi) | Lectures 1–4 | 675 |
+| `mobile/` | IT 319 Mobile Applications (Ms. Van Sirwan) | Lectures 1–7 | 696 |
 
-Each subject is a self-contained static app (plain HTML, CSS and JavaScript, no backend) with its own README, question bank, tests and screenshots. All share the same design and features; each keeps its own papers, flashcards and progress in the browser (`ec355.*`, `dc301.*` and `os327.*` keys), so they never mix.
+Each subject is a self-contained static app (plain HTML, CSS and JavaScript, no backend) with its own README, question bank, tests and screenshots. All share the same design and features; each keeps its own papers, flashcards and progress in the browser (`ec355.*`, `dc301.*`, `os327.*` and `ma319.*` keys), so they never mix.
 
 The subject cards show the student's own progress (papers done, average, best). Inside a subject, the “← Subjects” button in the top bar and the “All subjects” footer link return to the chooser. Old links that pointed at the E-Commerce app at the site root (for example `#/code/EC-7F3A`) are forwarded to the right subject.
 
@@ -29,6 +30,6 @@ npm run dist          # dist/ with the chooser and all subjects, for Netlify dra
 
 ## Hosting
 
-The repository is `yasa404/tiuexam`. GitHub Pages serves its root, so the chooser is at `https://yasa404.github.io/tiuexam/`, with the subjects at `https://yasa404.github.io/tiuexam/ecommerce/`, `https://yasa404.github.io/tiuexam/datacom/` and `https://yasa404.github.io/tiuexam/os/`.
+The repository is `yasa404/tiuexam`. GitHub Pages serves its root, so the chooser is at `https://yasa404.github.io/tiuexam/`, with the subjects at `https://yasa404.github.io/tiuexam/ecommerce/`, `https://yasa404.github.io/tiuexam/datacom/`, `https://yasa404.github.io/tiuexam/os/` and `https://yasa404.github.io/tiuexam/mobile/`.
 
 Developed by Yasa Sardar.

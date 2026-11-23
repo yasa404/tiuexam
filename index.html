@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Midterm Simulator · Choose a subject</title>
-  <meta name="description" content="Practice midterm papers for Tishk International University IT courses: IT 355 E-Commerce, IT 301 Data Communications and IT 327 Operating Systems. Real exam layout, instant marking, flashcards.">
+  <meta name="description" content="Practice midterm papers for Tishk International University IT courses: IT 355 E-Commerce, IT 301 Data Communications, IT 327 Operating Systems and IT 319 Mobile Applications. Real exam layout, instant marking, flashcards.">
   <meta name="theme-color" content="#ffffff">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232a57c2'/%3E%3Cpath d='M10 8h9l4 4v12H10z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M13 16h7M13 20h5' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,10 +15,10 @@
       /* Old shared links pointed at the E-Commerce app in this folder (e.g. #/code/EC-7F3A).
          Send them to the right subject so they keep working. */
       var h = location.hash;
-      if (/^#\/./.test(h)) { location.replace((/DC-/i.test(h) ? 'datacom/' : /OS-/i.test(h) ? 'os/' : 'ecommerce/') + 'index.html' + h); return; }
+      if (/^#\/./.test(h)) { location.replace((/DC-/i.test(h) ? 'datacom/' : /OS-/i.test(h) ? 'os/' : /MA-/i.test(h) ? 'mobile/' : 'ecommerce/') + 'index.html' + h); return; }
       /* Use the theme the student picked inside a subject (Auto / Light / Dark). */
       var t = 'auto';
-      try { t = localStorage.getItem('ec355.theme') || localStorage.getItem('dc301.theme') || localStorage.getItem('os327.theme') || 'auto'; } catch (e) { /* storage blocked */ }
+      try { t = localStorage.getItem('ec355.theme') || localStorage.getItem('dc301.theme') || localStorage.getItem('os327.theme') || localStorage.getItem('ma319.theme') || 'auto'; } catch (e) { /* storage blocked */ }
       var dark = t === 'dark' || (t === 'auto' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
       document.documentElement.setAttribute('data-mode', dark ? 'dark' : 'light');
     })();
@@ -72,7 +72,8 @@
     main { flex: 1; padding: 28px 0 32px; }
     h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; letter-spacing: -.025em; margin: 0 0 10px; font-weight: 800; }
     .lead { margin: 0 0 28px; font-size: 16.5px; color: var(--ink-2); max-width: 600px; }
-    .subjects { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 18px; }
+    .subjects { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; }
+    @media (min-width: 660px) { .subjects { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     .subject {
       --c: #2a57c2; --c-soft: rgba(42, 87, 194, .12); --c-deep: #2249a6;
       position: relative; display: flex; flex-direction: column; gap: 14px; padding: 22px 22px 20px; border-radius: 18px;
@@ -84,9 +85,11 @@
     }
     .subject.dc { --c: #0f7c78; --c-soft: rgba(15, 124, 120, .13); --c-deep: #0b6663; }
     .subject.os { --c: #6b3fc0; --c-soft: rgba(107, 63, 192, .12); --c-deep: #5a33a6; }
+    .subject.ma { --c: #b4500b; --c-soft: rgba(180, 80, 11, .12); --c-deep: #964208; }
     html[data-mode="dark"] .subject { --c: #82a8ff; --c-soft: rgba(130, 168, 255, .15); --c-deep: #a0bdff; }
     html[data-mode="dark"] .subject.dc { --c: #5fd0c5; --c-soft: rgba(95, 208, 197, .15); --c-deep: #86ddd4; }
     html[data-mode="dark"] .subject.os { --c: #b79bff; --c-soft: rgba(183, 155, 255, .15); --c-deep: #cbb6ff; }
+    html[data-mode="dark"] .subject.ma { --c: #ffb27a; --c-soft: rgba(255, 178, 122, .15); --c-deep: #ffc79f; }
     .subject::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--c); }
     .subject:hover { transform: translateY(-3px); box-shadow: var(--glass-shadow), 0 0 0 1px var(--c), 0 16px 36px rgba(31, 45, 90, .14); }
     .subject:focus-visible { outline: 3px solid var(--c); outline-offset: 3px; }
@@ -172,6 +175,19 @@
         </ul>
         <div class="mine" data-mine>Not started yet.</div>
         <span class="go">Open Operating Systems <svg class="s" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+
+      <a class="subject ma" href="mobile/index.html" data-key="ma319.sim.v1">
+        <div class="top">
+          <span class="ico" aria-hidden="true"><svg class="s" viewBox="0 0 24 24"><rect x="6.5" y="2.5" width="11" height="19" rx="2.4"/><path d="M10.5 18.5h3"/></svg></span>
+          <div><div class="code">IT 319</div><h2>Mobile Applications</h2></div>
+        </div>
+        <ul class="facts">
+          <li><span>Ms. Van Sirwan</span></li>
+          <li><span><b>Lectures 1–7</b> · <b data-count="mobile">696</b> questions</span></li>
+        </ul>
+        <div class="mine" data-mine>Not started yet.</div>
+        <span class="go">Open Mobile Applications <svg class="s" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </a>
     </div>
 

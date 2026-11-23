@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const OUT = path.join(ROOT, 'dist');
-const SUBJECTS = ['ecommerce', 'datacom', 'os'];
+const SUBJECTS = ['ecommerce', 'datacom', 'os', 'mobile'];
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT);
 fs.copyFileSync(path.join(ROOT, 'index.html'), path.join(OUT, 'index.html'));
