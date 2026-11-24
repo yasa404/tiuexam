@@ -75,9 +75,6 @@
   F.classDiagram = { title: 'Class diagram: Course and Student', svg: svg(540, 124,
     classBox(40, 14, 160, 'Course', ['title']) + classBox(340, 14, 160, 'Student', ['name', 'age']) +
     L(200, 50, 340, 50) + T(270, 42, 'has several', { s: 11.5, c: MUTED })) };
-  F.classBlank = { title: 'Class diagram with two missing labels', svg: svg(540, 124,
-    classBox(40, 14, 160, 'Course', ['1']) + classBox(340, 14, 160, '2', ['name', 'age']) +
-    L(200, 50, 340, 50) + T(270, 42, 'has several', { s: 11.5, c: MUTED })) };
   F.courseObjects = { title: 'One course and its students', svg: svg(540, 150,
     box(30, 58, 170, 34, 'Mobile Applications', { f: SOFT, s: AC }) +
     [['Sara', 12], ['Ali', 60], ['Ahmed', 108]].map(function (p) { return box(350, p[1], 130, 30, p[0]) + L(200, 75, 348, p[1] + 15, { arrow: true }); }).join('')) };
@@ -88,9 +85,7 @@
   F.columnTree = { title: 'Widget tree of a centred column', svg: tree(['Center', ['Column', ["Text 'Mobile Apps'"], ["Text 'IT319'"]]]) };
 
   /* ---------- Lecture 3 ---------- */
-  F.courseTree = { title: 'Widget tree of CoursePage', svg: tree(['CoursePage', ['Scaffold', ['AppBar', ["Text 'IT Courses'"]], ['Center', ["Text 'Mobile Applications'"]]]]) };
   F.progressTree = { title: 'Widget tree of the progress page body', svg: tree(['Center', ['Column', [{ t: 'Text', n: "'Mobile Applications'" }], [{ t: 'Text', n: "'Completed lessons: $lessons'" }], ['ElevatedButton', ["Text 'Complete lesson'"]]]]) };
-  F.tapFlow = { title: 'From a tap to the new count', svg: chain(['User taps the button', 'addLesson() is called', 'setState changes lessons', 'build() shows the new value']) };
   F.tapFlowBlank = { title: 'From a tap to the new count, with one missing step', svg: chain(['User taps the button', 'addLesson() is called', '?', 'build() shows the new value']) };
 
   /* ---------- Lecture 4 ---------- */
@@ -120,39 +115,21 @@
   /* ---------- Lecture 6 ---------- */
   F.bookCard = { title: 'Widget tree of the book card', svg: tree(['Card', ['Column', ['Text name'], ['Text price'], ['Chip'], ['Row', ['Icon'], ['Text']], ['ExpansionTile', ['details']]]]) };
   function chips(x, y, list) { return list.map(function (c) { return R(x + c[1], y, c[2], 32, { f: PALE, r: 16 }) + T(x + c[1] + c[2] / 2, y + 20, c[0], { s: 11.5 }); }).join(''); }
-  F.wrapLabels = { title: 'Three labels in a Wrap on a narrow screen', svg: svg(540, 150,
-    R(110, 8, 320, 132, { s: LINE }) + chips(128, 28, [['Campus pickup', 0, 122], ['Home delivery', 146, 122]]) + chips(128, 88, [['Express delivery', 0, 128]]) +
-    L(250, 44, 274, 44, { s: AC, w: 2 }) + T(262, 20, 'spacing', { s: 10.5, c: AC }) + L(189, 60, 189, 88, { s: AC, w: 2 }) + T(196, 78, 'runSpacing', { a: 'start', s: 10.5, c: AC })) };
   F.wrapBlank = { title: 'Labels on two lines, with gaps 1 and 2', svg: svg(540, 150,
     R(110, 8, 320, 132, { s: LINE }) + chips(128, 28, [['Label A', 0, 122], ['Label B', 146, 122]]) + chips(128, 88, [['Label C', 0, 128]]) +
     L(250, 44, 274, 44, { s: AC, w: 2 }) + T(262, 20, '1', { b: true, c: AC }) + L(189, 60, 189, 88, { s: AC, w: 2 }) + T(200, 78, '2', { b: true, c: AC })) };
 
   /* ---------- Lecture 7 ---------- */
   F.rowExpanded = { title: 'Widget tree of the Row', svg: tree(['Row', ['Icon'], ['SizedBox'], ['Expanded', ['Text bookTitle']]]) };
-  F.expandedOrder = { title: 'Suitable and unsuitable order', svg: svg(540, 264,
-    [['Suitable', 130, ['Row', 'Expanded', 'Padding', 'Text'], GOOD, 'Expanded is directly in the Row'], ['Unsuitable', 400, ['Row', 'Padding', 'Expanded', 'Text'], BAD, 'Parent-data error']].map(function (c) {
-      return T(c[1], 18, c[0], { b: true, c: c[3] }) + c[2].map(function (t, i) { return box(c[1] - 60, 30 + i * 52, 120, 30, t, { s: c[3] }) + (i < 3 ? L(c[1], 60 + i * 52, c[1], 80 + i * 52, { arrow: true }) : ''); }).join('') + T(c[1], 244, c[4], { s: 11, c: MUTED });
-    }).join('')) };
-  F.layoutSteps = { title: 'Layout steps between parent and child', svg: svg(540, 190,
-    box(200, 8, 140, 36, 'Parent', { f: SOFT, s: AC }) + box(200, 146, 140, 36, 'Child') +
-    L(222, 44, 222, 144, { arrow: true }) + L(270, 146, 270, 46, { arrow: true, d: '5 4' }) + L(318, 44, 318, 144, { arrow: true }) +
-    T(212, 98, '1. gives limits', { a: 'end', s: 11.5 }) + T(258, 98, '2', { s: 11.5, b: true, c: AC }) + T(328, 98, '3. places the child', { a: 'start', s: 11.5 }) + T(350, 168, '2. chooses an allowed size', { a: 'start', s: 11.5 })) };
-  F.navStack = { title: 'Navigation with push and pop', svg: svg(540, 170,
-    box(40, 62, 150, 46, 'Home screen', { f: SOFT, s: AC }) + box(350, 62, 150, 46, 'Detail screen') +
-    P('M190 72 C240 40 300 40 350 72', { arrow: true }) + T(270, 38, 'push', { b: true, c: AC }) +
-    P('M350 98 C300 130 240 130 190 98', { arrow: true }) + T(270, 140, 'pop', { b: true, c: AC }) +
-    T(115, 128, 'below, keeps its selection', { s: 10.5, c: MUTED }) + T(425, 128, 'above, receives the data', { s: 10.5, c: MUTED })) };
   F.navBlank = { title: 'Navigation with two missing labels', svg: svg(540, 150,
     box(40, 50, 150, 46, 'Home screen', { f: SOFT, s: AC }) + box(350, 50, 150, 46, 'Detail screen') +
     P('M190 60 C240 28 300 28 350 60', { arrow: true }) + T(270, 26, '1', { b: true, c: AC }) +
     P('M350 86 C300 118 240 118 190 86', { arrow: true }) + T(270, 128, '2', { b: true, c: AC })) };
-  F.categoryFlow = { title: 'From a selection to the updated view', svg: chain(['User selects Study', 'onSelected callback runs', 'setState updates selectedCategory', 'build describes the updated view']) };
   function phone(labels) {
     return svg(540, 304, R(190, 8, 160, 34, { f: SOFT, s: AC, r: 0 }) + T(270, 29, 'App bar', { b: true }) + R(190, 42, 160, 156, { r: 0, s: AC, w: 2.5 }) +
       [1, 2, 3, 4, 5].map(function (n) { var y = 50 + (n - 1) * 48 + (n > 3 ? 10 : 0); return R(204, y, 132, 40, { f: n < 4 ? '#fff' : PALE, d: n < 4 ? '' : '5 4', s: n < 4 ? INK : LINE }) + T(270, y + 24, 'Card ' + n, { c: n < 4 ? INK : MUTED }); }).join('') +
       (labels ? L(362, 46, 362, 194, { s: AC }) + T(372, 124, labels[0], { a: 'start', b: true, c: AC }) + T(372, 252, labels[1], { a: 'start', s: 11, c: MUTED }) + L(172, 270, 172, 60, { arrow: true, s: MUTED }) + T(162, 168, labels[2], { a: 'end', s: 11, c: MUTED }) : ''));
   }
-  F.viewport = { title: 'Viewport and scrolling', svg: phone(['Viewport (visible window)', 'hidden until the user scrolls', 'scrolling']) };
   F.viewportBlank = { title: 'A scrolling page with one missing label', svg: phone(['?', '', '']) };
   F.overflow = { title: 'A Row on a narrow screen', svg: svg(540, 110,
     R(90, 14, 300, 74, { s: LINE, w: 2 }) + R(104, 32, 40, 38, { f: SOFT, s: AC }) + T(124, 55, 'Icon', { s: 11 }) + T(158, 56, 'Introduction to Mobile Application Devel', { a: 'start', s: 13 }) +

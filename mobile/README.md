@@ -14,41 +14,39 @@ Source of truth: the seven lecture PDFs. Title, course administration and refere
 
 | L1 OOP and Class Diagrams | L2 Introduction to Flutter | L3 Stateless and Stateful Widget Apps | L4 Designing a Growing Flutter App | L5 Campus Shop: Product Cards (Practical) | L6 Campus Shop: Eight Tasks (Practical) | L7 Understanding Widget Layout | Total |
 |---|---|---|---|---|---|---|---|
-| 70 | 99 | 107 | 100 | 86 | 92 | 142 | **696** |
+| 48 | 71 | 76 | 71 | 62 | 65 | 103 | **496** |
 
-- By type: 305 multiple choice, 122 fill-in-the-blank, 109 true/false, 39 define, 25 list, 96 written (25 explain, 18 draw, 28 code, 25 choice + justification).
-- 98 questions print Dart code and 11 print a diagram.
+- The instructor announced three kinds of question, and the bank holds only those: **short answer** (160: 135 written, 25 lists), **multiple choice** (305) and **matching** (31 questions with 202 pairs). The validator rejects any other type.
+- 78 questions print Dart code and 20 print a diagram.
 - Lectures 5 and 6 are practical sheets that name the widgets and properties but do not print the code. The code in those questions is standard Flutter code for the same tasks (for example `Colors.green`, `Chip(label: ...)`, `ListTile(leading: ...)`).
 
-Files (loaded in this order by `index.html`): `data/questions.js` (builder and course settings), `data/questions-l1.js` … `data/questions-l7.js`, `data/figures.js` (model drawings and question figures), `data/flashcards.js` (79 cards).
+Files (loaded in this order by `index.html`): `data/questions.js` (builder and course settings), `data/questions-l1.js` … `data/questions-l7.js`, `data/figures.js` (diagrams printed with questions), `data/flashcards.js` (79 cards).
 
 ## Exam paper
 
 | Section | Holds |
 |---|---|
-| **A** Multiple choice | Four options, some with code or a diagram |
-| **B** Fill in the blanks | Words and missing code; one mark per blank; optional word bank |
-| **C** True or false | |
-| **D** Define and list | |
-| **E** Explain, draw, code and justify | Rotates between the written styles |
+| **A** Short answer | Definitions, differences, reasons, short lists, and questions about code or a diagram (2–4 marks each) |
+| **B** Multiple choice | Four options, some with code or a diagram (1 mark each) |
+| **C** Matching | Up to five items and one extra letter (1 mark for each match) |
 
-| Length | A | B | C | D | E | Total | Time |
-|---|---|---|---|---|---|---|---|
-| Quick | 4 | 2 | 2 | 2 | – | 10 | 15 min |
-| Short | 6 | 4 | 3 | 3 | 4 | 20 | 30 min |
-| Standard | 12 | 7 | 5 | 6 | 10 | 40 | 60 min |
-| Full | 18 | 10 | 7 | 10 | 15 | 60 | 90 min |
+| Length | A | B | C | Total | Time |
+|---|---|---|---|---|---|
+| Quick | 3 | 4 | 3 | 10 | 15 min |
+| Short | 6 | 9 | 5 | 20 | 30 min |
+| Standard | 14 | 16 | 10 | 40 | 60 min |
+| Full | 22 | 23 | 15 | 60 | 90 min |
 
-The slides do not describe the exam format, so the sections and marks are an assumption: 1 per option, blank and statement; 4 for explain and draw; 5 for code; 3 for choice + justification.
+The instructor gave the kinds of question but not their marks, so the marks are an assumption.
 
-- **Code**: typed in a monospace box and marked by five required parts. Spaces and line breaks do not matter; spelling of names does. In “correct the code” questions, capital letters, commas and brackets count too. It is keyword marking, not a compiler, so check it against the model answer.
-- **Choice + justification**: 1 mark for the right letter and 2 for the reasons. A wrong choice earns nothing.
-- **Drawings**: draw on paper and list the labels; the model drawing appears after you submit, and you can tick the points you covered.
+- **Short answers** are marked by key points; students can tick the points they covered.
+- **Matching**: each paper picks its own pairs and order, so the same question looks different on different papers. In Focus mode a letter is tapped; on the A4 paper it is typed.
+- Codes made before this change still open (sections D and E are ignored). A paper that was in progress is dropped, because it cannot be rebuilt; the score history stays.
 
 ## Commands
 
 ```
-npm run validate      # bank checks and skipped pages
+npm run validate      # bank checks, question types and skipped pages
 npm run test:unit     # grading + generator
 npm run test:e2e      # browser tests (installed Chrome)
 npm test              # all of the above

@@ -17,8 +17,7 @@ async function answerSome(page) {
       if (i % 3 === 2) return;
       const m = window.__sim.modelAnswer(it);
       if (it.type === 'mcq') S.current.answers[it.id] = i % 4 === 0 ? (it.correct + 1) % 4 : m;
-      else if (it.type === 'tf') S.current.answers[it.id] = m;
-      else if (it.type === 'fill') S.current.answers[it.id] = m.map((x, k) => (k === 0 && i % 2 ? 'widget' : x));
+      else if (it.type === 'match') S.current.answers[it.id] = m.map((x, k) => (k < 2 ? m[1 - k] : x));
       else if (it.type === 'list') S.current.answers[it.id] = m.slice(0, Math.max(1, it.q.need - 1));
       else S.current.answers[it.id] = Object.assign({}, m, { text: it.q.model.split('. ').slice(0, 2).join('. ') });
     });
@@ -48,19 +47,23 @@ async function answerSome(page) {
     await page.fill('#code-in', 'MA-7F3A');
     await page.click('#codeform button[type=submit]');
     await page.waitForSelector('.qcard');
+    const mcqN = await page.evaluate(() => window.__sim.exam().items.find((i) => i.type === 'mcq').n);
+    await page.click('#f-count');
+    await page.click(`#drawer [data-go="${mcqN}"]`);
     await page.locator('.qcard .choice').nth(2).click();
     await shot('2-focus-mcq');
-    const fillN = await page.evaluate(() => window.__sim.exam().items.find((i) => i.type === 'fill').n);
+    const fillN = await page.evaluate(() => window.__sim.exam().items.find((i) => i.type === 'match').n);
     await page.click('#f-count');
     await page.waitForSelector('#drawer');
     await shot('3-focus-drawer');
     await page.click(`#drawer [data-go="${fillN}"]`);
-    await page.locator('.qcard input.fblank').first().fill('widget');
-    await shot('4-focus-fill');
-    const expN = await page.evaluate(() => window.__sim.exam().items.find((i) => i.type === 'exp').n);
+    await page.locator('.mrow[data-row="0"] [data-m="1"]').click();
+    await page.locator('.mrow[data-row="1"] [data-m="0"]').click();
+    await shot('4-focus-matching');
+    const expN = await page.evaluate(() => window.__sim.exam().items.find((i) => i.type === 'def').n);
     await page.click('#f-count');
     await page.click(`#drawer [data-go="${expN}"]`);
-    await shot('5-focus-explain');
+    await shot('5-focus-short');
 
     // A4 mode
     await page.click('.exam-top [data-view="a4"]');

@@ -37,8 +37,8 @@ async function submit(page) {
 async function answerA4(page, items) {
   for (const it of items) {
     const q = page.locator(`#q${it.n}`);
-    if (it.type === 'mcq' || it.type === 'tf') await q.locator(`.opt[data-v="${it.model}"]`).click();
-    else if (it.type === 'fill') { for (let k = 0; k < it.model.length; k++) await q.locator(`input.blank[data-k="${k}"]`).fill(it.model[k]); }
+    if (it.type === 'mcq') await q.locator(`.opt[data-v="${it.model}"]`).click();
+    else if (it.type === 'match') { for (let k = 0; k < it.model.length; k++) await q.locator(`input.mletter[data-row="${k}"]`).fill('abcdef'[it.model[k]]); }
     else if (it.type === 'list') { for (let k = 0; k < it.need; k++) await q.locator(`ol.lines input[data-k="${k}"]`).fill(it.model[k]); }
     else {
       if (it.model.choice !== undefined) await q.locator(`.opt[data-v="${it.model.choice}"]`).click();
@@ -50,8 +50,8 @@ async function answerFocus(page, items) {
   for (const it of items) {
     const card = page.locator(`.qcard[data-id="${it.id}"]`);
     await expect(card).toBeVisible();
-    if (it.type === 'mcq' || it.type === 'tf') await card.locator(`.choice[data-v="${it.model}"]`).click();
-    else if (it.type === 'fill') { for (let k = 0; k < it.model.length; k++) await card.locator(`input.fblank[data-k="${k}"]`).fill(it.model[k]); }
+    if (it.type === 'mcq') await card.locator(`.choice[data-v="${it.model}"]`).click();
+    else if (it.type === 'match') { for (let k = 0; k < it.model.length; k++) await card.locator(`.mrow[data-row="${k}"] [data-m="${it.model[k]}"]`).click(); }
     else if (it.type === 'list') { for (let k = 0; k < it.need; k++) await card.locator(`.list-inputs input[data-k="${k}"]`).fill(it.model[k]); }
     else {
       if (it.model.choice !== undefined) await card.locator(`.choice[data-v="${it.model.choice}"]`).click();
@@ -96,17 +96,48 @@ test('switching between Focus and A4 keeps every answer', async ({ page }) => {
   await fresh(page);
   await openCode(page, 'MA-7F3A');
   const items = await plan(page);
-  const first = items[0];
-  await page.locator(`.qcard .choice[data-v="${(first.model + 1) % 4}"]`).click();
+  const goTo = async (n) => { await page.click('#f-count'); await page.click(`#drawer [data-go="${n}"]`); };
+  const mcq = items.find((i) => i.type === 'mcq'), match = items.find((i) => i.type === 'match'), def = items.find((i) => i.type === 'def');
+  await goTo(mcq.n);
+  await page.locator(`.qcard .choice[data-v="${(mcq.model + 1) % 4}"]`).click();
+  await goTo(match.n);
+  await page.locator('.mrow[data-row="0"] [data-m="2"]').click();
+  await page.locator('.mrow[data-row="1"] [data-m="0"]').click();
   await page.click('.exam-top [data-view="a4"]');
   await page.waitForSelector('#sheets .sheet');
-  await expect(page.locator(`#q1 .opt[data-v="${(first.model + 1) % 4}"]`)).toHaveAttribute('aria-checked', 'true');
-  const fill = items.find((i) => i.type === 'fill');
-  await page.locator(`#q${fill.n} input.blank`).first().fill('typed on paper');
+  await expect(page.locator(`#q${mcq.n} .opt[data-v="${(mcq.model + 1) % 4}"]`)).toHaveAttribute('aria-checked', 'true');
+  await expect(page.locator(`#q${match.n} input.mletter`).nth(0)).toHaveValue('C');
+  await expect(page.locator(`#q${match.n} input.mletter`).nth(1)).toHaveValue('A');
+  // On paper a letter is typed; anything that is not a letter of the list is refused.
+  await page.locator(`#q${match.n} input.mletter`).nth(2).fill('z');
+  await expect(page.locator(`#q${match.n} input.mletter`).nth(2)).toHaveValue('');
+  await page.locator(`#q${match.n} input.mletter`).nth(2).fill('b');
+  await page.locator(`#q${def.n} textarea`).fill('typed on paper');
   await page.click('.exam-top [data-view="focus"]');
+  await goTo(def.n);
+  await expect(page.locator('.qcard textarea')).toHaveValue('typed on paper');
+  await goTo(match.n);
+  await expect(page.locator('.mrow[data-row="2"] [data-m="1"]')).toHaveAttribute('aria-pressed', 'true');
+});
+
+test('matching in Focus mode: a letter is used once, and tapping it again clears it', async ({ page }) => {
+  await fresh(page);
+  await openCode(page, 'MA-7F3A');
+  const match = (await plan(page)).find((i) => i.type === 'match');
   await page.click('#f-count');
-  await page.click(`#drawer [data-go="${fill.n}"]`);
-  await expect(page.locator('.qcard input.fblank').first()).toHaveValue('typed on paper');
+  await page.click(`#drawer [data-go="${match.n}"]`);
+  const b = (row, v) => page.locator(`.mrow[data-row="${row}"] [data-m="${v}"]`);
+  await b(0, 1).click();
+  await expect(b(1, 1)).toHaveClass(/used/);
+  await b(1, 1).click();
+  await expect(b(0, 1)).toHaveAttribute('aria-pressed', 'false');
+  await expect(b(1, 1)).toHaveAttribute('aria-pressed', 'true');
+  await b(1, 1).click();
+  await expect(b(1, 1)).toHaveAttribute('aria-pressed', 'false');
+  await b(0, match.model[0]).click();
+  await submit(page);
+  await expect(page.locator('[data-total2]')).toHaveText('1');
+  await expect(page.locator(`#q${match.n} .mleft .fix`)).toHaveCount(match.model.length);
 });
 
 test('a blank paper scores zero and self-marking changes the total', async ({ page }) => {
@@ -114,8 +145,8 @@ test('a blank paper scores zero and self-marking changes the total', async ({ pa
   await openCode(page, 'MA-0A1B');
   await submit(page);
   await expect(page.locator('[data-total2]')).toHaveText('0');
-  const written = await page.locator('#sheets .q-exp').count();
-  const e = page.locator('#sheets .q-exp').filter({ has: page.locator('input[data-pt]') }).first();
+  const written = await page.locator('#sheets .q-def').count();
+  const e = page.locator('#sheets .q-def').filter({ has: page.locator('input[data-pt]') }).first();
   const id = await e.getAttribute('data-id');
   const full = String(await page.evaluate((x) => window.__sim.exam().items.find((i) => i.id === x).marks, id));
   const boxes = e.locator('input[data-pt]');
@@ -125,14 +156,14 @@ test('a blank paper scores zero and self-marking changes the total', async ({ pa
   await expect(page.locator('[data-total2]')).toHaveText(full);
   await page.click('#btn-mistakes');
   // The fully self-marked question is no longer a mistake; the other written question still is.
-  await expect(page.locator('#sheets .q-exp')).toHaveCount(written - 1);
+  await expect(page.locator('#sheets .q-def')).toHaveCount(written - 1);
   await page.click('.result-tools [data-view="a4"]');
   expect(await page.locator('#sheets .sheet').count()).toBeGreaterThan(1);
 });
 
 test('answers and flags autosave and survive a reload', async ({ page }) => {
   await fresh(page);
-  await openCode(page, 'MA-7F3A');
+  await openCode(page, 'MA-7F3A-1234567M-B');
   await page.locator('.qcard .choice[data-v="2"]').click();
   await page.click('#f-flag');
   await page.click('#f-next');
@@ -160,7 +191,7 @@ test('difficulty is chosen on the home page and travels in the code', async ({ p
 
 test('keyboard: letters answer and arrows move in Focus mode', async ({ page }) => {
   await fresh(page);
-  await openCode(page, 'MA-7F3A');
+  await openCode(page, 'MA-7F3A-1234567M-B');
   await page.locator('.qcard').focus();
   await page.keyboard.press('c');
   await expect(page.locator('.qcard .choice[data-v="2"]')).toHaveAttribute('aria-checked', 'true');
@@ -169,18 +200,6 @@ test('keyboard: letters answer and arrows move in Focus mode', async ({ page }) 
   await page.locator('.qcard').focus();
   await page.keyboard.press('a');
   await expect(page.locator('.qcard .choice[data-v="0"]')).toHaveAttribute('aria-checked', 'true');
-});
-
-test('word bank chips fill the blank in Focus mode', async ({ page }) => {
-  await fresh(page);
-  await openCode(page, 'MA-7F3A');
-  const items = await plan(page);
-  const fill = items.find((i) => i.type === 'fill' && i.model.length === 1);
-  await page.click('#f-count');
-  await page.click(`#drawer [data-go="${fill.n}"]`);
-  await page.click(`.wb [data-word="${fill.model[0]}"]`);
-  await expect(page.locator('.qcard input.fblank')).toHaveValue(fill.model[0]);
-  await expect(page.locator(`.wb [data-word="${fill.model[0]}"]`)).toHaveClass(/used/);
 });
 
 test('print copies are real A4 pages, even from Focus mode on a phone', async ({ page }) => {
@@ -230,7 +249,7 @@ test('the 10-mark Quick paper can be chosen, answered and scores 10/10', async (
 
 test('A4 mode on a phone shows real A4 pages scaled to fit, with zoom', async ({ page }) => {
   await fresh(page, 'a4');
-  await openCode(page, 'MA-7F3A');
+  await openCode(page, 'MA-7F3A-1234567M-BC');
   await page.waitForSelector('#sheets .sheet');
   const desktopPages = await page.locator('#sheets .sheet').count();
   await page.setViewportSize({ width: 390, height: 844 });
@@ -297,78 +316,55 @@ test('sound effects play on start and finish, and can be turned off', async ({ p
   expect(errors).toEqual([]);
 });
 
-test('written styles: choice + justification, drawings and question figures work in both views', async ({ page }) => {
-  // Find a Full paper that holds a choice question, a drawing question and a question with a figure.
+test('code blocks and diagrams are printed, inline code is formatted, and nothing else is offered', async ({ page }) => {
+  // A paper with a question that prints code, a diagram, and a short answer about code.
   let found = null;
-  for (let s = 0; s < 80 && !found; s++) {
-    const c = 'MA-' + (0x100 + s).toString(16).toUpperCase().padStart(4, '0') + '-1234567F';
-    const e = load().core.makeExam(c);
-    if (e.items.some((i) => i.q.choices) && e.items.some((i) => i.q.figure) && e.items.some((i) => i.q.qfig)) found = c;
-  }
-  expect(found).not.toBeNull();
-  await fresh(page);
-  await openCode(page, found);
-  const info = await page.evaluate(() => window.__sim.exam().items.map((i) => ({ n: i.n, id: i.id, choices: !!i.q.choices, answer: i.q.answer, figure: !!i.q.figure, qfig: !!i.q.qfig, model: i.q.model, marks: i.marks })));
-  const pickQ = info.find((i) => i.choices), drawQ = info.find((i) => i.figure), figQ = info.find((i) => i.qfig);
-  const goTo = async (n) => { await page.click('#f-count'); await page.click(`#drawer [data-go="${n}"]`); };
-  await goTo(figQ.n);
-  await expect(page.locator('.qcard .qfig svg')).toBeVisible();
-  await goTo(drawQ.n);
-  await expect(page.locator('.draw-note')).toBeVisible();
-  await goTo(pickQ.n);
-  expect(await page.locator('.qcard .choice').count()).toBe(3);
-  // The written reason and the chosen letter are kept together.
-  await page.locator('.qcard textarea').fill(pickQ.model);
-  await page.locator(`.qcard .choice[data-v="${pickQ.answer}"]`).click();
-  await expect(page.locator('.qcard textarea')).toHaveValue(pickQ.model);
-  await page.locator('.qcard').focus();
-  await page.keyboard.press('abc'[(pickQ.answer + 1) % 3]);
-  await expect(page.locator(`.qcard .choice[data-v="${(pickQ.answer + 1) % 3}"]`)).toHaveAttribute('aria-checked', 'true');
-  await page.keyboard.press('abc'[pickQ.answer]);
-  await page.click('.exam-top [data-view="a4"]');
-  await page.waitForSelector('#sheets .sheet');
-  await expect(page.locator(`#q${pickQ.n} .opt[data-v="${pickQ.answer}"]`)).toHaveAttribute('aria-checked', 'true');
-  await expect(page.locator(`#q${pickQ.n} textarea`)).toHaveValue(pickQ.model);
-  expect(await page.locator('#sheets .draw-box').count()).toBe(info.filter((i) => i.figure).length);
-  expect(await page.locator('#sheets .qfig svg').count()).toBe(info.filter((i) => i.qfig).length);
-  // Typing on the A4 paper keeps the letter.
-  await page.locator(`#q${pickQ.n} textarea`).fill(pickQ.model + ' Done.');
-  await expect(page.locator(`#q${pickQ.n} .opt[data-v="${pickQ.answer}"]`)).toHaveAttribute('aria-checked', 'true');
-  await submit(page);
-  await expect(page.locator('[data-total2]')).toHaveText(String(pickQ.marks));
-  expect(await page.locator('#sheets .fig svg').count()).toBe(info.filter((i) => i.figure).length);
-  // Choice questions with no option chosen say why the justification earns nothing.
-  expect(await page.locator('#sheets .lock-note').count()).toBe(info.filter((i) => i.choices).length - 1);
-});
-
-test('code blocks are printed, inline code is formatted, and the word bank can be switched off', async ({ page }) => {
-  // A paper with a question that prints code and a written code question.
-  let found = null;
-  for (let s = 0; s < 60 && !found; s++) {
+  for (let s = 0; s < 200 && !found; s++) {
     const c = 'MA-' + (0x500 + s).toString(16).toUpperCase().padStart(4, '0') + '-1234567F';
     const e = load().core.makeExam(c);
-    if (e.items.some((i) => i.type === 'mcq' && i.q.code) && e.items.some((i) => i.q.kind === 'code')) found = c;
+    if (e.items.some((i) => i.type === 'mcq' && i.q.code) && e.items.some((i) => i.q.qfig) && e.items.some((i) => i.type === 'def' && i.q.code)) found = c;
   }
   expect(found).not.toBeNull();
   await fresh(page);
   await page.click('summary:has-text("More options")');
-  await expect(page.locator('input[name=wb]')).toHaveCount(1);
+  await expect(page.locator('input[name=sec]')).toHaveCount(3);
+  await expect(page.locator('input[name=wb]')).toHaveCount(0);
   await openCode(page, found);
-  const info = await page.evaluate(() => window.__sim.exam().items.map((i) => ({ n: i.n, type: i.type, code: i.q.code, kind: i.q.kind, model: i.q.model, marks: i.marks })));
-  const mcq = info.find((i) => i.type === 'mcq' && i.code), write = info.find((i) => i.kind === 'code');
+  const info = await page.evaluate(() => window.__sim.exam().items.map((i) => ({ n: i.n, type: i.type, code: i.q.code, qfig: !!i.q.qfig, model: i.q.model, marks: i.marks })));
+  expect([...new Set(info.map((i) => i.type))].sort()).toEqual(['def', 'list', 'match', 'mcq']);
+  const mcq = info.find((i) => i.type === 'mcq' && i.code), short = info.find((i) => i.type === 'def' && i.code), fig = info.find((i) => i.qfig);
   const goTo = async (n) => { await page.click('#f-count'); await page.click(`#drawer [data-go="${n}"]`); };
   await goTo(mcq.n);
   expect(await page.locator('.qcard pre.code').textContent()).toBe(mcq.code);
-  await goTo(write.n);
-  await page.locator('.qcard textarea.codebox').fill(write.model);
-  expect(await page.locator('.qcard textarea.codebox').evaluate((el) => getComputedStyle(el).fontFamily)).toMatch(/mono/i);
+  await goTo(fig.n);
+  await expect(page.locator('.qcard .qfig svg')).toBeVisible();
+  await goTo(short.n);
+  await page.locator('.qcard textarea').fill(short.model);
   await page.click('.exam-top [data-view="a4"]');
   await page.waitForSelector('#sheets .sheet');
-  await expect(page.locator(`#q${write.n} textarea`)).toHaveValue(write.model);
+  await expect(page.locator(`#q${short.n} textarea`)).toHaveValue(short.model);
   expect(await page.locator('#sheets pre.code').count()).toBe(info.filter((i) => i.code).length);
+  expect(await page.locator('#sheets .qfig svg').count()).toBe(info.filter((i) => i.qfig).length);
   // No raw backticks are ever shown.
   expect(await page.locator('#sheets').textContent()).not.toContain('`');
   await submit(page);
-  await expect(page.locator('[data-total2]')).toHaveText(String(write.marks));
+  await expect(page.locator('[data-total2]')).toHaveText(String(short.marks));
   expect(await page.locator('#sheets').textContent()).not.toContain('`');
+});
+
+test('a paper left over from the old question types is dropped, and the history stays', async ({ page }) => {
+  await fresh(page);
+  // Written before the app starts, because the app saves its own state when a page closes.
+  await page.addInitScript((k) => { if (sessionStorage.done) return; sessionStorage.done = 1; localStorage.setItem(k, JSON.stringify({
+    settings: { sections: 'BDE', wordBank: true }, current: { kind: 'exam', code: 'MA-7F3A-1234567M-ADE', answers: { 'L1-B001': ['x'], 'L1-C001': true }, flags: {}, idx: 3, elapsed: 5, submitted: false },
+    history: [{ rid: 'R1', code: 'MA-7F3A', kind: 'exam', level: 'X', date: '2026-11-23T10:00:00.000Z', seconds: 9, got: 20, max: 40, pct: 50, grade: 'D', byLecture: { 1: [2, 4] }, bySection: { D: [1, 2], A: [3, 4] }, items: [['L1-B001', 0, 1], ['L1-A001', 0, 1]] }]
+  })); }, KEY);
+  await page.reload();
+  await expect(page.locator('#start')).toBeVisible();
+  await expect(page.locator('.banner')).toHaveCount(0);
+  await expect(page.locator('input[name=sec]:checked')).toHaveCount(3);
+  await page.goto(URL + '#/progress');
+  await expect(page.locator('table.hist tbody tr')).toHaveCount(1);
+  await page.goto(URL + '#/result');
+  await expect(page.locator('#start')).toBeVisible();
 });

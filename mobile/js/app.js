@@ -33,9 +33,10 @@
   /* =========================================================
      Storage (guarded: private mode etc.)
      ========================================================= */
+  var FORMAT = 2; // 2 = short answer, multiple choice, matching
   function defaults() {
     return {
-      settings: { lectures: U.slice(), length: 'M', sections: 'ABCDE', difficulty: 'X', timer: true, wordBank: true, sound: true, view: 'focus' },
+      settings: { lectures: U.slice(), length: 'M', sections: C.KEYS.join(''), difficulty: 'X', timer: true, sound: true, view: 'focus' },
       profile: { name: '', sid: '' },
       current: null,
       history: [],
@@ -48,7 +49,11 @@
     if (raw && typeof raw === 'object') {
       Object.keys(d).forEach(function (k) { if (raw[k] !== undefined && raw[k] !== null) d[k] = raw[k]; });
       d.settings = Object.assign(defaults().settings, raw.settings || {});
-      if (EC.COURSE && EC.COURSE.forceWordBank) d.settings.wordBank = true;
+      // Settings saved before the exam changed to three question types: section letters meant something else.
+      if ('wordBank' in d.settings) { delete d.settings.wordBank; d.settings.sections = C.KEYS.join(''); }
+      d.settings.sections = C.normCfg({ sections: d.settings.sections }).sections;
+      // Papers started before the exam changed to three question types cannot be rebuilt.
+      if (d.current && d.current.format !== FORMAT) d.current = null;
     }
     return d;
   })();
@@ -120,7 +125,7 @@
     return String(Math.floor(sec / 60)).padStart(2, '0') + ':' + String(sec % 60).padStart(2, '0');
   }
   function quickSections() {
-    var ks = 'ABCDE'.split('').filter(function (k) { return C.LENGTHS.Q.budget[k] > 0; });
+    var ks = C.KEYS.filter(function (k) { return C.LENGTHS.Q.budget[k] > 0; });
     return ks[0] + '–' + ks[ks.length - 1];
   }
   function lectureList(ls) { ls = ls.slice().sort(); return ls.length === U.length ? U[0] + '–' + U[U.length - 1] : ls.join(', '); }
@@ -184,7 +189,7 @@
     return ids;
   }
   function freshCurrent(extra) {
-    return Object.assign({ answers: {}, flags: {}, idx: 0, elapsed: 0, started: today(), submitted: false }, extra);
+    return Object.assign({ answers: {}, flags: {}, idx: 0, elapsed: 0, started: today(), submitted: false, format: FORMAT }, extra);
   }
   /* ---------- Sound effects (synthesised with Web Audio: no files, works offline) ---------- */
   var SFX = (function () {
@@ -274,7 +279,7 @@
   /* =========================================================
      Router
      ========================================================= */
-  var RT = { view: null, paged: [], timer: null, mistakesOnly: false, keyHandler: null, exam: null, lastBlank: null, setIdx: null, step: null };
+  var RT = { view: null, paged: [], timer: null, mistakesOnly: false, keyHandler: null, exam: null, setIdx: null, step: null };
   function go(view) { var h = '#/' + (view === 'home' ? '' : view); if (location.hash === h) route(); else location.hash = h; }
   function route() {
     var parts = location.hash.replace(/^#\/?/, '').split('/');
@@ -355,7 +360,7 @@
         '<span><span class="lt"><b>' + UNIT + ' ' + l + '</b><small>' + esc(EC.LECTURES[l]) + '</small></span><span class="count" aria-label="' + count + ' questions">' + count + ' Qs</span></span></label>';
     }).join('');
     var views = segRadio('view', [{ value: 'focus', label: I.focus + 'Focus' }, { value: 'a4', label: I.paper + 'A4 paper' }], st.view, 'l-view');
-    var secs = 'ABCDE'.split('').map(function (k) {
+    var secs = C.KEYS.map(function (k) {
       return '<label class="tog"><input type="checkbox" name="sec" value="' + k + '"' + (st.sections.indexOf(k) > -1 ? ' checked' : '') + '>' +
         '<span><span>' + k + ' · ' + esc(C.SECTION_INFO[k].title) + '</span></span></label>';
     }).join('');
@@ -379,7 +384,7 @@
       '<span class="label" id="l-view">How to answer</span>' + views + '<p class="muted" id="view-hint" style="font-size:13px;margin:8px 0 0"></p>' +
       '<details class="more"><summary>' + I.chev + 'More options</summary>' +
       '<span class="label" id="l-sec" style="margin-top:6px">Sections</span><div class="chips" role="group" aria-labelledby="l-sec">' + secs + '</div>' +
-      '<div style="margin-top:12px">' + sw('timer', st.timer, 'Timer', 'Counts down and collects the paper at zero') + (CO.forceWordBank ? '' : sw('wb', st.wordBank, 'Word bank', 'Show the Section B words plus 2–3 distractors')) + sw('snd', st.sound, 'Sound effects', 'A short chime when the exam starts and when you finish') + '</div>' +
+      '<div style="margin-top:12px">' + sw('timer', st.timer, 'Timer', 'Counts down and collects the paper at zero') + sw('snd', st.sound, 'Sound effects', 'A short chime when the exam starts and when you finish') + '</div>' +
       '</details>' +
       '<p class="form-error" id="set-err" role="alert" hidden></p>' +
       '<div class="start-row"><button class="btn primary big" type="submit" id="start">Start exam ' + I.right + '</button><span class="hint" id="start-hint"></span></div>' +
@@ -406,7 +411,6 @@
         difficulty: ($('input[name=diff]:checked', form) || {}).value || 'X',
         view: ($('input[name=view]:checked', form) || {}).value || 'focus',
         timer: $('input[name=timer]', form).checked,
-        wordBank: CO.forceWordBank ? true : $('input[name=wb]', form).checked,
         sound: $('input[name=snd]', form).checked
       };
     }
@@ -419,7 +423,7 @@
         X: 'A realistic mix: about 30% easy, 50% medium, 20% hard.',
         E: 'Mostly definitions and direct recall. Good for a first pass.',
         N: 'Mostly medium questions: examples, applications and key questions.',
-        H: 'More “which is NOT”, figure-based and comparison questions.'
+        H: 'More code-reading, comparison and “which is NOT” questions.'
       }[s.difficulty];
       $('#view-hint').textContent = s.view === 'a4'
         ? 'Answer on real A4 exam sheets with bubbles and blanks. You can switch during the exam.'
@@ -430,7 +434,7 @@
       var s = readSettings();
       if (s.lectures.length) S.settings.lectures = s.lectures;
       if (s.sections) S.settings.sections = s.sections;
-      ['length', 'difficulty', 'view', 'timer', 'wordBank', 'sound'].forEach(function (k) { S.settings[k] = s[k]; });
+      ['length', 'difficulty', 'view', 'timer', 'sound'].forEach(function (k) { S.settings[k] = s[k]; });
       save();
       hints();
     });
@@ -500,7 +504,7 @@
     var body = mode === 'key'
       ? '<b>Answer key.</b> Correct options, accepted answers and marking points for every question, with slide references and difficulty.'
       : '<b>Instructions:</b> Answer all questions. Marks are shown in brackets. This paper has ' + exam.items.length + ' questions in Section' + (exam.sections.length > 1 ? 's ' : ' ') + secs + '.';
-    var keys = mode === 'answer' ? '<div class="keys">Keyboard: A–D choose an option · T / F for true or false · ↑ ↓ previous / next question · Tab moves between blanks. Answers save automatically.</div>' : '';
+    var keys = mode === 'answer' ? '<div class="keys">Keyboard: A–D choose an option · ↑ ↓ previous / next question · Tab moves between answer boxes. Answers save automatically.</div>' : '';
     return el('<div class="instr">' + body + keys + '</div>');
   }
   function sectionHead(sec, mode, res) {
@@ -509,20 +513,12 @@
     return el('<div><div class="sec-head"><span class="sec-k">Section ' + sec.key + '</span><span class="sec-t">' + esc(sec.title) + '</span><span class="sec-m">' + m + '</span></div>' +
       (mode === 'key' ? '' : '<p class="sec-i">' + esc(sec.instr) + '</p>') + '</div>');
   }
-  function wordBankBlock(exam) {
-    return el('<div class="wordbank" role="note" aria-label="Word bank"><div class="wb-t">Word bank</div><div class="wb-w">' +
-      exam.wordBank.map(function (w) { return '<span>' + esc(w.text) + '</span>'; }).join('') +
-      '</div><div class="wb-n">Some words are not used.</div></div>');
-  }
   function marksLabel(it) { return it.marks === 1 ? '[1]' : '[' + it.marks + ' marks]'; }
 
   function optsHtml(it, mode, ans, r, pfx) {
-    var isTf = it.type === 'tf';
-    var values = isTf ? [true, false] : [0, 1, 2, 3];
-    var labels = isTf ? ['True', 'False'] : it.opts;
-    var correct = isTf ? it.q.answer : it.correct;
-    var short = !isTf && labels.every(function (o) { return o.length <= 30; });
-    var html = '<div class="opts' + (isTf ? ' tf' : '') + (short ? ' two' : '') + '" role="radiogroup" aria-labelledby="' + pfx + 'qt' + it.n + '">';
+    var values = [0, 1, 2, 3], labels = it.opts, correct = it.correct;
+    var short = labels.every(function (o) { return o.length <= 30; });
+    var html = '<div class="opts' + (short ? ' two' : '') + '" role="radiogroup" aria-labelledby="' + pfx + 'qt' + it.n + '">';
     values.forEach(function (v, i) {
       var chosen = ans === v, cls = 'opt';
       if (mode === 'graded') {
@@ -531,29 +527,33 @@
       }
       html += '<button type="button" class="' + cls + '" role="radio" aria-checked="' + (chosen ? 'true' : 'false') + '" data-v="' + v + '"' +
         (mode !== 'answer' ? ' disabled' : ' tabindex="' + (chosen || (ans === undefined && i === 0) ? '0' : '-1') + '"') +
-        ' aria-label="' + esc((isTf ? '' : '(' + letter(i) + ') ') + plain(labels[i])) + '">' +
-        '<span class="bub" aria-hidden="true">' + (isTf ? (v ? 'T' : 'F') : letter(i)) + '</span><span class="ot">' + rich(labels[i]) + '</span></button>';
+        ' aria-label="' + esc('(' + letter(i) + ') ' + plain(labels[i])) + '">' +
+        '<span class="bub" aria-hidden="true">' + letter(i) + '</span><span class="ot">' + rich(labels[i]) + '</span></button>';
     });
     html += '</div>';
     if (mode === 'graded' && r && r.status !== 'correct') {
-      html += '<div class="pen-note pen">' + (isTf ? (correct ? 'True' : 'False') : 'Answer: (' + letter(correct) + ')') + '</div>';
+      html += '<div class="pen-note pen">' + 'Answer: (' + letter(correct) + ')' + '</div>';
     }
     return html;
   }
-  function fillHtml(it, mode, ans, r, pfx) {
-    var q = it.q, a = Array.isArray(ans) ? ans : [], many = q.blanks.length > 1;
-    return codeHtml(q) + qfigHtml(q) + '<div class="q-text" id="' + pfx + 'qt' + it.n + '">' + rich(q.q).replace(/\{\{(\d+)\}\}/g, function (_, k) {
-      k = +k;
-      var num = many ? '<span class="blank-num">(' + 'i ii iii iv v'.split(' ')[k] + ')</span>' : '';
+  /* Matching: numbered items with a box for the letter on the left, lettered items on the right. */
+  function L(i) { return 'ABCDEF'.charAt(i); }
+  function matchHtml(it, mode, ans, r, pfx) {
+    var a = Array.isArray(ans) ? ans : [];
+    var left = it.rows.map(function (row, i) {
+      var box;
       if (mode === 'answer') {
-        var v = a[k] || '';
-        return '<input class="blank" data-k="' + k + '" value="' + esc(v) + '" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Question ' + it.n + ', blank ' + (k + 1) + '" style="width:' + Math.max(9, v.length + 2) + 'ch">' + num;
+        box = '<input class="mletter" data-row="' + i + '" value="' + (typeof a[i] === 'number' ? L(a[i]) : '') + '" maxlength="1" size="1" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Question ' + it.n + ', letter for ' + esc(plain(row.left)) + '">';
+      } else if (mode === 'key') box = '<span class="mletter"><b>' + L(row.answer) + '</b></span>';
+      else {
+        var ok = r.detail.res[i], given = typeof a[i] === 'number' ? L(a[i]) : '';
+        box = '<span class="mletter"><span class="given' + (ok || !given ? '' : ' bad') + '">' + (given || '–') + '</span></span><span class="pen fix"' + (ok ? ' aria-label="correct">✓' : '>' + L(row.answer)) + '</span>';
       }
-      if (mode === 'key') return '<span class="blank-shown"><b>' + esc(q.blanks[k][0]) + '</b></span>' + num;
-      var given = String(a[k] || '').trim(), ok = r.detail.res[k];
-      return '<span class="blank-shown"><span class="given' + (ok ? '' : given ? ' bad' : ' empty') + '">' + (given ? esc(given) : '______') + '</span></span>' + num +
-        (ok ? '<span class="pen fix" aria-label="correct">✓</span>' : '<span class="pen fix">' + esc(q.blanks[k][0]) + '</span>');
-    }) + '</div>';
+      return '<li><span class="mbox">' + box + '</span><span>' + rich(row.left) + '</span></li>';
+    }).join('');
+    var right = it.right.map(function (t, i) { return '<li><b>' + L(i) + '.</b><span>' + rich(t) + '</span></li>'; }).join('');
+    return '<div class="q-text" id="' + pfx + 'qt' + it.n + '">' + rich(it.q.q) + '</div>' + codeHtml(it.q) + qfigHtml(it.q) +
+      '<div class="match"><ol class="mleft">' + left + '</ol><ul class="mright">' + right + '</ul></div>';
   }
   function listHtml(it, mode, ans, r, pfx) {
     var q = it.q, n = q.need, lines = Array.isArray(ans) ? ans : [], i;
@@ -621,20 +621,19 @@
     var q = it.q, text = ans && ans.text ? ans.text : '';
     var html = '<div class="q-text" id="' + pfx + 'qt' + it.n + '">' + rich(q.q) + '</div>' + codeHtml(q) + qfigHtml(q);
     if (q.choices) html += mode === 'key' ? '<div><b>(' + letter(q.answer) + ')</b> ' + rich(q.choices[q.answer]) + '</div>' : caseOptsHtml(it, mode, ans, pfx) + '<div class="just-l">Justification</div>';
-    if (mode === 'answer') return html + '<textarea class="ruled' + (q.kind === 'code' ? ' codebox' : '') + '" rows="' + (it.type === 'exp' ? (q.choices ? 5 : q.figure ? 6 : 9) : 5) + '"' + (q.kind === 'code' ? ' autocapitalize="off" autocorrect="off"' : '') + ' aria-labelledby="' + pfx + 'qt' + it.n + '" spellcheck="true">' + esc(text) + '</textarea>' + drawSpaceHtml(q);
+    if (mode === 'answer') return html + '<textarea class="ruled' + (q.kind === 'code' ? ' codebox' : '') + '" rows="' + (it.marks >= 4 ? 7 : 5) + '"' + (q.kind === 'code' ? ' autocapitalize="off" autocorrect="off"' : '') + ' aria-labelledby="' + pfx + 'qt' + it.n + '" spellcheck="true">' + esc(text) + '</textarea>' + drawSpaceHtml(q);
     if (mode === 'key') return html + pointsList(it, null, false) + '<div class="model"><div class="pt-h">Model answer</div>' + modelHtml(q) + '</div>' + figureHtml(q);
     return html + '<div class="answer-shown' + (q.kind === 'code' ? ' codebox' : '') + (text.trim() ? '' : ' empty') + '">' + (text.trim() ? esc(text) : 'No answer written.') + '</div>' +
       (q.choices && !r.detail.pick.ok ? '<p class="lock-note">' + (r.detail.pick.chosen === null ? 'No option chosen' : 'Wrong option') + ': the correct choice is (' + letter(q.answer) + '), so the justification earns no marks.</p><div class="locked">' + pointsList(it, null, false) + '</div>' : pointsList(it, r, true)) + '<div class="model"><div class="pt-h">Model answer</div>' + modelHtml(q) + '</div>' + figureHtml(q);
   }
   function keyChoice(it) {
-    if (it.type === 'tf') return '<div><b>' + (it.q.answer ? 'True' : 'False') + '</b></div>';
     return '<div><b>(' + letter(it.correct) + ')</b> ' + rich(it.opts[it.correct]) + '</div>';
   }
   function questionBlock(it, mode, ans, r, pfx) {
     pfx = pfx || '';
     var body;
-    if (it.type === 'mcq' || it.type === 'tf') body = '<div class="q-text" id="' + pfx + 'qt' + it.n + '">' + rich(it.q.q) + '</div>' + codeHtml(it.q) + qfigHtml(it.q) + (mode === 'key' ? keyChoice(it) : optsHtml(it, mode, ans, r, pfx));
-    else if (it.type === 'fill') body = fillHtml(it, mode, ans, r, pfx);
+    if (it.type === 'mcq') body = '<div class="q-text" id="' + pfx + 'qt' + it.n + '">' + rich(it.q.q) + '</div>' + codeHtml(it.q) + qfigHtml(it.q) + (mode === 'key' ? keyChoice(it) : optsHtml(it, mode, ans, r, pfx));
+    else if (it.type === 'match') body = matchHtml(it, mode, ans, r, pfx);
     else if (it.type === 'list') body = listHtml(it, mode, ans, r, pfx);
     else body = writtenHtml(it, mode, ans, r, pfx);
     if (mode !== 'answer') {
@@ -650,7 +649,7 @@
       '<div class="q-margin" aria-hidden="true" data-tick="' + it.id + '">' + margin + '</div>' +
       '<div class="q-n">' + it.n + '.</div><div class="q-body">' + body + '</div><div class="q-m">' + marks + '</div></div>');
   }
-  /* opts: { mistakesOnly, wordBank, pfx } */
+  /* opts: { mistakesOnly, pfx } */
   function paperBlocks(exam, mode, res, answers, opts) {
     opts = opts || {};
     var blocks = [{ el: headerBlock(exam, mode, res) }, { el: instrBlock(exam, mode) }];
@@ -659,7 +658,6 @@
       if (mode === 'graded' && opts.mistakesOnly) items = items.filter(function (it) { return res.items[it.id].status !== 'correct'; });
       if (!items.length) return;
       blocks.push({ el: sectionHead(sec, mode, res), keepNext: true });
-      if (sec.key === 'B' && opts.wordBank && exam.wordBank.length && mode === 'answer') blocks.push({ el: wordBankBlock(exam), keepNext: true });
       items.forEach(function (it) {
         blocks.push({ el: questionBlock(it, mode, answers[it.id], res ? res.items[it.id] : null, opts.pfx), item: it });
       });
@@ -800,7 +798,7 @@
     if (!exam || !cur) return 0;
     var area = el('<div class="print-area" aria-hidden="true"><div class="sheets"></div></div>');
     document.body.appendChild(area);
-    var blocks, foot = footText(exam), opts = { wordBank: S.settings.wordBank, pfx: 'p-' };
+    var blocks, foot = footText(exam), opts = { pfx: 'p-' };
     if (kind === 'key') { blocks = keyBlocks(exam); foot = 'Answer key · ' + exam.code; }
     else if (kind === 'blank') blocks = paperBlocks(exam, 'answer', null, {}, opts);
     else if (kind === 'marked') blocks = paperBlocks(exam, 'graded', C.gradeExam(exam, cur.answers), cur.answers, { pfx: 'p-' });
@@ -889,7 +887,7 @@
   /* Shared answer handling (Focus card and A4 sheets). */
   function itemById(id) { var ex = RT.exam; for (var i = 0; i < ex.items.length; i++) if (ex.items[i].id === id) return ex.items[i]; return null; }
   function choose(it, raw) {
-    var v = it.type === 'tf' ? (raw === true || raw === 'true') : +raw;
+    var v = +raw;
     // Choice + justification keeps the written reason next to the chosen letter.
     if (it.q.choices) S.current.answers[it.id] = Object.assign({ text: '' }, S.current.answers[it.id], { choice: v });
     else S.current.answers[it.id] = v;
@@ -901,6 +899,29 @@
     save();
     updateProgress();
   }
+  /* Matching: give row i the letter v (null clears it). A letter is used once, so taking it clears the other row. */
+  function setMatch(it, i, v, single) {
+    var arr = Array.isArray(S.current.answers[it.id]) ? S.current.answers[it.id].slice() : [];
+    for (var k = 0; k < it.rows.length; k++) { if (typeof arr[k] !== 'number') arr[k] = null; if (single && v !== null && arr[k] === v && k !== i) arr[k] = null; }
+    arr[i] = arr[i] === v && single ? null : v;
+    S.current.answers[it.id] = arr;
+    paintMatch(it);
+    save();
+    updateProgress();
+  }
+  function paintMatch(it) {
+    var arr = S.current.answers[it.id] || [], used = {};
+    arr.forEach(function (v) { if (typeof v === 'number') used[v] = true; });
+    $$('[data-id="' + it.id + '"] .mrow').forEach(function (row) {
+      var i = +row.getAttribute('data-row');
+      $$('[data-m]', row).forEach(function (b) {
+        var v = +b.getAttribute('data-m'), on = arr[i] === v;
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        b.classList.toggle('used', !on && !!used[v]);
+      });
+    });
+    $$('[data-id="' + it.id + '"] .mkey li').forEach(function (li, v) { li.classList.toggle('used', !!used[v]); });
+  }
   function bindAnswers(root) {
     root.addEventListener('click', function (e) {
       var opt = e.target.closest('[data-v]');
@@ -910,8 +931,8 @@
         if (RT.setIdx) RT.setIdx(it.n - 1, false);
         return;
       }
-      var w = e.target.closest('[data-word]');
-      if (w) insertWord(w.getAttribute('data-word'), w.closest('[data-id]'));
+      var m = e.target.closest('[data-m]');
+      if (m) setMatch(itemById(m.closest('[data-id]').getAttribute('data-id')), +m.closest('[data-row]').getAttribute('data-row'), +m.getAttribute('data-m'), true);
     });
     root.addEventListener('input', function (e) {
       var t = e.target;
@@ -919,13 +940,17 @@
       var host = t.closest('[data-id]');
       if (!host) return;
       var it = itemById(host.getAttribute('data-id'));
-      if (it.type === 'fill' || it.type === 'list') {
+      if (it.type === 'match') {
+        var ch = t.value.trim().toUpperCase().charAt(0), v = ch ? 'ABCDEF'.indexOf(ch) : -1;
+        if (v >= it.right.length) v = -1;
+        t.value = v > -1 ? ch : '';
+        setMatch(it, +t.getAttribute('data-row'), v > -1 ? v : null, false);
+        return;
+      }
+      if (it.type === 'list') {
         var arr = Array.isArray(S.current.answers[it.id]) ? S.current.answers[it.id].slice() : [];
         arr[+t.getAttribute('data-k')] = t.value;
         S.current.answers[it.id] = arr;
-        if (t.classList.contains('blank')) t.style.width = Math.max(9, t.value.length + 2) + 'ch';
-        if (t.classList.contains('fblank')) t.style.width = Math.max(7, t.value.length + 2) + 'ch';
-        if (it.type === 'fill') markUsedWords();
       } else if (it.type === 'def' || it.type === 'exp') {
         S.current.answers[it.id] = Object.assign({}, it.q.choices ? S.current.answers[it.id] : null, { text: t.value });
         var wc = $('#wc'); if (wc) wc.textContent = wordCount(t.value);
@@ -934,34 +959,11 @@
       updateProgress();
     });
     root.addEventListener('focusin', function (e) {
-      if (e.target.matches('input.fblank, input.blank')) RT.lastBlank = e.target;
       var host = e.target.closest('[data-id]');
       if (host && RT.setIdx) { var it = itemById(host.getAttribute('data-id')); if (it && it.n - 1 !== S.current.idx) RT.setIdx(it.n - 1, false); }
     });
   }
   function wordCount(t) { var n = String(t || '').trim() ? String(t).trim().split(/\s+/).length : 0; return plural(n, 'word'); }
-
-  /* Word bank (Focus mode): tap a word to drop it into the active or next empty blank. */
-  function insertWord(word, host) {
-    if (!host) return;
-    var blanks = $$('input.fblank', host);
-    var target = RT.lastBlank && host.contains(RT.lastBlank) && !RT.lastBlank.value.trim() ? RT.lastBlank : null;
-    if (!target) target = blanks.filter(function (b) { return !b.value.trim(); })[0] || (RT.lastBlank && host.contains(RT.lastBlank) ? RT.lastBlank : blanks[0]);
-    if (!target) return;
-    target.value = word;
-    target.dispatchEvent(new Event('input', { bubbles: true }));
-    var next = blanks.filter(function (b) { return !b.value.trim(); })[0];
-    RT.lastBlank = next || target;
-    if (next) next.focus({ preventScroll: true });
-  }
-  function markUsedWords() {
-    var exam = RT.exam, used = new Set();
-    exam.items.forEach(function (it) {
-      if (it.type !== 'fill') return;
-      (S.current.answers[it.id] || []).forEach(function (v) { if (v) used.add(C.compact(v)); });
-    });
-    $$('[data-word]').forEach(function (b) { b.classList.toggle('used', used.has(C.compact(b.getAttribute('data-word')))); });
-  }
 
   /* =========================================================
      Focus mode: one question at a time
@@ -1013,26 +1015,17 @@
     var it = exam.items[i], ans = S.current.answers[it.id], q = it.q;
     var sec = exam.sections.filter(function (s) { return s.key === it.section; })[0];
     var body = '', k;
-    if (it.type === 'mcq' || it.type === 'tf') {
-      var isTf = it.type === 'tf';
-      var vals = isTf ? [true, false] : [0, 1, 2, 3];
-      var labels = isTf ? ['True', 'False'] : it.opts;
-      body = '<div class="choices' + (isTf ? ' tf' : '') + '" role="radiogroup" aria-labelledby="fq">' + vals.map(function (v, j) {
-        var on = ans === v;
-        return '<button type="button" class="choice" role="radio" aria-checked="' + on + '" data-v="' + v + '">' +
-          '<span class="key" aria-hidden="true">' + (isTf ? (v ? 'T' : 'F') : 'ABCD'.charAt(j)) + '</span><span>' + rich(labels[j]) + '</span></button>';
+    if (it.type === 'mcq') {
+      body = '<div class="choices" role="radiogroup" aria-labelledby="fq">' + it.opts.map(function (label, j) {
+        return '<button type="button" class="choice" role="radio" aria-checked="' + (ans === j) + '" data-v="' + j + '">' +
+          '<span class="key" aria-hidden="true">' + 'ABCD'.charAt(j) + '</span><span>' + rich(label) + '</span></button>';
       }).join('') + '</div>';
-    } else if (it.type === 'fill') {
-      var a = Array.isArray(ans) ? ans : [], many = q.blanks.length > 1;
-      body = '<p class="fill-text">' + rich(q.q).replace(/\{\{(\d+)\}\}/g, function (_, kk) {
-        kk = +kk; var v = a[kk] || '';
-        return '<input class="fblank" data-k="' + kk + '" value="' + esc(v) + '" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="next" aria-label="Blank ' + (kk + 1) + '" style="width:' + Math.max(7, v.length + 2) + 'ch">' + (many ? '<sup>(' + (kk + 1) + ')</sup>' : '');
-      }) + '</p>';
-      if (S.settings.wordBank && exam.wordBank.length) {
-        body += '<div class="wb"><div class="wb-h">Word bank · Section B</div><div class="wb-list">' +
-          exam.wordBank.map(function (w) { return '<button type="button" data-word="' + esc(w.text) + '">' + esc(w.text) + '</button>'; }).join('') +
-          '</div><div class="wb-n">Tap a word to place it in the blank. Some words are not used.</div></div>';
-      }
+    } else if (it.type === 'match') {
+      body = '<ul class="mkey">' + it.right.map(function (t, j) { return '<li><b>' + L(j) + '</b><span>' + rich(t) + '</span></li>'; }).join('') + '</ul>' +
+        '<div class="mrows">' + it.rows.map(function (row, j) {
+          return '<div class="mrow" data-row="' + j + '" role="group" aria-label="' + esc(plain(row.left)) + '"><span class="mterm"><em>' + (j + 1) + '</em><span>' + rich(row.left) + '</span></span><span class="mbtns">' +
+            it.right.map(function (t, v) { return '<button type="button" data-m="' + v + '" aria-pressed="false" aria-label="' + L(v) + ': ' + esc(plain(t)) + '">' + L(v) + '</button>'; }).join('') + '</span></div>';
+        }).join('') + '</div>';
     } else if (it.type === 'list') {
       var lines = Array.isArray(ans) ? ans : [];
       body = '<ol class="list-inputs">';
@@ -1047,18 +1040,18 @@
         '<textarea class="ftext' + (q.kind === 'code' ? ' codebox' : '') + '"' + (q.kind === 'code' ? ' autocapitalize="off" autocorrect="off" spellcheck="false"' : '') + ' aria-labelledby="fq" placeholder="' + (q.choices ? 'Why is this the best choice?' : q.figure ? 'List the parts and labels of your drawing, from top to bottom.' : q.kind === 'code' ? 'Write the code here.' : it.type === 'exp' ? 'Answer in full sentences. Each key point earns marks.' : 'Write a short, precise answer.') + '">' + esc(text) + '</textarea><div class="wc" id="wc">' + wordCount(text) + '</div>';
     }
     var extra = it.type === 'list' && q.need < q.items.length ? ' <span class="muted">(any ' + q.need + ')</span>' : '';
-    var qText = it.type === 'fill' ? 'Fill in the blank' + (q.blanks.length > 1 ? 's' : '') + '.' : rich(q.q);
+    var qText = rich(q.q);
     $('#focus').innerHTML =
       '<article class="qcard" data-id="' + it.id + '" tabindex="-1" aria-labelledby="fq">' +
       '<div class="qc-sec">Section ' + it.section + ' · ' + esc(sec.title) + '</div><p class="qc-sec-i">' + esc(sec.instr) + '</p>' +
       '<div class="qc-meta"><span class="tag">' + UNIT + ' ' + it.lecture + '</span>' + diffTag(it.difficulty) + '<span class="tag marks">' + plural(it.marks, 'mark') + '</span></div>' +
       '<h2 class="qc-q" id="fq"><span class="n">Q' + it.n + '</span>' + qText + extra + '</h2>' + codeHtml(q) + qfigHtml(q) + body + '</article>' +
-      '<p class="kbd-hint">Keys: A–D or T / F to answer · ← → to move · Enter for the next box</p>';
+      '<p class="kbd-hint">Keys: A–D to answer multiple choice · ← → to move · Enter for the next box</p>';
     $('#f-count-t').textContent = (i + 1) + ' / ' + exam.items.length;
     $('#f-prev').disabled = i === 0;
     $('#f-next-t').textContent = i === exam.items.length - 1 ? 'Finish' : 'Next';
     paintFlag(it);
-    if (it.type === 'fill') markUsedWords();
+    if (it.type === 'match') paintMatch(it);
   }
   function focusKeys(e, exam) {
     if (e.ctrlKey || e.metaKey || e.altKey || $('dialog[open]')) return;
@@ -1076,7 +1069,6 @@
     var it = exam.items[S.current.idx];
     if (it.type === 'mcq' && k.length === 1 && 'abcd'.indexOf(k) > -1) { e.preventDefault(); choose(it, 'abcd'.indexOf(k)); return; }
     if (it.q.choices && k.length === 1 && 'abc'.indexOf(k) > -1) { e.preventDefault(); choose(it, 'abc'.indexOf(k)); return; }
-    if (it.type === 'tf' && (k === 't' || k === 'f' || k === 'a' || k === 'b')) { e.preventDefault(); choose(it, k === 't' || k === 'a'); return; }
     if (k === 'arrowright' || k === 'j') { e.preventDefault(); RT.step(1, true); return; }
     if (k === 'arrowleft' || k === 'k') { e.preventDefault(); RT.step(-1, true); }
   }
@@ -1086,7 +1078,7 @@
      ========================================================= */
   function renderA4(exam) {
     var box = $('#sheets');
-    var blocks = paperBlocks(exam, 'answer', null, S.current.answers, { wordBank: S.settings.wordBank });
+    var blocks = paperBlocks(exam, 'answer', null, S.current.answers, {});
     RT.paged = [{ container: box, blocks: blocks, foot: footText(exam), a4: true }];
     paginate(box, blocks, footText(exam));
     bindAnswers(box);
@@ -1109,7 +1101,7 @@
     RT.setIdx(i, true);
     var it = exam.items[S.current.idx], q = document.getElementById('q' + it.n);
     if (!q) return;
-    var target = (it.type === 'mcq' || it.type === 'tf' || it.q.choices) ? q : q.querySelector('input, textarea');
+    var target = (it.type === 'mcq' || it.q.choices) ? q : q.querySelector('input, textarea');
     (target || q).focus({ preventScroll: true });
   }
   function a4Keys(e, exam) {
@@ -1121,7 +1113,6 @@
     var it = exam.items[S.current.idx];
     if (it && it.type === 'mcq' && k.length === 1 && 'abcd'.indexOf(k) > -1) { e.preventDefault(); choose(it, 'abcd'.indexOf(k)); return; }
     if (it && it.q.choices && k.length === 1 && 'abc'.indexOf(k) > -1) { e.preventDefault(); choose(it, 'abc'.indexOf(k)); return; }
-    if (it && it.type === 'tf' && (k === 't' || k === 'f' || k === 'a' || k === 'b')) { e.preventDefault(); choose(it, k === 't' || k === 'a'); return; }
     if (k === 'arrowdown' || k === 'arrowright' || k === 'j') { e.preventDefault(); goToA4(exam, S.current.idx + 1); return; }
     if (k === 'arrowup' || k === 'arrowleft' || k === 'k') { e.preventDefault(); goToA4(exam, S.current.idx - 1); }
   }
@@ -1248,7 +1239,7 @@
     cur.submitted = true;
     cur.submittedAt = today();
     cur.rid = 'R' + Date.now().toString(36);
-    S.history.push(Object.assign({ rid: cur.rid, code: cur.code, kind: cur.kind, level: exam.cfg.difficulty, date: cur.submittedAt, seconds: cur.elapsed }, historyEntry(exam, res)));
+    S.history.push(Object.assign({ rid: cur.rid, code: cur.code, kind: cur.kind, level: exam.cfg.difficulty, date: cur.submittedAt, seconds: cur.elapsed, format: FORMAT }, historyEntry(exam, res)));
     if (S.history.length > 200) S.history = S.history.slice(-200);
     save(true);
     RT.mistakesOnly = false;
@@ -1471,7 +1462,8 @@
     var dIdx = { easy: 1, medium: 2, hard: 3 };
     H.forEach(function (h) {
       Object.keys(h.byLecture || {}).forEach(function (l) { lect[l] = lect[l] || [0, 0]; lect[l][0] += h.byLecture[l][0]; lect[l][1] += h.byLecture[l][1]; });
-      Object.keys(h.bySection || {}).forEach(function (s) { sec[s] = sec[s] || [0, 0]; sec[s][0] += h.bySection[s][0]; sec[s][1] += h.bySection[s][1]; });
+      // Sections meant something else before the exam changed to three question types.
+      if (h.format === FORMAT) Object.keys(h.bySection || {}).forEach(function (s) { sec[s] = sec[s] || [0, 0]; sec[s][0] += h.bySection[s][0]; sec[s][1] += h.bySection[s][1]; });
       (h.items || []).forEach(function (x) {
         seen[x[0]] = (seen[x[0]] || 0) + 1;
         if (x[1] < x[2]) lost[x[0]] = (lost[x[0]] || 0) + 1;
@@ -1503,7 +1495,7 @@
       '<section class="card" style="margin-top:16px" aria-labelledby="mm-h"><h2 id="mm-h">Most-missed questions</h2>' +
       (missed.length ? '<ul class="missed">' + missed.map(function (id) {
         var q = byId[id];
-        return '<li><div>' + rich(q.q.replace(/\{\{\d+\}\}/g, '_____')) + '</div><div class="meta">' + esc(slideRef(q)) + ' · ' + DIFF_NAME[q.difficulty] + ' · missed ' + lost[id] + ' of ' + plural(seen[id], 'time') + '</div></li>';
+        return '<li><div>' + rich(q.q) + '</div><div class="meta">' + esc(slideRef(q)) + ' · ' + DIFF_NAME[q.difficulty] + ' · missed ' + lost[id] + ' of ' + plural(seen[id], 'time') + '</div></li>';
       }).join('') + '</ul><div class="actions" style="margin-top:14px"><button class="btn primary" id="practice-missed">' + I.retry + 'Practise these questions</button></div>'
         : '<p class="empty-state">Questions you lose marks on will be listed here.</p>') +
       '</section></div>';

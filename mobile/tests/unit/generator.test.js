@@ -4,14 +4,13 @@ const { load } = require('../load');
 
 const EC = load();
 const C = EC.core;
-const ids = (e) => e.items.map((i) => i.id + ':' + (i.opts ? i.correct : ''));
+const ids = (e) => e.items.map((i) => i.id + ':' + (i.opts ? i.correct : '') + (i.rows ? JSON.stringify([i.rows, i.right]) : ''));
 const hex = (n) => n.toString(16).padStart(4, '0');
 
 test('the same code rebuilds exactly the same paper', () => {
-  for (const code of ['MA-7F3A', 'MA-0001-14F', 'MA-BEEF-23S-ABE']) {
+  for (const code of ['MA-7F3A', 'MA-0001-14F', 'MA-BEEF-23S-AB']) {
     const a = C.makeExam(code), b = C.makeExam(code.toLowerCase());
     assert.deepEqual(ids(a), ids(b), code);
-    assert.deepEqual(a.wordBank, b.wordBank, code);
     assert.equal(a.code, code);
   }
 });
@@ -21,21 +20,24 @@ test('different codes give different papers', () => {
 });
 
 test('codes round-trip settings', () => {
-  const code = C.buildCode('ab12', { lectures: [4, 2], length: 'F', sections: 'EDA' });
-  assert.equal(code, 'MA-AB12-24F-ADE');
+  const code = C.buildCode('ab12', { lectures: [4, 2], length: 'F', sections: 'CA' });
+  assert.equal(code, 'MA-AB12-24F-AC');
   const p = C.parseCode(code);
-  assert.deepEqual(JSON.parse(JSON.stringify(p.cfg)), { lectures: [2, 4], length: 'F', sections: 'ADE', difficulty: 'X' });
+  assert.deepEqual(JSON.parse(JSON.stringify(p.cfg)), { lectures: [2, 4], length: 'F', sections: 'AC', difficulty: 'X' });
   assert.equal(C.buildCode('ab12', C.DEFAULT_CFG), 'MA-AB12');
   assert.equal(C.parseCode('EC-AB12'), null, 'E-Commerce codes are not Mobile Applications codes');
   assert.equal(C.parseCode('DC-AB12'), null, 'Data Communications codes are not Mobile Applications codes');
   assert.equal(C.parseCode('OS-AB12'), null, 'Operating Systems codes are not Mobile Applications codes');
   assert.equal(C.parseCode('not a code'), null);
+  // Codes made before the exam changed to three sections still open.
+  assert.equal(C.parseCode('MA-AB12-24F-ADE').code, 'MA-AB12-24F-A');
+  assert.equal(C.parseCode('MA-AB12-24F-DE').code, 'MA-AB12-24F');
 });
 
 test('papers hit the target marks and section budgets for every length', () => {
   for (const len of ['Q', 'S', 'M', 'F']) {
     for (let s = 0; s < 30; s++) {
-      const code = C.buildCode(hex(s), { lectures: [1, 2, 3, 4, 5, 6, 7], length: len, sections: 'ABCDE' });
+      const code = C.buildCode(hex(s), { lectures: [1, 2, 3, 4, 5, 6, 7], length: len, sections: 'ABC' });
       const e = C.makeExam(code);
       assert.equal(e.total, C.LENGTHS[len].total, `${code} total`);
       for (const sec of e.sections) assert.equal(sec.marks, C.LENGTHS[len].budget[sec.key], `${code} section ${sec.key}`);
@@ -47,7 +49,7 @@ test('single-lecture papers still reach the target total', () => {
   for (const l of [1, 2, 3, 4, 5, 6, 7]) {
     for (const len of ['Q', 'S', 'M', 'F']) {
       for (let s = 0; s < 10; s++) {
-        const e = C.makeExam(C.buildCode(hex(s * 97 + l), { lectures: [l], length: len, sections: 'ABCDE' }));
+        const e = C.makeExam(C.buildCode(hex(s * 97 + l), { lectures: [l], length: len, sections: 'ABC' }));
         assert.equal(e.total, C.LENGTHS[len].total, `L${l} ${len}`);
         assert.ok(e.items.every((i) => i.lecture === l), 'only the chosen lecture');
       }
@@ -55,11 +57,34 @@ test('single-lecture papers still reach the target total', () => {
   }
 });
 
-test('disabled sections move their marks into Section A', () => {
-  const e = C.makeExam('MA-1234-1234567M-AB');
-  assert.deepEqual(Array.from(e.sections, (s) => s.key), ['A', 'B']);
+test('papers hold only short answer, multiple choice and matching', () => {
+  const types = { A: ['def', 'list'], B: ['mcq'], C: ['match'] };
+  assert.deepEqual([...new Set(EC.BANK.map((q) => q.type))].sort(), ['def', 'list', 'match', 'mcq']);
+  for (let s = 0; s < 60; s++) {
+    const e = C.makeExam(C.buildCode(hex(s * 13), { length: 'QSMF'[s % 4], difficulty: 'XENH'[(s >> 2) % 4] }));
+    assert.deepEqual(Array.from(e.sections, (x) => x.key + ' ' + x.title), ['A Short answer', 'B Multiple choice', 'C Matching']);
+    e.sections.forEach((x) => x.items.forEach((i) => assert.ok(types[x.key].includes(i.type), i.id)));
+  }
+});
+
+test('matching: pairs, letters and one extra item are consistent', () => {
+  for (let s = 0; s < 80; s++) {
+    const e = C.makeExam(C.buildCode(hex(s * 7 + 3), { length: 'QSMF'[s % 4] }));
+    e.items.filter((i) => i.type === 'match').forEach((i) => {
+      assert.equal(i.marks, i.rows.length);
+      assert.ok(i.rows.length >= 3 && i.rows.length <= 5, i.id + ' ' + i.rows.length);
+      assert.equal(i.right.length, Math.min(i.q.pairs.length, i.rows.length + 1));
+      assert.equal(new Set(i.rows.map((r) => r.answer)).size, i.rows.length, 'each letter once');
+      i.rows.forEach((r) => assert.ok(i.q.pairs.some((p) => p[0] === r.left && p[1] === i.right[r.answer]), r.left));
+    });
+  }
+});
+
+test('disabled sections move their marks into Section B', () => {
+  const e = C.makeExam('MA-1234-1234567M-BC');
+  assert.deepEqual(Array.from(e.sections, (s) => s.key), ['B', 'C']);
   assert.equal(e.total, 40);
-  assert.equal(e.sections[0].marks, 33);
+  assert.equal(e.sections[0].marks, 30);
 });
 
 test('no question appears twice and items are numbered 1..n', () => {
@@ -82,21 +107,9 @@ test('correct letters are spread evenly over a-d', () => {
 test('each paper is balanced across the selected lectures', () => {
   for (let s = 0; s < 30; s++) {
     const e = C.makeExam('MA-' + hex(s + 900));
-    const a = e.sections.find((x) => x.key === 'A').items;
+    const a = e.sections.find((x) => x.key === 'B').items;
     const per = [1, 2, 3, 4, 5, 6, 7].map((l) => a.filter((i) => i.lecture === l).length);
     assert.ok(Math.min(...per) >= 1, per.join(','));
-  }
-});
-
-test('word bank holds every Section B answer plus 2-3 distractors that are not correct answers', () => {
-  for (let s = 0; s < 40; s++) {
-    const e = C.makeExam('MA-' + hex(s + 77));
-    const b = e.sections.find((x) => x.key === 'B');
-    const accepted = b.items.flatMap((i) => i.q.blanks);
-    const real = e.wordBank.filter((w) => w.real), fake = e.wordBank.filter((w) => !w.real);
-    accepted.forEach((alts) => assert.ok(real.some((w) => C.sameTerm(w.text, alts)), alts[0]));
-    assert.ok(fake.length >= 2 && fake.length <= 3, String(fake.length));
-    fake.forEach((w) => assert.ok(!accepted.some((alts) => C.sameTerm(w.text, alts)), w.text));
   }
 });
 
@@ -123,7 +136,7 @@ test('a perfect answer sheet scores the full paper, a blank one scores zero', ()
 
 test('difficulty is part of the code and changes the paper', () => {
   assert.equal(C.buildCode('ab12', { difficulty: 'H' }), 'MA-AB12-1234567MH');
-  assert.equal(C.parseCode('ma-ab12-14fe-abe').cfg.difficulty, 'E');
+  assert.equal(C.parseCode('ma-ab12-14fe-ab').cfg.difficulty, 'E');
   assert.equal(C.parseCode('MA-AB12').cfg.difficulty, 'X');
   const share = (lv, level) => {
     let n = 0, k = 0;
@@ -140,38 +153,26 @@ test('difficulty is part of the code and changes the paper', () => {
   assert.ok(share('N', 'medium') > 0.6, 'medium papers are mostly medium');
 });
 
-test('the 10-mark Quick paper: 4 + 2 + 2 + 2 marks (A-D), code letter Q', () => {
+test('the 10-mark Quick paper: 3 + 4 + 3 marks, code letter Q', () => {
   const code = C.buildCode('0bad', { length: 'Q' });
   assert.equal(code, 'MA-0BAD-1234567Q');
   const e = C.makeExam(code);
   assert.equal(e.total, 10);
   assert.equal(e.minutes, 15);
-  assert.deepEqual(Array.from(e.sections, (s) => s.key + s.marks), ['A4', 'B2', 'C2', 'D2']);
+  assert.deepEqual(Array.from(e.sections, (s) => s.key + s.marks), ['A3', 'B4', 'C3']);
   assert.equal(C.parseCode('ma-0bad-23qh').cfg.length, 'Q');
 });
 
-test('Section E mixes the written styles (explain, draw, code, choose)', () => {
-  const seen = new Set();
-  for (let s = 0; s < 40; s++) {
-    const e = C.makeExam(C.buildCode(hex(s + 7000), { length: 'F' }));
-    const E = e.sections.find((x) => x.key === 'E');
-    E.items.forEach((it) => seen.add(it.q.kind));
-    assert.ok(new Set(E.items.map((it) => it.q.kind)).size >= 2, 'a Full paper has at least two written styles: ' + E.items.map((it) => it.q.kind));
-    e.sections.find((x) => x.key === 'D').items.forEach((it) => assert.ok(['def', 'list'].includes(it.type)));
-  }
-  assert.deepEqual([...seen].sort(), ['code', 'draw', 'eval', 'explain']);
-});
-
-test('a retry paper keeps written questions in Section E', () => {
-  const ids = EC.BANK.filter((q) => q.type === 'exp').slice(0, 6).map((q) => q.id);
-  const e = C.makeRetryExam(ids, '00aa');
-  assert.deepEqual(Array.from(e.sections, (s) => s.key), ['E']);
-  assert.equal(e.items.length, 6);
+test('a retry paper keeps each question in its section', () => {
+  const pick = (t, n) => EC.BANK.filter((q) => q.type === t).slice(0, n).map((q) => q.id);
+  const e = C.makeRetryExam([...pick('match', 2), ...pick('def', 2), ...pick('mcq', 2), 'L1-B001'], '00aa');
+  assert.deepEqual(Array.from(e.sections, (s) => s.key + s.items.length), ['A2', 'B2', 'C2']);
+  assert.equal(C.gradeExam(e, Object.fromEntries(e.items.map((i) => [i.id, C.modelAnswer(i)]))).got, e.total);
 });
 
 test('unticked sections: leftover marks move to another selected section, so the paper still reaches its total', () => {
   // Bug found in QA: with Section A unticked, marks the written sections could not use were lost (papers came out short or empty).
-  for (const secs of ['BC', 'BCE', 'CE', 'BE', 'CDE', 'BD', 'B']) {
+  for (const secs of ['AB', 'BC', 'AC', 'A', 'B']) {
     for (const len of ['S', 'M', 'F']) {
       for (let s = 0; s < 6; s++) {
         const code = C.buildCode(hex(s * 31 + secs.length), { length: len, sections: secs });

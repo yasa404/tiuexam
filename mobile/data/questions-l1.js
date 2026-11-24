@@ -1,6 +1,6 @@
 /* Lecture 1: OOP and Class Diagrams (PDF pages 11-15; the other pages are course administration). */
 EC.lecture(1, function (Q) {
-  var mcq = Q.mcq, tf = Q.tf, fill = Q.fill, list = Q.list, def = Q.def, exp = Q.exp, draw = Q.draw, code = Q.code, pick = Q.pick;
+  var mcq = Q.mcq, list = Q.list, def = Q.def, match = Q.match;
   var STUDENT = `class Student {
   String name = 'Sara';
   int age = 20;
@@ -13,7 +13,7 @@ EC.lecture(1, function (Q) {
 
 Book b1 = Book();`;
 
-  /* ---------- Section A ---------- */
+  /* ---------- Multiple choice ---------- */
   mcq(11, 'e', "Object-Oriented Programming organizes programs using…",
     ["classes and objects", "tables and queries", "pages and hyperlinks", "colours and themes"], "Slide 11.");
   mcq(11, 'e', "In OOP, what do objects contain and do?",
@@ -69,38 +69,7 @@ Book b1 = Book();`;
   mcq(14, 'm', "What does the line between the two classes in this diagram show?",
     ["A connection between the classes", "That both classes are one object", "That one of the classes is deleted", "An error in the Dart code"], "Class diagrams show connections.", { qfig: 'classDiagram' });
 
-  /* ---------- Section C ---------- */
-  tf(11, 'e', "OOP organizes programs using classes and objects.", true, "Slide 11.");
-  tf(11, 'e', "Actions are stored in attributes, and data is defined through methods.", false, "It is the opposite.");
-  tf(11, 'e', "Dart supports OOP.", true, "Slide 11.");
-  tf(12, 'e', "An object is a blueprint used to create classes.", false, "A class is a blueprint used to create objects.");
-  tf(12, 'e', "All objects of the same class must have the same attribute values.", false, "They can have different values.");
-  tf(12, 'm', "An object is a specific instance of a class.", true, "Slide 12.");
-  tf(13, 'm', "In `Student sara = Student();`, `sara` is the class.", false, "`sara` is an object of the Student class.");
-  tf(13, 'e', "In `int age = 20;`, the attribute stores a whole number.", true, "Slide 13.");
-  tf(14, 'm', "A Course can have several Student objects.", true, "Slide 14.");
-  tf(14, 'e', "Class diagrams show only one class and never the connections between classes.", false, "They also show connections.");
-  tf(15, 'e', "Attributes store data, such as name and age.", true, "Slide 15.");
-  tf(15, 'm', "Student is an object, and sara is a class.", false, "Student is the class, sara is the object.");
-
-  /* ---------- Section B ---------- */
-  fill(11, 'e', "OOP organizes programs using [[classes|class]] and [[objects|object]].", "Slide 11.", { set: true });
-  fill(11, 'e', "In OOP, data is stored in [[attributes|attribute]], and actions are defined through [[methods|method]].", "Slide 11.");
-  fill(11, 'e', "Objects contain data and can perform [[actions|action]].", "Slide 11.");
-  fill(11, 'e', "The programming language [[Dart]] supports OOP, which helps structure Flutter applications.", "Slide 11.");
-  fill(12, 'e', "A class is a [[blueprint]] used to create objects.", "Slide 12.");
-  fill(12, 'e', "An object is a specific [[instance]] of a class.", "Slide 12.");
-  fill(13, 'm', "In the code, the class name is [[Student]].", "Slide 13.", { code: STUDENT });
-  fill(13, 'm', "In the code, the data type of `age` is [[int|integer]].", "Slide 13.", { code: STUDENT });
-  fill(13, 'm', "In the code, the keyword that starts the blueprint is [[class]].", "Slide 13.", { code: STUDENT });
-  fill(13, 'm', "Complete the code so that it creates an object of the class: [[Student()|Student]].", "`Student ali = Student();`", { code: 'Student ali = ________;' });
-  fill(13, 'h', "The attribute that stores text in this class has the data type [[String]].", "Slide 13.", { code: BOOK });
-  fill(14, 'm', "In the lecture example, each student has a [[name]] and an [[age]].", "Slide 14.", { set: true });
-  fill(14, 'e', "In the lecture example, each course has a [[title]].", "Slide 14.");
-  fill(15, 'e', "A [[class diagram|class diagrams]] shows a class and its connections to other classes.", "Slide 15.");
-  fill(14, 'm', "Complete the class diagram: (1) [[title]], (2) [[Student]].", "Slide 14.", { qfig: 'classBlank' });
-
-  /* ---------- Section D ---------- */
+  /* ---------- Short answer ---------- */
   def(11, 'e', 2, "Define Object-Oriented Programming (OOP).",
     [["Organizes programs", "organizes programs", "organise", "organize", "structure"], ["Using classes and objects", "classes and objects", "objects"]],
     "Object-Oriented Programming (OOP) organizes programs using classes and objects.");
@@ -120,36 +89,44 @@ Book b1 = Book();`;
     [["name", "name"], ["age", "age"]]);
   list([11, 15], 'm', 4, "List four terms of OOP that the lecture explains.",
     [["Class", "class"], ["Object", "object"], ["Attribute", "attribute"], ["Method", "method"], ["Class diagram", "diagram"]], { n: 4 });
-
-  /* ---------- Section E ---------- */
-  exp(12, 'm', "Explain the difference between a class and an object, with an example.",
+  def(12, 'm', 4, "Explain the difference between a class and an object, with an example.",
     [["A class is a blueprint used to create objects", "blueprint"], ["An object is a specific instance of a class", "instance"], ["Objects of the same class can have different attribute values", "different attribute", "different value"], ["Example: class Student; objects Sara (age 20) and Ali (age 21)", "sara", "ali", "student"]],
     "A class is a blueprint used to create objects. An object is a specific instance of a class. Objects from the same class can have different attribute values. Example: the class Student has the objects Sara, age 20, and Ali, age 21.");
-  exp([11, 13], 'm', "Explain how OOP stores data and actions, using the Student class as an example.",
+  def([11, 13], 'm', 4, "Explain how OOP stores data and actions, using the Student class as an example.",
     [["Objects contain data and can perform actions", "data", "contain data"], ["Data is stored in attributes", "attribute"], ["Actions are defined through methods", "method"], ["Example: name and age are attributes of Student", "name and age", "name", "age"]],
     "Objects contain data and can perform actions. Data is stored in attributes, and actions are defined through methods. For example, name and age are attributes of the Student class.");
-  draw([13, 14], 'm', "Draw a class diagram for Course and Student, with their attributes and the connection between them.", 'classDiagram',
-    [["Class Student", "student"], ["Attributes name and age", "name", "age"], ["Class Course with the attribute title", "title"], ["Connection: one Course has several Student objects", "several", "many", "connection", "line"]],
-    "Two boxes: Course (title) and Student (name, age). A line connects them: one Course has several Student objects.");
-  code(13, 'm', "Write a Dart class called Student with two attributes: name (text, 'Ali') and age (whole number, 21).",
-    [["`class Student {`", "!class student"], ["`String` type for the name", "!string name"], ["The value 'Ali'", "!name ali"], ["`int` type for the age", "!int age"], ["The value 21", "#21"]],
-    "class Student {\n  String name = 'Ali';\n  int age = 21;\n}");
-  code(13, 'h', "Write a Dart class called Course with one attribute title (text, 'Mobile Applications'), then create an object of it called c1.",
-    [["`class Course {`", "!class course"], ["`String title`", "!string title"], ["The value 'Mobile Applications'", "!mobile applications"], ["An object of type Course named c1", "!course c1"], ["Created with `Course()`", "!c1 course"]],
-    "class Course {\n  String title = 'Mobile Applications';\n}\n\nCourse c1 = Course();");
-  code(13, 'h', "The code below should define a class and create an object, but it has mistakes. Write the correct code.",
-    [["The class keyword before Student", "~class Student {"], ["`String` for the text attribute", "~String name ="], ["`int` for the whole number", "~int age = 20"], ["The object has the type Student and the name sara", "~Student sara ="], ["The object is created with `Student()`", "~sara = Student()"]],
-    "class Student {\n  String name = 'Sara';\n  int age = 20;\n}\n\nStudent sara = Student();", { code: "Student class {\n  int name = 'Sara';\n  String age = 20;\n}\n\nsara = class Student;" });
-  pick([12, 14], 'm', "A library app must store 500 books. Every book has a title and a number of pages. What is the best design? Why?",
-    ["Write 500 different classes, one for each book", "Write one Book class and create 500 objects", "Write one object with 500 classes"], 1,
-    [["A class is a blueprint, so one class can create many objects", "blueprint", "one class", "many objects", "create objects"], ["Each object can have different attribute values (title, pages)", "different", "own value", "attribute"]],
-    "A class is a blueprint, so one Book class can create many objects. Each object can have different attribute values, such as its own title and pages.");
-  pick(11, 'm', "In a Phone class, a programmer must decide what `brand` and `call()` are. Which choice is correct? Why?",
-    ["`brand` is a method and `call()` is an attribute", "`brand` is an attribute and `call()` is a method", "`brand` and `call()` are both objects"], 1,
-    [["Data is stored in attributes (brand)", "data", "stores"], ["Actions are defined through methods (call)", "action"]],
-    "The brand is data, and data is stored in attributes. Calling is an action, and actions are defined through methods.");
-  pick(14, 'm', "You want to show that one course has several students, before you write any code. What is the best tool? Why?",
-    ["A class diagram", "A single attribute", "A string value"], 0,
-    [["It shows classes", "shows class", "classes", "a class"], ["It shows the connections between classes", "connection", "relationship"]],
-    "A class diagram shows the classes and the connections between them, such as one Course connected to several Student objects.");
+  def([12, 14], 'm', 3, "A library app must store 500 books. Every book has a title and a number of pages. What is the best design? Why?",
+    [["One Book class and 500 objects", "one class", "one book class", "a book class", "single class", "class book"], ["A class is a blueprint, so one class can create many objects", "blueprint", "many objects", "create objects"], ["Each object can have different attribute values", "different", "own value", "own title", "attribute"]],
+    "Write one Book class and create 500 objects. A class is a blueprint, so one class can create many objects, and each object can have different attribute values, such as its own title and pages.");
+  def(11, 'm', 2, "In a Phone class, is `brand` an attribute or a method? Is `call()` an attribute or a method?",
+    [["brand is an attribute (data)", "brand is an attribute", "brand attribute", "brand is data", "brand stores"], ["call() is a method (action)", "call is a method", "call method", "call is an action"]],
+    "brand is an attribute, because it stores data. call() is a method, because it defines an action.");
+  def(12, 'e', 2, "Can two objects of the same class have different attribute values? Give an example.",
+    [["Yes, they can have different values", "yes", "can have different"], ["Example: Sara, age 20, and Ali, age 21", "sara", "ali", "for example"]],
+    "Yes, objects of the same class can have different attribute values. For example, Sara is 20 and Ali is 21.");
+  def(13, 'm', 2, "Write the two attributes of this class with their data types.",
+    [["name: String", "name string", "string name", "name is string", "name is a string"], ["age: int", "age int", "int age", "age is int", "age is an int"]],
+    "name is a String. String name. age is an int. int age.", { code: STUDENT });
+  def(13, 'm', 2, "Write one line of Dart code that creates an object called ali from the class Student.",
+    [["`Student ali`", "!student ali"], ["`= Student();`", "~ali = Student()"]],
+    "Student ali = Student();");
+  def(14, 'm', 2, "Look at the diagram. Explain the relationship it shows between the course and the students.",
+    [["One Course object", "one course", "a course", "course"], ["can have several Student objects", "several", "many", "three"]],
+    "One course can have several Student objects: Mobile Applications is connected to Sara, Ali and Ahmed.", { qfig: 'courseObjects' });
+  def(14, 'm', 2, "What information does the lecture’s class diagram store for a course and for a student?",
+    [["Course: title", "title"], ["Student: name and age", "name and age", "name", "age"]],
+    "A course has a title. A student has a name and an age.");
+  def(11, 'e', 2, "Why is OOP useful when we write Flutter apps?",
+    [["Dart supports OOP", "dart supports", "dart"], ["It helps structure Flutter applications", "structure", "organize", "organise"]],
+    "Dart supports OOP, and it helps structure Flutter applications.");
+
+  /* ---------- Matching ---------- */
+  match([11, 12, 14], 'e', "Match each term with its description.",
+    [["OOP", "Organizes programs using classes and objects"], ["Class", "A blueprint"], ["Object", "A specific instance"], ["Attribute", "Stores data, such as a name or an age"], ["Method", "Defines an action"], ["Class diagram", "Shows classes and their connections"]]);
+  match(13, 'm', "Match each part of this code with its role.",
+    [["`Student`", "Class name"], ["`name`", "Attribute that stores text"], ["`age`", "Attribute that stores a whole number"], ["`String`", "Data type for text"], ["`int`", "Data type for whole numbers"], ["`'Sara'`", "Value of the text attribute"], ["`20`", "Value of the whole-number attribute"]], { code: STUDENT });
+  match([12, 14], 'm', "Match each example from a school app with the correct term.",
+    [["Student", "Class"], ["Sara, age 20", "Object"], ["age", "Attribute"], ["register()", "Method"], ["A drawing that connects Course and Student", "Class diagram"]]);
+  match(13, 'h', "Match each line of code with what it does.",
+    [["`class Course {`", "Starts the definition of a class"], ["`String title = 'Flutter';`", "Adds an attribute with a text value"], ["`int hours = 3;`", "Adds an attribute with a whole-number value"], ["`Course c1 = Course();`", "Creates an object of the class"], ["`}`", "Ends the definition of the class"]]);
 });

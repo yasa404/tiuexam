@@ -1,21 +1,11 @@
 /* Lecture 7: Understanding Widget Layout (PDF pages 3-29). */
 EC.lecture(7, function (Q) {
-  var mcq = Q.mcq, tf = Q.tf, fill = Q.fill, list = Q.list, def = Q.def, exp = Q.exp, draw = Q.draw, code = Q.code, pick = Q.pick;
+  var mcq = Q.mcq, list = Q.list, def = Q.def, match = Q.match;
   var ROW = `Row(
   children: [
     const Icon(Icons.school),
     const SizedBox(width: 12),
     Expanded(child: Text(bookTitle)),
-  ],
-)`;
-  var GOOD = `Row(
-  children: [
-    Expanded(
-      child: Padding(
-        padding: EdgeInsets.all(8),
-        child: Text(bookTitle),
-      ),
-    ),
   ],
 )`;
   var BAD = `Row(
@@ -50,7 +40,7 @@ EC.lecture(7, function (Q) {
   },
 )`;
 
-  /* ---------- Section A ---------- */
+  /* ---------- Multiple choice ---------- */
   mcq([3, 26], 'e', "A category is…",
     ["a named group of related products", "a size limit from a parent widget", "a route above the current screen", "a gap between two lines of labels"], "Slide 3.");
   mcq(3, 'e', "When the user selects the Study category, what happens to the other products?",
@@ -180,63 +170,7 @@ EC.lecture(7, function (Q) {
   mcq(11, 'm', "What does this diagram show?",
     ["An overflow", "An empty state", "A pushed route", "A selected category"], "Yellow and black stripes in debug mode.", { qfig: 'overflow' });
 
-  /* ---------- Section C ---------- */
-  tf(3, 'e', "When a category is selected, the other products are deleted from the catalogue.", false, "They remain in the catalogue.");
-  tf(3, 'e', "A ChoiceChip shows one selected option.", true, "Slide 3.");
-  tf(4, 'm', "An empty state should give the user a way to choose another category.", true, "Slide 4.");
-  tf(5, 'e', "`Navigator.push` removes the top route.", false, "pop removes it.");
-  tf(5, 'e', "The home screen stays below the detail screen and can keep its selection.", true, "Slide 5.");
-  tf(6, 'm', "An ExpansionTile manages its own open/closed state.", true, "Slide 6.");
-  tf(8, 'e', "Constraints are size limits that a parent gives its child.", true, "Slide 8.");
-  tf(10, 'e', "With a tight constraint the minimum and the maximum are equal.", true, "Slide 10.");
-  tf(10, 'e', "A loose constraint means that the size is unlimited.", false, "Loose is not unlimited.");
-  tf(11, 'm', "A Row moves its items to another row when they do not fit.", false, "Wrap does this, Row does not.");
-  tf(12, 'e', "Expanded adds scrolling to its child.", false, "It only fills a share of the space.");
-  tf(14, 'm', "Flexible may use less than its share by default.", true, "Loose fit.");
-  tf(15, 'e', "Row → Expanded → Padding → Text is a suitable order.", true, "Slide 15.");
-  tf(16, 'm', "In a Wrap, each label stays one child.", true, "Slide 16.");
-  tf(17, 'm', "`runSpacing` is the gap between neighbours on the same line.", false, "That is spacing.");
-  tf(19, 'e', "A Column scrolls by itself when its content is taller than the screen.", false, "It can overflow.");
-  tf(19, 'e', "Using a Column inside a scrolling page is fine.", true, "Slide 19.");
-  tf(20, 'm', "A ListView is vertical by default but can be horizontal.", true, "Slide 20.");
-  tf(20, 'm', "In a PageView several pages are normally visible together.", false, "One page fills the viewport.");
-  tf(22, 'e', "All text should be made smaller so that larger text settings have no effect.", false, "Allow wrapping and scrolling.");
-  tf(23, 'e', "On a shorter screen the user should still be able to scroll to the final item.", true, "Slide 23.");
-
-  /* ---------- Section B ---------- */
-  fill(26, 'e', "A [[category]] is a named group of related products.", "Slide 26.");
-  fill(26, 'e', "[[Filtering|filter]] means showing items that match a rule while keeping the original data.", "Slide 26.");
-  fill(4, 'e', "When a category is selected, the [[onSelected]] callback runs and [[setState()|setState]] updates selectedCategory.", "Slide 4.");
-  fill(26, 'e', "A [[callback]] is a function run in response to an event.", "Slide 26.");
-  fill(5, 'e', "Navigator.[[push]] places a new route above the current one, and [[pop]] removes the top route.", "Slide 5.");
-  fill(5, 'e', "In navigation, a [[route]] is a screen location.", "Slide 5.");
-  fill(8, 'e', "[[Constraints|constraint]] are size limits that a parent gives its child.", "Slide 8.");
-  fill(10, 'e', "When the minimum and the maximum are equal the constraint is [[tight]]; when the minimum is zero it is [[loose]].", "Slide 10.");
-  fill(11, 'e', "Content beyond the available space is called [[overflow]].", "Slide 11.");
-  fill(13, 'm', "Complete the code so that the title uses the remaining width: [[Expanded]].", "Slide 13.", { code: `Row(
-  children: [
-    const Icon(Icons.school),
-    const SizedBox(width: 12),
-    ________(child: Text(bookTitle)),
-  ],
-)` });
-  fill(14, 'e', "[[Expanded]] must fill its share, while [[Flexible]] may use less by default.", "Slide 14.");
-  fill(15, 'h', "Placing Expanded inside a Padding in a Row gives a [[parent-data|parent data]] error.", "Slide 15.");
-  fill(17, 'm', "Complete the code: (1) [[spacing]] for the gap on a line, (2) [[runSpacing]] for the gap between lines.", "Slide 17.", { code: `Wrap(
-  (1)____: 8,
-  (2)____: 12,
-  children: labels,
-)` });
-  fill(18, 'e', "The visible window of scrolling content is the [[viewport]].", "Slide 18.");
-  fill(19, 'e', "A [[Column]] does not scroll by itself, while a [[ListView]] scrolls when the content exceeds the viewport.", "Slide 19.");
-  fill(20, 'e', "In a [[PageView]], one page fills the viewport and swiping snaps to the next page.", "Slide 20.");
-  fill(21, 'e', "A [[responsive]] layout adjusts to the available space.", "Slide 21.");
-  fill(29, 'e', "A [[logical]] pixel is a unit for layout across screens with different pixel densities.", "Slide 29.");
-  fill(27, 'e', "In a widget tree, children of the same parent are called [[siblings|sibling]].", "Slide 27.");
-  fill(26, 'e', "A screen that shows “No Tech products yet” is an [[empty]] state.", "Slide 26.");
-  fill(5, 'm', "Complete the diagram: (1) [[push]], (2) [[pop]].", "Slide 5.", { qfig: 'navBlank' });
-
-  /* ---------- Section D ---------- */
+  /* ---------- Short answer ---------- */
   def(26, 'e', 2, "Define category and filtering.",
     [["Category: a named group of related products", "group"], ["Filtering: showing items that match a rule while keeping the original data", "match", "rule"]],
     "A category is a named group of related products. Filtering shows the items that match a rule while keeping the original data.");
@@ -269,84 +203,81 @@ EC.lecture(7, function (Q) {
     [["Long title: it fits beside the icon", "long title"], ["Narrow screen: no horizontal overflow", "narrow"], ["Larger text: the words stay visible", "larger text"], ["More labels: Wrap keeps them inside", "labels"], ["Shorter screen or more details: can scroll to the final item", "shorter", "final item", "more details"]], { n: 4 });
   list(4, 'm', 4, "List the steps from selecting a category to the updated view.",
     [["The user selects a category", "select"], ["The onSelected callback runs", "onselected", "callback"], ["setState updates selectedCategory", "setstate"], ["build describes the updated view", "build"]]);
-
-  /* ---------- Section E ---------- */
-  exp(4, 'm', "Explain how selecting the Study category updates the screen.",
+  def(4, 'm', 4, "Explain how selecting the Study category updates the screen.",
     [["The onSelected callback runs", "onselected", "callback"], ["setState updates selectedCategory", "setstate"], ["build describes the updated view with matching products", "build"], ["The original list stays, so All can show everything again", "original", "all"]],
     "When the user selects Study, the onSelected callback runs. setState updates selectedCategory, and build describes the updated view. The original list stays, so All shows the full catalogue again.");
-  exp([5, 6], 'm', "Compare a separate detail screen with an ExpansionTile.",
+  def([5, 6], 'm', 4, "Compare a separate detail screen with an ExpansionTile.",
     [["Detail screen: receives the product’s data and is opened with Navigator.push", "push", "receives"], ["It gives more room for the details; pop returns", "more room", "pop"], ["ExpansionTile: opens/closes extra content in the same screen", "open", "extra content"], ["It keeps the user in the catalogue", "keeps the user", "catalogue", "catalog"]],
     "A detail screen receives the product's data, is opened with Navigator.push, and gives more room; pop returns to the home screen. An ExpansionTile opens and closes extra content and keeps the user in the catalogue.");
-  exp(10, 'm', "Explain tight and loose constraints with examples.",
+  def(10, 'm', 4, "Explain tight and loose constraints with examples.",
     [["Tight: minimum equals maximum", "equal", "same"], ["The size is fixed, e.g. 100 and 100", "fixed", "#100"], ["Loose: minimum is zero and the child may be smaller, e.g. 0 and 100", "smaller", "zero", "#0"], ["Loose does not mean unlimited", "unlimited", "maximum"]],
     "In a tight constraint the minimum is equal to the maximum, for example 100 and 100, so the size is fixed. In a loose constraint the minimum is zero, for example 0 and 100, so the child may be smaller. Loose does not mean unlimited.");
-  exp([11, 12], 'm', "Explain why a long title in a Row can overflow and how Expanded solves the problem.",
+  def([11, 12], 'm', 4, "Explain why a long title in a Row can overflow and how Expanded solves the problem.",
     [["The title needs more than the available width", "available", "more width", "more space"], ["A Row does not move items to another row", "another row", "does not move"], ["Expanded gives the title the remaining width", "remaining"], ["The title can then wrap to more lines", "wrap", "more lines"]],
     "A long title can need more than the available width, and a Row does not move its items to another row, so it overflows. Expanded gives the title the remaining width, so the title can wrap to more lines.");
-  exp(19, 'm', "Compare Column and ListView.",
+  def(19, 'm', 4, "Compare Column and ListView.",
     [["Column places children one below another", "one below", "below another", "vertical"], ["Column does not scroll itself and can overflow; suits a small group", "does not scroll", "overflow", "small group"], ["ListView scrolls when the content exceeds the viewport", "exceeds", "scrolls when", "scrollable"], ["ListView suits a list taller than the screen and needs a usable viewport height", "taller", "viewport height"]],
     "A Column places children one below another, does not scroll itself, suits a small group and can overflow. A ListView scrolls when the content exceeds the viewport, suits a list taller than the screen, and needs a usable viewport height.");
-  exp(20, 'm', "Compare ListView and PageView.",
+  def(20, 'm', 4, "Compare ListView and PageView.",
     [["ListView: several items are visible", "several"], ["ListView is vertical by default", "vertical"], ["PageView: one page fills the viewport and swiping snaps", "one page", "fills", "snap"], ["PageView is horizontal by default", "horizontal"]],
     "In a ListView several items are visible, and it is vertical by default. In a PageView one page fills the viewport and swiping snaps to the next page; it is horizontal by default.");
-  exp([21, 22], 'h', "Explain what happens when the screen becomes narrower or the text becomes larger, and how the layout should react.",
+  def([21, 22], 'h', 4, "Explain what happens when the screen becomes narrower or the text becomes larger, and how the layout should react.",
     [["Narrower: text needs more lines and fewer labels fit per line", "more lines", "fewer"], ["More height is needed", "height"], ["Larger text needs more room; a fixed-height area may cut it off", "cut off", "more room"], ["Allow wrapping and scrolling, do not shrink all text", "scroll", "shrink"]],
     "On a narrower screen the text needs more lines and fewer labels fit per line, so more height is needed. Larger text needs more room, and a fixed-height area may cut it off. Allow the text to wrap and the page to scroll, and do not shrink all text.");
-  draw(13, 'm', "Draw the widget tree of this Row.", 'rowExpanded',
-    [["Row", "row"], ["Icon", "icon"], ["SizedBox", "sizedbox"], ["Expanded with Text bookTitle", "expanded"]],
-    "Row → three children: Icon, SizedBox, and Expanded → Text(bookTitle).", { code: ROW });
-  draw(15, 'm', "Draw the suitable and the unsuitable order for Expanded, Padding and Text in a Row.", 'expandedOrder',
-    [["Suitable: Row → Expanded", "suitable", "row expanded"], ["then Padding → Text", "padding text", "padding"], ["Unsuitable: Row → Padding → Expanded", "unsuitable", "row padding"], ["Parent-data error in the second", "error"]],
-    "Suitable: Row → Expanded → Padding → Text. Unsuitable: Row → Padding → Expanded → Text, which gives a parent-data error.");
-  draw(9, 'm', "Draw the layout steps between a parent and a child.", 'layoutSteps',
-    [["Parent", "parent"], ["Parent gives limits to the child", "limit", "constraint"], ["Child chooses an allowed size", "size"], ["Parent places the child", "place"]],
-    "Parent gives limits → child chooses an allowed size → parent places the child.");
-  draw(5, 'm', "Draw the navigation between the home screen and the detail screen, with push and pop.", 'navStack',
-    [["Home screen (below)", "home"], ["Detail screen (above)", "detail"], ["Push goes from home to detail", "push"], ["Pop returns to home", "pop"]],
-    "The detail screen is placed above the home screen with push. Pop removes the detail screen and returns to home.");
-  draw(4, 'm', "Draw the steps from selecting a category to the updated view.", 'categoryFlow',
-    [["User selects Study", "select"], ["onSelected callback runs", "onselected"], ["setState updates selectedCategory", "setstate"], ["build describes the updated view", "build"]],
-    "User selects Study → onSelected callback runs → setState updates selectedCategory → build describes the updated view.");
-  draw([18, 19], 'h', "Draw a phone screen with an app bar and a ListView of five cards, where only three cards fit. Show the viewport and the scrolling.", 'viewport',
-    [["App bar above", "app bar", "appbar"], ["Viewport (visible window)", "viewport"], ["Visible cards inside the viewport", "card"], ["Hidden cards reached by scrolling", "scroll"]],
-    "The app bar stays above. The viewport shows cards 1 to 3. Cards 4 and 5 are outside and are reached by scrolling.");
-  code(13, 'm', "Write a Row with a school icon, a gap of 12, and a Text of bookTitle that uses the remaining width.",
-    [["`Row(`", "!row"], ["`children: [ ]`", "!row children"], ["`Icon(Icons.school)`", "!icon icons school"], ["`SizedBox(width: 12)`", "!sizedbox width 12"], ["`Expanded(child: Text(bookTitle))`", "!expanded child text booktitle"]],
-    "Row(\n  children: [\n    const Icon(Icons.school),\n    const SizedBox(width: 12),\n    Expanded(child: Text(bookTitle)),\n  ],\n)");
-  code(15, 'h', "This code gives a parent-data error. Write the correct code.",
-    [["Expanded is the first thing in `children: [`", "~children: [ Expanded("], ["The Row contains Expanded directly", "~Row(children: [ Expanded("], ["Padding is the child of Expanded", "~Expanded(child: Padding("], ["Padding keeps `EdgeInsets.all(8)` and now has the Text", "~EdgeInsets.all(8), child: Text(", "~child: Text(bookTitle), padding: EdgeInsets.all(8)"], ["`Text(bookTitle)` is the child of Padding", "~Padding(padding: EdgeInsets.all(8), child: Text(bookTitle)", "~Padding(child: Text(bookTitle)"]],
-    GOOD, { code: BAD });
-  code(17, 'm', "Write a Wrap with a gap of 8 between labels, a gap of 12 between lines, and two Chips: 'Study' and 'Bags'.",
-    [["`Wrap(`", "!wrap"], ["`spacing: 8`", "!spacing 8"], ["`runSpacing: 12`", "!runspacing 12"], ["`Chip(label: Text('Study'))`", "!chip label text study"], ["`Chip(label: Text('Bags'))`", "!chip label text bags"]],
-    "Wrap(\n  spacing: 8,\n  runSpacing: 12,\n  children: [\n    Chip(label: Text('Study')),\n    Chip(label: Text('Bags')),\n  ],\n)");
-  code([4, 26], 'h', "Write the onSelected callback of a ChoiceChip so that selectedCategory becomes 'Bags' and the screen is updated.",
-    [["`onSelected:`", "!onselected"], ["A function", "!onselected value setstate", "!onselected selected setstate", "!onselected bool", "!onselected"], ["`setState(() { ... })`", "!setstate"], ["`selectedCategory =`", "!selectedcategory"], ["The value 'Bags'", "!selectedcategory bags"]],
-    "onSelected: (value) {\n  setState(() {\n    selectedCategory = 'Bags';\n  });\n},");
-  code([11, 12], 'h', "The title in this Row overflows on a narrow screen. Write the corrected Row.",
-    [["`Expanded(` is used", "~Expanded("], ["Expanded has a child", "~Expanded(child:"], ["`Text(longBookTitle)` is inside Expanded", "~Expanded(child: Text(longBookTitle"], ["The gap stays before Expanded", "~SizedBox(width: 12), Expanded("], ["The icon stays first", "~Icon(Icons.school), SizedBox(width: 12), Expanded("]],
-    "Row(\n  children: [\n    const Icon(Icons.school),\n    const SizedBox(width: 12),\n    Expanded(child: Text(longBookTitle)),\n  ],\n)", { code: OVER });
-  pick([11, 12], 'm', "A long book title beside an icon shows yellow and black stripes. What is the best fix? Why?",
-    ["Put the title inside Expanded", "Put the icon inside a Card", "Add a second AppBar"], 0,
-    [["The stripes show an overflow", "overflow"], ["Expanded gives the remaining width so the title can wrap", "remaining", "wrap"]],
-    "The stripes show an overflow. Expanded gives the title the remaining width, so it can wrap to more lines.");
-  pick([19], 'm', "A shop page has many product cards and is taller than the screen. Which widget is the best? Why?",
-    ["Column", "ListView", "Row"], 1,
-    [["ListView scrolls when the content exceeds the viewport", "scroll"], ["A Column does not scroll by itself and can overflow", "column does not", "overflow"]],
-    "A ListView scrolls when the content exceeds the viewport. A Column does not scroll by itself and can overflow.");
-  pick([20], 'm', "An app has three introduction screens, and the user swipes from one full page to the next. Which widget is the best? Why?",
-    ["PageView", "ListView", "Wrap"], 0,
-    [["One page fills the viewport", "one page", "fills", "full page"], ["Swiping snaps to the next page", "snap", "swip"]],
-    "In a PageView one page fills the viewport, and swiping snaps to the next page.");
-  pick([16, 21], 'm', "A group of eight short tags must stay inside every screen width. Which widget is the best? Why?",
-    ["Row", "Wrap", "PageView"], 1,
-    [["Wrap starts another line when the next item does not fit", "another line", "new line", "next line"], ["A Row does not move items to another row and can overflow", "row does not", "overflow"]],
-    "Wrap starts another line when the next item does not fit. A Row does not move items to another row and can overflow.");
-  pick([6], 'm', "A product has a long description, many details and a picture. What is the best way to show them? Why?",
-    ["A Chip below the price", "A separate detail screen", "A longer AppBar title"], 1,
-    [["It gives more room for the details", "more room", "more space"], ["It receives the product’s data and the user can return with pop", "receives", "return", "pop"]],
-    "A separate detail screen gives more room. It receives the product's data, and the user can return with pop.");
-  pick([3, 26], 'm', "The user must choose exactly one category, and the selected one must be visible. Which widget is the best? Why?",
-    ["Chip", "ChoiceChip", "SizedBox"], 1,
-    [["ChoiceChip shows one selected option", "selected"], ["A Chip only displays a label", "only displays", "label"]],
-    "A ChoiceChip shows one selected option, while a Chip only displays a label.");
+  def([11, 12], 'm', 3, "A long book title beside an icon shows yellow and black stripes. What is the problem and what is the fix?",
+    [["Overflow", "overflow"], ["Put the title inside Expanded", "expanded"], ["It gives the remaining width, so the title can wrap", "remaining", "wrap"]],
+    "The problem is overflow. Put the title inside Expanded, which gives it the remaining width, so the title can wrap.");
+  def(19, 'm', 3, "A shop page has many product cards and is taller than the screen. Which widget is the best? Why?",
+    [["ListView", "listview", "list view"], ["It scrolls when the content exceeds the viewport", "scroll"], ["A Column does not scroll by itself and can overflow", "column", "overflow"]],
+    "A ListView is the best because it scrolls when the content exceeds the viewport. A Column does not scroll by itself and can overflow.");
+  def(20, 'm', 3, "An app has three introduction screens, and the user swipes from one full page to the next. Which widget is the best? Why?",
+    [["PageView", "pageview", "page view"], ["One page fills the viewport", "!one page fills", "fills", "one page at a time", "one page visible"], ["Swiping snaps to the next page", "snap"]],
+    "A PageView is the best. One page fills the viewport, and swiping snaps to the next page.");
+  def([16, 21], 'm', 3, "A group of eight short tags must stay inside every screen width. Which widget is the best? Why?",
+    [["Wrap", "wrap"], ["It starts another line when the next item does not fit", "another line", "new line", "next line"], ["A Row does not move items to another row and can overflow", "row", "overflow"]],
+    "Wrap is the best because it starts another line when the next item does not fit. A Row does not move items to another row and can overflow.");
+  def(6, 'm', 2, "When is a separate detail screen better, and when is an ExpansionTile better?",
+    [["Detail screen: when more room is needed", "more room", "more space", "more information"], ["ExpansionTile: to keep the user in the catalogue", "keep", "catalogue", "catalog", "same screen"]],
+    "A separate detail screen is better when more room is needed. An ExpansionTile is better to keep the user in the catalogue.");
+  def([3, 26], 'm', 2, "The user must choose one category, and the selected one must be visible. Which widget is the best, and what else is needed to filter the products?",
+    [["ChoiceChip", "choicechip", "choice chip"], ["Application logic to filter the products", "logic", "code", "onselected", "setstate"]],
+    "A ChoiceChip is the best. Application logic is also needed to filter the products.");
+  def([10], 'm', 2, "A child has a minimum width of 0 and a maximum width of 100. Is this tight or loose? Can the child be 150 wide?",
+    [["Loose", "is loose", "=loose", "loose because", "loose no", "loose and", "loose the", "a loose"], ["No, the maximum is 100", "maximum is", "max is", "cannot", "can not", "!loose no", "!no because", "!no the"]],
+    "It is loose. No, the child cannot be 150 wide, because the maximum is 100.");
+  def([10], 'm', 2, "A child has a minimum width of 100 and a maximum width of 100. Is this tight or loose, and which width must the child use?",
+    [["Tight", "is tight", "=tight", "tight because", "tight and", "tight so", "tight the", "tight 100", "a tight"], ["100", "must use 100", "must be 100", "width is 100", "!tight 100", "!and 100", "100 wide", "use 100", "!be 100", "width 100", "=100"]],
+    "It is tight, so the child must use 100.");
+  def(13, 'm', 2, "In this code, what is the job of SizedBox and of Expanded?",
+    [["SizedBox: a gap between the icon and the title", "gap", "space between"], ["Expanded: gives the Text the remaining width", "remaining", "rest of the width"]],
+    "SizedBox makes a gap between the icon and the title. Expanded gives the Text the remaining width.", { code: ROW });
+  def(15, 'h', 2, "What is wrong with this code, and how is it fixed?",
+    [["Expanded is inside Padding, not directly in the Row (parent-data error)", "inside padding", "not directly", "parent data", "directly"], ["Put Expanded directly in the Row and Padding inside it", "row expanded", "padding inside", "expanded directly", "swap", "expanded in the row"]],
+    "Expanded is inside Padding, not directly in the Row, so it gives a parent-data error. Put Expanded directly in the Row and put Padding inside it.", { code: BAD });
+  def(17, 'm', 2, "In this code, how large is the gap between labels on a line, and how large is the gap between lines?",
+    [["Between labels: 8", "#8"], ["Between lines: 12", "#12"]],
+    "The gap between labels is 8, and the gap between lines is 12.", { code: WRAP });
+  def(5, 'm', 2, "Look at the diagram. Where is the home screen while the detail screen is open, and what does pop do?",
+    [["Below the detail screen", "below", "under"], ["pop removes the top route and returns", "remove", "return"]],
+    "The home screen is below the detail screen. pop removes the top route and returns to home.", { qfig: 'navBlank' });
+  def(13, 'm', 2, "Look at the widget tree of the Row. Which child holds the title, and which child makes a gap?",
+    [["Expanded (with Text)", "expanded"], ["SizedBox", "sizedbox", "sized box"]],
+    "Expanded holds the title, and SizedBox makes a gap.", { qfig: 'rowExpanded' });
+  def([18, 19], 'm', 2, "Look at the diagram. What is the part marked with ? called, and how can the user see Card 5?",
+    [["Viewport", "viewport"], ["By scrolling", "scroll"]],
+    "It is the viewport. The user can see Card 5 by scrolling.", { qfig: 'viewportBlank' });
+
+  /* ---------- Matching ---------- */
+  match(26, 'm', "Match each term with its definition.",
+    [["Category", "A named group of related items"], ["Filtering", "Showing items that match a rule while keeping the original data"], ["Chip", "A compact widget that displays a label"], ["ChoiceChip", "Represents one choice from a group of options"], ["State", "Information that can change while the app runs"], ["Callback", "A function that runs in response to an event"], ["`setState()`", "Reports a change so Flutter can rebuild the UI"], ["Empty state", "A view shown when there are no items to display"]]);
+  match(27, 'm', "Match each term with its definition.",
+    [["Detail screen", "Shows more information about one selected item"], ["Navigation", "Moving between screens in an app"], ["Route", "A location managed by Navigator"], ["`Navigator.push`", "Adds a route above the current one"], ["`Navigator.pop`", "Removes the top route"], ["`ExpansionTile`", "Its heading opens or closes extra content"], ["Widget tree", "A hierarchy of widgets that contain other widgets"], ["Siblings", "Children of the same parent"]]);
+  match(28, 'm', "Match each term with its definition.",
+    [["Layout", "The sizing and positioning of content"], ["Constraints", "Minimum and maximum limits for width and height"], ["Tight constraints", "Minimum and maximum are equal"], ["Loose constraints", "Minimum is zero, so a smaller size is allowed"], ["Row", "Arranges children horizontally"], ["Column", "Arranges children vertically"], ["Overflow", "Content extends beyond the available space"], ["Expanded", "Its child must fill its allocated share"], ["Flexible", "Its child may use less than its share"]]);
+  match(29, 'm', "Match each term with its definition.",
+    [["Wrap", "Starts a new run when the next child does not fit"], ["`spacing`", "Gap between children in a run"], ["`runSpacing`", "Gap between runs"], ["Viewport", "The visible area for scrollable content"], ["Scrolling", "Moving through content to see items outside the visible area"], ["ListView", "Arranges items one after another in a scrollable list"], ["PageView", "Shows separate pages, one at a time"], ["Responsive layout", "Adjusts to the space available"], ["Logical pixel", "A unit for layout across screens of different density"]]);
+  match([12, 14, 16, 19, 20], 'h', "Match each layout need with the best choice.",
+    [["A long title must use the remaining width of a Row", "`Expanded`"], ["A short label may stay smaller than its share", "`Flexible`"], ["Many tags must continue on another line", "`Wrap`"], ["A list is taller than the screen", "`ListView`"], ["The user swipes through full introduction pages", "`PageView`"], ["A small group such as a name and a price, one below another", "`Column`"]]);
+  match(23, 'h', "Match each layout test with the result to check.",
+    [["Long product title", "The text fits beside the icon"], ["Narrow screen", "No horizontal overflow"], ["Larger text", "Words remain visible and readable"], ["More topic labels", "Wrap keeps them inside the page"], ["More details or a shorter screen", "The user can scroll to the final item"]]);
 });

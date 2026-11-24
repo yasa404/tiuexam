@@ -1,6 +1,6 @@
 /* Lecture 3: Stateless and Stateful Widget Apps (PDF pages 4-34; page numbers are PDF pages). */
 EC.lecture(3, function (Q) {
-  var mcq = Q.mcq, tf = Q.tf, fill = Q.fill, list = Q.list, def = Q.def, exp = Q.exp, draw = Q.draw, code = Q.code, pick = Q.pick;
+  var mcq = Q.mcq, list = Q.list, def = Q.def, match = Q.match;
   var COURSE = `class CoursePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ Text('Completed lessons: $lessons'),`;
   ],
 )),`;
 
-  /* ---------- Section A ---------- */
+  /* ---------- Multiple choice ---------- */
   mcq(4, 'e', "Which one is the Dart entry point?",
     ["`main()`", "`build()`", "`setState()`", "`createState()`"], "Slide 4.");
   mcq(5, 'e', "Flutter documentation is…",
@@ -156,60 +156,7 @@ Text('Completed lessons: $lessons'),`;
   mcq([13, 14], 'm', "Which step is missing in this diagram?",
     ["setState changes the value", "main() starts a new app", "The button widget is deleted", "pubspec.yaml is opened"], "Slide 14.", { qfig: 'tapFlowBlank' });
 
-  /* ---------- Section C ---------- */
-  tf(7, 'e', "A StatelessWidget has no mutable State object of its own.", true, "Slide 7.");
-  tf(7, 'e', "A StatelessWidget can never rebuild.", false, "It can rebuild when inputs or context change.");
-  tf(7, 'e', "A StatelessWidget can contain stateful child widgets.", true, "Slide 7.");
-  tf(10, 'e', "State is data that may change while the app runs.", true, "Slide 10.");
-  tf(11, 'm', "`createState()` creates the State object of a StatefulWidget.", true, "Slide 11.");
-  tf(11, 'm', "The leading `_` makes a name public to all Dart libraries.", false, "It makes it private to this library.");
-  tf(12, 'e', "The `lessons` field should be kept inside `build()`.", false, "Outside build().");
-  tf(13, 'm', "`onPressed: addLesson` calls the method immediately, before any tap.", false, "It passes the method without calling it now.");
-  tf(14, 'e', "`setState` runs the change and schedules a rebuild.", true, "Slide 14.");
-  tf(15, 'm', "`'Completed lessons: $lessons'` shows the current value of lessons.", true, "Slide 15.");
-  tf(16, 'e', "The resetLessons() method belongs in the State class.", true, "Slide 16.");
-  tf(17, 'e', "A widget fragment from the documentation is always a complete app.", false, "It belongs inside an app and may need other code.");
-  tf(29, 'm', "Hot reload always sets the counter to 0.", false, "It usually keeps the current counter value.");
-  tf(29, 'm', "Hot Restart restarts the progress app with lessons = 0.", true, "Slide 29.");
-  tf(34, 'e', "It is better to change many parts of the code at the same time.", false, "Change one part at a time.");
-  tf(34, 'e', "A StatefulWidget stores changing data in a State object.", true, "Slide 34.");
-
-  /* ---------- Section B ---------- */
-  fill(6, 'e', "The keyword that connects our class to a Flutter widget type is [[extends]].", "Slide 6.");
-  fill(6, 'e', "The method [[build()|build]] returns the widgets that describe the interface.", "Slide 6.");
-  fill(8, 'e', "[[BuildContext]] describes the widget’s place in the widget tree.", "Slide 8.");
-  fill(10, 'e', "[[State]] is data that may change while the app runs.", "Slide 10.");
-  fill(10, 'e', "The Dart type [[int|integer]] stores a whole number.", "Slide 10.");
-  fill(11, 'e', "The method [[createState()|createState]] creates the State object of a StatefulWidget.", "Slide 11.");
-  fill(11, 'm', "Complete the code: (1) [[StatefulWidget]], (2) [[createState]].", "Slide 11.", { code: `class ProgressPage extends (1)____ {
-  @override
-  State<ProgressPage> (2)____() {
-    return _ProgressPageState();
-  }
-}` });
-  fill(8, 'm', "Complete the code: (1) [[StatelessWidget]], (2) [[build]].", "Slide 8.", { code: `class CoursePage extends (1)____ {
-  @override
-  Widget (2)____(BuildContext context) {` });
-  fill(13, 'm', "Complete the code: [[onPressed]].", "It receives the method to call on a tap.", { code: `ElevatedButton(
-  ________: addLesson,
-  child: Text('Complete lesson'),
-)` });
-  fill(14, 'm', "Complete the code: [[setState]].", "It runs the change and schedules a rebuild.", { code: `void addLesson() {
-  ________(() {
-    lessons = lessons + 1;
-  });
-}` });
-  fill(15, 'm', "Complete the code so that it shows the current value: [[$lessons|lessons]].", "The $ sign inserts the value.", { code: `Text('Completed lessons: ________'),` });
-  fill(16, 'e', "In resetLessons(), the value of lessons becomes [[0|zero]].", "Slide 16.");
-  fill(11, 'e', "The leading underscore makes a name [[private]] to this Dart library.", "Slide 11.");
-  fill(12, 'h', "A local variable inside build() would [[reset]] on each build.", "Slide 12.");
-  fill(22, 'e', "In VS Code, typing [[stless]] offers a StatelessWidget template, and [[stful]] offers a StatefulWidget template.", "Slide 22.");
-  fill(29, 'e', "[[Hot reload]] usually keeps the counter value, while [[Hot restart]] starts the app again with lessons = 0.", "Slide 29.");
-  fill(30, 'm', "The counter starts at 0. With the code below, one click should show [[2|two]].", "0 + 2 = 2.", { code: ADD2 });
-  fill(13, 'e', "The widget that displays a button in the progress app is [[ElevatedButton]].", "Slide 13.");
-  fill(8, 'e', "The annotation [[@override|override]] marks our version of build().", "Slide 8.");
-
-  /* ---------- Section D ---------- */
+  /* ---------- Short answer ---------- */
   def(7, 'e', 2, "Define StatelessWidget and give a useful example.",
     [["Has no mutable State object of its own", "no mutable", "no state object"], ["Example: a course heading", "heading", "title", "logo"]],
     "A StatelessWidget has no mutable State object of its own. A course heading is a useful example.");
@@ -237,51 +184,56 @@ Text('Completed lessons: $lessons'),`;
     [["ProgressPage (the StatefulWidget)", "=progresspage", "statefulwidget", "progresspage extends", "stateful"], ["_ProgressPageState (the State class)", "progresspagestate", "state class"]]);
   list(33, 'e', 3, "List three things to check when the app has errors.",
     [["Use the supplied files if a fragment is incomplete", "supplied", "incomplete"], ["Keep lessons and the methods inside the State class", "state class", "inside the state"], ["Use View > Problems", "problems"], ["Check commas and brackets near the first error", "comma", "bracket"]], { n: 3 });
-
-  /* ---------- Section E ---------- */
-  exp([7, 11, 34], 'm', "Compare StatelessWidget and StatefulWidget.",
+  def([7, 11, 34], 'm', 4, "Compare StatelessWidget and StatefulWidget.",
     [["StatelessWidget has no mutable State object of its own", "no mutable", "no state object"], ["Its build() uses its inputs and the surrounding context", "inputs", "context"], ["StatefulWidget stores changing data in a State object", "changing data"], ["createState() creates the State object", "createstate"]],
     "A StatelessWidget has no mutable State object of its own; its build() uses its inputs and the surrounding context. A StatefulWidget stores changing data in a State object, and createState() creates that State object.");
-  exp([13, 14, 15], 'm', "Explain what happens, step by step, when the user taps the “Complete lesson” button.",
+  def([13, 14, 15], 'm', 4, "Explain what happens, step by step, when the user taps the “Complete lesson” button.",
     [["The tap calls addLesson() (onPressed)", "addlesson", "onpressed"], ["setState runs the change: lessons = lessons + 1", "setstate"], ["It schedules a rebuild", "rebuild"], ["build() reads the updated value and the text shows the new count", "updated", "new count", "new value"]],
     "The tap calls addLesson() because of onPressed. Inside it, setState runs lessons = lessons + 1 and schedules a rebuild. build() then reads the updated lessons value, and the text shows the new count.");
-  exp([5, 17], 'm', "Explain how to use the Flutter documentation to learn a widget such as ElevatedButton.",
+  def([5, 17], 'm', 4, "Explain how to use the Flutter documentation to learn a widget such as ElevatedButton.",
     [["Open the documentation (api.flutter.dev or the widget catalog)", "api flutter dev", "documentation", "catalog"], ["Search for the exact widget name", "exact", "search"], ["Open the class page and find the example code", "example code", "class page"], ["Identify the properties (onPressed and child); a fragment belongs inside an app", "onpressed", "child", "fragment"]],
     "Open the documentation at api.flutter.dev and search for the exact widget name. Open the class page and find its example code. Identify properties such as onPressed and child. A widget fragment belongs inside an app and may need other code.");
-  draw([8, 9], 'm', "Draw the widget tree of CoursePage.", 'courseTree',
-    [["CoursePage", "coursepage"], ["Scaffold", "scaffold"], ["AppBar with Text 'IT Courses'", "appbar"], ["Center with Text 'Mobile Applications'", "center"]],
-    "CoursePage → Scaffold. Scaffold has two branches: AppBar → Text 'IT Courses', and Center → Text 'Mobile Applications'.", { code: COURSE });
-  draw(28, 'm', "Draw the widget tree of the progress page body.", 'progressTree',
-    [["Center, then Column", "column"], ["Text 'Mobile Applications'", "mobile applications"], ["Text with the count", "completed lessons"], ["ElevatedButton with its Text label", "elevatedbutton"]],
-    "Center → Column → three children: Text 'Mobile Applications', Text 'Completed lessons: $lessons', and ElevatedButton → Text 'Complete lesson'.", { code: BODY });
-  draw([13, 14], 'm', "Draw the steps from a tap on the button to the new count on the screen.", 'tapFlow',
-    [["User taps the button", "tap"], ["addLesson() is called", "addlesson"], ["setState changes lessons", "setstate"], ["build() shows the new value", "build"]],
-    "User taps the button → addLesson() is called → setState changes lessons and schedules a rebuild → build() shows the new value.");
-  code(16, 'm', "Write the method resetLessons() that sets lessons to 0 and updates the display.",
-    [["`void resetLessons()`", "!void resetlessons"], ["The body of the method calls `setState`", "!resetlessons setstate"], ["`setState(() { ... })`", "!setstate"], ["`lessons = 0`", "!lessons 0"], ["It does not add to the old value", "!setstate lessons 0"]],
-    "void resetLessons() {\n  setState(() {\n    lessons = 0;\n  });\n}");
-  code([13, 32], 'm', "Write an ElevatedButton with the label 'Reset' that calls resetLessons when it is tapped, and the method addLesson() that adds 1 to lessons.",
-    [["`ElevatedButton(`", "!elevatedbutton"], ["`onPressed: resetLessons` (no parentheses)", "!onpressed resetlessons"], ["`child: Text('Reset')`", "!child text reset"], ["`void addLesson()` with `setState`", "!addlesson setstate"], ["`lessons = lessons + 1`", "!lessons lessons 1"]],
-    "ElevatedButton(\n  onPressed: resetLessons,\n  child: Text('Reset'),\n)\n\nvoid addLesson() {\n  setState(() {\n    lessons = lessons + 1;\n  });\n}");
-  code([11, 12], 'h', "Write the StatefulWidget class CounterPage and its State class _CounterPageState with a field `int count = 0;` (build() is not needed).",
-    [["`class CounterPage extends StatefulWidget`", "!class counterpage extends statefulwidget"], ["`State<CounterPage> createState()`", "!state counterpage createstate"], ["`return _CounterPageState();`", "!return counterpagestate"], ["`class _CounterPageState extends State<CounterPage>`", "!class counterpagestate extends state counterpage"], ["`int count = 0;` as a field", "!int count 0"]],
-    "class CounterPage extends StatefulWidget {\n  @override\n  State<CounterPage> createState() {\n    return _CounterPageState();\n  }\n}\n\nclass _CounterPageState extends State<CounterPage> {\n  int count = 0;\n}");
-  code([8, 9], 'h', "Write a StatelessWidget class called HomePage whose build() returns a Scaffold with the AppBar title 'Home' and the centred text 'Welcome'.",
-    [["`class HomePage extends StatelessWidget`", "!class homepage extends statelesswidget"], ["`Widget build(BuildContext context)`", "!widget build buildcontext context"], ["`return Scaffold(`", "!return scaffold"], ["AppBar title 'Home'", "!title text home"], ["`Center(child: Text('Welcome'))`", "!center child text welcome"]],
-    "class HomePage extends StatelessWidget {\n  @override\n  Widget build(BuildContext context) {\n    return Scaffold(\n      appBar: AppBar(title: Text('Home')),\n      body: Center(child: Text('Welcome')),\n    );\n  }\n}");
-  code([12, 13, 14], 'h', "The button in this code does not update the screen, and the method runs before any tap. Write the corrected method and button.",
-    [["`setState(() {` in the method", "~setState(() {"], ["The method addLesson() contains setState", "~addLesson() { setState("], ["The change is inside setState", "~setState(() { lessons = lessons + 1", "~setState(() { lessons++", "~setState(() { lessons += 1"], ["setState is closed with `});`", "~});"], ["`onPressed: addLesson` without parentheses", "~onPressed: addLesson,", "~onPressed: addLesson)"]],
-    "void addLesson() {\n  setState(() {\n    lessons = lessons + 1;\n  });\n}\n\nElevatedButton(\n  onPressed: addLesson,\n  child: Text('Complete lesson'),\n)", { code: "void addLesson() {\n  lessons = lessons + 1;\n}\n\nElevatedButton(\n  onPressed: addLesson(),\n  child: Text('Complete lesson'),\n)" });
-  pick([7, 10, 11], 'm', "An app must count how many lessons a student has completed, and the number changes after each tap. Which widget type is the best? Why?",
-    ["StatelessWidget", "StatefulWidget", "AppBar"], 1,
-    [["The data changes while the app runs (state)", "changes", "changing", "state"], ["StatefulWidget stores changing data in a State object and can call setState", "state object", "setstate", "stores"]],
-    "The count is data that changes while the app runs. A StatefulWidget stores changing data in a State object, and setState rebuilds the interface.");
-  pick(12, 'm', "A counter always shows 0 after every rebuild because `int lessons = 0;` is written inside build(). What is the best fix? Why?",
-    ["Move `lessons` to the State class, outside build()", "Write `lessons` in the AppBar", "Remove setState from addLesson()"], 0,
-    [["A local variable inside build() resets on each build", "reset", "each build", "every build"], ["A field in the State class keeps its value", "field", "keeps", "state class"]],
-    "A local variable inside build() resets on each build. As a field in the State class, outside build(), it keeps its value.");
-  pick([14], 'm', "A tap changes `lessons` from 0 to 1 but the screen still shows 0. What is the best fix? Why?",
-    ["Put the change inside setState", "Use a larger font size", "Rename the project"], 0,
-    [["setState runs the change and schedules a rebuild", "rebuild", "schedule"], ["build() then reads the updated value", "updated", "reads", "new value"]],
-    "setState runs the change and schedules a rebuild, and build() then reads the updated value.");
+  def([7, 10, 11], 'm', 3, "An app must count how many lessons a student has completed, and the number changes after each tap. Which widget type is the best? Why?",
+    [["StatefulWidget", "stateful"], ["The data changes while the app runs (state)", "changes", "changing", "state changes"], ["It stores the data in a State object and can call setState", "state object", "setstate", "stores"]],
+    "A StatefulWidget is the best. The count changes while the app runs, and a StatefulWidget stores changing data in a State object and can call setState.");
+  def(12, 'h', 3, "A counter shows 0 after every rebuild because `int lessons = 0;` is written inside build(). What is the fix? Why?",
+    [["Move lessons to the State class, outside build()", "state class", "outside build", "outside"], ["A local variable inside build() resets on each build", "reset", "each build", "every build"], ["A field in the State class keeps its value", "keeps", "field", "keep its"]],
+    "Move lessons to the State class, outside build(). A local variable inside build() resets on each build, but a field in the State class keeps its value.");
+  def(14, 'm', 3, "A tap changes `lessons` from 0 to 1, but the screen still shows 0. What is the fix? Why?",
+    [["Put the change inside setState", "setstate"], ["It schedules a rebuild", "rebuild", "schedule"], ["build() then reads the updated value", "updated", "new value", "reads"]],
+    "Put the change inside setState. setState schedules a rebuild, and build() then reads the updated value.");
+  def([14, 15], 'm', 2, "The counter starts at 0. Which number is shown after three taps on the button? Which line of this method changes it?",
+    [["3", "#3"], ["`lessons = lessons + 1;`", "!lessons lessons 1"]],
+    "3. The line lessons = lessons + 1; changes it.", { code: ADD });
+  def(30, 'm', 2, "The counter starts at 0 and the button calls this method. What is shown after one click and after two clicks?",
+    [["After one click: 2", "#2"], ["After two clicks: 4", "#4"]],
+    "After one click it shows 2, and after two clicks it shows 4.", { code: ADD2 });
+  def([16, 18], 'm', 2, "The counter starts at 0. The user taps “Complete lesson” twice and then taps Reset. Which value appears, and why?",
+    [["0", "=0", "zero", "0 appears", "appears 0", "value is 0", "it is 0", "shows 0", "0 because", "0 is shown"], ["resetLessons() sets lessons to 0 inside setState", "lessons to 0", "!lessons 0", "sets lessons", "setstate", "reset to 0", "back to 0", "count to 0", "it to 0"]],
+    "0 appears, because resetLessons() sets lessons to 0 inside setState.", { code: RESET });
+  def([8, 9], 'm', 2, "Is CoursePage stateless or stateful, and which widget does its build() method return?",
+    [["Stateless (it extends StatelessWidget)", "is stateless", "stateless because", "stateless and", "it extends", "!statelesswidget", "=stateless", "stateless scaffold"], ["Scaffold", "scaffold"]],
+    "CoursePage is stateless because it extends StatelessWidget. Its build() method returns a Scaffold.", { code: COURSE });
+  def(28, 'm', 2, "Look at the widget tree. Which widget has three children, and which child is a button?",
+    [["Column", "column"], ["ElevatedButton", "elevatedbutton", "elevated button"]],
+    "The Column has three children. The button is ElevatedButton.", { qfig: 'progressTree' });
+  def(13, 'm', 2, "Look at this code. What is the job of onPressed and of child?",
+    [["onPressed: the method to call on a tap", "method", "tap"], ["child: the label of the button", "label"]],
+    "onPressed receives the method to call on a tap. child supplies the label of the button.", { code: BUTTON });
+  def(15, 'm', 2, "Write the Text widget that shows 'Completed lessons: ' followed by the current value of lessons.",
+    [["`Text('Completed lessons:`", "!text completed lessons"], ["`$lessons`", "~$lessons", "~${lessons}"]],
+    "Text('Completed lessons: $lessons')");
+  def([11, 12], 'h', 2, "Read these class lines. Which class is the widget, and which class holds the changing data?",
+    [["ProgressPage is the widget", "progresspage is the widget", "widget is progresspage", "=progresspage", "the widget"], ["_ProgressPageState holds the changing data", "progresspagestate"]],
+    "ProgressPage is the widget, and _ProgressPageState holds the changing data.", { code: "class ProgressPage extends StatefulWidget { ... }\n\nclass _ProgressPageState extends State<ProgressPage> {\n  int lessons = 0;\n}" });
+
+  /* ---------- Matching ---------- */
+  match([6, 8, 11, 14], 'm', "Match each Dart or Flutter name with its meaning.",
+    [["`extends`", "Connects our class to a Flutter widget type"], ["`build()`", "Returns the widgets that describe the interface"], ["`BuildContext`", "Describes the widget’s place in the widget tree"], ["`@override`", "Marks our version of a method"], ["`createState()`", "Creates the State object"], ["`setState()`", "Runs a change and schedules a rebuild"], ["Leading `_`", "Makes a name private to the Dart library"]]);
+  match([7, 10, 13, 15, 34], 'e', "Match each term with its description.",
+    [["State", "Data that may change while the app runs"], ["StatelessWidget", "Has no mutable State object of its own"], ["StatefulWidget", "Stores changing data in a State object"], ["`int`", "Type for a whole number"], ["`$lessons`", "Inserts the current value into a text"], ["`ElevatedButton`", "Reacts to a tap and has a label"]]);
+  match([13, 14, 15, 16, 30], 'm', "Match each line of code with its effect.",
+    [["`lessons = lessons + 1;`", "Increases the count by one"], ["`lessons = lessons + 2;`", "Increases the count by two"], ["`lessons = 0;`", "Resets the count"], ["`onPressed: addLesson`", "Names the method to call on a tap"], ["`child: Text('Reset')`", "Supplies the label of a button"], ["`Text('Completed lessons: $lessons')`", "Shows the current count"]]);
+  match([21, 22, 29, 33], 'm', "Match each tool or command in VS Code with its use.",
+    [["Command Palette", "Where we run Flutter: New Project"], ["F5", "Launches the app (Start Debugging)"], ["Hot reload", "Usually keeps the counter value"], ["Hot restart", "Starts the app again with lessons = 0"], ["`stless`", "Offers a StatelessWidget template"], ["`stful`", "Offers a StatefulWidget template"], ["View > Problems", "Shows the errors in the code"]]);
 });

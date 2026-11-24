@@ -1,6 +1,6 @@
 /* Lecture 5: Campus Shop, five practical tasks (PDF pages 3-15). */
 EC.lecture(5, function (Q) {
-  var mcq = Q.mcq, tf = Q.tf, fill = Q.fill, list = Q.list, def = Q.def, exp = Q.exp, draw = Q.draw, code = Q.code, pick = Q.pick;
+  var mcq = Q.mcq, list = Q.list, def = Q.def, match = Q.match;
   var CARD = `Card(
   child: Padding(
     padding: EdgeInsets.all(16),
@@ -36,7 +36,7 @@ EC.lecture(5, function (Q) {
   ],
 )`;
 
-  /* ---------- Section A ---------- */
+  /* ---------- Multiple choice ---------- */
   mcq(3, 'e', "What does each product card show in the starter Campus Shop app?",
     ["A name and a price", "A picture and a video", "A name and a phone number", "A price and a map"], "Slide 3.");
   mcq(3, 'e', "Which statement about the starter app is correct?",
@@ -114,55 +114,7 @@ EC.lecture(5, function (Q) {
   mcq(5, 'm', "Which widget is missing at the top of this tree, if the cards must scroll as a list?",
     ["`ListView`", "`Padding`", "`Icon`", "`TextStyle`"], "ListView.children contains the cards.", { qfig: 'listCardsBlank' });
 
-  /* ---------- Section C ---------- */
-  tf(3, 'e', "The starter Campus Shop app shows three product cards.", true, "Slide 3.");
-  tf(3, 'e', "The starter app needs extra image packages.", false, "No extra packages or images.");
-  tf(5, 'e', "`ListView.children` is the list that contains the cards.", true, "Slide 5.");
-  tf(5, 'e', "`Column.children` holds the list of all the cards on the page.", false, "It holds the contents inside one card.");
-  tf(6, 'e', "You should change one thing at a time, then save and check the screen.", true, "Slide 6.");
-  tf(7, 'e', "You should keep the starter main() and app structure when you use an example from the documentation.", true, "Slide 7.");
-  tf(7, 'm', "You should paste the complete documentation app over your work.", false, "Copy only what you need.");
-  tf(10, 'm', "The closing comma is part of the Card block that you copy.", true, "Slide 10.");
-  tf(11, 'e', "To style only the prices, the green bold style is added to the product name.", false, "It is added to the price Text.");
-  tf(12, 'e', "An Icon is a symbol, not a button.", true, "Slide 12.");
-  tf(12, 'm', "An Icon written in the Column.children of one card appears in every card.", false, "It appears only in that card.");
-  tf(13, 'e', "A `SizedBox` with a height can add a vertical gap between a name and a price.", true, "Slide 13.");
-  tf(13, 'm', "The Padding widget is used to add space around the contents inside a card.", true, "Slide 13.");
-  tf(14, 'e', "The app should also be tested in a narrow window.", true, "Slide 14.");
-
-  /* ---------- Section B ---------- */
-  fill(4, 'e', "The starter code replaces the entire file lib/[[main.dart|main]].", "Slide 4.");
-  fill(5, 'e', "The comment [[APP TITLE]] marks the title at the top, and [[DEMO HEADING]] marks the heading above the products.", "Slide 5.");
-  fill(5, 'e', "The list containing the cards is [[ListView.children|ListView children|ListView]], and the contents inside one card are in [[Column.children|Column children|Column]].", "Slide 5.");
-  fill(6, 'e', "After a small change you save the file and use [[Hot Reload]] to see it in the running app.", "Slide 6.");
-  fill(10, 'e', "A new product card is inserted after product 3 inside [[ListView.children|ListView children|ListView]].", "Slide 10.");
-  fill(10, 'e', "The Card block must be copied with its closing [[comma]].", "Slide 10.");
-  fill(11, 'e', "The text style class used to make the price green and bold is [[TextStyle]].", "Slide 11.");
-  fill(11, 'm', "Complete the code: (1) [[color]], (2) [[fontWeight]].", "Task 3.", { code: `Text(
-  'IQD 3,000',
-  style: TextStyle(
-    (1)____: Colors.green,
-    (2)____: FontWeight.bold,
-  ),
-),` });
-  fill(12, 'm', "Complete the code: (1) [[Icon]], (2) [[SizedBox]].", "Task 4.", { code: `children: [
-  (1)____(Icons.school, color: Colors.orange, size: 40),
-  (2)____(height: 8),
-  Text('IT Course Book'),
-],` });
-  fill(12, 'e', "In this lecture, an [[Icon]] is a symbol and not a button.", "Slide 12.");
-  fill(13, 'e', "Space around the outside of a card is its [[margin]], and the space around the contents inside the card is added with [[Padding]].", "Slide 13.");
-  fill(13, 'e', "A vertical gap between the name and the price is made with a [[SizedBox]] that has a height.", "Slide 13.");
-  fill(14, 'e', "Make the window [[narrow|small]] and check that there is no [[overflow]].", "Slide 14.");
-  fill(5, 'h', "Complete the code: (1) [[ListView]], (2) [[Card]].", "The list contains cards.", { code: `(1)____(
-  children: [
-    // PRODUCT 1 START
-    (2)____(child: Padding(...)),
-    // PRODUCT 1 END
-  ],
-)` });
-
-  /* ---------- Section D ---------- */
+  /* ---------- Short answer ---------- */
   def(5, 'm', 2, "What do ListView.children and Column.children contain in the Campus Shop app?",
     [["ListView.children: the list containing the cards", "cards"], ["Column.children: the contents inside one card", "inside one card", "contents", "one card"]],
     "ListView.children is the list containing the cards. Column.children holds the contents inside one card.");
@@ -183,45 +135,50 @@ EC.lecture(5, function (Q) {
     [["Names and prices", "name", "price"], ["Green bold prices", "green", "bold"], ["The icon", "icon"], ["The spacing", "spacing"], ["A narrow window", "narrow"], ["Scrolling", "scroll"], ["Errors or overflow", "error", "overflow"]], { n: 4 });
   list(9, 'e', 3, "List three of the practical changes made to the Campus Shop app in this lecture.",
     [["Change a product name and price", "name", "change a product"], ["Add a fourth product card", "fourth", "add a product", "new product"], ["Make the prices green and bold", "green", "bold"], ["Add an icon", "icon"], ["Change the spacing", "spacing", "margin", "padding"]], { n: 3 });
-
-  /* ---------- Section E ---------- */
-  exp(10, 'm', "Explain how to add a fourth product card to the Campus Shop app.",
+  def(10, 'm', 4, "Explain how to add a fourth product card to the Campus Shop app.",
     [["Copy one complete Card block, including the closing comma", "comma", "complete card"], ["Paste it after product 3 inside ListView.children", "listview", "after product 3"], ["Change the name and the price", "name", "price"], ["Rename the comments to PRODUCT 4 START / END", "product 4", "rename", "comments"]],
     "Copy one complete Card block including its closing comma. Paste it after product 3 inside ListView.children. Change the name to IT Course Book and the price. Rename the comments to PRODUCT 4 START and PRODUCT 4 END.");
-  exp(7, 'm', "Explain how to use a documentation example in your own app.",
+  def(7, 'm', 4, "Explain how to use a documentation example in your own app.",
     [["Search for the widget", "search"], ["Find a small example and identify its properties", "small example", "propert"], ["Copy only what you need and adapt it", "only what", "adapt"], ["Keep the starter main() and app structure (do not paste another complete app)", "keep", "main", "complete app"]],
     "Search for the widget and find a small example. Identify its properties. Copy only what you need and adapt it. Keep the starter main() and app structure, and do not paste another complete app.");
-  exp(13, 'm', "Explain the job of Card margin, Padding and SizedBox in the spacing of a product card.",
+  def(13, 'm', 4, "Explain the job of Card margin, Padding and SizedBox in the spacing of a product card.",
     [["Margin: space outside, around the card", "outside", "around the card", "every side of the card"], ["Padding: space inside the card around the contents", "inside"], ["SizedBox with a height: a gap between two widgets", "sizedbox", "gap"], ["For example between the name and the price", "name and the price", "between the name"]],
     "The margin is space outside, around the card. Padding is space inside the card around its contents. A SizedBox with a height makes a gap between two widgets, for example between the name and the price.");
-  draw([5, 13], 'm', "Draw the widget tree of this product card.", 'cardTree',
-    [["Card", "card"], ["Padding", "padding"], ["Column", "column"], ["Two Text widgets: name and price", "campus notebook", "price", "text"]],
-    "Card → Padding → Column → two children: Text 'Campus Notebook' and Text 'IQD 3,000'.", { code: CARD });
-  draw([5, 12], 'm', "Draw the widget tree of the page: a ListView with two cards, where the second card also has an icon above the name.", 'listCards',
-    [["ListView at the top", "listview"], ["Two Card children", "card"], ["Column in each card with name and price", "column"], ["Icon only in the second card", "icon"]],
-    "ListView → two Cards. First card: Column → Text name, Text price. Second card: Column → Icon, Text name, Text price.");
-  code(11, 'm', "Write a Text widget that shows 'IQD 4,000' in green and bold.",
-    [["`Text('IQD 4,000'`", "!text iqd 4 000"], ["`style:` property", "!style"], ["`TextStyle(`", "!style textstyle"], ["`color: Colors.green`", "!color colors green"], ["`fontWeight: FontWeight.bold`", "!fontweight fontweight bold"]],
-    "Text(\n  'IQD 4,000',\n  style: TextStyle(\n    color: Colors.green,\n    fontWeight: FontWeight.bold,\n  ),\n)");
-  code([12], 'm', "Write the children list of a Column that shows an orange school icon of size 40, a gap of 8, and then the text 'IT Course Book'.",
-    [["`children: [ ]`", "!children"], ["`Icon(Icons.school`", "!icon icons school"], ["Orange colour and size 40", "!color colors orange size 40", "!size 40 color colors orange"], ["`SizedBox(height: 8)`", "!sizedbox height 8"], ["`Text('IT Course Book')` after the gap", "!height 8 text it course book", "!text it course book"]],
-    "children: [\n  Icon(Icons.school, color: Colors.orange, size: 40),\n  SizedBox(height: 8),\n  Text('IT Course Book'),\n],");
-  code([5, 10, 13], 'h', "Write one complete Card with padding 20 on every side and a Column that shows 'IT Notebook', a gap of 12 and 'IQD 4,000'.",
-    [["`Card(` with `child:`", "!card child", "!card margin"], ["`Padding(padding: EdgeInsets.all(20)`", "!edgeinsets all 20"], ["`Column(children: [`", "!column children", "!children"], ["Name, gap and price in order", "!text it notebook sizedbox height 12 text iqd 4 000", "!sizedbox height 12 text iqd 4 000"], ["Name Text 'IT Notebook'", "!text it notebook"]],
-    "Card(\n  child: Padding(\n    padding: EdgeInsets.all(20),\n    child: Column(\n      children: [\n        Text('IT Notebook'),\n        SizedBox(height: 12),\n        Text('IQD 4,000'),\n      ],\n    ),\n  ),\n),");
-  code([10, 11], 'h', "The code below should show a name and a green bold price, but it has mistakes. Write the correct code.",
-    [["`children: [` (not child)", "~children: ["], ["A comma after the first Text", "~Text('IT Course Book'), Text("], ["`style: TextStyle(`", "~style: TextStyle("], ["`color: Colors.green`", "~color: Colors.green"], ["`fontWeight: FontWeight.bold`", "~fontWeight: FontWeight.bold"]],
-    "Column(\n  children: [\n    Text('IT Course Book'),\n    Text(\n      'IQD 12,000',\n      style: TextStyle(\n        color: Colors.green,\n        fontWeight: FontWeight.bold,\n      ),\n    ),\n  ],\n)", { code: "Column(\n  child: [\n    Text('IT Course Book')\n    Text('IQD 12,000',\n      TextStyle(\n        color = green,\n        fontWeight: bold,\n      ),\n    ),\n  ],\n)" });
-  pick([5, 10], 'm', "A new product must appear as its own card in the shop. Where is the best place for the new Card? Why?",
-    ["Inside ListView.children", "Inside Column.children of product 3", "Inside the AppBar title"], 0,
-    [["ListView.children is the list containing the cards", "list containing", "contains the cards", "list of cards", "cards"], ["Column.children holds only the contents of one card", "one card", "contents"]],
-    "ListView.children is the list containing the cards, while Column.children holds only the contents inside one card.");
-  pick(6, 'm', "A student wants to change the heading, the prices and the spacing. What is the best way to work? Why?",
-    ["Change everything, then save once at the end", "Change one thing, save and check the screen each time", "Delete the project and start again"], 1,
-    [["You can see the result of each change", "result of each", "see the change", "each change", "check"], ["It is easier to find and fix an error", "error", "mistake", "problem", "fix"]],
-    "When you change one thing at a time you can see the result of each change, and it is easier to find and fix an error.");
-  pick(11, 'm', "Only the prices must become green and bold. Where should the TextStyle be added? Why?",
-    ["On the name Text", "On the price Text", "On the Card"], 1,
-    [["The style controls the appearance of that Text only", "that text", "only the price", "appearance", "price text"], ["The name and the rest of the card stay unchanged", "unchanged", "stay", "not change"]],
-    "The style on the price Text controls the appearance of that Text only, so the name and the rest of the card stay unchanged.");
+  def([5, 10], 'm', 3, "A new product must appear as its own card in the shop. Where should the new Card be written? Why?",
+    [["Inside ListView.children", "listview"], ["It is the list containing the cards", "list containing", "contains the cards", "cards"], ["Column.children holds only the contents of one card", "one card", "contents"]],
+    "Inside ListView.children, because it is the list containing the cards. Column.children holds only the contents inside one card.");
+  def(6, 'm', 3, "A student wants to change the heading, the prices and the spacing. What is the best way to work? Why?",
+    [["Change one thing at a time", "one thing", "one change", "one at a time"], ["Save and check the screen each time", "save", "check"], ["It is easier to find and fix an error", "error", "mistake", "problem", "fix"]],
+    "Change one thing at a time, then save and check the screen each time. It is easier to find and fix an error.");
+  def(11, 'm', 2, "Only the prices must become green and bold. Where should the TextStyle be added, and what happens to the names?",
+    [["On the price Text", "price text", "on the price", "to the price", "the price"], ["The names stay unchanged", "unchanged", "stay", "not change", "same"]],
+    "Add it on the price Text. The product names stay unchanged.");
+  def(11, 'm', 2, "Describe how the text in this code looks.",
+    [["Green", "green"], ["Bold", "bold"]],
+    "The text IQD 3,000 is green and bold.", { code: PRICE });
+  def(12, 'm', 2, "In this code, what do `Icons.school` and `size: 40` set?",
+    [["Icons.school chooses the symbol", "symbol", "which icon", "school icon", "picture"], ["size: 40 sets the size of the icon", "size of", "how large", "how big", "icon size", "the size"]],
+    "Icons.school chooses the symbol, and size: 40 sets the size of the icon.", { code: ICON });
+  def([5, 13], 'm', 2, "Look at the widget tree of a product card. Which widget gives space around the contents, and which widget arranges the texts?",
+    [["Padding", "padding"], ["Column", "column"]],
+    "Padding gives space around the contents, and Column arranges the texts.", { qfig: 'cardTree' });
+  def([5, 12], 'm', 2, "Look at the widget tree. Which widget is the parent of the two cards, and what does the second card have that the first does not?",
+    [["ListView", "listview", "list view"], ["An Icon", "icon"]],
+    "ListView is the parent of the two cards. The second card also has an Icon.", { qfig: 'listCards' });
+  def(10, 'm', 2, "Why must the closing comma be copied with a Card block, and where is the new Card pasted?",
+    [["Commas separate the items of the list", "separate", "list item", "items"], ["After product 3, inside ListView.children", "listview", "after product 3", "after the third"]],
+    "The comma separates the items of the list. The new Card is pasted after product 3, inside ListView.children.");
+  def(13, 'm', 2, "Write the code for a vertical gap of 12 between two widgets, and name the widget.",
+    [["`SizedBox`", "!sizedbox"], ["`height: 12`", "!height 12"]],
+    "SizedBox(height: 12)");
+
+  /* ---------- Matching ---------- */
+  match(5, 'e', "Match each comment or widget with where you work.",
+    [["`APP TITLE`", "The text at the very top of the app"], ["`DEMO HEADING`", "The words above the first card"], ["`PRODUCT 1 START / END`", "One complete card"], ["`ListView.children`", "The list containing the cards"], ["`Column.children`", "The contents inside one card"]]);
+  match([11, 12, 13], 'm', "Match each name with its use in the product cards.",
+    [["Card margin", "Space around the outside of a card"], ["`Padding`", "Space around the content inside a card"], ["`SizedBox`", "A gap between two widgets"], ["`color`", "Makes the price text green"], ["`fontWeight`", "Makes the price text bold"], ["`Icon`", "Displays a symbol; it is not a button"]]);
+  match([4, 6, 10, 14], 'm', "Match each item with its purpose.",
+    [["Ctrl+S", "Saves the file"], ["F5", "Runs the app on the chosen device"], ["Hot Reload", "Shows a saved change in the running app"], ["`lib/main.dart`", "The file replaced by the starter code"], ["Closing comma", "Separates one Card from the next"], ["Narrow window", "A test that can show overflow"]]);
+  match([11, 12, 13], 'h', "Match each piece of code with its effect.",
+    [["`Icons.school`", "Chooses which symbol is shown"], ["`size: 40`", "Sets the size of an icon"], ["`Colors.green`", "Sets the colour of the price"], ["`FontWeight.bold`", "Makes text bold"], ["`EdgeInsets.all(20)`", "Space of 20 on every side"], ["`SizedBox(height: 12)`", "Vertical gap of 12"]]);
 });

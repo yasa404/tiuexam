@@ -16,7 +16,6 @@
       .replace(/\s+/g, ' ').trim();
   }
   function compact(s) { return norm(s).replace(/ /g, ''); }
-  function stripArticle(n) { return n.replace(/^(the|a|an) /, ''); }
 
   function lev(a, b) {
     if (a === b) return 0;
@@ -35,45 +34,7 @@
     return prev[n];
   }
 
-  /* Typo tolerance by length of the expected answer (spaces removed). */
-  function tolerance(len) { return len <= 5 ? 0 : (len <= 11 ? 1 : 2); }
-
-  /* Every accepted fill-in answer in the bank. Used so a typed answer that is
-     itself a different course term (e.g. "invention" for "reinvention")
-     is never accepted as a typo. */
-  var glossary = null;
-  function getGlossary() {
-    if (glossary) return glossary;
-    glossary = new Set();
-    (EC.BANK || []).forEach(function (q) {
-      if (q.type === 'fill') q.blanks.forEach(function (alts) {
-        alts.forEach(function (a) { glossary.add(compact(stripArticle(norm(a)))); });
-      });
-    });
-    ['class', 'object', 'attribute', 'method', 'stateless', 'stateful', 'statelesswidget', 'statefulwidget', 'state', 'child', 'children', 'row', 'column',
-      'push', 'pop', 'navigatorpush', 'navigatorpop', 'tight', 'loose', 'listview', 'pageview', 'expanded', 'flexible', 'spacing', 'runspacing', 'hotreload', 'hotrestart',
-      'data', 'presentation', 'padding', 'margin', 'setstate', 'createstate', 'runapp', 'main', 'materialapp', 'scaffold', 'appbar', 'minimum', 'maximum',
-      'width', 'height', 'horizontally', 'vertically', 'horizontal', 'vertical', 'chip', 'choicechip', 'wrap', 'parent', 'local', 'network', 'stless', 'stful',
-      'parentheses', 'brackets', 'braces', 'comma', 'colon', 'semicolon', 'title', 'subtitle', 'appbar', 'body', 'title', 'final', 'required']
-      .forEach(function (t) { glossary.add(t); });
-    return glossary;
-  }
-
-  /* Fill-in-the-blank comparison: exact after normalisation, or a small typo,
-     but never a different known term. */
-  function sameTerm(input, accepted) {
-    var a = compact(stripArticle(norm(input)));
-    if (!a) return false;
-    var acc = accepted.map(function (x) { return compact(stripArticle(norm(x))); });
-    if (acc.indexOf(a) > -1) return true;
-    if (getGlossary().has(a)) return false;
-    for (var i = 0; i < acc.length; i++) {
-      if (lev(a, acc[i]) <= tolerance(acc[i].length)) return true;
-    }
-    return false;
-  }
-
-  /* Keyword match for list / short-answer / explain grading.
+  /* Keyword match for short answers.
      The key must start at a word boundary in the answer (prefix stems allowed,
      e.g. "convenien" matches "convenience"). Keys starting with "=" must equal
      the whole answer. Keys starting with "#" are numbers: some number in the answer must equal them
@@ -195,27 +156,11 @@
         blank = ans === undefined || ans === null;
         got = !blank && ans === item.correct ? max : 0;
         break;
-      case 'tf':
-        blank = ans !== true && ans !== false;
-        got = !blank && ans === q.answer ? max : 0;
-        break;
-      case 'fill': {
+      case 'match': {
         var a = Array.isArray(ans) ? ans : [];
-        var res = q.blanks.map(function () { return false; });
-        // q.set: blanks that accept any order, as one group [0, 1] or several groups [[0, 1], [2, 3]].
-        var groups = q.set ? (Array.isArray(q.set[0]) ? q.set : [q.set]) : [];
-        var grouped = [].concat.apply([], groups);
-        q.blanks.forEach(function (acc, i) { if (grouped.indexOf(i) === -1) res[i] = sameTerm(a[i], acc); });
-        groups.forEach(function (set) {
-          var free = set.slice();
-          set.forEach(function (i) {
-            var j = -1;
-            for (var f = 0; f < free.length; f++) if (sameTerm(a[i], q.blanks[free[f]])) { j = f; break; }
-            if (j > -1) { res[i] = true; free.splice(j, 1); }
-          });
-        });
-        blank = q.blanks.every(function (_, i) { return isBlankText(a[i]); });
-        got = res.filter(Boolean).length * (max / q.blanks.length);
+        var res = item.rows.map(function (r, i) { return a[i] === r.answer; });
+        blank = item.rows.every(function (_, i) { return typeof a[i] !== 'number'; });
+        got = res.filter(Boolean).length;
         detail.res = res;
         break;
       }
@@ -242,8 +187,8 @@
   function isAnswered(item, ans) {
     if (ans === undefined || ans === null) return false;
     if (item.type === 'mcq') return typeof ans === 'number';
-    if (item.type === 'tf') return ans === true || ans === false;
-    if (item.type === 'fill' || item.type === 'list') return Array.isArray(ans) && ans.some(function (v) { return !isBlankText(v); });
+    if (item.type === 'match') return Array.isArray(ans) && ans.some(function (v) { return typeof v === 'number'; });
+    if (item.type === 'list') return Array.isArray(ans) && ans.some(function (v) { return !isBlankText(v); });
     return !isBlankText(ans.text) || typeof ans.choice === 'number';
   }
 
@@ -279,8 +224,7 @@
     var q = item.q;
     switch (item.type) {
       case 'mcq': return item.correct;
-      case 'tf': return q.answer;
-      case 'fill': return q.blanks.map(function (b) { return b[0]; });
+      case 'match': return item.rows.map(function (r) { return r.answer; });
       case 'list': return q.items.slice(0, Math.max(q.need, q.items.length)).map(function (it) { return it.text; });
       case 'def':
       case 'exp': return q.choices ? { text: q.model, choice: q.answer } : { text: q.model };
@@ -321,26 +265,22 @@
      Exam codes
      ========================================================= */
   var LENGTHS = {
-    Q: { label: 'Quick', total: 10, minutes: 15, budget: { A: 4, B: 2, C: 2, D: 2, E: 0 } },
-    S: { label: 'Short', total: 20, minutes: 30, budget: { A: 6, B: 4, C: 3, D: 3, E: 4 } },
-    M: { label: 'Standard', total: 40, minutes: 60, budget: { A: 15, B: 8, C: 5, D: 7, E: 5 } },
-    F: { label: 'Full', total: 60, minutes: 90, budget: { A: 20, B: 12, C: 8, D: 10, E: 10 } }
+    Q: { label: 'Quick', total: 10, minutes: 15, budget: { A: 3, B: 4, C: 3 } },
+    S: { label: 'Short', total: 20, minutes: 30, budget: { A: 6, B: 9, C: 5 } },
+    M: { label: 'Standard', total: 40, minutes: 60, budget: { A: 14, B: 16, C: 10 } },
+    F: { label: 'Full', total: 60, minutes: 90, budget: { A: 22, B: 23, C: 15 } }
   };
+  /* Section keys, in paper order. */
+  var KEYS = ['A', 'B', 'C'], ALL = KEYS.join('');
   var SECTION_INFO = {
-    A: { title: 'Choose the correct option', instr: 'Choose ONE option for each question.', types: ['mcq'] },
-    B: { title: 'Fill in the blanks', instr: 'Write the missing word or phrase in each blank. Each blank carries one mark.', types: ['fill'] },
-    C: { title: 'True or false', instr: 'Decide whether each statement is True or False.', types: ['tf'] },
-    D: { title: 'Short answer', instr: 'Answer briefly. Write one item per line where a list is asked for.', types: ['def', 'list'] },
-    E: { title: 'Explain', instr: 'Answer in full sentences. Marks are given for each key point.', types: ['exp'] }
+    A: { title: 'Short answer', instr: '', types: ['def', 'list'] },
+    B: { title: 'Multiple choice', instr: '', types: ['mcq'] },
+    C: { title: 'Matching', instr: '', types: ['match'] }
   };
   /* A course can rename sections, change which types they hold, and change the mark budgets (EC.COURSE). */
   if (EC.COURSE && EC.COURSE.sectionInfo) Object.keys(EC.COURSE.sectionInfo).forEach(function (k) { Object.assign(SECTION_INFO[k], EC.COURSE.sectionInfo[k]); });
   if (EC.COURSE && EC.COURSE.budgets) Object.keys(EC.COURSE.budgets).forEach(function (k) { LENGTHS[k].budget = EC.COURSE.budgets[k]; });
-  /* Does question q belong in section key? Written questions carry sec: 'D' or 'E' when both sections hold 'exp'. */
-  function inSection(q, key) {
-    if (SECTION_INFO[key].types.indexOf(q.type) === -1) return false;
-    return q.type !== 'exp' || !SECTION_INFO[key].bySec || (q.sec || 'E') === key;
-  }
+  function inSection(q, key) { return SECTION_INFO[key].types.indexOf(q.type) > -1; }
 
   /* Difficulty level of a paper: share of easy / medium / hard questions it aims for.
      X = mixed (default). Codes carry E, N or H after the length letter, e.g. MA-7F3A-1234567MH. */
@@ -354,7 +294,7 @@
   var UNITS = (EC.COURSE && EC.COURSE.units) || [1, 2, 3, 4];
   var PREFIX = (EC.COURSE && EC.COURSE.prefix) || 'EC';
   var CODE_RE = new RegExp('^' + PREFIX + '-?([0-9A-F]{4})(?:-([' + UNITS.join('') + ']{1,' + UNITS.length + '})([QSMF])([ENH])?)?(?:-([A-E]{1,5}))?$');
-  var DEFAULT_CFG = { lectures: UNITS.slice(), length: 'M', sections: 'ABCDE', difficulty: 'X' };
+  var DEFAULT_CFG = { lectures: UNITS.slice(), length: 'M', sections: ALL, difficulty: 'X' };
 
   function normCfg(cfg) {
     cfg = cfg || {};
@@ -362,9 +302,9 @@
     lect = Array.from(new Set(lect)).sort();
     if (!lect.length) lect = DEFAULT_CFG.lectures.slice();
     var length = LENGTHS[cfg.length] ? cfg.length : 'M';
-    var secs = String(cfg.sections || 'ABCDE').toUpperCase().split('').filter(function (c) { return 'ABCDE'.indexOf(c) > -1; });
+    var secs = String(cfg.sections || ALL).toUpperCase().split('').filter(function (c) { return KEYS.indexOf(c) > -1; });
     secs = Array.from(new Set(secs)).sort().join('');
-    if (!secs) secs = 'ABCDE';
+    if (!secs) secs = ALL;
     var diff = DIFFICULTY[String(cfg.difficulty || 'X').toUpperCase()] ? String(cfg.difficulty || 'X').toUpperCase() : 'X';
     return { lectures: lect, length: length, sections: secs, difficulty: diff };
   }
@@ -374,8 +314,8 @@
     var code = PREFIX + '-' + seedHex.toUpperCase();
     var lect = cfg.lectures.join('');
     var diff = cfg.difficulty === 'X' ? '' : cfg.difficulty;
-    if (lect !== UNITS.join('') || cfg.length !== 'M' || cfg.sections !== 'ABCDE' || diff) code += '-' + lect + cfg.length + diff;
-    if (cfg.sections !== 'ABCDE') code += '-' + cfg.sections;
+    if (lect !== UNITS.join('') || cfg.length !== 'M' || cfg.sections !== ALL || diff) code += '-' + lect + cfg.length + diff;
+    if (cfg.sections !== ALL) code += '-' + cfg.sections;
     return code;
   }
 
@@ -386,7 +326,7 @@
     var cfg = normCfg({
       lectures: m[2] ? m[2].split('').map(Number) : UNITS.slice(),
       length: m[3] || 'M',
-      sections: m[5] || 'ABCDE',
+      sections: m[5] || ALL,
       difficulty: m[4] || 'X'
     });
     var seed = m[1];
@@ -409,7 +349,6 @@
     if (q._tok) return q._tok;
     var txt = q.q || '';
     if (q.type === 'mcq') txt += ' ' + q.options[0];
-    if (q.type === 'fill') txt = q.q.replace(/\{\{(\d+)\}\}/g, function (_, i) { return q.blanks[+i][0]; });
     if (q.type === 'def') txt += ' ' + q.model;
     if (q.type === 'list') txt += ' ' + q.items.map(function (i) { return i.text; }).join(' ');
     var set = new Set();
@@ -431,7 +370,6 @@
     if (q._con) return q._con;
     var out = [];
     if (q.type === 'mcq' && q.options[0].split(' ').length <= 4) out.push(q.options[0]);
-    if (q.type === 'fill') q.blanks.forEach(function (b) { out.push(b[0]); });
     out = out.map(norm).filter(function (t) { return t.length >= 4 && !GENERIC.has(t) && !/^(eight|five|seven|ten|four|three|\d+)$/.test(t); });
     Object.defineProperty(q, '_con', { value: out, enumerable: false });
     return out;
@@ -440,7 +378,7 @@
     if (q._vis) return q._vis;
     var t = q.q;
     if (q.type === 'mcq') t += ' ' + q.options[0];
-    if (q.type === 'fill') t = q.q.replace(/\{\{\d+\}\}/g, ' ');
+    if (q.type === 'match') t += ' ' + q.pairs.map(function (p) { return p.join(' '); }).join(' ');
     if (q.type === 'list') t += ' ' + q.items.map(function (i) { return i.text; }).join(' ');
     var v = ' ' + norm(t) + ' ';
     Object.defineProperty(q, '_vis', { value: v, enumerable: false });
@@ -450,7 +388,19 @@
     var v = visible(b);
     return concepts(a).some(function (c) { return v.indexOf(' ' + c + ' ') > -1; });
   }
+  /* A matching question overlaps another question if any of its pairs does. */
+  function parts(q) {
+    if (q.type !== 'match') return [q];
+    if (q._parts) return q._parts;
+    var out = q.pairs.map(function (p) { return { type: 'def', q: p[0], model: p[1] }; });
+    Object.defineProperty(q, '_parts', { value: out, enumerable: false });
+    return out;
+  }
   function overlaps(a, b) {
+    if (a.type === 'match' || b.type === 'match') {
+      if (givesAway(a, b) || givesAway(b, a)) return true;
+      return parts(a).some(function (x) { return parts(b).some(function (y) { return overlaps(x, y); }); });
+    }
     if (givesAway(a, b) || givesAway(b, a)) return true;
     var A = tokens(a), B = tokens(b);
     var small = A.size <= B.size ? A : B, big = small === A ? B : A;
@@ -485,16 +435,40 @@
     return dp[target];
   }
 
+  /* Letters for a matching question: which pairs are shown, and the order of the right-hand items. */
+  function makeMatch(it, rng, size) {
+    var q = it.q, n = Math.min(size || 5, q.pairs.length, 5);
+    var order = shuffle(q.pairs.map(function (_, i) { return i; }), rng);
+    var shown = order.slice(0, n), right = shuffle(order.slice(0, Math.min(q.pairs.length, n + 1)), rng);
+    it.rows = shown.map(function (i) { return { left: q.pairs[i][0], answer: right.indexOf(i) }; });
+    it.right = right.map(function (i) { return q.pairs[i][1]; });
+    it.marks = n;
+  }
+  function fillItem(it, rng, letter, size) {
+    if (it.type === 'match') makeMatch(it, rng, size);
+    if (it.type === 'mcq') {
+      var others = shuffle(it.q.options.slice(1), rng);
+      it.opts = [];
+      for (var p = 0, o = 0; p < 4; p++) it.opts.push(p === letter ? it.q.options[0] : others[o++]);
+      it.correct = letter;
+    }
+  }
+  /* Sizes of the matching questions for a number of marks: as equal as possible, 3 to 5 pairs each where possible. */
+  function matchSizes(marks) {
+    var k = Math.ceil(marks / 5), out = [];
+    for (var i = 0; i < k; i++) out.push(Math.floor(marks / k) + (i < marks % k ? 1 : 0));
+    return out;
+  }
+
   function makePaper(opts) {
     var cfg = normCfg(opts.cfg);
     var rng = mulberry32(hashString(opts.seedKey));
     var plan = LENGTHS[cfg.length];
-    var budget = {};
-    'ABCDE'.split('').forEach(function (k) { budget[k] = cfg.sections.indexOf(k) > -1 ? plan.budget[k] : 0; });
-    var spare = 0;
-    'ABCDE'.split('').forEach(function (k) { if (cfg.sections.indexOf(k) === -1) spare += plan.budget[k]; });
-    var sink = ['A', 'B', 'C', 'D', 'E'].filter(function (k) { return cfg.sections.indexOf(k) > -1; })[0];
-    budget[sink] += spare;
+    var on = function (k) { return cfg.sections.indexOf(k) > -1; };
+    var budget = {}, spare = 0, out = {}, sizes = {};
+    KEYS.forEach(function (k) { out[k] = []; budget[k] = on(k) ? plan.budget[k] : 0; if (!on(k)) spare += plan.budget[k]; });
+    // Marks of sections that are switched off go to multiple choice, then short answer, then matching.
+    budget[['B', 'A', 'C'].filter(on)[0]] += spare;
 
     var picked = [];
     var used = new Set();
@@ -508,7 +482,7 @@
     var mix = DIFFICULTY[cfg.difficulty].mix;
     function allowed(q) { return mix[['easy', 'medium', 'hard'].indexOf(q.difficulty)] > 0; }
     function clash(q) { for (var i = 0; i < picked.length; i++) if (overlaps(q, picked[i])) return true; return false; }
-    function take(q) { used.add(q.id); picked.push(q); return q; }
+    function take(key, q) { used.add(q.id); picked.push(q); out[key].push(q); }
     function choose(pool, tests) {
       for (var t = 0; t < tests.length; t++) {
         for (var i = 0; i < pool.length; i++) {
@@ -526,123 +500,77 @@
         function (q) { return extra(q) && q.lecture === L && allowed(q) && !clash(q); },
         function (q) { return extra(q) && q.difficulty === D && !clash(q); },
         function (q) { return extra(q) && allowed(q) && !clash(q); },
+        function (q) { return extra(q) && allowed(q); },
         function (q) { return extra(q) && !clash(q); },
         function (q) { return extra(q); }
       ];
     }
-
-    var out = {};
-    // Marks a section cannot use move to the next selected section that is still to be filled (A, then C, then B).
-    var done = {};
-    function spillTarget(from) {
-      var ks = ['A', 'C', 'B'];
-      for (var s = 0; s < ks.length; s++) if (ks[s] !== from && !done[ks[s]] && cfg.sections.indexOf(ks[s]) > -1) return ks[s];
-      return null;
+    // Marks a section cannot use move to the next selected section that is still to be filled.
+    function spill(from, amount) {
+      var later = { C: ['B', 'A'], A: ['B'], B: [] }[from].filter(on)[0];
+      if (later && amount > 0) budget[later] += amount;
     }
-    function spill(from, amount) { var k = spillTarget(from); if (k && amount > 0) budget[k] += amount; }
-    // Written sections first (fewest candidates), then the rest avoid overlapping them.
-    ['E', 'D'].forEach(function (key) {
-      out[key] = [];
-      var target = budget[key];
-      if (!target) return;
-      var pool = poolFor(key);
-      var remaining = target, i = 0;
-      var typeTurn = rng() < 0.5 ? 0 : 1;
-      var diffs = diffPlan(8, rng, cfg.difficulty);
-      // Section E rotates through the kinds of written question (explain, draw, write code, choose + justify).
-      var kinds = SECTION_INFO[key].kinds ? shuffle(SECTION_INFO[key].kinds, rng) : null;
-      while (remaining > 0 && i < 40) {
-        var L = lects[i % lects.length], D = diffs[i % diffs.length];
-        var types = SECTION_INFO[key].types;
-        var wantType = types.length > 1 ? types[typeTurn++ % types.length] : types[0];
-        var rem = remaining;
-        var fits = function (q) {
-          if (q.marks > rem) return false;
-          var others = pool.filter(function (x) { return !used.has(x.id) && x.id !== q.id; }).map(function (x) { return x.marks; });
-          return reachable(others, rem - q.marks);
-        };
-        var q = choose(pool, ladder(L, D, function (x) { return x.type === wantType && (!kinds || x.kind === kinds[i % kinds.length]) && fits(x); }).concat(ladder(L, D, fits)));
-        // Nowhere to send leftover marks (only written sections chosen): fill as close to the target as the bank allows.
-        if (!q && !spillTarget(key)) q = choose(pool, ladder(L, D, function (x) { return x.marks <= rem; }));
-        if (!q) break;
-        take(q); out[key].push(q); remaining -= q.marks; i++;
-      }
-      done[key] = true;
-      if (remaining > 0) spill(key, remaining);
-    });
-    // Section B: one mark per blank.
-    out.B = [];
-    done.B = true;
-    if (budget.B) {
-      var poolB = poolFor('B');
-      var remB = budget.B, iB = 0, diffsB = diffPlan(Math.max(4, budget.B), rng, cfg.difficulty), multi = 0;
-      while (remB > 0 && iB < 80) {
-        var LB = lects[iB % lects.length], DB = diffsB[iB % diffsB.length], r = remB;
-        var okB = function (q) { return q.blanks.length <= r && (q.blanks.length === 1 || multi < Math.ceil(budget.B / 6)); };
-        var qB = choose(poolB, ladder(LB, DB, okB));
-        if (!qB) break;
-        if (qB.blanks.length > 1) multi++;
-        take(qB); out.B.push(qB); remB -= qB.blanks.length; iB++;
-      }
-      if (remB > 0) spill('B', remB);
-    }
-    // Section C and A: one mark each.
-    ['C', 'A'].forEach(function (key) {
-      out[key] = [];
-      done[key] = true;
-      var n = budget[key];
-      if (!n) return;
-      var pool = poolFor(key);
-      var diffs = diffPlan(n, rng, cfg.difficulty);
-      var tfTrue = 0, tfFalse = 0;
-      for (var i = 0; i < n; i++) {
-        var L = lects[i % lects.length], D = diffs[i];
-        var extra = function () { return true; };
-        if (key === 'C') {
-          // Keep True/False roughly balanced.
-          var wantTrue = tfTrue <= tfFalse ? (tfTrue < tfFalse ? true : rng() < 0.5) : false;
-          extra = function (q) { return q.answer === wantTrue; };
-        }
-        var q = choose(pool, ladder(L, D, extra).concat(ladder(L, D)));
-        if (!q) { spill(key, n - i); break; }
-        if (key === 'C') { if (q.answer) tfTrue++; else tfFalse++; }
-        take(q); out[key].push(q);
-      }
-    });
 
-    // Build items in paper order, numbering continuously.
+    // Matching first (fewest questions), then short answers, then multiple choice avoids overlapping them.
+    var poolC = poolFor('C'), want = budget.C ? matchSizes(budget.C) : [], leftC = 0, diffsC = diffPlan(want.length, rng, cfg.difficulty);
+    var startC = Math.floor(rng() * lects.length);
+    want.forEach(function (n, i) {
+      var q = choose(poolC, ladder(lects[(startC + i) % lects.length], diffsC[i], function (x) { return x.pairs.length >= n; }));
+      if (!q) { leftC += n; return; }
+      take('C', q); sizes[q.id] = n;
+    });
+    spill('C', leftC);
+
+    var remaining = budget.A, poolA = poolFor('A'), turn = rng() < 0.5 ? 0 : 1, diffsA = diffPlan(8, rng, cfg.difficulty);
+    for (var i = 0; remaining > 0 && i < 60; i++) {
+      var L = lects[i % lects.length], D = diffsA[i % diffsA.length], rem = remaining;
+      var fits = function (q) {
+        if (q.marks > rem) return false;
+        var others = poolA.filter(function (x) { return !used.has(x.id) && x.id !== q.id; }).map(function (x) { return x.marks; });
+        return reachable(others, rem - q.marks);
+      };
+      // One list for every two written answers.
+      var type = (turn + i) % 3 === 0 ? 'list' : 'def';
+      var q = choose(poolA, ladder(L, D, function (x) { return x.type === type && fits(x); }).concat(ladder(L, D, fits)));
+      if (!q && !on('B')) q = choose(poolA, ladder(L, D, function (x) { return x.marks <= rem; }));
+      if (!q) break;
+      take('A', q); remaining -= q.marks;
+    }
+    spill('A', remaining);
+
+    var poolB = poolFor('B'), diffsB = diffPlan(budget.B, rng, cfg.difficulty);
+    for (i = 0; i < budget.B; i++) {
+      var qb = choose(poolB, ladder(lects[i % lects.length], diffsB[i]));
+      if (!qb) break;
+      take('B', qb);
+    }
+
+    return finish(cfg, out, rng, sizes, plan);
+  }
+
+  /* Build items in paper order, numbering continuously. */
+  function buildSections(out, rng, sizes, keepOrder) {
     var sections = [], items = [], n = 0;
-    'ABCDE'.split('').forEach(function (key) {
+    KEYS.forEach(function (key) {
       var qs = out[key] || [];
       if (!qs.length) return;
-      if (key !== 'A') qs = shuffle(qs, rng);
+      if (key === 'A' && !keepOrder) qs = shuffle(qs, rng);
       var sec = { key: key, title: SECTION_INFO[key].title, instr: SECTION_INFO[key].instr, marks: 0, items: [] };
-      var letters = key === 'A' ? letterPlan(qs.length, rng) : null;
+      var letters = key === 'B' ? letterPlan(qs.length, rng) : null;
       qs.forEach(function (q, idx) {
         var it = makeItem(q);
         it.n = ++n;
         it.section = key;
-        if (q.type === 'mcq') {
-          var pos = letters[idx];
-          var others = shuffle(q.options.slice(1), rng);
-          it.opts = [];
-          for (var p = 0, o = 0; p < 4; p++) it.opts.push(p === pos ? q.options[0] : others[o++]);
-          it.correct = pos;
-        }
+        fillItem(it, rng, letters && letters[idx], sizes && sizes[q.id]);
         sec.items.push(it); items.push(it); sec.marks += it.marks;
       });
       sections.push(sec);
     });
-
-    var total = sections.reduce(function (s, x) { return s + x.marks; }, 0);
-    return {
-      cfg: cfg,
-      minutes: Math.round(plan.minutes * (total / plan.total)) || plan.minutes,
-      total: total,
-      sections: sections,
-      items: items,
-      wordBank: buildWordBank(sections, cfg, rng)
-    };
+    return { sections: sections, items: items, total: sections.reduce(function (s, x) { return s + x.marks; }, 0) };
+  }
+  function finish(cfg, out, rng, sizes, plan) {
+    var b = buildSections(out, rng, sizes);
+    return { cfg: cfg, minutes: Math.round(plan.minutes * (b.total / plan.total)) || plan.minutes, total: b.total, sections: b.sections, items: b.items };
   }
 
   /* Spread correct letters evenly over a-d and avoid three in a row. */
@@ -657,34 +585,6 @@
       if (ok) break;
     }
     return best || base;
-  }
-
-  function buildWordBank(sections, cfg, rng) {
-    var secB = sections.filter(function (s) { return s.key === 'B'; })[0];
-    if (!secB) return [];
-    var accepted = [], words = [], seen = new Set();
-    secB.items.forEach(function (it) {
-      it.q.blanks.forEach(function (alts) {
-        accepted.push(alts);
-        var k = compact(alts[0]);
-        if (!seen.has(k)) { seen.add(k); words.push({ text: alts[0], real: true }); }
-      });
-    });
-    var inPaper = new Set(secB.items.map(function (it) { return it.id; }));
-    var lectures = new Set(secB.items.map(function (it) { return it.lecture; }));
-    var cands = shuffle((EC.BANK || []).filter(function (q) {
-      return q.type === 'fill' && !inPaper.has(q.id) && cfg.lectures.indexOf(q.lecture) > -1;
-    }), rng);
-    cands.sort(function (a, b) { return (lectures.has(b.lecture) ? 1 : 0) - (lectures.has(a.lecture) ? 1 : 0); });
-    var want = words.length >= 6 ? 3 : 2, added = 0;
-    for (var i = 0; i < cands.length && added < want; i++) {
-      var w = cands[i].blanks[0][0];
-      var k = compact(w);
-      if (seen.has(k) || k.length < 3) continue;
-      if (accepted.some(function (alts) { return sameTerm(w, alts); })) continue;
-      seen.add(k); words.push({ text: w, real: false }); added++;
-    }
-    return shuffle(words, rng);
   }
 
   /* Public: build the exam for a code (pure function of the code). */
@@ -703,32 +603,14 @@
     var byId = {};
     (EC.BANK || []).forEach(function (q) { byId[q.id] = q; });
     var qs = ids.map(function (id) { return byId[id]; }).filter(Boolean);
-    var sections = [], items = [], n = 0;
-    'ABCDE'.split('').forEach(function (key) {
-      var sq = shuffle(qs.filter(function (q) { return inSection(q, key); }), rng);
-      if (!sq.length) return;
-      var sec = { key: key, title: SECTION_INFO[key].title, instr: SECTION_INFO[key].instr, marks: 0, items: [] };
-      var letters = key === 'A' ? letterPlan(sq.length, rng) : null;
-      sq.forEach(function (q, idx) {
-        var it = makeItem(q);
-        it.n = ++n; it.section = key;
-        if (q.type === 'mcq') {
-          var pos = letters[idx], others = shuffle(q.options.slice(1), rng);
-          it.opts = [];
-          for (var p = 0, o = 0; p < 4; p++) it.opts.push(p === pos ? q.options[0] : others[o++]);
-          it.correct = pos;
-        }
-        sec.items.push(it); items.push(it); sec.marks += it.marks;
-      });
-      sections.push(sec);
-    });
-    var total = sections.reduce(function (s, x) { return s + x.marks; }, 0);
+    var out = {};
+    KEYS.forEach(function (key) { out[key] = shuffle(qs.filter(function (q) { return inSection(q, key); }), rng); });
+    var b = buildSections(out, rng, null, true), sections = b.sections, items = b.items, total = b.total;
     var lectures = Array.from(new Set(qs.map(function (q) { return q.lecture; }))).sort();
     var cfg = normCfg({ lectures: lectures, length: 'M', sections: sections.map(function (s) { return s.key; }).join('') });
     return {
       code: 'RETRY-' + seedHex.toUpperCase(), kind: 'retry', cfg: cfg,
-      minutes: Math.max(10, Math.round(total * 1.5)), total: total, sections: sections, items: items,
-      wordBank: buildWordBank(sections, cfg, rng)
+      minutes: Math.max(10, Math.round(total * 1.5)), total: total, sections: sections, items: items
     };
   }
 
@@ -749,13 +631,12 @@
   }
 
   EC.core = {
-    norm: norm, compact: compact, lev: lev, tolerance: tolerance, sameTerm: sameTerm, hit: hit, hitAny: hitAny,
+    norm: norm, compact: compact, lev: lev, hit: hit, hitAny: hitAny,
     gradeItem: gradeItem, gradeExam: gradeExam, markPoints: markPoints, isAnswered: isAnswered,
     letterGrade: letterGrade, modelAnswer: modelAnswer, roundHalf: roundHalf,
     hashString: hashString, mulberry32: mulberry32, shuffle: shuffle,
-    LENGTHS: LENGTHS, DIFFICULTY: DIFFICULTY, SECTION_INFO: SECTION_INFO, inSection: inSection, DEFAULT_CFG: DEFAULT_CFG, normCfg: normCfg,
+    LENGTHS: LENGTHS, DIFFICULTY: DIFFICULTY, SECTION_INFO: SECTION_INFO, KEYS: KEYS, inSection: inSection, DEFAULT_CFG: DEFAULT_CFG, normCfg: normCfg,
     buildCode: buildCode, parseCode: parseCode, randomSeedHex: randomSeedHex,
-    makeExam: makeExam, makeRetryExam: makeRetryExam, newCode: newCode, overlaps: overlaps,
-    resetGlossary: function () { glossary = null; }
+    makeExam: makeExam, makeRetryExam: makeRetryExam, newCode: newCode, overlaps: overlaps
   };
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -9,6 +9,7 @@ const C = EC.core;
 function itemFor(q) {
   const it = { id: q.id, type: q.type, marks: q.marks, lecture: q.lecture, q };
   if (q.type === 'mcq') { it.opts = q.options.slice(); it.correct = 0; }
+  if (q.type === 'match') { it.rows = q.pairs.slice(0, 5).map((p, i) => ({ left: p[0], answer: i })); it.right = q.pairs.slice(0, 6).map((p) => p[1]); it.marks = it.rows.length; }
   return it;
 }
 const JUNK = [
@@ -19,8 +20,7 @@ const JUNK = [
 function junkAnswer(it, j) {
   switch (it.type) {
     case 'mcq': return (it.correct + 1) % 4;
-    case 'tf': return !it.q.answer;
-    case 'fill': return it.q.blanks.map(() => j);
+    case 'match': return it.rows.map((r) => (r.answer + 1) % it.right.length);
     case 'list': return it.q.items.map(() => j);
     default: return { text: j };
   }
@@ -34,17 +34,6 @@ test('every model answer in the bank scores full marks', () => {
     if (r.got !== r.max) failures.push(`${q.id} (${q.type}) scored ${r.got}/${r.max}`);
   }
   assert.deepEqual(failures, []);
-});
-
-test('order-independent fill blanks accept any order', () => {
-  for (const q of EC.BANK.filter((x) => x.type === 'fill' && x.set)) {
-    const it = itemFor(q);
-    const ans = q.blanks.map((b) => b[0]);
-    const rev = ans.slice();
-    const groups = Array.isArray(q.set[0]) ? q.set : [q.set];
-    groups.forEach((set) => { const s = set.slice().reverse(); set.forEach((idx, k) => { rev[idx] = ans[s[k]]; }); });
-    assert.equal(C.gradeItem(it, rev).got, q.marks, `${q.id} reversed order`);
-  }
 });
 
 test('junk and empty answers score zero for every question', () => {
@@ -62,29 +51,16 @@ test('junk and empty answers score zero for every question', () => {
   assert.deepEqual(failures, []);
 });
 
-test('fill: case, spaces, hyphens and punctuation are ignored', () => {
-  const acc = ['read-only', 'readonly'];
-  for (const v of ['Read-Only', 'readonly', 'READ ONLY', 'read_only.', '  read–only ', 'Read Only!']) assert.ok(C.sameTerm(v, acc), v);
-  assert.ok(C.sameTerm('The Kernel', ['kernel']));
-  assert.ok(C.sameTerm('I/O devices', ['I/O devices']));
-  assert.ok(C.sameTerm('master boot record', ['Master Boot Record', 'MBR']));
-});
-
-test('fill: typo tolerance follows answer length (0 / 1 / 2)', () => {
-  assert.ok(!C.sameTerm('fram', ['frame']));
-  assert.ok(C.sameTerm('frame', ['frame']));
-  assert.ok(C.sameTerm('gestres', ['gestures']));
-  assert.ok(!C.sameTerm('gstrs', ['gestures']));
-  assert.ok(C.sameTerm('responsivness', ['responsiveness']));
-});
-
-test('fill: a different term is not accepted as a typo', () => {
-  assert.ok(!C.sameTerm('milliseconds', ['nanoseconds']));
-  assert.ok(!C.sameTerm('external', ['internal']));
-  assert.ok(!C.sameTerm('minimize', ['maximize']));
-  assert.ok(!C.sameTerm('MS-DOS', ['MBR']));
-  assert.ok(!C.sameTerm('physical', ['logical', 'virtual']));
-  assert.ok(!C.sameTerm('pushed', ['popped']));
+test('matching: one mark per correct letter', () => {
+  const it = itemFor(EC.BANK.find((q) => q.type === 'match'));
+  assert.equal(C.gradeItem(it, [0, 1, 2, 3, 4]).got, 5);
+  const r = C.gradeItem(it, [0, 1, 3, 2, null]);
+  assert.equal(r.got, 2);
+  assert.equal(r.status, 'partial');
+  assert.deepEqual(Array.from(r.detail.res), [true, true, false, false, false]);
+  assert.equal(C.gradeItem(it, [null, null, null, null, null]).status, 'blank');
+  assert.equal(C.gradeItem(it, [1, 2, 3, 4, 0]).status, 'wrong');
+  assert.ok(!C.isAnswered(it, [null, null]) && C.isAnswered(it, [null, 2]));
 });
 
 const WIDGETS = EC.BANK.find((q) => q.type === 'list' && q.lecture === 4 && /four situations/.test(q.q));
@@ -104,7 +80,7 @@ test('list: any order scores full marks', () => {
 });
 
 test('explain: auto-detected points, then self-marking overrides', () => {
-  const q = EC.BANK.find((x) => x.kind === 'explain' && x.lecture === 1 && /class and an object/.test(x.q));
+  const q = EC.BANK.find((x) => x.type === 'def' && x.lecture === 1 && /class and an object/.test(x.q));
   const it = itemFor(q);
   const text = 'A class is a blueprint. An object is an instance.';
   const r = C.gradeItem(it, { text });
@@ -112,19 +88,6 @@ test('explain: auto-detected points, then self-marking overrides', () => {
   assert.equal(r.got, 2);
   assert.equal(C.gradeItem(it, { text, over: { p0: true, p1: true, p2: true, p3: true } }).got, q.marks);
   assert.equal(C.gradeItem(it, { text, over: { p0: false } }).got, 1);
-});
-
-test('choice + justification: 1 mark for the choice, 2 for the reasons, nothing for a wrong choice', () => {
-  const q = EC.BANK.find((x) => x.kind === 'eval' && x.lecture === 3 && /count how many lessons/.test(x.q));
-  const it = itemFor(q);
-  assert.equal(C.gradeItem(it, { choice: 1, text: '' }).got, 1);
-  assert.equal(C.gradeItem(it, { choice: 1, text: 'It can call setState.' }).got, 2);
-  assert.equal(C.gradeItem(it, { choice: 1, text: q.model }).got, 3);
-  assert.equal(C.gradeItem(it, { choice: 0, text: q.model }).got, 0);
-  assert.equal(C.gradeItem(it, { choice: 0, text: q.model, over: { p0: true, p1: true } }).got, 0);
-  assert.equal(C.gradeItem(it, { text: q.model }).got, 0);
-  assert.equal(C.gradeItem(it, { text: q.model }).status, 'wrong');
-  assert.ok(C.isAnswered(it, { choice: 0, text: '' }));
 });
 
 test('numbers are matched by value', () => {
@@ -150,31 +113,23 @@ test('exact code keys ("~"): case and punctuation count; spaces, quotes, const a
   assert.ok(!C.hit("fontSize: '24'", '~fontSize: 24'));
 });
 
-test('code questions: the model earns 5, the broken code printed with a question does not', () => {
-  const codes = EC.BANK.filter((x) => x.kind === 'code');
-  assert.ok(codes.length >= 20);
-  for (const q of codes) {
-    assert.equal(q.points.length, 5, q.id);
-    assert.equal(C.gradeItem(itemFor(q), { text: q.model }).got, 5, q.id);
-    // Copying the broken code from the question earns nothing.
-    if (q.code) assert.equal(C.gradeItem(itemFor(q), { text: q.code }).got, 0, q.id);
+test('short answers: reversed answers earn nothing', () => {
+  const by = (l, re) => itemFor(EC.BANK.find((q) => q.type === 'def' && q.lecture === l && re.test(q.q)));
+  assert.equal(C.gradeItem(by(1, /Phone class/), { text: 'brand is a method and call is an attribute' }).got, 0);
+  assert.equal(C.gradeItem(by(4, /Is “IT319” data/), { text: 'IT319 is presentation. Larger text is data.' }).got, 0);
+});
+
+test('short answers with code: the printed code alone earns at most half', () => {
+  for (const q of EC.BANK.filter((x) => x.type === 'def' && x.code)) {
+    const got = C.gradeItem(itemFor(q), { text: q.code }).got;
+    if (!/^(Which text|Describe|What are the values|What is the title|In this code, how large|Read these|Is CoursePage|In this code, what|Write the two|Look at this code|What does this code)/.test(q.q)) assert.ok(got <= q.marks / 2, q.id + ' ' + got);
   }
 });
 
-test('code questions: one line without spaces scores the same as the formatted model', () => {
-  for (const q of EC.BANK.filter((x) => x.kind === 'code')) {
-    const oneLine = q.model.replace(/\s+/g, ' ');
-    assert.equal(C.gradeItem(itemFor(q), { text: oneLine }).got, 5, q.id);
-  }
-});
-
-test('mcq and tf are exact', () => {
+test('mcq is exact', () => {
   const m = itemFor(EC.BANK.find((x) => x.type === 'mcq'));
   assert.equal(C.gradeItem(m, 0).got, 1);
   assert.equal(C.gradeItem(m, 2).got, 0);
-  const t = itemFor(EC.BANK.find((x) => x.type === 'tf'));
-  assert.equal(C.gradeItem(t, t.q.answer).got, 1);
-  assert.equal(C.gradeItem(t, !t.q.answer).got, 0);
 });
 
 test('letter grades', () => {

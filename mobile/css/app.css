@@ -913,3 +913,37 @@ textarea.codebox, .answer-shown.codebox { font-family: var(--mono); tab-size: 2;
 textarea.ftext.codebox { font-size: 15px; }
 @media (max-width: 480px) { .qcard pre.code { font-size: 12.5px; padding: 11px 11px; } }
 html[data-mode="dark"] .qcard pre.code { background: rgba(255, 255, 255, .06); border-color: var(--line); border-left-color: var(--accent); color: var(--ink); }
+
+/* ---------- Matching ---------- */
+.mkey { list-style: none; margin: 0 0 16px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; display: grid; gap: 7px; background: var(--surface-2); }
+.mkey li { display: flex; gap: 10px; align-items: baseline; font-size: 15.5px; line-height: 1.4; transition: opacity .15s ease; }
+.mkey li b { flex: none; width: 1.2em; color: var(--accent); }
+.mkey li.used { opacity: .62; }
+.mrows { display: grid; gap: 10px; }
+.mrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 14px; align-items: center; padding: 11px 12px; border: 1px solid var(--line); border-radius: 12px; }
+.mterm { display: flex; gap: 9px; align-items: baseline; font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+.mterm em { font-style: normal; font-weight: 700; color: var(--muted); flex: none; }
+.mbtns { display: flex; gap: 6px; }
+.mbtns button { width: 40px; height: 40px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--surface); color: var(--ink); font-weight: 700; font-size: 15px; }
+.mbtns button:hover { border-color: var(--accent); }
+.mbtns button.used { color: var(--muted); border-style: dashed; font-weight: 500; }
+.mbtns button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+html[data-mode="dark"] .mkey, html[data-mode="dark"] .mrow { background: rgba(255, 255, 255, .04); }
+html[data-mode="dark"] .mbtns button { background: rgba(255, 255, 255, .06); }
+html[data-mode="dark"] .mbtns button[aria-pressed="true"] { background: var(--accent); color: #0d1220; }
+@media (max-width: 620px) {
+  .mrow { grid-template-columns: minmax(0, 1fr); }
+  .mbtns button { flex: 1; width: auto; min-width: 0; height: 44px; }
+}
+/* on the A4 sheet */
+.match { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 4px 22px; margin-top: 5px; }
+.match ol, .match ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; align-content: start; }
+.match li { display: flex; gap: .55em; align-items: baseline; line-height: 1.35; overflow-wrap: anywhere; }
+.match li > b { flex: none; }
+.mleft { counter-reset: m; }
+.mleft li::before { counter-increment: m; content: counter(m) "."; flex: none; }
+.mbox { flex: none; white-space: nowrap; }
+.mletter { display: inline-block; width: 2.1em; padding: 0 2px; text-align: center; border: 0; border-bottom: 1.5px solid #1b1b1a; border-radius: 0; background: transparent; font-family: var(--serif); font-size: 1em; font-weight: 700; color: var(--accent); }
+span.mletter b { color: #1b1b1a; }
+input.mletter:focus { outline: none; background: var(--accent-soft); }
+@media (max-width: 600px) { .desk .sheets:not(.a4) .match { grid-template-columns: minmax(0, 1fr); gap: 12px; } }
