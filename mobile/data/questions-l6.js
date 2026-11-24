@@ -67,24 +67,13 @@ EC.lecture(6, function (Q) {
     ["`AlertDialog`", "`ExpansionTile`", "`ListTile`", "`DecoratedBox`"], "Slide 18.");
   mcq(18, 'e', "What does a PageStorageKey do?",
     ["Identifies a section to restore its saved state", "Opens a message box above the current screen", "Paints a border around each one of the product cards", "Moves the labels to another line"], "Slide 18.");
-  mcq(6, 'e', "Where is the category Chip placed in each product card?",
-    ["Below the price", "Above the app title", "Inside the AppBar", "Outside the card"], "Slide 6.");
-  mcq(6, 'e', "Which category label does the backpack have?",
-    ["Bags", "Study", "Lifestyle", "Delivery"], "Slide 6.");
-  mcq(6, 'm', "Which category label is used for both the notebook and the book?",
-    ["Study", "Bags", "Lifestyle", "Stock"], "Slide 6.");
-  mcq(6, 'e', "What do the category Chips do in the Campus Shop app?",
-    ["Show information, without filtering", "Hide the products of other categories", "Open the details of a product", "Change the price of a product"], "Slide 6.");
+  Q.skip('mcq', 4);
   mcq(7, 'e', "Which widget keeps the stock icon and its message next to each other?",
     ["`Row`", "`Column`", "`ListView`", "`Card`"], "Slide 7.");
-  mcq(7, 'e', "Which product shows a red cross and “Out of stock”?",
-    ["The mug", "The notebook", "The backpack", "The course book"], "Slide 7.");
+  Q.skip('mcq');
   mcq(7, 'm', "What does this code show?",
     ["A green check beside “In stock”", "A green check above the text “In stock”", "A red cross beside “In stock”", "“In stock” without an icon"], "A Row places children next to each other.", { code: STOCK });
-  mcq(8, 'e', "Which parts of the book card stay visible when its ExpansionTile is closed?",
-    ["The name and the price", "Only the department", "Only the text of the details", "Nothing in the card"], "Slide 8.");
-  mcq(8, 'e', "What must the user do to open “Product details”?",
-    ["Tap it", "Shake the phone", "Resize the window", "Restart the app"], "Slide 8.");
+  Q.skip('mcq', 2);
   mcq(8, 'm', "Which text is always visible in this code, even when it is closed?",
     ["Product details", "Department: IT", "For IT notes and exam revision.", "book"], "The title.", { code: EXPAND });
   mcq(8, 'h', "Which property holds the content that opens and closes?",
@@ -95,36 +84,29 @@ EC.lecture(6, function (Q) {
     ["`subtitle`", "`title`", "`leading`", "`child`"], "Slide 10.", { code: TILE });
   mcq(10, 'm', "Which property of ListTile holds the shopping-bag icon?",
     ["`leading`", "`title`", "`subtitle`", "`content`"], "Slide 10.", { code: TILE });
-  mcq(10, 'e', "What does the ListTile “Campus essentials” replace above the cards?",
-    ["The heading", "The first card", "The AppBar", "The Scaffold"], "Slide 10.");
-  mcq(11, 'e', "Where is the offer box placed?",
-    ["Above the first card", "Below the last card", "Inside the AppBar", "Inside the book card"], "Slide 11.");
+  Q.skip('mcq', 2);
   mcq(11, 'e', "Which class holds the background colour and rounded corners of a DecoratedBox?",
     ["`BoxDecoration`", "`TextStyle`", "`EdgeInsets`", "`PageStorageKey`"], "Slide 11.");
   mcq(11, 'h', "Which line of this code makes the corners rounded?",
     ["`borderRadius: BorderRadius.circular(12)`", "`color: Colors.orange` in BoxDecoration", "`padding: EdgeInsets.all(16)` in Padding", "`child: Text(...)`"], "Slide 11.", { code: OFFER });
   mcq(11, 'm', "Which widget gives space between the text and the edge of the offer box?",
     ["`Padding`", "`Chip`", "`Row`", "`ListTile`"], "Slide 11.", { code: OFFER });
-  mcq(12, 'e', "Why is Wrap used for the delivery labels?",
+  mcq(12, 'e', "Why is Wrap useful for a group of labels?",
     ["They move to a new line when space runs out", "They open a message when they are tapped", "They scroll to the left and to the right side", "They remove the labels that do not fit"], "Slide 12.");
-  mcq(12, 'm', "What are the delivery labels in the Campus Shop app?",
-    ["Labels that are not selection buttons", "Buttons that select one delivery type", "Titles of three different screens", "Items that filter the list of products"], "Slide 12.");
+  Q.skip('mcq');
   mcq(12, 'h', "In this code, which property gives the gap between the lines of labels?",
     ["`runSpacing`", "`spacing`", "`children`", "`label`"], "spacing is on the same line.", { code: WRAP });
-  mcq(13, 'e', "What happens when the user taps “Shop information”?",
-    ["An AlertDialog opens", "A new project opens", "The app is closed", "The product prices change"], "Slide 13.");
+  Q.skip('mcq');
   mcq(13, 'e', "Which function is used to show the dialog?",
     ["`showDialog`", "`setState`", "`runApp`", "`createState`"], "Slide 13.");
-  mcq(13, 'e', "What happens to the “Shop information” button when the user scrolls the products?",
-    ["It stays visible", "It scrolls away", "It opens the dialog", "It becomes a Chip"], "Slide 13.");
+  Q.skip('mcq');
   mcq(13, 'h', "What does the Close button do in the dialog?",
     ["Returns to the shop screen", "Closes the project in VS Code", "Deletes the shop information", "Opens a second dialog box"], "Slide 13.", { code: DIALOG });
   mcq(13, 'm', "Which text is the message of this dialog?",
     ["Open 9:00 AM - 3:00 PM", "Campus Shop", "Close", "AlertDialog"], "content is the message.", { code: DIALOG });
   mcq(15, 'e', "Why can the main class stay stateless when ExpansionTile is used?",
     ["ExpansionTile handles the open/closed change inside itself", "ExpansionTile never changes after it is first displayed", "The main class calls setState for every single product card", "The details are stored in the pubspec.yaml file"], "Slide 15.");
-  mcq(15, 'h', "The labels in the app are fixed sample information. What does this mean for the code?",
-    ["No new state class is needed", "Every label needs its own setState", "The labels must be buttons", "The app must be stateful"], "Slide 15.");
+  Q.skip('mcq');
   mcq(17, 'm', "The app does not run after a change. Where do you look first?",
     ["At the first error in the Problems panel", "At the last line of pubspec.yaml", "At the colour of the app bar title", "At the name of the folder of the project"], "Slide 17.");
   mcq(17, 'e', "Which keys help you find text in the code?",
@@ -145,26 +127,19 @@ EC.lecture(6, function (Q) {
   def(18, 'e', 2, "Define DecoratedBox and AlertDialog.",
     [["DecoratedBox: paints a background or border around its child", "background", "border"], ["AlertDialog: a message box above the current screen", "message box", "message"]],
     "A DecoratedBox paints a background or border around its child. An AlertDialog is a message box above the current screen.");
-  def(15, 'm', 2, "Why does the app need no new state class for ExpansionTile?",
-    [["ExpansionTile knows how to open and close (handles the change inside)", "open", "inside", "itself"], ["The labels are fixed sample information, so the main class can stay stateless", "fixed", "stateless"]],
-    "ExpansionTile knows how to open and close and handles the change inside itself. The labels are fixed sample information, so the main class can stay stateless.");
-  list(6, 'e', 3, "List the three product categories in the Campus Shop app.",
-    [["Study", "study"], ["Bags", "bags"], ["Lifestyle", "lifestyle"]]);
-  list(12, 'e', 3, "List the three delivery labels in the Wrap task.",
-    [["Campus pickup", "pickup"], ["Home delivery", "home"], ["Express delivery", "express"]]);
-  list([6, 7, 8, 10, 11, 12, 13], 'm', 4, "List four widgets that were added to the Campus Shop app in this lecture.",
-    [["Chip", "chip"], ["Row", "row"], ["ExpansionTile", "expansiontile"], ["ListTile", "listtile"], ["DecoratedBox", "decoratedbox"], ["Wrap", "wrap"], ["AlertDialog", "alertdialog"], ["PageStorageKey", "pagestoragekey"]], { n: 4 });
-  list(13, 'e', 3, "List three parts of the Shop information dialog.",
-    [["Title: Campus Shop", "title", "campus shop"], ["Message: opening hours", "message", "open", "content"], ["Close button", "close"]]);
-  def([8, 15, 18], 'm', 4, "Explain how the product details are shown with ExpansionTile.",
-    [["Title “Product details” is shown below the stock row", "product details", "title"], ["The user taps to open and close the details", "tap", "open"], ["The name and price stay visible", "visible"], ["ExpansionTile handles the change itself, so the main class can stay stateless", "stateless", "itself", "inside"]],
-    "The title Product details is shown below the stock row. The user taps it to open and close the details, while the name and price stay visible. ExpansionTile handles the change inside itself, so the main class can stay stateless.");
-  def([13], 'm', 4, "Explain how the Shop information button and dialog work.",
-    [["A button at the bottom stays visible when scrolling", "bottom", "visible"], ["A tap calls showDialog", "showdialog"], ["An AlertDialog shows a title and a message", "alertdialog", "message"], ["Close returns to the shop", "close"]],
-    "The button is at the bottom and stays visible when scrolling. A tap calls showDialog, and an AlertDialog shows a title and a message with the opening hours. The Close button returns to the shop.");
-  def([7, 12, 18], 'm', 4, "Compare Row and Wrap, with an example of each from the Campus Shop app.",
-    [["Row places widgets next to each other", "next to each other"], ["Example: stock icon and message", "stock"], ["Wrap moves widgets to a new line when space runs out", "new line", "another line"], ["Example: delivery labels", "delivery", "pickup"]],
-    "A Row places widgets next to each other, such as the stock icon and its message. Wrap moves widgets to a new line when space runs out, such as the delivery labels.");
+  def(15, 'm', 2, "Why does an app need no new state class to use an ExpansionTile?",
+    [["ExpansionTile knows how to open and close (handles the change inside)", "open", "inside", "itself"], ["So the main class can stay stateless", "stateless"]],
+    "ExpansionTile knows how to open and close and handles the change inside itself. So the main class can stay stateless.");
+  Q.skip('list', 4);
+  def([8, 15, 18], 'm', 4, "Explain how an ExpansionTile shows extra details.",
+    [["Its title (heading) is always visible", "title", "heading"], ["The user taps to open and close the details", "tap", "open"], ["The details are written in children", "children", "inside it"], ["It handles the change itself, so the main class can stay stateless", "stateless", "itself"]],
+    "The title of an ExpansionTile is always visible. The user taps it to open and close the details, which are written in children. ExpansionTile handles the change itself, so the main class can stay stateless.");
+  def(13, 'm', 4, "Explain how a button can show a message with an AlertDialog and how the user returns to the screen.",
+    [["The button’s onPressed runs on a tap", "tap", "onpressed", "press"], ["It calls showDialog", "showdialog", "show dialog"], ["The AlertDialog shows a title and a message above the screen", "alertdialog", "message", "title"], ["A Close button closes the dialog and returns to the screen", "close", "pop", "return"]],
+    "A tap on the button runs onPressed, which calls showDialog. The AlertDialog shows a title and a message above the current screen. A Close button closes the dialog and returns to the screen.");
+  def([7, 12, 18], 'm', 4, "Compare Row and Wrap, and give a suitable use of each.",
+    [["Row places widgets next to each other", "next to each other", "beside", "horizontal", "one line"], ["Use of Row: for example an icon beside a text", "icon", "text"], ["Wrap moves widgets to a new line when space runs out", "new line", "another line", "next line"], ["Use of Wrap: for example a group of labels", "label", "tags", "chips"]],
+    "A Row places widgets next to each other, for example an icon beside a text. Wrap moves widgets to a new line when space runs out, for example a group of labels.");
   def([12, 18], 'm', 3, "Four short labels must never go outside a narrow phone screen. Which widget is the best? Why?",
     [["Wrap", "wrap"], ["It moves labels to a new line when space runs out", "new line", "next line", "another line"], ["A Row keeps its children on one line", "row"]],
     "Wrap is the best because it moves labels to a new line when space runs out. A Row keeps its children on one line, so they can overflow.");
@@ -189,17 +164,17 @@ EC.lecture(6, function (Q) {
   def([6, 7, 8], 'm', 2, "Look at the widget tree of the book card. Which widget shows the category, and which widget holds the icon and the stock message?",
     [["Chip", "chip"], ["Row", "row"]],
     "The Chip shows the category, and the Row holds the icon and the stock message.", { qfig: 'bookCard' });
-  def(6, 'e', 2, "Do the category Chips filter the products in the Week 6 app? What do they do?",
-    [["No, they do not filter", "!not filter", "=no", "!no they", "!do not", "!dont", "!no it"], ["They show information (a label)", "information", "label"]],
-    "No, they do not filter the products. They show information only.");
+  def([6, 18], 'e', 2, "Does a Chip filter a list by itself? What does it do?",
+    [["No, it does not filter", "!not filter", "=no", "!no it", "!does not", "!doesnt", "!no a chip"], ["It shows a small label (information)", "label", "information"]],
+    "No, a Chip does not filter a list by itself. It shows a small label.");
 
   /* ---------- Matching ---------- */
   match(18, 'e', "Match each widget or key with its description.",
     [["`Chip`", "A small label"], ["`Row`", "Puts widgets next to each other"], ["`ExpansionTile`", "Opens and closes details"], ["`ListTile`", "A row with a title and an optional icon or subtitle"], ["`PageStorageKey`", "Identifies a section to restore its saved state"], ["`DecoratedBox`", "Paints a background or border around its child"], ["`Wrap`", "Moves widgets to a new line when space runs out"], ["`AlertDialog`", "A message box above the current screen"]]);
-  match([6, 7, 8, 10, 11, 12, 13], 'm', "Match each need in the Campus Shop app with the best widget.",
+  match([6, 7, 8, 10, 11, 12, 13], 'm', "Match each need with the best widget.",
     [["Show a small category below the price", "`Chip`"], ["Put a stock icon beside its message", "`Row`"], ["Show product details only after a tap", "`ExpansionTile`"], ["Show a bag icon, a title and a subtitle", "`ListTile`"], ["Paint an orange offer box", "`DecoratedBox`"], ["Keep delivery labels inside a narrow screen", "`Wrap`"], ["Show the opening hours in a message box", "`AlertDialog`"]]);
   match([6, 9, 10, 11, 12], 'h', "Match each property with what it sets.",
-    [["`label`", "The text of a Chip"], ["`leading`", "The icon at the start of a ListTile"], ["`subtitle`", "The second line of a ListTile"], ["`decoration`", "The background and corners of a DecoratedBox"], ["`spacing`", "The gap between labels on one line"], ["`runSpacing`", "The gap between two lines of labels"], ["`key`", "Identifies a section such as the book details"]]);
+    [["`label`", "The text of a Chip"], ["`leading`", "The icon at the start of a ListTile"], ["`subtitle`", "The second line of a ListTile"], ["`decoration`", "The background and corners of a DecoratedBox"], ["`spacing`", "The gap between labels on one line"], ["`runSpacing`", "The gap between two lines of labels"], ["`key`", "Identifies a section so its state can be restored"]]);
   match([13, 15, 17], 'm', "Match each item with its description.",
     [["Ctrl+F", "Finds a product name in the code"], ["Problems panel", "Shows the first error"], ["Hot Reload", "Shows the new result after saving"], ["Missing comma or bracket", "A possible cause of an error"], ["`showDialog`", "Opens the AlertDialog"], ["Stateless main class", "Possible because ExpansionTile handles its own change"]]);
 });

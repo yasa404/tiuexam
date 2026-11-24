@@ -43,10 +43,9 @@ EC.lecture(7, function (Q) {
   /* ---------- Multiple choice ---------- */
   mcq([3, 26], 'e', "A category is…",
     ["a named group of related products", "a size limit from a parent widget", "a route above the current screen", "a gap between two lines of labels"], "Slide 3.");
-  mcq(3, 'e', "When the user selects the Study category, what happens to the other products?",
-    ["They remain in the catalogue but are not shown", "They are deleted from the catalogue forever", "They are moved to the detail screen of Study", "They change their names to Study products"], "The original list stays.");
-  mcq(3, 'e', "Which category shows the full catalogue again?",
-    ["All", "Study", "Bags", "Lifestyle"], "Slide 3.");
+  mcq(3, 'e', "When the user filters products by one category, what happens to the other products?",
+    ["They remain in the catalogue but are not shown", "They are deleted from the catalogue forever", "They are moved to a separate detail screen", "They change their category"], "The original list stays.");
+  Q.skip('mcq');
   mcq([3, 26], 'e', "What is the difference between Chip and ChoiceChip?",
     ["Chip displays a label; ChoiceChip shows one selected option", "Chip shows a selected option; ChoiceChip only displays a label", "Chip opens a new screen; ChoiceChip closes the current screen", "Chip and ChoiceChip are two names for the same widget"], "Slide 3.");
   mcq(3, 'm', "A ChoiceChip shows that Study is selected. What else is needed to filter the products?",
@@ -159,7 +158,7 @@ EC.lecture(7, function (Q) {
     ["It may be cut off", "It may be filtered", "It may open a route", "It may become an icon"], "Slide 22.");
   mcq(23, 'e', "Which result is expected when you test with more labels?",
     ["Wrap keeps the labels inside the screen", "The labels overflow at the right side", "The first labels are deleted by the Wrap", "The labels open on a separate screen"], "Slide 23.");
-  mcq(24, 'e', "What is a branch in a widget tree, in the lecture’s answer?",
+  mcq(24, 'e', "What does a branch in a widget tree mean?",
     ["One widget is the direct parent of another", "Two widgets with exactly the same text style", "A widget that is never displayed", "A screen that is removed with pop"], "Slide 24.");
   mcq(27, 'm', "Widgets that have the same parent are called…",
     ["siblings", "routes", "viewports", "callbacks"], "Slide 27.");

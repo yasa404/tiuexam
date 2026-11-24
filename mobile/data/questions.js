@@ -41,6 +41,8 @@
   }
 
   var api = {
+    /* skip(type, n): keeps the ids of n removed questions unused, so the other ids never change */
+    skip: function (type, n) { for (var i = 0; i < (n || 1); i++) nextId(type); },
     /* mcq(slide, diff, question, [correct, distractor, distractor, distractor], explanation, opt) */
     mcq: function (slide, diff, q, options, explain, opt) {
       var o = base('mcq', slide, diff, 1, opt);

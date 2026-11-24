@@ -33,7 +33,7 @@
   /* =========================================================
      Storage (guarded: private mode etc.)
      ========================================================= */
-  var FORMAT = 2; // 2 = short answer, multiple choice, matching
+  var FORMAT = 3; // 2 = short answer, multiple choice, matching; 3 = without recall questions
   function defaults() {
     return {
       settings: { lectures: U.slice(), length: 'M', sections: C.KEYS.join(''), difficulty: 'X', timer: true, sound: true, view: 'focus' },
@@ -52,7 +52,7 @@
       // Settings saved before the exam changed to three question types: section letters meant something else.
       if ('wordBank' in d.settings) { delete d.settings.wordBank; d.settings.sections = C.KEYS.join(''); }
       d.settings.sections = C.normCfg({ sections: d.settings.sections }).sections;
-      // Papers started before the exam changed to three question types cannot be rebuilt.
+      // Papers started before questions were removed cannot be rebuilt.
       if (d.current && d.current.format !== FORMAT) d.current = null;
     }
     return d;
@@ -1463,7 +1463,7 @@
     H.forEach(function (h) {
       Object.keys(h.byLecture || {}).forEach(function (l) { lect[l] = lect[l] || [0, 0]; lect[l][0] += h.byLecture[l][0]; lect[l][1] += h.byLecture[l][1]; });
       // Sections meant something else before the exam changed to three question types.
-      if (h.format === FORMAT) Object.keys(h.bySection || {}).forEach(function (s) { sec[s] = sec[s] || [0, 0]; sec[s][0] += h.bySection[s][0]; sec[s][1] += h.bySection[s][1]; });
+      if (h.format >= 2) Object.keys(h.bySection || {}).forEach(function (s) { sec[s] = sec[s] || [0, 0]; sec[s][0] += h.bySection[s][0]; sec[s][1] += h.bySection[s][1]; });
       (h.items || []).forEach(function (x) {
         seen[x[0]] = (seen[x[0]] || 0) + 1;
         if (x[1] < x[2]) lost[x[0]] = (lost[x[0]] || 0) + 1;

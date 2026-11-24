@@ -103,9 +103,9 @@ Text('Completed lessons: $lessons'),`;
     ["Makes the name private to this Dart library", "Makes the class a new StatelessWidget type", "Makes the counter start again from 0", "Makes the name visible to all Dart libraries"], "Slide 11.");
   mcq(12, 'm', "What does `State<ProgressPage>` do in this code?",
     ["Links the state to its widget type", "Creates a new counter variable in build()", "Calls the addLesson() method", "Returns the Scaffold widget"], "Slide 12.", { code: STATE });
-  mcq(12, 'e', "Where should the `lessons` variable live?",
+  mcq(12, 'e', "A counter changes after each tap. Where should its variable be written?",
     ["In the State class, outside build()", "Inside the build() method, before return", "In the StatefulWidget class", "In the AppBar of the Scaffold"], "Slide 12.");
-  mcq(12, 'h', "What happens if `lessons` is a local variable inside `build()`?",
+  mcq(12, 'h', "What happens if a counter is a local variable inside `build()`?",
     ["It would reset on each build", "It would keep its value forever", "It would be private to the library", "It would add two on each tap"], "Slide 12.");
   mcq(13, 'e', "In an ElevatedButton, which property supplies the label?",
     ["`child`", "`onPressed`", "`state`", "`home`"], "Slide 13.", { code: BUTTON });
@@ -141,14 +141,13 @@ Text('Completed lessons: $lessons'),`;
     ["F5", "F1", "Ctrl+S", "Ctrl+F"], "Slide 22.");
   mcq(21, 'm', "In VS Code, where do you run “Flutter: New Project”?",
     ["In the Command Palette", "In the bottom status bar", "In the Problems panel", "In the AppBar of the app"], "View > Command Palette.");
-  mcq(29, 'e', "What usually happens to the counter value after hot reload?",
+  mcq(29, 'e', "What usually happens to the value of a counter after hot reload?",
     ["It keeps the current value", "It becomes 0 again", "It becomes negative", "It increases by one more"], "Slide 29.");
-  mcq(29, 'e', "What happens to the counter after Flutter: Hot Restart?",
-    ["The app restarts with lessons = 0", "The counter keeps its value", "The counter value is doubled", "The project is deleted from VS Code"], "Slide 29.");
-  mcq(31, 'm', "Where should the method resetLessons() be pasted?",
-    ["Inside _ProgressPageState, before @override for build()", "Inside the children list, after the first button", "Inside the ProgressPage class, before createState()", "Above the import line, at the top of the main.dart file"], "Slide 31.");
-  mcq(32, 'e', "Where should the Reset button be placed?",
-    ["Inside the children list", "Inside the setState function", "Outside the State class", "Inside the import statement"], "Slide 32.");
+  mcq(29, 'e', "A counter starts at 0 and now shows 5. What happens after Hot Restart?",
+    ["The app restarts and it shows 0", "The counter keeps its value", "The counter value is doubled", "The project is deleted from VS Code"], "Slide 29.");
+  mcq(31, 'm', "Where is a method that calls setState written?",
+    ["Inside the State class, outside build()", "Inside the children list of a Column", "Inside the StatefulWidget class only", "Above the import line of main.dart"], "Slide 31.");
+  Q.skip('mcq');
   mcq(33, 'e', "Where can you find code errors in VS Code?",
     ["View > Problems", "View > Command Palette", "Run > Start Debugging", "File > New Project"], "Slide 33.");
   mcq(28, 'h', "Which text in this body changes when the button is tapped?",
@@ -160,8 +159,8 @@ Text('Completed lessons: $lessons'),`;
   def(7, 'e', 2, "Define StatelessWidget and give a useful example.",
     [["Has no mutable State object of its own", "no mutable", "no state object"], ["Example: a course heading", "heading", "title", "logo"]],
     "A StatelessWidget has no mutable State object of its own. A course heading is a useful example.");
-  def(10, 'e', 2, "Define state and give the example from the progress app.",
-    [["Data that may change while the app runs", "may change", "can change", "change while"], ["The lessons variable (current count)", "lessons", "count"]],
+  def(10, 'e', 2, "Define state and give an example.",
+    [["Data that may change while the app runs", "may change", "can change", "change while"], ["An example, such as the number of completed lessons", "lessons", "count", "score", "like", "example", "number of", "selected"]],
     "State is data that may change while the app runs. In the progress app the lessons variable stores the current count.");
   def(14, 'm', 2, "What does setState() tell Flutter?",
     [["Runs the change in the state", "runs the change", "state changed", "state has changed", "change"], ["Schedules a rebuild of the interface", "rebuild"]],
@@ -169,27 +168,22 @@ Text('Completed lessons: $lessons'),`;
   def(13, 'm', 2, "Why do we use onPressed: addLesson without parentheses?",
     [["It passes the method to the button", "passes the method", "pass the method"], ["Without calling it now; it is called on a tap", "without calling", "on a tap", "not call"]],
     "onPressed: addLesson passes the method without calling it now. The method is called on a tap.");
-  def(12, 'm', 2, "Why must the lessons variable be kept outside build()?",
+  def(12, 'm', 2, "Why must a counter variable be kept outside build()?",
     [["It is a field in the State class", "field", "state class"], ["A local variable inside build() would reset on each build", "reset"]],
     "lessons is a field in the State class and must stay outside build(), because a local variable inside build() would reset on each build.");
-  def(15, 'm', 2, "What does $lessons do inside a string? Give the text after one tap.",
+  def(15, 'm', 2, "What does $lessons do inside `'Completed lessons: $lessons'`? Which text is shown when lessons is 1?",
     [["Inserts the current value into the text", "insert", "current value"], ["Completed lessons: 1", "#1"]],
-    "$lessons inserts the current value into the text. After one tap it shows Completed lessons: 1.");
+    "$lessons inserts the current value into the text. It shows Completed lessons: 1.");
   def(29, 'm', 2, "What is the difference between hot reload and hot restart for the counter?",
     [["Hot reload usually keeps the current value", "keep"], ["Hot restart starts the app with lessons = 0", "#0", "zero", "starts again"]],
     "Hot reload usually keeps the current counter value. Hot restart restarts the app with lessons = 0.");
-  list([4], 'e', 3, "List three parts of our course app and what each one does.",
-    [["main() is the Dart entry point", "main"], ["runApp() starts the Flutter interface", "runapp"], ["MaterialApp contains our app screen", "materialapp"], ["Scaffold provides an AppBar and a body", "scaffold"], ["Text displays information", "text"]], { n: 3 });
-  list([11, 12], 'm', 2, "List the two classes needed for the progress page.",
-    [["ProgressPage (the StatefulWidget)", "=progresspage", "statefulwidget", "progresspage extends", "stateful"], ["_ProgressPageState (the State class)", "progresspagestate", "state class"]]);
-  list(33, 'e', 3, "List three things to check when the app has errors.",
-    [["Use the supplied files if a fragment is incomplete", "supplied", "incomplete"], ["Keep lessons and the methods inside the State class", "state class", "inside the state"], ["Use View > Problems", "problems"], ["Check commas and brackets near the first error", "comma", "bracket"]], { n: 3 });
+  Q.skip('list', 3);
   def([7, 11, 34], 'm', 4, "Compare StatelessWidget and StatefulWidget.",
     [["StatelessWidget has no mutable State object of its own", "no mutable", "no state object"], ["Its build() uses its inputs and the surrounding context", "inputs", "context"], ["StatefulWidget stores changing data in a State object", "changing data"], ["createState() creates the State object", "createstate"]],
     "A StatelessWidget has no mutable State object of its own; its build() uses its inputs and the surrounding context. A StatefulWidget stores changing data in a State object, and createState() creates that State object.");
-  def([13, 14, 15], 'm', 4, "Explain what happens, step by step, when the user taps the “Complete lesson” button.",
-    [["The tap calls addLesson() (onPressed)", "addlesson", "onpressed"], ["setState runs the change: lessons = lessons + 1", "setstate"], ["It schedules a rebuild", "rebuild"], ["build() reads the updated value and the text shows the new count", "updated", "new count", "new value"]],
-    "The tap calls addLesson() because of onPressed. Inside it, setState runs lessons = lessons + 1 and schedules a rebuild. build() then reads the updated lessons value, and the text shows the new count.");
+  def([13, 14, 15], 'm', 4, "Explain, step by step, what happens when the user taps a button that adds 1 to a counter.",
+    [["The tap calls the method in onPressed", "onpressed", "method", "calls", "function"], ["setState runs the change", "setstate"], ["It schedules a rebuild", "rebuild"], ["build() reads the updated value and the screen shows the new count", "updated", "new count", "new value"]],
+    "The tap calls the method given to onPressed. Inside it, setState runs the change and schedules a rebuild. build() then reads the updated value, and the screen shows the new count.");
   def([5, 17], 'm', 4, "Explain how to use the Flutter documentation to learn a widget such as ElevatedButton.",
     [["Open the documentation (api.flutter.dev or the widget catalog)", "api flutter dev", "documentation", "catalog"], ["Search for the exact widget name", "exact", "search"], ["Open the class page and find the example code", "example code", "class page"], ["Identify the properties (onPressed and child); a fragment belongs inside an app", "onpressed", "child", "fragment"]],
     "Open the documentation at api.flutter.dev and search for the exact widget name. Open the class page and find its example code. Identify properties such as onPressed and child. A widget fragment belongs inside an app and may need other code.");
@@ -235,5 +229,5 @@ Text('Completed lessons: $lessons'),`;
   match([13, 14, 15, 16, 30], 'm', "Match each line of code with its effect.",
     [["`lessons = lessons + 1;`", "Increases the count by one"], ["`lessons = lessons + 2;`", "Increases the count by two"], ["`lessons = 0;`", "Resets the count"], ["`onPressed: addLesson`", "Names the method to call on a tap"], ["`child: Text('Reset')`", "Supplies the label of a button"], ["`Text('Completed lessons: $lessons')`", "Shows the current count"]]);
   match([21, 22, 29, 33], 'm', "Match each tool or command in VS Code with its use.",
-    [["Command Palette", "Where we run Flutter: New Project"], ["F5", "Launches the app (Start Debugging)"], ["Hot reload", "Usually keeps the counter value"], ["Hot restart", "Starts the app again with lessons = 0"], ["`stless`", "Offers a StatelessWidget template"], ["`stful`", "Offers a StatefulWidget template"], ["View > Problems", "Shows the errors in the code"]]);
+    [["Command Palette", "Where we run Flutter: New Project"], ["F5", "Launches the app (Start Debugging)"], ["Hot reload", "Usually keeps the counter value"], ["Hot restart", "Starts the app again from its first values"], ["`stless`", "Offers a StatelessWidget template"], ["`stful`", "Offers a StatefulWidget template"], ["View > Problems", "Shows the errors in the code"]]);
 });

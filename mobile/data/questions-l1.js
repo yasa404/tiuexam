@@ -22,7 +22,7 @@ Book b1 = Book();`;
     ["attributes", "methods", "actions", "diagrams"], "Slide 11.");
   mcq(11, 'e', "In OOP, actions are defined through…",
     ["methods", "attributes", "strings", "blueprints"], "Slide 11.");
-  mcq(11, 'e', "Why is OOP useful in this course?",
+  mcq(11, 'e', "Why is OOP useful for Flutter development?",
     ["Dart supports OOP, which helps structure Flutter applications", "Flutter does not need any programming language if OOP is used", "OOP makes the phone screen larger so that more widgets can fit", "OOP replaces Dart with a different language for every platform"], "Slide 11.");
   mcq(12, 'e', "A class is…",
     ["a blueprint used to create objects", "a specific instance of another object", "a value stored in an attribute", "an action done by a method"], "Slide 12.");
@@ -32,7 +32,7 @@ Book b1 = Book();`;
     ["They can have different attribute values", "They must have the same attribute values", "They must belong to two different classes", "They cannot both exist in one program"], "For example Sara, age 20, and Ali, age 21.");
   mcq(12, 'e', "“Sara, age 20” and “Ali, age 21” are two … of the class Student.",
     ["objects", "attributes", "methods", "diagrams"], "Slide 12.");
-  mcq(12, 'm', "In the Student example, `name` and `age` are…",
+  mcq(12, 'm', "A class called Student stores a `name` and an `age`. These two are…",
     ["attributes", "objects", "classes", "methods"], "Slide 12.");
   mcq(13, 'm', "What is the class name in this code?",
     ["`Student`", "`name`", "`String`", "`Sara`"], "The word after `class`.", { code: STUDENT });
@@ -54,10 +54,7 @@ Book b1 = Book();`;
     ["`Sara`", "`ali`", "`Student`", "It has no value"], "The class gives the attribute the value 'Sara'.", { code: STUDENT });
   mcq(14, 'e', "Besides the classes themselves, class diagrams also show…",
     ["connections between classes", "the colours of the screens", "the errors in the Dart code", "the speed of the program"], "Slide 14.");
-  mcq(14, 'e', "Which relationship is described in the lecture?",
-    ["A Course can have several Student objects", "A Student can have only one attribute", "A Course can never have a Student object", "A Student is a blueprint used to create a Course"], "Slide 14.");
-  mcq(14, 'm', "In the Course and Student example, which attribute belongs to the course?",
-    ["Title", "Age", "Name of the student", "Number of methods"], "Each course has a title.");
+  Q.skip('mcq', 2);
   mcq(14, 'h', "What does this diagram show an example of?",
     ["one Course object connected to several Student objects", "one Student object connected to several Course objects", "three classes that are created from one object", "three attributes that belong to one Student object"], "Slide 14.", { qfig: 'courseObjects' });
   mcq(15, 'e', "Which of these shows a class and its connections to other classes?",
@@ -85,15 +82,12 @@ Book b1 = Book();`;
   def(13, 'm', 2, "In `Student sara = Student();`, what is Student and what is sara?",
     [["Student is the class", "student is the class", "class"], ["sara is an object of the class", "object"]],
     "Student is the class, and sara is an object of the Student class.");
-  list([12, 13], 'e', 2, "List the two attributes of the Student class in the lecture.",
-    [["name", "name"], ["age", "age"]]);
-  list([11, 15], 'm', 4, "List four terms of OOP that the lecture explains.",
-    [["Class", "class"], ["Object", "object"], ["Attribute", "attribute"], ["Method", "method"], ["Class diagram", "diagram"]], { n: 4 });
+  Q.skip('list', 2);
   def(12, 'm', 4, "Explain the difference between a class and an object, with an example.",
     [["A class is a blueprint used to create objects", "blueprint"], ["An object is a specific instance of a class", "instance"], ["Objects of the same class can have different attribute values", "different attribute", "different value"], ["Example: class Student; objects Sara (age 20) and Ali (age 21)", "sara", "ali", "student"]],
     "A class is a blueprint used to create objects. An object is a specific instance of a class. Objects from the same class can have different attribute values. Example: the class Student has the objects Sara, age 20, and Ali, age 21.");
-  def([11, 13], 'm', 4, "Explain how OOP stores data and actions, using the Student class as an example.",
-    [["Objects contain data and can perform actions", "data", "contain data"], ["Data is stored in attributes", "attribute"], ["Actions are defined through methods", "method"], ["Example: name and age are attributes of Student", "name and age", "name", "age"]],
+  def([11, 13], 'm', 4, "Explain how OOP stores data and actions, with an example.",
+    [["Objects contain data and can perform actions", "data", "contain data"], ["Data is stored in attributes", "attribute"], ["Actions are defined through methods", "method"], ["An example, such as: name and age are attributes of Student", "name and age", "name", "age", "for example", "example"]],
     "Objects contain data and can perform actions. Data is stored in attributes, and actions are defined through methods. For example, name and age are attributes of the Student class.");
   def([12, 14], 'm', 3, "A library app must store 500 books. Every book has a title and a number of pages. What is the best design? Why?",
     [["One Book class and 500 objects", "one class", "one book class", "a book class", "single class", "class book"], ["A class is a blueprint, so one class can create many objects", "blueprint", "many objects", "create objects"], ["Each object can have different attribute values", "different", "own value", "own title", "attribute"]],
@@ -113,9 +107,7 @@ Book b1 = Book();`;
   def(14, 'm', 2, "Look at the diagram. Explain the relationship it shows between the course and the students.",
     [["One Course object", "one course", "a course", "course"], ["can have several Student objects", "several", "many", "three"]],
     "One course can have several Student objects: Mobile Applications is connected to Sara, Ali and Ahmed.", { qfig: 'courseObjects' });
-  def(14, 'm', 2, "What information does the lecture’s class diagram store for a course and for a student?",
-    [["Course: title", "title"], ["Student: name and age", "name and age", "name", "age"]],
-    "A course has a title. A student has a name and an age.");
+  Q.skip('def');
   def(11, 'e', 2, "Why is OOP useful when we write Flutter apps?",
     [["Dart supports OOP", "dart supports", "dart"], ["It helps structure Flutter applications", "structure", "organize", "organise"]],
     "Dart supports OOP, and it helps structure Flutter applications.");

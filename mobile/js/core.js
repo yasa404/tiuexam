@@ -529,8 +529,8 @@
         var others = poolA.filter(function (x) { return !used.has(x.id) && x.id !== q.id; }).map(function (x) { return x.marks; });
         return reachable(others, rem - q.marks);
       };
-      // One list for every two written answers.
-      var type = (turn + i) % 3 === 0 ? 'list' : 'def';
+      // One list for every four written answers.
+      var type = (turn + i) % 5 === 0 ? 'list' : 'def';
       var q = choose(poolA, ladder(L, D, function (x) { return x.type === type && fits(x); }).concat(ladder(L, D, fits)));
       if (!q && !on('B')) q = choose(poolA, ladder(L, D, function (x) { return x.marks <= rem; }));
       if (!q) break;

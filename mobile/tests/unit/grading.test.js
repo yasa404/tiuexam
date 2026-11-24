@@ -63,20 +63,20 @@ test('matching: one mark per correct letter', () => {
   assert.ok(!C.isAnswered(it, [null, null]) && C.isAnswered(it, [null, 2]));
 });
 
-const WIDGETS = EC.BANK.find((q) => q.type === 'list' && q.lecture === 4 && /four situations/.test(q.q));
+const WIDGETS = EC.BANK.find((q) => q.type === 'list' && q.lecture === 4 && /adding a local image/.test(q.q));
 
 test('list: items are matched by keyword at word boundaries, with partial marks', () => {
   const it = itemFor(WIDGETS);
-  const r = C.gradeItem(it, ['There are no courses', 'data is loading', '', '']);
+  const r = C.gradeItem(it, ['Save the image', 'declare it in pubspec', '', '']);
   assert.equal(r.got, C.roundHalf(2 / 4 * WIDGETS.marks));
   assert.equal(r.status, 'partial');
-  // A repeated item only counts once; a key must start at a word boundary ("unavailable" is not "available").
-  assert.equal(C.gradeItem(it, ['fails', 'FAILS', 'loading fails', '']).got, C.roundHalf(1 / 4 * WIDGETS.marks));
-  assert.equal(C.gradeItem(it, ['unavailable', '', '', '']).got, 0);
+  // A repeated item only counts once; a key must start at a word boundary ("undeclared" is not "declare").
+  assert.equal(C.gradeItem(it, ['save', 'SAVE', 'saving the image', '']).got, C.roundHalf(1 / 4 * WIDGETS.marks));
+  assert.equal(C.gradeItem(it, ['undeclared', '', '', '']).got, 0);
 });
 
 test('list: any order scores full marks', () => {
-  assert.equal(C.gradeItem(itemFor(WIDGETS), ['online loading fails', 'online data is loading', 'no courses', 'courses are available']).got, WIDGETS.marks);
+  assert.equal(C.gradeItem(itemFor(WIDGETS), ['check the result', 'display it with Image.asset', 'declare the asset', 'save the file']).got, WIDGETS.marks);
 });
 
 test('explain: auto-detected points, then self-marking overrides', () => {

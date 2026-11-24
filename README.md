@@ -7,7 +7,7 @@ Practice midterm papers for Tishk International University IT courses, Fall 2026
 | `ecommerce/` | IT 355 E-Commerce (Dr. Hala Najwan Sabeh) | Lectures 1–4 | 621 |
 | `datacom/` | IT 301 Data Communications and Computer Networks I (Azheen Ghafour) | Weeks 2–6 | 723 |
 | `os/` | IT 327 Operating Systems (Mr. Alaa Ghazi) | Lectures 1–4 | 675 |
-| `mobile/` | IT 319 Mobile Applications (Ms. Van Sirwan) | Lectures 1–7 | 496 |
+| `mobile/` | IT 319 Mobile Applications (Ms. Van Sirwan) | Lectures 1–7 | 446 |
 
 Each subject is a self-contained static app (plain HTML, CSS and JavaScript, no backend) with its own README, question bank, tests and screenshots. All share the same design and features; each keeps its own papers, flashcards and progress in the browser (`ec355.*`, `dc301.*`, `os327.*` and `ma319.*` keys), so they never mix.
 

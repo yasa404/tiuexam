@@ -138,8 +138,7 @@ void main() {
   def(16, 'm', 2, "What is the purpose of lib/main.dart and pubspec.yaml?",
     [["lib/main.dart is the usual starting file", "starting file", "start"], ["pubspec.yaml lists dependencies and project settings", "dependenc", "settings"]],
     "lib/main.dart is the usual starting file for a Flutter app. pubspec.yaml lists dependencies and project settings.");
-  list(7, 'e', 3, "List three main widgets of our first app and what is at the top of the widget tree.",
-    [["MaterialApp", "materialapp", "material app"], ["Scaffold", "scaffold"], ["AppBar", "appbar", "app bar"], ["Text", "text"], ["Center", "center"]], { n: 3 });
+  Q.skip('list');
   list(5, 'e', 3, "List the platforms that Flutter can target.",
     [["Mobile", "mobile"], ["Web", "web"], ["Desktop", "desktop"]]);
   list(30, 'e', 3, "List three common errors in Dart code.",
@@ -194,7 +193,7 @@ void main() {
   match([11, 14], 'm', "Match each symbol with its use in Dart.",
     [["Parentheses `( )`", "Hold arguments"], ["Square brackets `[ ]`", "Hold a list"], ["Braces `{ }`", "Contain the function’s code"], ["Comma `,`", "Separates arguments and list items"], ["Colon `:`", "Names a setting"], ["Semicolon `;`", "Ends a statement"], ["Quotation marks `' '`", "Surround a string"]]);
   match([5, 16, 17], 'm', "Match each name with its description.",
-    [["Flutter", "Toolkit for building app interfaces"], ["Dart", "Programming language"], ["`lib/main.dart`", "Usual starting file"], ["`pubspec.yaml`", "Lists dependencies and project settings"], ["Hot reload", "Updates many code changes in a local project"], ["DartPad", "Where we click Run after each change"]]);
+    [["Flutter", "Toolkit for building app interfaces"], ["Dart", "Programming language"], ["`lib/main.dart`", "Usual starting file"], ["`pubspec.yaml`", "Lists dependencies and project settings"], ["Hot reload", "Updates many code changes in a local project"], ["DartPad", "Runs Flutter code in the browser"]]);
   match([12, 13, 15], 'm', "Match each name with its description.",
     [["`style`", "Controls the appearance of a text"], ["`TextStyle`", "Holds text settings"], ["`fontSize`", "Sets how large the text is"], ["`mainAxisAlignment`", "Centres the children of a Column vertically"], ["StatelessWidget", "For a logo or a fixed title"], ["StatefulWidget", "For a counter or a Like button"]]);
 });

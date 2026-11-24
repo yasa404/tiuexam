@@ -14,7 +14,7 @@ const err = (q, msg) => errors.push(`${q ? q.id : '-'}: ${msg}`);
 const WEEKS = EC.COURSE.units;
 const PAGES = { 1: 17, 2: 33, 3: 35, 4: 21, 5: 16, 6: 18, 7: 29 };
 const SKIPPED = { 1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 16, 17], 2: [1, 2, 3, 19, 33], 3: [1, 2, 3, 19, 35], 4: [1, 2, 3, 21], 5: [1, 2, 16], 6: [1, 2], 7: [1, 2, 25] };
-const MIN_PER_WEEK = { 1: 45, 2: 60, 3: 60, 4: 60, 5: 50, 6: 50, 7: 90 };
+const MIN_PER_WEEK = { 1: 40, 2: 60, 3: 60, 4: 55, 5: 40, 6: 40, 7: 90 };
 // The only kinds of question on the exam: short answer (def, list), multiple choice, matching.
 const TYPES = ['mcq', 'def', 'list', 'match'];
 const BANNED = /\b(all|none|both|neither) of (the above|these|them|the options)\b/i;
@@ -91,7 +91,9 @@ const count = (f) => BANK.filter(f).length;
 const byType = Object.fromEntries(TYPES.map((t) => [t, count((q) => q.type === t)]));
 const byLecture = Object.fromEntries(WEEKS.map((l) => [l, count((q) => q.lecture === l)]));
 const byDiff = Object.fromEntries(['easy', 'medium', 'hard'].map((d) => [d, count((q) => q.difficulty === d)]));
-if (BANK.length < 450) errors.push(`bank has ${BANK.length} questions; need at least 450`);
+if (BANK.length < 430) errors.push(`bank has ${BANK.length} questions; need at least 430`);
+// Questions test concepts, not what exactly was shown in a lecture.
+for (const q of BANK) if (/\b(in|of|from|by) (the|this|our) (lecture|slides?|practical|lab|starter|progress app)\b|lecture[’']s|\bour (course )?app\b|Campus Shop/i.test(q.q)) err(q, 'asks what was in the lecture');
 for (const l of WEEKS) if (byLecture[l] < MIN_PER_WEEK[l]) errors.push(`lecture ${l} has ${byLecture[l]} questions; need at least ${MIN_PER_WEEK[l]}`);
 if (byType.mcq < 220) errors.push(`only ${byType.mcq} MCQs; need at least 220`);
 if (byType.match < 28) errors.push(`only ${byType.match} matching questions; need at least 28`);

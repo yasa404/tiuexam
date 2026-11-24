@@ -13,8 +13,7 @@ EC.lecture(4, function (Q) {
   /* ---------- Multiple choice ---------- */
   mcq(4, 'm', "If a course catalogue grows from 2 courses to 20, what should we avoid copying twenty times?",
     ["The layout design", "The course names", "The course codes", "The credit values"], "One reusable widget can serve all courses.");
-  mcq([4, 5], 'e', "Which information does each course have in the catalogue example?",
-    ["Name, code and credit value", "Price, size and colour", "Address, phone and email", "Image, sound and video file"], "Slide 4.");
+  Q.skip('mcq');
   mcq(6, 'e', "“The code is IT319” is an example of…",
     ["data", "presentation", "spacing", "a theme"], "What the course is.");
   mcq(6, 'e', "“The name appears in larger text” is an example of…",
@@ -29,16 +28,15 @@ EC.lecture(4, function (Q) {
     ["The information for one course", "The layout of the whole screen", "The path of an image file", "The theme of the application"], "Slide 7.");
   mcq(7, 'm', "Adding course data should not require…",
     ["copying the whole screen layout", "a name and a code for the course", "a new item in the collection", "reading the collection again"], "Slide 7.");
-  mcq(8, 'e', "What is an advantage of a reusable CourseSummary widget?",
+  mcq(8, 'e', "What is an advantage of a reusable widget?",
     ["A spacing change happens in one place", "A spacing change needs several edits", "Each course has its own copied design", "Copies may slowly look different"], "Slide 8.");
   mcq(8, 'e', "What can slowly happen when a layout is copied for each course?",
     ["The copies may look different", "The copies become one widget", "The course data is deleted", "The images stop loading"], "Slide 8.");
   mcq(8, 'e', "When is reuse useful?",
     ["When the same kind of information appears more than once", "When the information appears only one time in the app", "When the app has no widgets and no screens at all", "When each course must have a completely different design"], "Slide 8.");
-  mcq(9, 'm', "What is the job of the CourseSummary widget?",
-    ["To display the details of one course", "To store all of the images of the app", "To download data from the internet", "To decide which courses are offered"], "Slide 9.");
-  mcq(9, 'e', "Who decides which course information to pass to CourseSummary?",
-    ["The surrounding screen", "The CourseSummary itself", "The image asset", "The pubspec.yaml file"], "Slide 9.");
+  Q.skip('mcq');
+  mcq(9, 'e', "A reusable widget displays one course. Who decides which course it receives?",
+    ["The surrounding screen", "The reusable widget itself", "The image asset", "The pubspec.yaml file"], "Slide 9.");
   mcq(10, 'm', "What makes each value’s purpose clear in this code?",
     ["The named inputs", "The number of lines", "The quotation marks", "The closing bracket"], "Slide 10.", { code: SUMMARY });
   mcq(10, 'h', "Why can this fragment not run alone?",
@@ -53,13 +51,12 @@ EC.lecture(4, function (Q) {
     ["A new widget instance receives different data", "The final field is changed by the user", "It is impossible to ever show a different name", "The old instance is renamed by Flutter"], "A final field does not mean the screen can never update.");
   mcq(11, 'e', "In `name: 'Mobile Applications'`, what is `name:`?",
     ["A named input", "A final class", "An asset path", "A theme colour"], "Slide 11.");
-  mcq(12, 'h', "CourseSummary shows IT319 and then Web Development, IT220, 3 credits. Which inputs change?",
-    ["The name and the code", "The text style and the spacing", "Only the credit value", "The layout of the widget"], "Both courses have 3 credits.");
-  mcq(13, 'm', "Which location holds the Course data model in the example project?",
+  Q.skip('mcq');
+  mcq(13, 'm', "Which file is the best place for a Course data model?",
     ["`lib/models/course.dart`", "`lib/widgets/course_summary.dart`", "`lib/screens/courses_page.dart`", "`assets/images/`"], "Slide 13.");
-  mcq(13, 'e', "Which location holds the reusable course display?",
+  mcq(13, 'e', "Which file is the best place for a reusable course widget?",
     ["`lib/widgets/course_summary.dart`", "`lib/models/course.dart`", "`lib/screens/courses_page_list.dart`", "`assets/images/`"], "Slide 13.");
-  mcq(13, 'e', "Which location holds the screen that uses course displays?",
+  mcq(13, 'e', "Which file is the best place for a screen that shows the courses?",
     ["`lib/screens/courses_page.dart`", "`lib/models/course.dart`", "`lib/widgets/course_summary.dart`", "`pubspec.yaml`"], "Slide 13.");
   mcq(13, 'm', "What connects code across Dart files?",
     ["Import statements", "Image assets", "Text styles", "Named final fields"], "Slide 13.");
@@ -83,8 +80,7 @@ EC.lecture(4, function (Q) {
     ["Network image", "Local asset", "Bundled image", "Declared asset"], "Slide 17.");
   mcq(17, 'm', "Which kind of image may be unavailable without connectivity?",
     ["Network image", "Local asset", "Bundled logo", "Project icon"], "Slide 17.");
-  mcq(18, 'e', "What should students recognise first in the course display?",
-    ["The course name", "The credit value", "The background", "The file name"], "Slide 18.");
+  Q.skip('mcq');
   mcq(18, 'e', "Why does “Registration closed” communicate more clearly than a red dot?",
     ["A colour alone should not be the only way to show information", "A red dot takes more space than text on a phone screen", "Text always loads much faster than any colour on every phone", "Red dots cannot be displayed in Flutter apps"], "Slide 18.");
   mcq(19, 'm', "There are no courses in the catalogue. What should the screen show?",
@@ -101,7 +97,7 @@ EC.lecture(4, function (Q) {
     ["Course models", "Image assets", "Themes", "Screen feedback"], "Slide 20.");
 
   /* ---------- Short answer ---------- */
-  def(6, 'e', 2, "Define data and presentation in the course catalogue.",
+  def(6, 'e', 2, "Define data and presentation.",
     [["Data: what the course is (name, code, credits)", "what the course is", "information"], ["Presentation: how it appears (text size, spacing)", "how it appears", "appear", "looks"]],
     "Data is what the course is, such as its name, code and credit value. Presentation is how it appears, such as larger text and spacing.");
   def(14, 'e', 2, "Define asset and give an example.",
@@ -116,26 +112,21 @@ EC.lecture(4, function (Q) {
   def(16, 'm', 2, "Why may a declared image still not appear? Give two checks.",
     [["The path must match exactly in pubspec.yaml, the folder and the code", "path", "match"], ["Spacing and indentation in pubspec.yaml (or the filename)", "indentation", "spacing", "filename"]],
     "The path must match exactly in pubspec.yaml, in the folder and in Image.asset. Also check the filename and the spacing and indentation in pubspec.yaml.");
-  list(15, 'm', 4, "List the four steps for including a university logo.",
+  list(15, 'm', 4, "List the four steps for adding a local image to an app.",
     [["Save the image in assets/images/", "save"], ["Declare the asset in pubspec.yaml", "declare"], ["Display the image with Image.asset", "display"], ["Check the result", "check"]]);
-  list(19, 'm', 4, "List the four situations of a screen in the lecture.",
-    [["Courses are available", "available"], ["There are no courses", "no courses", "empty"], ["Online data is loading", "is loading", "loading data", "=loading"], ["Online loading fails", "fail", "error"]]);
-  list(13, 'm', 4, "List the four locations of the example project structure.",
-    [["lib/models (data model)", "models"], ["lib/widgets (reusable display)", "widgets"], ["lib/screens (screen)", "screens"], ["assets/images (local images)", "assets", "images"]]);
-  list([5, 10], 'e', 3, "List the three inputs of CourseSummary.",
-    [["name", "name"], ["code", "code"], ["credits", "credit"]]);
-  def(8, 'm', 4, "Compare a copied layout with a reusable CourseSummary widget.",
-    [["Copied: each course has its own copied design", "own copied", "copied design"], ["Copied: a spacing change needs several edits, and copies may look different", "several edits", "look different"], ["Reusable: each course uses the same design", "same design"], ["Reusable: a change happens in one place and the layout stays consistent", "one place", "consistent"]],
-    "With a copied layout each course has its own copied design, a spacing change needs several edits, and copies may slowly look different. With a reusable CourseSummary widget each course uses the same design, a spacing change happens in one place, and the layout stays consistent.");
+  Q.skip('list', 3);
+  def(8, 'm', 4, "Compare copying a layout for each item with using one reusable widget.",
+    [["Copied: each item has its own copied design", "own copied", "copied design", "each item", "own copy"], ["Copied: a change needs several edits, and copies may look different", "several edits", "many edits", "look different"], ["Reusable: every item uses the same design", "same design"], ["Reusable: a change happens in one place and the layout stays consistent", "one place", "consistent"]],
+    "With a copied layout each item has its own copied design, a change needs several edits, and the copies may slowly look different. With a reusable widget every item uses the same design, a change happens in one place, and the layout stays consistent.");
   def(17, 'm', 4, "Compare a local image asset with a network image.",
     [["Local: included with the app", "included with"], ["Local: available without downloading, useful for a fixed logo", "without downloading", "fixed"], ["Network: loaded from an internet address, useful for images updated online", "internet", "updated online"], ["Network: needs loading and failure handling; may be unavailable without connectivity", "failure", "connectivity", "unavailable"]],
     "A local asset is included with the app, needs a correct asset declaration, is available without downloading, and is useful for a fixed university logo. A network image is loaded from an internet address, is useful for images updated online, needs loading and failure handling, and may be unavailable without connectivity.");
-  def(19, 'm', 4, "Explain the useful screen feedback for each of the four situations.",
-    [["Courses are available: show the course information", "course information"], ["No courses: show “No courses available”", "no courses available"], ["Loading: show a progress indicator and a short message", "progress"], ["Loading fails: show a clear message and a Retry action", "retry"]],
-    "When courses are available, show the course information. When there are no courses, show No courses available. When online data is loading, show a progress indicator and a short message. When loading fails, show a clear message and a Retry action.");
-  def([6, 9], 'm', 4, "Explain why course information is separated from its visual layout, and how one widget displays different courses.",
-    [["Data is what the course is; presentation is how it appears", "how it appears", "presentation"], ["Changing a colour should not change the course information", "colour", "color"], ["CourseSummary owns the layout and receives name, code and credits", "owns the layout", "receives"], ["The surrounding screen passes different course information", "passes", "surrounding", "pass"]],
-    "Data is what the course is and presentation is how it appears, so changing a text colour should not require changing the course information. CourseSummary owns the layout and receives a name, code and credit value. The surrounding screen passes different course information to the same design.");
+  def(19, 'm', 4, "Explain what a screen should show when data is available, when it is empty, when it is loading, and when loading fails.",
+    [["Available: show the information", "show the information", "show the data", "information", "show the items", "content"], ["Empty: a message such as “No courses available”", "no courses", "no items", "no data", "empty message", "nothing available", "not available"], ["Loading: a progress indicator and a short message", "progress", "indicator", "spinner"], ["Fails: a clear message and a Retry action", "retry", "try again"]],
+    "When data is available, show the information. When it is empty, show a message such as No courses available. When it is loading, show a progress indicator and a short message. When loading fails, show a clear message and a Retry action.");
+  def([6, 9], 'm', 4, "Explain why data is separated from its visual layout, and how one reusable widget can display different items.",
+    [["Data is what the item is; presentation is how it appears", "how it appears", "presentation", "how it looks"], ["Changing a colour should not change the data", "colour", "color", "style"], ["The reusable widget owns the layout and receives the values", "owns the layout", "receives", "inputs"], ["The surrounding screen passes different values", "passes", "surrounding", "pass", "different values"]],
+    "Data is what the item is and presentation is how it appears, so changing a colour should not change the data. The reusable widget owns the layout and receives the values as inputs. The surrounding screen passes different values to the same design.");
   def(17, 'm', 3, "An app must always show the university logo, even without an internet connection. Which image type is the best? Why?",
     [["Local asset", "local", "asset"], ["It is included with the app", "included", "travels", "bundle"], ["It is available without downloading", "without downloading", "without internet", "offline", "without connect", "no download"]],
     "A local asset is the best. It is included with the app, so it is available without downloading.");
@@ -169,7 +160,7 @@ EC.lecture(4, function (Q) {
 
   /* ---------- Matching ---------- */
   match([6, 7, 9, 11, 14], 'm', "Match each term with its description.",
-    [["Data", "What the course is"], ["Presentation", "How the course appears"], ["`List<Course>`", "Groups several Course objects in order"], ["`CourseSummary`", "Displays the details of one course"], ["Constructor", "Creates the widget with the supplied values"], ["`required`", "The caller must supply this input"], ["`final` field", "The widget instance keeps its assigned value"], ["Asset", "A file that travels with the app"]]);
+    [["Data", "What the course is"], ["Presentation", "How the course appears"], ["`List<Course>`", "Groups several Course objects in order"], ["Reusable widget", "One design that displays many different items"], ["Constructor", "Creates the widget with the supplied values"], ["`required`", "The caller must supply this input"], ["`final` field", "The widget instance keeps its assigned value"], ["Asset", "A file that travels with the app"]]);
   match([13, 15], 'm', "Match each file or statement with its use.",
     [["`lib/models/course.dart`", "Course data model"], ["`lib/widgets/course_summary.dart`", "Reusable course display"], ["`lib/screens/courses_page.dart`", "Screen that uses the displays"], ["`assets/images/`", "Where the logo file is saved"], ["`pubspec.yaml`", "Where an asset is declared"], ["`import` statements", "Connect code across files"]]);
   match([18, 19], 'm', "Match each situation with the best screen feedback.",

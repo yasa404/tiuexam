@@ -14,9 +14,9 @@ Source of truth: the seven lecture PDFs. Title, course administration and refere
 
 | L1 OOP and Class Diagrams | L2 Introduction to Flutter | L3 Stateless and Stateful Widget Apps | L4 Designing a Growing Flutter App | L5 Campus Shop: Product Cards (Practical) | L6 Campus Shop: Eight Tasks (Practical) | L7 Understanding Widget Layout | Total |
 |---|---|---|---|---|---|---|---|
-| 48 | 71 | 76 | 71 | 62 | 65 | 103 | **496** |
+| 43 | 70 | 72 | 64 | 47 | 48 | 102 | **446** |
 
-- The instructor announced three kinds of question, and the bank holds only those: **short answer** (160: 135 written, 25 lists), **multiple choice** (305) and **matching** (31 questions with 202 pairs). The validator rejects any other type.
+- The instructor announced three kinds of question, and the bank holds only those: **short answer** (144: 134 written, 10 lists), **multiple choice** (272) and **matching** (30 questions with 197 pairs). The validator rejects any other type.
 - 78 questions print Dart code and 20 print a diagram.
 - Lectures 5 and 6 are practical sheets that name the widgets and properties but do not print the code. The code in those questions is standard Flutter code for the same tasks (for example `Colors.green`, `Chip(label: ...)`, `ListTile(leading: ...)`).
 
@@ -41,7 +41,8 @@ The instructor gave the kinds of question but not their marks, so the marks are 
 
 - **Short answers** are marked by key points; students can tick the points they covered.
 - **Matching**: each paper picks its own pairs and order, so the same question looks different on different papers. In Focus mode a letter is tapped; on the A4 paper it is typed.
-- Codes made before this change still open (sections D and E are ignored). A paper that was in progress is dropped, because it cannot be rebuilt; the score history stays.
+- Questions ask about concepts and code, not about what exactly was shown in a lecture; the validator rejects such wording. Removed questions keep their ids unused (`Q.skip`).
+- Codes made before the sections changed still open (sections D and E are ignored). A paper that was in progress is dropped, because it cannot be rebuilt; the score history stays.
 
 ## Commands
 
