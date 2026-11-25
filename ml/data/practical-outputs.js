@@ -1,0 +1,41 @@
+/* Output of every practical model solution, made by scripts/run-practicals.js. Do not edit by hand. */
+(function (g) {
+  var EC = g.EC = g.EC || {};
+  EC.OUTPUTS = {
+    "L3-P001": "    Name   Age  Salary\n0   Sara  20.0   500.0\n1    Ali   NaN   600.0\n2   Dana  22.0     NaN\n3  Rezan  24.0   800.0\n4   Lana   NaN   700.0\n    Name   Age  Salary\n0   Sara  20.0   500.0\n3  Rezan  24.0   800.0\n    Name   Age  Salary\n0   Sara  20.0   500.0\n1    Ali  22.0   600.0\n2   Dana  22.0   650.0\n3  Rezan  24.0   800.0\n4   Lana  22.0   700.0",
+    "L3-P002": "    Name  Gender  Score\n0  Ahmed       1   70.0\n1   Shad       1   80.0\n3   Hana       0   90.0\n4   Tara       0   80.0",
+    "L3-P003": "   Age  City_Duhok  City_Erbil  City_Zakho\n0   20           0           1           0\n1   21           1           0           0\n2   19           0           1           0\n3   22           0           0           1\n   Age  City_Erbil  City_Zakho\n0   20        True       False\n1   21       False       False\n2   19        True       False\n3   22       False        True\n   Age  Location_Duhok  Location_Erbil  Location_Zakho\n0   20           False            True           False\n1   21            True           False           False\n2   19           False            True           False\n3   22           False           False            True",
+    "L3-P004": "  Student   Level  Level_Ordinal\n0    Sara     Low            0.0\n1     Ali    High            2.0\n2    Dana  Medium            1.0\n3    Lana     Low            0.0",
+    "L3-P005": "   Size  Rooms  Location\n0  1500      3         1\n1  2000      4         2\n2  1200      2         1\n3  2500      5         0\n0    250000\n1    350000\n2    210000\n3    450000\nName: Price, dtype: int64",
+    "L3-P006": "   Name   Age  Bonus\n0  Sara  18.0   50.0\n1   Ali   NaN    NaN\n2  Dana  30.0   30.0\n3  Lana  22.0    NaN\n4  Shad  20.0   40.0\n   Name   Age  Bonus\n0  Sara  18.0   50.0\n1   Ali  21.0    0.0\n2  Dana  30.0   30.0\n3  Lana  22.0    0.0\n4  Shad  20.0   40.0",
+    "L3-P007": "    Age  City_Erbil\n0  25.0        True\n1  32.5       False\n3  40.0        True\n0    1\n1    0\n3    1\nName: Buy, dtype: int64",
+    "L3-P008": "Rows before: 6\n   Name  Quiz  Project\n0  Sara   8.0     12.0\n1   Ali   7.0     10.0\n5  Shad   6.0     14.0\nRows after: 3",
+    "L3-P009": "   Name  Quiz\n0  Sara   8.0\n2  Dana   9.0",
+    "L3-P010": "   Day  Temp\n0  Sat  10.0\n1  Sun  15.0\n2  Mon  14.0\n3  Tue  21.0",
+    "L3-P011": "   ID   City\n0   1  Erbil\n1   2  Duhok\n3   3  Zakho",
+    "L3-P012": "   Color\n0      2\n1      0\n2      1\n3      0",
+    "L3-P013": "   Payment_Card  Payment_Cash\n0             0             1\n1             1             0\n2             0             1",
+    "L3-P014": "     Size  Size_Ordinal\n0   Large           2.0\n1   Small           0.0\n2  Medium           1.0",
+    "L3-P015": "   Quiz  Midterm\n0     8       15\n1     7       16\n2     9       18\n0    35\n1    30\n2    38\nName: Final, dtype: int64",
+    "L3-P016": "  Student  Homework\n0    Sara       5.0\n1     Ali       0.0\n2    Dana       4.0",
+    "L3-P017": "   Department_IT  Department_Law\n0           True           False\n1          False            True\n2          False           False\n3           True           False",
+    "L3-P018": "   Work_Day  Work_Night\n0      True       False\n1     False        True\n2      True       False",
+    "L4-P001": "[ 900. 1300.]",
+    "L4-P002": "[203000. 245000.]",
+    "L4-P003": "MAE: 2.5\nMSE: 6.5",
+    "L4-P004": "-1\n1\n3\n5",
+    "L4-P005": "MAE: 2.0",
+    "L4-P006": "80000",
+    "L5-P001": "MAE: 0.9999999999999929\nMSE: 1.0428061831153235",
+    "L5-P002": "Training rows: 8\nTest rows: 2\n   Actual  Predicted\n8      46  47.189655\n1      11  12.310345",
+    "L5-P003": "Mean: 24.857142857142858\nOutliers: [90]",
+    "L5-P004": "Q1: 19.5\nQ3: 23.5\nIQR: 4.0\nBounds: 13.5 29.5\nOutliers: [95]",
+    "L5-P005": "Q1: 11.0\nQ3: 14.5\nIQR: 3.5\nOutliers: [60]",
+    "L5-P006": "Training rows: 7\nTest rows: 3",
+    "L5-P007": "[70.]",
+    "L5-P008": "MAE: 3.0\nMSE: 15.0\nRMSE: 3.872983346207417",
+    "L5-P009": "Mean: 5.0\nStandard deviation: 2.0",
+    "L5-P010": "3\n60",
+    "L5-P011": "3.5\nOutlier"
+  };
+})(typeof window !== 'undefined' ? window : globalThis);

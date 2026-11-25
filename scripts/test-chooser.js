@@ -49,9 +49,9 @@ const running = (code) => ({ kind: 'exam', code, answers: { 'L1-A001': 2, 'L1-E0
   same(await stats(page, 'dc'), ['2', '50%', '75%'], 'DC stats');
   same(await stats(page, 'os'), ['1', '100%', '100%'], 'OS stats');
   same(await stats(page, 'ma'), ['0', '–', '–'], 'empty stats');
-  same(await page.locator('.status').allTextContents(), ['Not started', 'In Progress', '1 Done', 'Not started', 'Not started'], 'status pills');
-  same(await page.locator('.go').allTextContents().then((a) => a.map((t) => t.trim())), ['Open E-Commerce', 'Continue Paper in Data Communications', 'Open Operating Systems', 'Open Mobile Applications', 'Open Wireless Networking'], 'button text');
-  same(await page.locator('.go').evaluateAll((a) => a.map((x) => x.getAttribute('href'))), ['ecommerce/index.html', 'datacom/index.html#/exam', 'os/index.html', 'mobile/index.html', 'wireless/index.html'], 'links');
+  same(await page.locator('.status').allTextContents(), ['Not started', 'In Progress', '1 Done', 'Not started', 'Not started', 'Not started'], 'status pills');
+  same(await page.locator('.go').allTextContents().then((a) => a.map((t) => t.trim())), ['Open E-Commerce', 'Continue Paper in Data Communications', 'Open Operating Systems', 'Open Mobile Applications', 'Open Wireless Networking', 'Open Machine Learning'], 'button text');
+  same(await page.locator('.go').evaluateAll((a) => a.map((x) => x.getAttribute('href'))), ['ecommerce/index.html', 'datacom/index.html#/exam', 'os/index.html', 'mobile/index.html', 'wireless/index.html', 'ml/index.html'], 'links');
   await page.locator('.subject.dc .ico').click({ force: true });
   await page.waitForSelector('.exam-top');
   ok(page.url().includes('datacom/index.html'), 'a click anywhere on the card continues the paper');
@@ -72,7 +72,47 @@ const running = (code) => ({ kind: 'exam', code, answers: { 'L1-A001': 2, 'L1-E0
 
   // Broken saved data never breaks the page.
   page = await open({}, { 'ec355.sim.v1': '{oops', 'os327.sim.v1': '[]', 'dc301.sim.v1': '{"history":"x","current":5}' });
-  same(await page.locator('.subject .stats dd').allTextContents(), Array(5).fill(['0', '–', '–']).flat(), 'broken data');
+  same(await page.locator('.subject .stats dd').allTextContents(), Array(6).fill(['0', '–', '–']).flat(), 'broken data');
+  await page.context().close();
+
+  // Search, grade and status.
+  page = await open({}, SEED);
+  const shown = () => page.locator('.subject:not([hidden]) h2').allTextContents();
+  const ALL = await page.locator('.subject h2').allTextContents();
+  same((await shown()).length, ALL.length, 'all subjects at first');
+  same(await page.textContent('#found'), ALL.length + ' subjects', 'count');
+  for (const [q, want] of [['wireless', ['Wireless Networking']], ['it355', ['E-Commerce']], ['IT 355', ['E-Commerce']], ['ecommerce', ['E-Commerce']], ['ghazi', ['Operating Systems']], ['akam machine', ['Machine Learning']], ['MOBILE', ['Mobile Applications']], ['ing networking', ['Wireless Networking']]]) {
+    await page.fill('#q', q);
+    same(await shown(), want, 'search ' + q);
+  }
+  same(await page.textContent('#found'), '1 of ' + ALL.length + ' subjects', 'count of one');
+  await page.fill('#q', '<b>zzz');
+  same(await shown(), [], 'nothing found');
+  ok(await page.locator('#none').isVisible(), 'the empty message is shown');
+  await page.click('#clear');
+  same((await shown()).length, ALL.length, 'clear shows all');
+  await page.click('.grades [data-g="4"]');
+  same(await shown(), ['Wireless Networking'], 'Grade 4');
+  await page.reload();
+  same(await shown(), ['Wireless Networking'], 'the grade is remembered');
+  await page.click('.grades [data-g="3"]');
+  same((await shown()).length, ALL.length - 1, 'Grade 3');
+  ok(!(await shown()).includes('Wireless Networking'), 'Grade 3 has no Grade 4 subject');
+  await page.selectOption('#state', 'live');
+  same(await shown(), ['Data Communications'], 'in progress');
+  await page.selectOption('#state', 'done');
+  same(await shown(), ['Data Communications', 'Operating Systems'], 'done before');
+  await page.selectOption('#state', 'new');
+  same((await shown()).length, ALL.length - 3, 'not started');
+  await page.selectOption('#state', '');
+  await page.click('.grades [data-g=""]');
+  await page.fill('#q', 'machine');
+  await page.press('#q', 'Escape');
+  same((await shown()).length, ALL.length, 'Escape clears the search');
+  await page.fill('#q', 'machine');
+  await page.press('#q', 'Enter');
+  await page.waitForSelector('#start');
+  ok(page.url().includes('ml/index.html'), 'Enter opens the only result');
   await page.context().close();
 
   // Theme: follows the device, is remembered, and the subjects open in the same theme.
@@ -101,7 +141,7 @@ const running = (code) => ({ kind: 'exam', code, answers: { 'L1-A001': 2, 'L1-E0
       const dark = document.documentElement.dataset.mode === 'dark';
       const worst = dark ? [42, 47, 58] : [205, 218, 240];
       const cr = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
-      return ['.note', 'footer span', 'footer b', '.lead', '.brand span:not(.logo)', '.facts li', '.stats dt', '.status.new'].filter((s) => cr(num(getComputedStyle(document.querySelector(s)).color), worst) < 4.5);
+      return ['.note', 'footer span', 'footer b', '.lead', '.found', '.grades button[aria-pressed="false"]', '.brand span:not(.logo)', '.facts li', '.stats dt', '.status.new'].filter((s) => cr(num(getComputedStyle(document.querySelector(s)).color), worst) < 4.5);
     });
     same(low, [], scheme + ' contrast');
     const btn = await page.locator('.go').evaluateAll((a) => a.map((x) => getComputedStyle(x).color + ' on ' + getComputedStyle(x).backgroundColor));

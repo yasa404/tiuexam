@@ -6,6 +6,7 @@ const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
 const errors = [];
 const links = [...html.matchAll(/class="go" href="([^"]+)"/g)];
 if (links.length !== [...html.matchAll(/data-count=/g)].length) errors.push('every subject needs a link and a question count');
+if ([...html.matchAll(/<article class="subject[^>]*data-grade="[34]"/g)].length !== links.length) errors.push('every subject needs a grade (data-grade="3" or "4")');
 for (const [, href] of links) {
   if (!fs.existsSync(path.join(ROOT, href))) errors.push(`link to missing page: ${href}`);
 }

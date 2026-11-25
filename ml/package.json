@@ -1,0 +1,17 @@
+{
+  "name": "ml-midterm-simulator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Machine Learning Fundamentals midterm exam simulator (Lectures 2-5). Static site, no backend.",
+  "scripts": {
+    "validate": "node scripts/validate-bank.js",
+    "test:unit": "node --test tests/unit/*.test.js",
+    "test:e2e": "playwright test",
+    "test": "npm run validate && npm run test:unit && npm run test:e2e",
+    "screenshots": "node scripts/screenshots.js",
+    "dist": "node scripts/dist.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1"
+  }
+}

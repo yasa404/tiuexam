@@ -1,0 +1,65 @@
+/* Flashcards for fast revision. [lecture, slide, front, back] */
+(function (g) {
+  var EC = g.EC = g.EC || {};
+  var raw = [
+    // Lecture 2
+    [2, 3, 'Machine Learning', 'A part of AI that helps computers learn from data and make predictions without being directly programmed.'],
+    [2, 8, 'Supervised learning', 'Labeled data: learns from inputs and correct outputs, then predicts new data. Example: house prices.'],
+    [2, 8, 'Unsupervised learning', 'No labels: finds hidden patterns and groups similar records (clustering). Example: customer groups.'],
+    [2, 9, 'Reinforcement learning', 'Learns by trial and error from rewards and penalties; the goal is the highest total reward. Example: a robot in a maze.'],
+    [2, 4, 'Features and label', 'Features are the inputs; the label is the correct output.'],
+    [2, 11, 'Traditional programming vs ML', 'Traditional: you write the rules, hard to change. ML: the computer learns the rules from examples and improves.'],
+    [2, 12, 'ML applications', 'Healthcare, finance, e-commerce, self-driving cars, social media, voice assistants.'],
+    // Lecture 3
+    [3, 3, 'Dataset', 'A collection of information, usually a table: each row is a record, each column is a feature.'],
+    [3, 5, 'Types of data', 'Numerical (age) · categorical (gender) · text (reviews) · date/time (timestamp).'],
+    [3, 8, 'Features', 'The input variables used to make predictions (X).'],
+    [3, 9, 'Target (label)', 'The outcome that we want to predict (y).'],
+    [3, 7, 'Training and test data', 'Training data teaches the model; test data checks how well it works.'],
+    [3, 11, 'Create a table in pandas', '`df = pd.DataFrame(data)`'],
+    [3, 11, 'Select features and target', '`X = df[[\'A\', \'B\']]` and `y = df[\'C\']`'],
+    [3, 12, 'Data cleaning', 'Makes the data clean, complete and accurate: missing data, duplicates, categorical data.'],
+    [3, 14, 'NaN', 'Not a Number: a missing value (`np.nan`).'],
+    [3, 16, 'Remove rows with missing values', '`df.dropna()`'],
+    [3, 17, 'Fill missing values with the mean', '`df.fillna(df.mean(numeric_only=True))`'],
+    [3, 13, 'Values used to fill missing data', '0, the mean (average) or the median (middle value).'],
+    [3, 19, 'Remove repeated rows', '`df.drop_duplicates()` avoids biases in the analysis.'],
+    [3, 20, 'Label encoding', 'Gives each category an integer (binary or ordered categories).'],
+    [3, 21, 'Label encoding in code', '`le = LabelEncoder()` then `df[\'G\'] = le.fit_transform(df[\'G\'])`'],
+    [3, 22, 'LabelEncoder order', 'Alphabetical: Female → 0, Male → 1.'],
+    [3, 23, 'One-hot encoding', 'A separate 0/1 column for each category (nominal categories).'],
+    [3, 24, 'One-hot encoding in code', '`pd.get_dummies(df, columns=[\'City\']).astype(int)`'],
+    [3, 26, 'Dummy variable trap', 'N columns for N categories can cause multicollinearity. Use `drop_first=True`.'],
+    [3, 28, 'prefix in get_dummies', 'Changes the beginning of the new column names: `prefix=\'Location\'`.'],
+    [3, 29, 'Ordinal encoding', 'Integers for categories with a natural order: Stage 1 → 0, Stage 2 → 1.'],
+    [3, 30, 'Ordinal encoding in code', '`OrdinalEncoder(categories=[[\'Low\', \'Medium\', \'High\']])` then `fit_transform(df[[\'Level\']])`'],
+    // Lecture 4
+    [4, 3, 'Regression', 'Finds the relationship between input variables and an output variable; predicts continuous values.'],
+    [4, 3, 'Independent and dependent variable', 'Independent = input (X). Dependent = output (Y).'],
+    [4, 14, 'y = mx + b', 'm is the slope (gradient) and b is the y-intercept.'],
+    [4, 15, 'Linear regression', 'A supervised method that finds the best line to predict outcomes.'],
+    [4, 17, 'Best-fit line', 'The straight line that best represents the relation between input and output.'],
+    [4, 18, 'Cost function', 'Measures how well the predictions match the actual values (the error).'],
+    [4, 19, 'MSE', 'Mean Squared Error: the average of (actual − predicted)².'],
+    [4, 20, 'MAE', 'Mean Absolute Error: the average of |actual − predicted|.'],
+    [4, 21, 'Multiple linear regression', 'ŷ = m0 + m1x1 + m2x2 + …: several independent variables. m0 is the intercept.'],
+    // Lecture 5
+    [5, 3, 'Underfitting', 'The model is too simple: high training error and high test error.'],
+    [5, 6, 'Overfitting', 'The model learns too much, including noise: very good on training data, poor on new data.'],
+    [5, 7, 'numpy · pandas · matplotlib', 'Mathematical calculations · datasets as tables · graphs.'],
+    [5, 8, 'df.head()', 'Shows the first 5 rows.'],
+    [5, 9, 'Split the data', '`train_test_split(X, y, test_size=0.2, random_state=42)`: 80% training, 20% testing.'],
+    [5, 10, 'random_state', 'Keeps the split the same in every run.'],
+    [5, 11, 'fit and predict', '`model.fit(X_train, y_train)` trains; `model.predict(X_test)` predicts.'],
+    [5, 12, 'MAE, MSE, RMSE', 'Lower is better. RMSE is the square root of MSE and has the original scale.'],
+    [5, 13, 'Outlier', 'A data point that is very different from the rest.'],
+    [5, 15, 'How to find outliers', 'Graphs: scatter plot, box plot. Statistics: Z-score, IQR.'],
+    [5, 16, 'What to do with outliers', 'Remove mistakes · transform the data (log) · use models that are less sensitive (decision trees).'],
+    [5, 18, 'Z-score', 'Z = (X − μ) / σ. Above 3 or below −3 is usually an outlier.'],
+    [5, 20, 'Standard deviation', 'The square root of the average of the squared differences from the mean.'],
+    [5, 25, 'Q1 and Q3', 'Q1 is the median of the lower half, Q3 is the median of the upper half of the sorted data.'],
+    [5, 26, 'IQR and bounds', 'IQR = Q3 − Q1. Lower = Q1 − 1.5 × IQR. Upper = Q3 + 1.5 × IQR.'],
+    [5, 30, 'IQR with an odd number of values', 'Exclude the middle value when the two halves are made.']
+  ];
+  EC.CARDS = raw.map(function (c, i) { return { id: 'C' + String(i + 1).padStart(3, '0'), lecture: c[0], slide: c[1], front: c[2], back: c[3] }; });
+})(typeof window !== 'undefined' ? window : globalThis);

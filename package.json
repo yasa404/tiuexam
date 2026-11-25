@@ -6,8 +6,8 @@
   "scripts": {
     "check": "node scripts/check-subjects.js",
     "test:chooser": "node scripts/test-chooser.js",
-    "test": "npm run check && npm run test:chooser && npm --prefix ecommerce test && npm --prefix datacom test && npm --prefix os test && npm --prefix mobile test && npm --prefix wireless test",
-    "screenshots": "npm --prefix ecommerce run screenshots && npm --prefix datacom run screenshots && npm --prefix os run screenshots && npm --prefix mobile run screenshots && npm --prefix wireless run screenshots",
+    "test": "npm run check && npm run test:chooser && npm --prefix ecommerce test && npm --prefix datacom test && npm --prefix os test && npm --prefix mobile test && npm --prefix wireless test && npm --prefix ml test",
+    "screenshots": "npm --prefix ecommerce run screenshots && npm --prefix datacom run screenshots && npm --prefix os run screenshots && npm --prefix mobile run screenshots && npm --prefix wireless run screenshots && npm --prefix ml run screenshots",
     "dist": "node scripts/dist.js"
   },
   "devDependencies": {
