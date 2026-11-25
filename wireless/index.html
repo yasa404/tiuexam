@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>IT 417 Midterm Simulator</title>
+  <meta name="description" content="Practice midterm papers for IT 417 Wireless Networking (Lectures 1-5): focus mode or A4 exam paper, difficulty levels, instant marking, flashcards and progress.">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234d7c0f'/%3E%3Cpath d='M10 8h9l4 4v12H10z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M13 16h7M13 20h5' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+  <link rel="stylesheet" href="css/app.css">
+  <script>
+    /* iPhone/iPad Safari zooms in when you tap a text box with small text (A4 pages are
+       scaled down, so their boxes always are). maximum-scale=1 stops that focus zoom;
+       iOS still allows pinch-zoom, so nothing is lost. Other browsers are left alone. */
+    (function () {
+      var ios = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      var vp = document.querySelector('meta[name=viewport]');
+      if (ios && vp) vp.setAttribute('content', vp.getAttribute('content') + ', maximum-scale=1');
+    })();
+  </script>
+  <script>
+    /* Apply the saved theme before first paint (no white flash in dark mode).
+       wn417.theme = 'auto' | 'light' | 'dark'; data-mode is the resolved light/dark. */
+    (function () {
+      var t = 'auto';
+      try { t = localStorage.getItem('wn417.theme') || 'auto'; } catch (e) { /* storage blocked */ }
+      var dark = t === 'dark' || (t === 'auto' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.setAttribute('data-theme', t);
+      document.documentElement.setAttribute('data-mode', dark ? 'dark' : 'light');
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="appbar">
+    <div class="appbar-in">
+      <a class="subjects-btn" href="../index.html" aria-label="Back to all subjects" title="Back to all subjects"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg><span>Subjects</span></a>
+      <a class="brand" href="#/" aria-label="IT 417 Midterm Simulator, home">
+        <span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h5"/></svg></span>
+        <span class="brand-t"><b>Midterm Simulator</b><span>IT 417 Wireless Networking · Lectures 1–5</span></span>
+      </a>
+      <nav class="topnav" aria-label="Main">
+        <a href="#/" data-nav="home"><svg class="i" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h5"/></svg>Exam</a>
+        <a href="#/cards" data-nav="cards"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg>Flashcards</a>
+        <a href="#/progress" data-nav="progress"><svg class="i" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>My progress</a>
+      </nav>
+      <button type="button" class="icon-btn theme-btn" id="theme-btn" aria-label="Theme"></button>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1"></main>
+
+  <footer class="credit">Developed by <b>Yasa Sardar</b> · <a href="../index.html">All subjects</a></footer>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="#/" data-nav="home"><svg class="i" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h5"/></svg>Exam</a>
+    <a href="#/cards" data-nav="cards"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg>Flashcards</a>
+    <a href="#/progress" data-nav="progress"><svg class="i" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Progress</a>
+  </nav>
+  <noscript><p class="container">This simulator needs JavaScript to build and mark exam papers.</p></noscript>
+
+  <!-- Question bank (data) -->
+  <script src="data/questions.js"></script>
+  <script src="data/questions-l1.js"></script>
+  <script src="data/questions-l2.js"></script>
+  <script src="data/questions-l3.js"></script>
+  <script src="data/questions-l4.js"></script>
+  <script src="data/questions-l5.js"></script>
+  <script src="data/figures.js"></script>
+  <script src="data/flashcards.js"></script>
+  <!-- App -->
+  <script src="js/core.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

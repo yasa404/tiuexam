@@ -32,10 +32,10 @@ const running = (code) => ({ kind: 'exam', code, answers: { 'L1-A001': 2, 'L1-E0
 
   // Alignment: every part sits on the same line across a row of cards, with and without progress.
   for (const seed of [null, SEED]) {
-    for (const [width, perRow] of [[1600, 4], [1280, 4], [1200, 4], [1199, 2], [900, 2], [640, 2], [390, 1], [320, 1]]) {
+    for (const [width, perRow] of [[1600, 3], [1280, 3], [980, 3], [979, 2], [900, 2], [640, 2], [390, 1], [320, 1]]) {
       const page = await open({ viewport: { width, height: 860 } }, seed);
       const rows = await page.evaluate(() => [...document.querySelectorAll('.subject')].map((c) => ['h2', '.facts', '.stats', '.go'].map((s) => Math.round(c.querySelector(s).getBoundingClientRect().top * 10) / 10).concat(Math.round(c.getBoundingClientRect().bottom * 10) / 10)));
-      for (let i = 0; i < rows.length; i += perRow) for (let j = i + 1; j < i + perRow; j++) same(rows[j], rows[i], `${width}px: card ${j + 1} lines up`);
+      for (let i = 0; i < rows.length; i += perRow) for (let j = i + 1; j < Math.min(i + perRow, rows.length); j++) same(rows[j], rows[i], `${width}px: card ${j + 1} lines up`);
       if (perRow < rows.length) ok(rows[perRow][0] > rows[0][0], `${width}px: ${perRow} cards in a row`);
       ok(await page.evaluate(() => [...document.querySelectorAll('.go')].every((g) => g.offsetHeight <= 48)), `${width}px: button text on one line`);
       ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${width}px: no sideways scrolling`);
@@ -49,9 +49,9 @@ const running = (code) => ({ kind: 'exam', code, answers: { 'L1-A001': 2, 'L1-E0
   same(await stats(page, 'dc'), ['2', '50%', '75%'], 'DC stats');
   same(await stats(page, 'os'), ['1', '100%', '100%'], 'OS stats');
   same(await stats(page, 'ma'), ['0', '–', '–'], 'empty stats');
-  same(await page.locator('.status').allTextContents(), ['Not started', 'In Progress', '1 Done', 'Not started'], 'status pills');
-  same(await page.locator('.go').allTextContents().then((a) => a.map((t) => t.trim())), ['Open E-Commerce', 'Continue Paper in Data Communications', 'Open Operating Systems', 'Open Mobile Applications'], 'button text');
-  same(await page.locator('.go').evaluateAll((a) => a.map((x) => x.getAttribute('href'))), ['ecommerce/index.html', 'datacom/index.html#/exam', 'os/index.html', 'mobile/index.html'], 'links');
+  same(await page.locator('.status').allTextContents(), ['Not started', 'In Progress', '1 Done', 'Not started', 'Not started'], 'status pills');
+  same(await page.locator('.go').allTextContents().then((a) => a.map((t) => t.trim())), ['Open E-Commerce', 'Continue Paper in Data Communications', 'Open Operating Systems', 'Open Mobile Applications', 'Open Wireless Networking'], 'button text');
+  same(await page.locator('.go').evaluateAll((a) => a.map((x) => x.getAttribute('href'))), ['ecommerce/index.html', 'datacom/index.html#/exam', 'os/index.html', 'mobile/index.html', 'wireless/index.html'], 'links');
   await page.locator('.subject.dc .ico').click({ force: true });
   await page.waitForSelector('.exam-top');
   ok(page.url().includes('datacom/index.html'), 'a click anywhere on the card continues the paper');
@@ -67,12 +67,12 @@ const running = (code) => ({ kind: 'exam', code, answers: { 'L1-A001': 2, 'L1-E0
   // The pills in the top-right corner line up, whatever they say.
   page = await open({}, SEED);
   const pills = await page.locator('.subject').evaluateAll((c) => c.map((x) => { const p = x.querySelector('.status').getBoundingClientRect(), r = x.getBoundingClientRect(); return [p.top, p.height, r.right - p.right].map((v) => Math.round(v * 10) / 10); }));
-  pills.forEach((p) => same(p, pills[0], 'status pills line up'));
+  pills.forEach((p, i) => same(p, pills[i - i % 3], 'status pills line up'));
   await page.context().close();
 
   // Broken saved data never breaks the page.
   page = await open({}, { 'ec355.sim.v1': '{oops', 'os327.sim.v1': '[]', 'dc301.sim.v1': '{"history":"x","current":5}' });
-  same(await page.locator('.subject .stats dd').allTextContents(), Array(4).fill(['0', '–', '–']).flat(), 'broken data');
+  same(await page.locator('.subject .stats dd').allTextContents(), Array(5).fill(['0', '–', '–']).flat(), 'broken data');
   await page.context().close();
 
   // Theme: follows the device, is remembered, and the subjects open in the same theme.
